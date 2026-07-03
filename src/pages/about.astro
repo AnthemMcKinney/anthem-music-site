@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base path="/about" title="About Anthem Music | A McKinney Music Guild" description="Anthem Music is a downtown McKinney music guild — rooted in craftsmanship, mentorship, and community. Learn our story and our approach to teaching music.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Our Story</span>
+      <h1 class="center">More than a lesson studio</h1>
+      <p class="lead mx-auto center">Anthem Music exists to be a respected local music guild — a place where students of all ages are welcomed, trained, encouraged, and challenged to grow in real musicianship.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <p class="body-lg">Rooted in craftsmanship, mentorship, and community, Anthem blends the warmth of a family music studio with the standards and credibility of a true institution. We're not about mass-producing performers or selling a flashy experience. We're about forming musicians, building confidence, and creating a place where music is passed on with care, dignity, and excellence.</p>
+
+      <h2>The full musical journey</h2>
+      <p>At Anthem Music, we believe in the fundamental concept of freedom of thought through music — one of the most beautiful and universally recognized forms of human expression. That belief shapes everything about how we teach.</p>
+      <p>Most music programs teach students to <em>copy</em> — to learn songs, styles, and techniques by imitation. That's a genuinely effective way to learn anything, from first words as a child to complex pieces as a musician. It builds the mechanics and coordination that turn an instrument into an extension of your hands.</p>
+      <p>But for most programs, that's where it ends. Students spend years learning ever more complex pieces until they can read and play with remarkable efficiency — and yet they've never left the first phase. They become, in a sense, high-speed copiers. Nothing from the heart. Nothing from that deep part of us that longs to be heard.</p>
+      <p>We complete the circle. Our approach moves through all three phases of the musical journey: <strong>copy, create, and innovate</strong>. We honor the discipline of copying as the foundation — then we guide students beyond it, into genuine creativity and, ultimately, innovation. Music that's truly their own.</p>
+
+      <div class="values">
+        <div class="value">
+          <h3>Craft</h3>
+          <p>Music is a real skill worth learning well. We treat it that way — with high standards and honest instruction.</p>
+        </div>
+        <div class="value">
+          <h3>Mentorship</h3>
+          <p>Our teachers are mentors, not just instructors. Students are formed over time, and every student is a reflection of their teacher.</p>
+        </div>
+        <div class="value">
+          <h3>Community</h3>
+          <p>A family-centered place in downtown McKinney where students grow in confidence, discipline, and a lifelong love of music.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Come see for yourself</h2>
+        <p>Book a consultation and experience the Anthem approach firsthand.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .narrow { max-width: 760px; }
+  .body-lg { font-size: 1.25rem; color: var(--navy); line-height: 1.6; margin-bottom: 2.5rem; font-family: var(--font-display); font-weight: 400; }
+  .narrow h2 { margin: 2.5rem 0 1rem; }
+  .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .narrow p em { color: var(--orange); font-style: italic; }
+  .narrow p strong { color: var(--navy); }
+  .values { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
+  .value { background: var(--cream-soft); border-radius: 12px; padding: 1.8rem; }
+  .value h3 { color: var(--navy); margin-bottom: 0.6rem; }
+  .value p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+
+  @media (max-width: 700px) { .values { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import Shield from '../components/Shield.astro';
+
+const lessons = [
+  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
+  { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
+  { name: "Violin", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
+  { name: "Drums & Percussion", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
+  { name: "Voice", href: "/programs", blurb: "Build range, control, and stage confidence with real vocal coaching." },
+  { name: "Kinder Music", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
+];
+
+const instructors = [
+  { name: "Dan Brady", role: "Owner · Guitar, Bass, Ukulele", img: "/instructors/dan.jpg" },
+  { name: "Britton Lowenthal", role: "Piano · Trumpet", img: "/instructors/britton.jpg" },
+  { name: "Christine Dao", role: "Violin · Piano", img: "/instructors/christine.jpg" },
+  { name: "Jonah Mayes", role: "Guitar, Bass, Drums, Vocals", img: "/instructors/jonah.jpg" },
+];
+---
+<Base path="/">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Downtown McKinney · Community Music Guild</span>
+        <h1>Where musicians<br/>are <em>formed</em>, not<br/>just taught.</h1>
+        <p class="lead">Guitar, piano, violin, drums, and voice lessons for all ages — rooted in craft, mentorship, and a genuine love of music. Serious about musicianship, warm enough for the whole family.</p>
+        <div class="hero-actions">
+          <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+          <a href="/#lessons" class="btn btn-outline">Explore Lessons</a>
+        </div>
+        <div class="hero-trust">
+          <span>★★★★★</span>
+          <span>Trusted by McKinney &amp; Frisco families</span>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="/images/hero.jpg" alt="Music lessons at Anthem Music in downtown McKinney" width="560" height="640" />
+        <div class="hero-badge">
+          <Shield size={30} color="var(--orange)" />
+          <div>
+            <strong>15+ years</strong>
+            <span>teaching experience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lessons">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">What We Teach</span>
+        <h2>Lessons for every age and instrument</h2>
+        <p class="lead mx-auto center">Every student is met where they are. No rigid curriculum — instruction is built around each player's goals, pace, and the way they learn best.</p>
+      </div>
+      <div class="lessons-grid">
+        {lessons.map((l) => (
+          <a href={l.href} class="lesson-card">
+            <span class="lesson-icon" aria-hidden="true">{l.name.charAt(0)}</span>
+            <h3>{l.name}</h3>
+            <p>{l.blurb}</p>
+            <span class="lesson-link">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section philosophy on-navy">
+    <div class="container philosophy-inner">
+      <div class="philosophy-copy">
+        <span class="eyebrow">The Anthem Approach</span>
+        <h2>Copy. Create. Innovate.</h2>
+        <p>Most programs stop at the first step — teaching students to copy songs and techniques until they can read and play with speed. That's a foundation, not a finish line.</p>
+        <p>At Anthem, copying is where we <em>start</em>. It builds the mechanics and coordination that turn an instrument into an extension of your hands. But we complete the full musical journey: from copying, to creating, to innovating — helping students find the part of playing that comes from the heart.</p>
+        <a href="/about" class="btn btn-cream">Read Our Story</a>
+      </div>
+      <div class="philosophy-steps">
+        <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Master the mechanics, styles, and techniques that build real coordination.</p></div></div>
+        <div class="pstep"><span>02</span><div><strong>Create</strong><p>Move from imitation to expression — playing that's genuinely your own.</p></div></div>
+        <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Develop the confidence and creativity to make music no one's heard before.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Guild</span>
+        <h2>Instructors who mentor, not just instruct</h2>
+        <p class="lead mx-auto center">Our teachers bring decades of combined experience across performance, classroom instruction, and real musicianship — and they genuinely care about the students they teach.</p>
+      </div>
+      <div class="instructor-grid">
+        {instructors.map((i) => (
+          <div class="instructor-card">
+            <div class="instructor-photo">
+              <img src={i.img} alt={i.name} loading="lazy" width="300" height="340" />
+            </div>
+            <h3>{i.name}</h3>
+            <span class="instructor-role">{i.role}</span>
+          </div>
+        ))}
+      </div>
+      <div class="center" style="margin-top:2.5rem;">
+        <a href="/instructors" class="btn btn-outline">Meet the Full Team</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Ready to start?</h2>
+        <p>Book a consultation and we'll help you find the right instrument, the right instructor, and a clear plan to get going — no pressure, just a good first step.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { background: linear-gradient(180deg, var(--cream-soft) 0%, var(--white) 100%); padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 7vw, 6rem); }
+  .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .hero-copy h1 { margin-bottom: 1.5rem; }
+  .hero-copy h1 em { color: var(--orange); font-style: italic; }
+  .hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+  .hero-trust { display: flex; align-items: center; gap: 0.7rem; margin-top: 2rem; font-size: 0.92rem; color: var(--gray); }
+  .hero-trust span:first-child { color: var(--orange); letter-spacing: 2px; }
+  .hero-media { position: relative; }
+  .hero-media img { border-radius: 16px; width: 100%; height: auto; object-fit: cover; box-shadow: 0 20px 50px rgba(13,31,60,.18); }
+  .hero-badge { position: absolute; bottom: -20px; left: -20px; background: var(--white); border-radius: 12px; padding: 0.9rem 1.2rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 12px 30px rgba(13,31,60,.15); }
+  .hero-badge strong { display: block; font-family: var(--font-display); color: var(--navy); font-size: 1.1rem; }
+  .hero-badge span { font-size: 0.8rem; color: var(--gray); }
+
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+  .section-head .eyebrow { justify-content: center; }
+  .section-head h2 { margin-bottom: 1rem; }
+
+  .lessons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .lesson-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; transition: transform .2s, box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
+  .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
+  .lesson-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .lesson-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
+  .lesson-card p { color: var(--gray); font-size: 0.95rem; flex: 1; }
+  .lesson-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; margin-top: 1rem; }
+
+  .philosophy { background: var(--navy); }
+  .philosophy-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .philosophy-copy p { color: var(--cream); opacity: 0.82; margin-bottom: 1.2rem; }
+  .philosophy-copy p em { color: var(--orange); font-style: italic; }
+  .philosophy-copy h2 { margin-bottom: 1.3rem; }
+  .philosophy-steps { display: flex; flex-direction: column; gap: 1.2rem; }
+  .pstep { display: flex; gap: 1.2rem; background: var(--navy-light); border-radius: 12px; padding: 1.3rem 1.5rem; }
+  .pstep span { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: var(--orange); line-height: 1; }
+  .pstep strong { color: var(--cream); font-family: var(--font-display); font-size: 1.2rem; display: block; margin-bottom: 0.3rem; }
+  .pstep p { color: var(--cream); opacity: 0.75; font-size: 0.9rem; margin: 0; }
+
+  .instructor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .instructor-card { text-align: center; }
+  .instructor-photo { border-radius: 14px; overflow: hidden; margin-bottom: 1rem; aspect-ratio: 3/3.4; background: var(--cream); }
+  .instructor-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .instructor-card h3 { color: var(--navy); font-size: 1.25rem; margin-bottom: 0.2rem; }
+  .instructor-role { color: var(--orange); font-size: 0.88rem; font-weight: 600; }
+
+  .cta-band { background: var(--orange); padding: clamp(2.5rem, 5vw, 4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+
+  @media (max-width: 980px) {
+    .lessons-grid { grid-template-columns: repeat(2, 1fr); }
+    .instructor-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 780px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-media { order: -1; }
+    .philosophy-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .lessons-grid { grid-template-columns: 1fr; }
+    .instructor-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>

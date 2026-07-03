@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base path="/schedule" title="Book a Lesson | Anthem Music McKinney" description="Book a consultation or lesson with an Anthem Music instructor in downtown McKinney. Pick your instrument and see open times.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Book a Consultation</span>
+      <h1 class="center">Let's find the right fit</h1>
+      <p class="lead mx-auto center">Pick an instrument below to see open times with one of our instructors. You'll get a quick one-on-one assessment, instrument setup, and a clear plan to get started — no pressure, just a good first step.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem;">
+    <div class="container widget-wrap">
+      <div id="mms-booking">
+        <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3p3MEpiSjUifQ=="></script>
+      </div>
+      <p class="widget-help center">Questions before booking? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .widget-wrap { max-width: 900px; }
+  #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; min-height: 400px; }
+  .widget-help { margin-top: 1.5rem; color: var(--gray); font-size: 0.95rem; }
+</style>

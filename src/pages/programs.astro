@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+
+const programs = [
+  { name: "Violin", blurb: "Suzuki-informed strings instruction for young beginners through advancing players. Christine Dao builds solid fundamentals with patience and care." },
+  { name: "Drums & Percussion", blurb: "Timing, technique, and groove — from a student's first beats to full-kit control. Learn to lock in and play with feel." },
+  { name: "Voice", blurb: "Build range, control, and stage confidence with real vocal coaching for singers of all ages and styles." },
+  { name: "Band & Orchestra", blurb: "Support for school band and orchestra students on trumpet, flute, and more — plus ensemble skills that make you a stronger player." },
+  { name: "Kinder Music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure that sets the foundation for a lifetime of music." },
+  { name: "Songwriting & Production", blurb: "For students ready to create their own music — songwriting, arrangement, and an introduction to DAW-based production." },
+];
+---
+<Base
+  path="/programs"
+  title="Music Programs in McKinney | Violin, Drums, Voice & More | Anthem Music"
+  description="Explore Anthem Music's full range of programs in downtown McKinney: violin, drums, voice, band and orchestra support, Kinder Music for ages 2–6, and songwriting.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Our Programs</span>
+      <h1 class="center">More ways to make music</h1>
+      <p class="lead mx-auto center">Beyond guitar and piano, Anthem offers a full range of instruction — from first strings to stage-ready voice, plus programs for our youngest musicians.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="prog-grid">
+        {programs.map((p) => (
+          <div class="prog-card">
+            <span class="prog-icon" aria-hidden="true">{p.name.charAt(0)}</span>
+            <h3>{p.name}</h3>
+            <p>{p.blurb}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div><h2>Not sure where to start?</h2><p>Book a consultation and we'll help you find the right program, instrument, and instructor.</p></div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .prog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .prog-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; }
+  .prog-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .prog-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
+  .prog-card p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+  @media (max-width: 900px) { .prog-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px) { .prog-grid { grid-template-columns: 1fr; } }
+</style>
