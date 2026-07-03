@@ -3,16 +3,16 @@ import Base from '../layouts/Base.astro';
 import Shield from '../components/Shield.astro';
 
 const lessons = [
-  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
-  { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
-  { name: "Violin", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
-  { name: "Drums & Percussion", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
-  { name: "Voice", href: "/programs", blurb: "Build range, control, and stage confidence with real vocal coaching." },
-  { name: "Kinder Music", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
+  { name: "Guitar & Ukulele", glyph: "♪", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
+  { name: "Piano", glyph: "♫", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
+  { name: "Violin", glyph: "𝄞", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
+  { name: "Drums & Percussion", glyph: "◉", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
+  { name: "Voice", glyph: "♬", href: "/programs", blurb: "Build range, control, and stage confidence with real vocal coaching." },
+  { name: "Kinder Music", glyph: "★", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
 ];
 
 const instructors = [
-  { name: "Dan Brady", role: "Owner · Guitar, Bass, Ukulele", img: "/instructors/dan.jpg" },
+  { name: "Dan Brady", role: "Owner · Guitar & Piano", img: "/instructors/dan.jpg" },
   { name: "Britton Lowenthal", role: "Piano · Trumpet", img: "/instructors/britton.jpg" },
   { name: "Christine Dao", role: "Violin · Piano", img: "/instructors/christine.jpg" },
   { name: "Jonah Mayes", role: "Guitar, Bass, Drums, Vocals", img: "/instructors/jonah.jpg" },
@@ -23,7 +23,7 @@ const instructors = [
     <div class="container hero-inner">
       <div class="hero-copy">
         <span class="eyebrow">Downtown McKinney · Community Music Guild</span>
-        <h1>Where musicians<br/>are <em>formed</em>, not<br/>just taught.</h1>
+        <h1>Where musicians are <em>formed</em>, not just taught.</h1>
         <p class="lead">Guitar, piano, violin, drums, and voice lessons for all ages — rooted in craft, mentorship, and a genuine love of music. Serious about musicianship, warm enough for the whole family.</p>
         <div class="hero-actions">
           <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
@@ -34,14 +34,14 @@ const instructors = [
           <span>Trusted by McKinney &amp; Frisco families</span>
         </div>
       </div>
-      <div class="hero-media">
-        <img src="/images/hero.jpg" alt="Music lessons at Anthem Music in downtown McKinney" width="560" height="640" />
-        <div class="hero-badge">
-          <Shield size={30} color="var(--orange)" />
-          <div>
-            <strong>15+ years</strong>
-            <span>teaching experience</span>
-          </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="/images/hero.jpg" alt="The Anthem Music studio in downtown McKinney" width="1200" height="900" />
+      <div class="hero-badge">
+        <Shield size={28} color="var(--orange)" />
+        <div>
+          <strong>15+ years</strong>
+          <span>teaching experience</span>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@ const instructors = [
       <div class="lessons-grid">
         {lessons.map((l) => (
           <a href={l.href} class="lesson-card">
-            <span class="lesson-icon" aria-hidden="true">{l.name.charAt(0)}</span>
+            <span class="lesson-icon" aria-hidden="true">{l.glyph}</span>
             <h3>{l.name}</h3>
             <p>{l.blurb}</p>
             <span class="lesson-link">Learn more →</span>
@@ -76,10 +76,13 @@ const instructors = [
         <p>At Anthem, copying is where we <em>start</em>. It builds the mechanics and coordination that turn an instrument into an extension of your hands. But we complete the full musical journey: from copying, to creating, to innovating — helping students find the part of playing that comes from the heart.</p>
         <a href="/about" class="btn btn-cream">Read Our Story</a>
       </div>
-      <div class="philosophy-steps">
-        <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Master the mechanics, styles, and techniques that build real coordination.</p></div></div>
-        <div class="pstep"><span>02</span><div><strong>Create</strong><p>Move from imitation to expression — playing that's genuinely your own.</p></div></div>
-        <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Develop the confidence and creativity to make music no one's heard before.</p></div></div>
+      <div class="philosophy-media">
+        <img src="/images/teaching-kids.jpg" alt="Dan Brady teaching a group of young students at Anthem Music" loading="lazy" width="900" height="675" />
+        <div class="philosophy-steps">
+          <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Master the mechanics and techniques that build real coordination.</p></div></div>
+          <div class="pstep"><span>02</span><div><strong>Create</strong><p>Move from imitation to expression — playing that's genuinely your own.</p></div></div>
+          <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Develop the confidence to make music no one's heard before.</p></div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -120,18 +123,19 @@ const instructors = [
 </Base>
 
 <style>
-  .hero { background: linear-gradient(180deg, var(--cream-soft) 0%, var(--white) 100%); padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 7vw, 6rem); }
-  .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-  .hero-copy h1 { margin-bottom: 1.5rem; }
+  .hero { background: linear-gradient(180deg, var(--cream-soft) 0%, var(--white) 100%); padding: clamp(2.5rem, 6vw, 4.5rem) 0 0; }
+  .hero-inner { max-width: 820px; }
+  .hero-copy h1 { margin-bottom: 1.5rem; max-width: 15ch; }
   .hero-copy h1 em { color: var(--orange); font-style: italic; }
+  .hero-copy .lead { max-width: 60ch; }
   .hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
   .hero-trust { display: flex; align-items: center; gap: 0.7rem; margin-top: 2rem; font-size: 0.92rem; color: var(--gray); }
   .hero-trust span:first-child { color: var(--orange); letter-spacing: 2px; }
-  .hero-media { position: relative; }
-  .hero-media img { border-radius: 16px; width: 100%; height: auto; object-fit: cover; box-shadow: 0 20px 50px rgba(13,31,60,.18); }
-  .hero-badge { position: absolute; bottom: -20px; left: -20px; background: var(--white); border-radius: 12px; padding: 0.9rem 1.2rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 12px 30px rgba(13,31,60,.15); }
-  .hero-badge strong { display: block; font-family: var(--font-display); color: var(--navy); font-size: 1.1rem; }
-  .hero-badge span { font-size: 0.8rem; color: var(--gray); }
+  .hero-image-wrap { position: relative; max-width: var(--maxw); margin: clamp(2.5rem,5vw,3.5rem) auto 0; padding: 0 var(--pad); }
+  .hero-image-wrap img { border-radius: 16px; width: 100%; height: auto; max-height: 520px; object-fit: cover; box-shadow: 0 20px 50px rgba(13,31,60,.18); display: block; }
+  .hero-badge { position: absolute; bottom: -18px; left: calc(var(--pad) + 20px); background: var(--white); border-radius: 12px; padding: 0.85rem 1.15rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 12px 30px rgba(13,31,60,.15); }
+  .hero-badge strong { display: block; font-family: var(--font-display); color: var(--navy); font-size: 1.05rem; }
+  .hero-badge span { font-size: 0.78rem; color: var(--gray); }
 
   .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
   .section-head .eyebrow { justify-content: center; }
@@ -150,7 +154,9 @@ const instructors = [
   .philosophy-copy p { color: var(--cream); opacity: 0.82; margin-bottom: 1.2rem; }
   .philosophy-copy p em { color: var(--orange); font-style: italic; }
   .philosophy-copy h2 { margin-bottom: 1.3rem; }
-  .philosophy-steps { display: flex; flex-direction: column; gap: 1.2rem; }
+  .philosophy-media { display: flex; flex-direction: column; gap: 1.2rem; }
+  .philosophy-media > img { border-radius: 14px; width: 100%; height: auto; object-fit: cover; box-shadow: 0 16px 40px rgba(0,0,0,.3); }
+  .philosophy-steps { display: flex; flex-direction: column; gap: 0.9rem; }
   .pstep { display: flex; gap: 1.2rem; background: var(--navy-light); border-radius: 12px; padding: 1.3rem 1.5rem; }
   .pstep span { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; color: var(--orange); line-height: 1; }
   .pstep strong { color: var(--cream); font-family: var(--font-display); font-size: 1.2rem; display: block; margin-bottom: 0.3rem; }
@@ -175,9 +181,8 @@ const instructors = [
     .instructor-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 780px) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .hero-media { order: -1; }
     .philosophy-inner { grid-template-columns: 1fr; }
+    .hero-image-wrap img { max-height: 380px; }
   }
   @media (max-width: 520px) {
     .lessons-grid { grid-template-columns: 1fr; }
