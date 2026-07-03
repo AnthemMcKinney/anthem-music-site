@@ -1,59 +1,8 @@
----
-import Base from '../layouts/Base.astro';
----
-<Base path="/contact" title="Contact Anthem Music | McKinney Music Lessons" description="Contact Anthem Music in downtown McKinney. Call, text, or visit us at 209 N Tennessee St. Guitar, piano, violin, drums, and voice lessons.">
-  <section class="page-hero">
-    <div class="container">
-      <span class="eyebrow" style="justify-content:center;">Get in Touch</span>
-      <h1 class="center">Contact us</h1>
-      <p class="lead mx-auto center">Questions about lessons, instruments, or getting started? Reach out — we're happy to help.</p>
-    </div>
-  </section>
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-  <section class="section">
-    <div class="container contact-grid">
-      <div class="contact-info">
-        <div class="contact-item">
-          <h3>Visit the Studio</h3>
-          <p>209 N Tennessee St<br/>McKinney, TX 75069</p>
-        </div>
-        <div class="contact-item">
-          <h3>Call or Text</h3>
-          <p><a href="tel:+14695009863">(469) 500-9863</a></p>
-        </div>
-        <div class="contact-item">
-          <h3>Email</h3>
-          <p><a href="mailto:danbrady@anthemmusic.net">danbrady@anthemmusic.net</a></p>
-        </div>
-        <div class="contact-item">
-          <h3>Ready to Start?</h3>
-          <p>The fastest way to get going is to book a consultation online.</p>
-          <a href="/schedule" class="btn btn-primary" style="margin-top:0.8rem; color:#fff;">Book a Consultation</a>
-        </div>
-      </div>
-      <div class="contact-map">
-        <iframe
-          title="Anthem Music location map"
-          src="https://www.google.com/maps?q=209+N+Tennessee+St,+McKinney,+TX+75069&output=embed"
-          width="100%" height="100%" style="border:0;" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-    </div>
-  </section>
-</Base>
-
-<style>
-  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
-  .page-hero h1 { margin-bottom: 1rem; }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: stretch; }
-  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
-  .contact-item h3 { color: var(--navy); font-size: 1.15rem; margin-bottom: 0.4rem; }
-  .contact-item p { color: var(--gray); }
-  .contact-item a { color: var(--orange); font-weight: 500; }
-  .contact-map { border-radius: 14px; overflow: hidden; min-height: 420px; border: 1px solid var(--line); }
-  .contact-map iframe { display: block; height: 100%; }
-  @media (max-width: 780px) {
-    .contact-grid { grid-template-columns: 1fr; }
-    .contact-map { min-height: 320px; }
-  }
-</style>
+export default defineConfig({
+  site: 'https://anthemmusic.net',
+  build: { format: 'directory' },
+  integrations: [sitemap()],
+});
