@@ -1,18 +1,95 @@
-{
-  "name": "anthem-music-site",
-  "type": "module",
-  "version": "0.0.1",
-  "engines": {
-    "node": ">=22.12.0"
+---
+import Base from '../layouts/Base.astro';
+
+const instructors = [
+  {
+    name: "Dan Brady",
+    role: "Owner · Guitar & Piano (plus Bass, Ukulele, Banjo)",
+    img: "/instructors/dan.jpg",
+    bio: "Dan is the founder of Anthem Music and one of its most versatile instructors — teaching both guitar and piano, along with bass, ukulele, and banjo. That range is rare: most instructors specialize in a single instrument family, but Dan's command of both fretted and keyed instruments gives his students a deeper, more connected understanding of how music actually works. A veteran with over 30 years of playing and 15-plus years of teaching, he brings a patient, meet-you-where-you-are approach that's earned him a loyal following of students and families. A father of seven and active in the McKinney community — including youth sports coaching and Dowell Middle School athletics — Dan has a special heart for working with students of all abilities, including those with special needs and the homeschool community. Before music became his full-time calling, he built a career in IT and project management, and that systems-minded discipline shows up in how thoughtfully he structures each student's growth.",
   },
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+  {
+    name: "Britton Lowenthal",
+    role: "Piano · Trumpet",
+    img: "/instructors/britton.jpg",
+    bio: "Britt is a classically trained pianist with over a decade of piano experience and seven years of trumpet performance. A standout young musician, she has served as Drum Major and holds leadership roles in her school's award-winning music programs. Britt combines strong classical fundamentals with genuine warmth in the studio — her students consistently look forward to every lesson. She's especially skilled at building confidence in young and beginning players.",
   },
-  "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.0.6"
+  {
+    name: "Christine Dao",
+    role: "Violin · Piano",
+    img: "/instructors/christine.jpg",
+    bio: "Christine brings a calm, encouraging presence and strong technical foundation to Anthem's strings program. She teaches violin and piano with a focus on solid fundamentals, careful listening, and steady progress — an approach that works beautifully for young beginners and advancing students alike. Christine believes every student can learn to play, and she tailors her instruction to the way each individual learns best.",
+  },
+  {
+    name: "Jonah Mayes",
+    role: "Guitar, Bass, Drums, Vocals",
+    img: "/instructors/jonah.jpg",
+    bio: "Jonah is a multi-instrumentalist with over 40 years of playing and teaching experience across guitar, bass, drums, and vocals. Coming from a deeply musical family and raising two kids of his own, he connects easily with students of every age. Jonah's versatility across instruments gives his students a well-rounded musical foundation and the perspective of someone who understands how all the pieces of a band fit together.",
+  },
+];
+---
+<Base path="/instructors" title="Our Instructors | Anthem Music McKinney" description="Meet the instructors at Anthem Music in downtown McKinney — experienced, patient mentors teaching guitar, piano, violin, drums, and voice.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">The Guild</span>
+      <h1 class="center">Meet our instructors</h1>
+      <p class="lead mx-auto center">Mentors first, teachers always. Our instructors bring decades of combined experience — and a genuine investment in every student who walks through the door.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="bio-list">
+        {instructors.map((i, idx) => (
+          <article class={`bio-card ${idx % 2 === 1 ? 'reverse' : ''}`}>
+            <div class="bio-photo">
+              <img src={i.img} alt={i.name} loading="lazy" width="380" height="440" />
+            </div>
+            <div class="bio-content">
+              <h2>{i.name}</h2>
+              <span class="bio-role">{i.role}</span>
+              <p>{i.bio}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Find your instructor</h2>
+        <p>Book a consultation and we'll match you with the right teacher for your instrument, age, and goals.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .bio-list { display: flex; flex-direction: column; gap: clamp(2.5rem, 5vw, 4.5rem); }
+  .bio-card { display: grid; grid-template-columns: 380px 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+  .bio-card.reverse { grid-template-columns: 1fr 380px; }
+  .bio-card.reverse .bio-photo { order: 2; }
+  .bio-photo { border-radius: 16px; overflow: hidden; aspect-ratio: 3/3.4; background: var(--cream); box-shadow: 0 16px 40px rgba(13,31,60,.12); }
+  .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .bio-content h2 { color: var(--navy); margin-bottom: 0.3rem; }
+  .bio-role { color: var(--orange); font-weight: 600; font-size: 0.95rem; display: block; margin-bottom: 1.2rem; }
+  .bio-content p { color: var(--gray); }
+
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+
+  @media (max-width: 780px) {
+    .bio-card, .bio-card.reverse { grid-template-columns: 1fr; }
+    .bio-card.reverse .bio-photo { order: 0; }
+    .bio-photo { max-width: 340px; }
   }
-}
+</style>
