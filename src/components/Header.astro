@@ -6,6 +6,7 @@ const nav = [
   { label: "Schedule", href: "/schedule" },
   { label: "Contact", href: "/contact" },
 ];
+const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
 ---
 <header class="site-header">
   <div class="container header-inner">
@@ -16,6 +17,7 @@ const nav = [
 
     <nav class="nav-desktop" aria-label="Main navigation">
       {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={portalUrl} class="btn parent-login" target="_blank" rel="noopener noreferrer">Student Login</a>
       <a href="/schedule" class="btn btn-primary nav-cta">Book a Lesson</a>
     </nav>
 
@@ -26,6 +28,7 @@ const nav = [
 
   <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
     {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    <a href={portalUrl} class="btn parent-login" target="_blank" rel="noopener noreferrer">Student Login</a>
     <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
   </nav>
 </header>
@@ -49,12 +52,28 @@ const nav = [
   }
   .brand-sub { color: var(--orange); margin-left: 0.3rem; }
   .nav-desktop { display: flex; align-items: center; gap: 2rem; }
-  .nav-desktop > a:not(.nav-cta) {
+  .nav-desktop > a:not(.nav-cta):not(.parent-login) {
     color: var(--navy); font-weight: 500; font-size: 0.98rem;
     position: relative;
   }
-  .nav-desktop > a:not(.nav-cta):hover { color: var(--orange); }
+  .nav-desktop > a:not(.nav-cta):not(.parent-login):hover { color: var(--orange); }
   .nav-cta { padding: 0.6rem 1.3rem; font-size: 0.95rem; }
+
+  /* Parent Login — deliberately yellow, outside the navy/orange brand palette,
+     so it reads as a utility/portal element without diluting the brand. */
+  .parent-login {
+    background: #F6C544;
+    color: var(--navy);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 2px solid transparent;
+  }
+  .parent-login:hover {
+    background: #E9B52E;
+    color: var(--navy);
+    transform: translateY(-2px);
+  }
 
   .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
   .nav-toggle span { width: 26px; height: 2px; background: var(--navy); transition: .3s; }

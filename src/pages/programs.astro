@@ -1,19 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Grid = instruments/programs we teach directly (brass included — Dan teaches
+// valved brass privately). Ensemble/large-group PLAY is handled in the referral
+// section below, framed as our open-door "we'll find you the right fit" approach.
 const programs = [
   { name: "Violin", blurb: "Suzuki-informed strings instruction for young beginners through advancing players. Christine Dao builds solid fundamentals with patience and care." },
   { name: "Drums & Percussion", blurb: "Timing, technique, and groove — from a student's first beats to full-kit control. Learn to lock in and play with feel." },
   { name: "Voice", blurb: "Build range, control, and stage confidence with real vocal coaching for singers of all ages and styles." },
-  { name: "Band & Orchestra", blurb: "Support for school band and orchestra students on trumpet, flute, and more — plus ensemble skills that make you a stronger player." },
+  { name: "Brass", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique one-on-one, whether you play for yourself or want a foundation for ensemble work." },
   { name: "Kinder Music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure that sets the foundation for a lifetime of music." },
   { name: "Songwriting & Production", blurb: "For students ready to create their own music — songwriting, arrangement, and an introduction to DAW-based production." },
 ];
 ---
 <Base
   path="/programs"
-  title="Music Programs in McKinney | Violin, Drums, Voice & More | Anthem Music"
-  description="Explore Anthem Music's full range of programs in downtown McKinney: violin, drums, voice, band and orchestra support, Kinder Music for ages 2–6, and songwriting.">
+  title="Music Programs in McKinney | Violin, Drums, Voice, Brass & More | Anthem Music"
+  description="Explore Anthem Music's programs in downtown McKinney: violin, drums, voice, brass, Kinder Music for ages 2–6, and songwriting — plus band and orchestra referrals through Texas Homeschool Music.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Our Programs</span>
@@ -36,10 +39,44 @@ const programs = [
     </div>
   </section>
 
+  <section class="section referral">
+    <div class="container narrow">
+      <span class="eyebrow">Band, Orchestra &amp; Ensembles</span>
+      <h2>Want to play in a band, orchestra, or ensemble?</h2>
+      <p class="lead">
+        Here's how we think about it: we'd love to talk with you, and there's a good
+        chance we can help directly. We teach a wide range of instruments and students
+        right here at the studio. But if what you're after is playing <em>with</em> a
+        larger group — concert band, marching band, orchestra — that's its own world,
+        and we'll make sure you land in the right place.
+      </p>
+
+      <p>We're proud to partner with
+        <a href="https://texashomeschoolmusic.org/J/" target="_blank" rel="noopener noreferrer">Texas Homeschool Music</a>
+        and a network of trusted local musicians and programs. Whatever your student is
+        reaching for, we'll either teach it — or connect you with someone who's the
+        right fit:</p>
+
+      <ul class="referral-list">
+        <li>Concert band and marching band</li>
+        <li>Orchestra and string ensembles</li>
+        <li>Homeschool music groups and co-op ensembles</li>
+        <li>Adaptive and therapeutic music programs for students who learn differently</li>
+        <li>Specialty instruction — advanced styles and mastery-level goals</li>
+        <li>Group classes, recitals, and community performance events</li>
+      </ul>
+
+      <p>You'll never get a flat "we don't do that" from us. We'll see if it's a fit at
+      the studio — and if it isn't, we know the right people to call.</p>
+
+      <a href="/contact" class="btn btn-primary">Contact Us to Learn More</a>
+    </div>
+  </section>
+
   <section class="cta-band">
     <div class="container cta-inner">
-      <div><h2>Not sure where to start?</h2><p>Book a consultation and we'll help you find the right program, instrument, and instructor.</p></div>
-      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+      <div><h2>Not sure where to start?</h2><p>Book a lesson and we'll help you find the right program, instrument, and instructor.</p></div>
+      <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
     </div>
   </section>
 </Base>
@@ -52,12 +89,23 @@ const programs = [
   .prog-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
   .prog-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
   .prog-card p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+
+  .referral { background: var(--cream-soft); }
+  .referral .narrow { max-width: 760px; }
+  .referral h2 { margin: 0.5rem 0 1rem; }
+  .referral p { color: var(--gray); margin-bottom: 1.2rem; }
+  .referral p em { color: var(--orange); font-style: italic; }
+  .referral-list { list-style: none; display: grid; gap: 0.6rem; margin: 0 0 1.6rem; padding: 0; }
+  .referral-list li { color: var(--navy); font-weight: 500; padding-left: 1.6rem; position: relative; }
+  .referral-list li::before { content: "\266A"; color: var(--orange); position: absolute; left: 0; top: 0; }
+
   .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
   .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
   .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
   .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+
   @media (max-width: 900px) { .prog-grid { grid-template-columns: repeat(2,1fr); } }
   @media (max-width: 560px) { .prog-grid { grid-template-columns: 1fr; } }
 </style>

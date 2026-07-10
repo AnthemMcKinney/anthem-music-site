@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Base
+  path="/blog"
+  title="Blog | Anthem Music — McKinney, TX"
+  description="Notes on music, guitar, piano, and learning to play — from the team at Anthem Music in downtown McKinney."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">The Anthem Blog</span>
+      <h1 class="center">Notes on music &amp; learning to play</h1>
+      <p class="lead mx-auto center">Practical thoughts on guitar, piano, practice, and the things that make learning music stick.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="center" style="color:var(--gray);">Posts are on the way — check back soon.</p>
+      ) : (
+        <div class="post-grid">
+          {posts.map((post) => (
+            <a href={`/blog/${post.id}`} class="post-card">
+              {post.data.cover && <img src={post.data.cover} alt="" class="card-cover" />}
+              <div class="card-body">
+                <p class="card-date">{post.data.pubDate.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' })}</p>
+                <h3>{post.data.title}</h3>
+                <p class="card-desc">{post.data.description}</p>
+                <span class="card-link">Read more &rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.8rem; }
+  .post-card {
+    display: flex; flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform .15s, box-shadow .2s;
+    color: inherit;
+  }
+  .post-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(13,31,60,.10); }
+  .card-cover { aspect-ratio: 16/9; object-fit: cover; width: 100%; }
+  .card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .card-date { color: var(--gray-light); font-size: 0.85rem; font-weight: 600; margin: 0; }
+  .card-body h3 { color: var(--navy); margin: 0; }
+  .card-desc { color: var(--gray); font-size: 0.98rem; margin: 0.2rem 0 0.6rem; }
+  .card-link { color: var(--orange); font-weight: 600; font-size: 0.95rem; margin-top: auto; }
+</style>

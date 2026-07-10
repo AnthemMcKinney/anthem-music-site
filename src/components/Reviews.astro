@@ -1,0 +1,129 @@
+---
+// Static reviews from Google. To add one later, append to this array.
+// Set `specialNeeds: true` to render a review in the highlighted callout block.
+const reviews = [
+  {
+    name: "Dani Davis",
+    text: "My daughter took guitar/ukulele lessons from Dan for several months and in that time she learned a whole lot. Dan meets the kids where they are and is an excellent unassuming instructor and all around good guy.",
+    specialNeeds: false
+  },
+  {
+    name: "Evan Mata",
+    text: "Highly recommend Dan! Not only is he a great musician and teacher, but a fantastic man. His guidance helped me break through a long-standing plateau in my playing, and I've grown more in a couple months than I had in years. Grateful for his patience, passion, and the positive energy he brings to every lesson!",
+    specialNeeds: false
+  },
+  {
+    name: "Samantha Wilson",
+    text: "Dan Brady is a fantastic music instructor! He teaches my 6 yr old son guitar, piano, and drums and does an excellent job with all of them. He's patient, friendly, and kind, as well as trustworthy and honest—which really sets him apart. We highly recommend his classes to anyone looking for music lessons!",
+    specialNeeds: false
+  },
+  {
+    name: "Shree Eligeti",
+    text: "Dan is simply amazing with my son. I've known Dan and Jana for a while now and they are the sweetest people. You cannot go wrong with them!",
+    specialNeeds: false
+  },
+  {
+    name: "Monica Moman",
+    text: "Dan is a fantastic piano teacher to my son. He makes learning the fundamentals easy to digest for a 7 yo and also fun. Would highly recommend!",
+    specialNeeds: false
+  },
+  {
+    name: "Kiana Joyner",
+    text: "We've had a wonderful experience with Anthem Music. My 8-year-old daughter has worked well with her instructor, Britt, and looks forward to every piano lesson. Dan, the owner, has been easy to work with and so accommodating! Plus the pricing can't be beat for the quality received. If you're considering music lessons for your child, definitely reach out to them.",
+    specialNeeds: false
+  },
+  // When adaptive / special-needs reviews come in, add them like this:
+  // { name: "Parent Name", text: "…", specialNeeds: true },
+];
+
+const standard = reviews.filter((r) => !r.specialNeeds);
+const featured = reviews.filter((r) => r.specialNeeds);
+---
+<section class="section reviews">
+  <div class="container">
+    <div class="reviews-head center">
+      <span class="eyebrow" style="justify-content:center;">What Families Say</span>
+      <h2>Trusted by McKinney &amp; Frisco families</h2>
+    </div>
+
+    <div class="review-grid">
+      {standard.map((r) => (
+        <figure class="review-card">
+          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
+          <figcaption>
+            <span class="rev-name">{r.name}</span>
+            <span class="rev-source">Google Review</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    {featured.length > 0 && (
+      <div class="featured-block">
+        <div class="featured-head center">
+          <span class="eyebrow" style="justify-content:center;">Families We're Proud to Serve</span>
+          <h3>Adaptive &amp; special-needs instruction</h3>
+          <p>Word-of-mouth matters most in this community. Here's what these families share:</p>
+        </div>
+        <div class="review-grid">
+          {featured.map((r) => (
+            <figure class="review-card featured">
+              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
+              <figcaption>
+                <span class="rev-name">{r.name}</span>
+                <span class="rev-source">Google Review</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .reviews { background: var(--cream-soft); }
+  .reviews-head { margin-bottom: 2.5rem; }
+  /* Locked 3-across: 6 reviews = clean 2 rows of 3 */
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .review-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  /* Gold/yellow stars — standard review convention, matches the Student Login yellow */
+  .stars { color: #F6B01E; letter-spacing: 2px; font-size: 1.05rem; }
+  .review-card blockquote {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .review-card figcaption { display: flex; flex-direction: column; gap: 0.1rem; margin-top: auto; }
+  .rev-name { color: var(--navy); font-weight: 600; font-size: 0.92rem; }
+  .rev-source { color: var(--gray-light); font-size: 0.78rem; font-weight: 500; }
+
+  .featured-block { margin-top: 3.5rem; }
+  .featured-head { margin-bottom: 2rem; }
+  .featured-head p { color: var(--gray); max-width: 52ch; margin: 0.6rem auto 0; }
+  .review-card.featured { background: var(--navy); border-color: var(--navy-light); }
+  .review-card.featured blockquote { color: var(--cream); }
+  .review-card.featured .rev-name { color: var(--cream); }
+  .review-card.featured .rev-source { color: var(--gray-light); }
+
+  @media (max-width: 900px) { .review-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .review-grid { grid-template-columns: 1fr; } }
+</style>

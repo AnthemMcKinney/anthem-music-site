@@ -1,0 +1,93 @@
+---
+import Base from './Base.astro';
+
+const { title, description, pubDate, author, cover, path } = Astro.props;
+const site = "https://anthemmusic.net";
+
+const displayDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+---
+<Base path={path} title={`${title} | Anthem Music`} description={description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": description,
+      "datePublished": pubDate.toISOString(),
+      "author": { "@type": "Organization", "name": author },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Anthem Music LLC",
+        "url": site
+      },
+      ...(cover ? { "image": site + cover } : {})
+    })}
+  />
+
+  <article>
+    <header class="post-hero">
+      <div class="container narrow">
+        <a href="/blog" class="back-link">&larr; All posts</a>
+        <h1>{title}</h1>
+        <p class="post-meta">{displayDate} &middot; {author}</p>
+      </div>
+    </header>
+
+    {cover && (
+      <div class="container narrow">
+        <img src={cover} alt="" class="post-cover" />
+      </div>
+    )}
+
+    <div class="container narrow post-body">
+      <slot />
+    </div>
+  </article>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Thinking about lessons?</h2>
+        <p>Book a lesson at our downtown McKinney studio — guitar, piano, drums, voice, and more.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .post-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
+  .narrow { max-width: 720px; }
+  .back-link { font-size: 0.9rem; font-weight: 600; }
+  .post-hero h1 { margin: 1rem 0 0.75rem; }
+  .post-meta { color: var(--gray-light); font-size: 0.95rem; font-weight: 500; }
+  .post-cover { border-radius: var(--radius); margin: 2rem auto 0; }
+
+  .post-body { padding: 2.5rem 0 1rem; }
+  .post-body :global(p) { color: var(--gray); margin-bottom: 1.3rem; font-size: 1.08rem; }
+  .post-body :global(h2) { margin: 2.2rem 0 1rem; }
+  .post-body :global(h3) { margin: 1.8rem 0 0.8rem; }
+  .post-body :global(ul), .post-body :global(ol) { color: var(--gray); margin: 0 0 1.3rem 1.3rem; }
+  .post-body :global(li) { margin-bottom: 0.5rem; }
+  .post-body :global(strong) { color: var(--navy); }
+  .post-body :global(em) { color: var(--orange); }
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--orange);
+    padding-left: 1.2rem;
+    margin: 1.5rem 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--navy);
+  }
+  .post-body :global(a) { text-decoration: underline; }
+
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; margin-top: 2rem; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+</style>
