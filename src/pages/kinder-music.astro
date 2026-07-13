@@ -48,6 +48,8 @@ const outcomes = [
       <p>Most early-childhood music programs are sing-alongs. Ours is a structured 4-month curriculum that happens to be delivered through singing, dancing, instruments, coloring, and games. Each month moves through rhythm, notes and scales, and patterns and sequencing — the same fundamentals that our guitar, piano, violin, and drum students build on, sized for small hands and short attention spans.</p>
       <p>That's the point: whether your child eventually chooses piano, guitar, drums, trumpet, or cello, the core skills transfer. Kids who come through these classes start their first instrument already understanding rhythm, recognizing notes, and hearing patterns — a head start most beginners don't get.</p>
 
+      <img class="kinder-photo" src="/images/kinder-circle.jpg" alt="Young children playing glockenspiels in a circle while Dan Brady plays guitar" loading="lazy" width="1400" height="932" />
+
       <h2>Two classes, by age</h2>
       <div class="class-grid">
         {classes.map((c) => (
@@ -93,6 +95,7 @@ const outcomes = [
   .narrow h2 { margin: 2.5rem 0 1rem; }
   .narrow h2:first-child { margin-top: 0; }
   .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .kinder-photo { width: 100%; height: auto; border-radius: 14px; margin: 2rem 0 0.5rem; box-shadow: 0 14px 34px rgba(13,31,60,.12); }
   .class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
   .class-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.8rem; }
   .c-ages { color: var(--orange); font-weight: 700; font-size: 0.88rem; letter-spacing: 0.04em; text-transform: uppercase; }
