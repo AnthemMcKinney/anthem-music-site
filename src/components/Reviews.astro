@@ -18,16 +18,6 @@ const reviews = [
     specialNeeds: false
   },
   {
-    name: "Shree Eligeti",
-    text: "Dan is simply amazing with my son. I've known Dan and Jana for a while now and they are the sweetest people. You cannot go wrong with them!",
-    specialNeeds: false
-  },
-  {
-    name: "Monica Moman",
-    text: "Dan is a fantastic piano teacher to my son. He makes learning the fundamentals easy to digest for a 7 yo and also fun. Would highly recommend!",
-    specialNeeds: false
-  },
-  {
     name: "Kiana Joyner",
     text: "We've had a wonderful experience with Anthem Music. My 8-year-old daughter has worked well with her instructor, Britt, and looks forward to every piano lesson. Dan, the owner, has been easy to work with and so accommodating! Plus the pricing can't be beat for the quality received. If you're considering music lessons for your child, definitely reach out to them.",
     specialNeeds: false
@@ -94,11 +84,13 @@ const featured = reviews.filter((r) => r.specialNeeds);
 <style>
   .reviews { background: var(--cream-soft); }
   .reviews-head { margin-bottom: 2.2rem; }
-  /* Locked 3-across: 6 standard reviews = clean 2 rows of 3 */
+  /* 4 standard reviews in a 2x2, width-matched to the featured block below */
   .review-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.1rem;
+    max-width: 900px;
+    margin: 0 auto;
   }
   .review-card {
     background: var(--white);
@@ -135,6 +127,5 @@ const featured = reviews.filter((r) => r.specialNeeds);
   .review-card.featured .rev-name { color: var(--cream); }
   .review-card.featured .rev-source { color: var(--gray-light); }
 
-  @media (max-width: 900px) { .review-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .review-grid, .featured-grid { grid-template-columns: 1fr; } }
 </style>

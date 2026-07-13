@@ -5,10 +5,10 @@ import Base from '../layouts/Base.astro';
 // valved brass privately). Ensemble/large-group PLAY is handled in the referral
 // section below, framed as our open-door "we'll find you the right fit" approach.
 const programs = [
-  { name: "Violin", blurb: "Suzuki-informed strings instruction for young beginners through advancing players. Christine Dao builds solid fundamentals with patience and care." },
+  { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players. Christine Dao builds solid fundamentals with patience and care." },
   { name: "Drums & Percussion", blurb: "Timing, technique, and groove — from a student's first beats to full-kit control. Learn to lock in and play with feel." },
   { name: "Brass", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique one-on-one, whether you play for yourself or want a foundation for ensemble work." },
-  { name: "Kinder Music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure that sets the foundation for a lifetime of music." },
+  { name: "Kinder Music", href: "/kinder-music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure that sets the foundation for a lifetime of music." },
   { name: "Songwriting & Production", blurb: "For students ready to create their own music — songwriting, arrangement, and an introduction to DAW-based production." },
 ];
 ---
@@ -32,6 +32,7 @@ const programs = [
             <span class="prog-icon" aria-hidden="true">{p.name.charAt(0)}</span>
             <h3>{p.name}</h3>
             <p>{p.blurb}</p>
+            {p.href && <a href={p.href} class="prog-link">Learn more →</a>}
           </div>
         ))}
       </div>
@@ -87,6 +88,7 @@ const programs = [
   .prog-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; }
   .prog-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
   .prog-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
+  .prog-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; display: inline-block; margin-top: 0.8rem; }
   .prog-card p { color: var(--gray); font-size: 0.95rem; margin: 0; }
 
   .referral { background: var(--cream-soft); }

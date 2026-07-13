@@ -6,10 +6,10 @@ import Reviews from '../components/Reviews.astro';
 const lessons = [
   { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
   { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
-  { name: "Violin", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
+  { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
   { name: "Drums & Percussion", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
   { name: "Brass", href: "/programs", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique." },
-  { name: "Kinder Music", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
+  { name: "Kinder Music", href: "/kinder-music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
 ];
 
 // Hero images — one is picked at random on each page load (see inline script in the hero).
@@ -178,7 +178,7 @@ const instructors = [
   .philosophy { background: var(--navy); }
   .philosophy-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .philosophy-copy p { color: var(--cream); opacity: 0.82; margin-bottom: 1.2rem; }
-  .philosophy-copy p em { color: var(--orange); font-style: italic; }
+  .philosophy-copy p em { color: var(--orange); font-style: italic; font-weight: 700; }
   .founder-quote { margin: 0 0 1.4rem; padding: 1.2rem 1.4rem; border-left: 3px solid var(--orange); background: var(--navy-light); border-radius: 0 12px 12px 0; }
   .founder-quote p { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.6; opacity: 0.95; margin-bottom: 0.6rem; }
   .founder-quote cite { color: var(--orange); font-style: normal; font-size: 0.88rem; font-weight: 600; }
