@@ -1,33 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const phases = [
+  { num: "01", title: "Foundations at the keys", items: "Posture, hand position, and finding your way around the keyboard. First melodies come quickly — piano gives beginners early wins — while rhythm, counting, and the musical alphabet get built underneath." },
+  { num: "02", title: "Reading and understanding", items: "Both clefs, note values, and playing hands together. This is also where the why starts: what a scale actually is, how chords are built from it, and why the same patterns keep appearing in every piece you learn." },
+  { num: "03", title: "Chords, harmony, and real music", items: "Chord progressions, accompaniment patterns, and music the student actually wants to play — classical repertoire, modern songs, or both. Ear training threads through it all, so reading and listening develop together." },
+  { num: "04", title: "Making it yours", items: "Playing expressively, learning songs by ear, improvising over progressions, and for some students, writing their own music. The keys stop being a map to follow and become a place to think." },
+];
 ---
 <Base
   path="/piano-lessons"
   title="Piano Lessons in McKinney, TX | Anthem Music"
-  description="Piano lessons in downtown McKinney for all ages and levels. Classically trained instructors, personalized instruction, and a real love of music. Book a consultation today.">
+  description="Piano lessons in downtown McKinney for all ages and levels. Classically trained instructors who teach the why behind the music — reading, technique, theory, and ear training. Book a consultation.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Piano · Keyboard</span>
       <h1 class="center">Piano lessons in McKinney</h1>
-      <p class="lead mx-auto center">A classical foundation with modern application — reading, technique, and playing you'll actually enjoy.</p>
+      <p class="lead mx-auto center">A classical foundation with modern application — reading, technique, and the understanding that turns notes on a page into music you own.</p>
       <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
     </div>
   </section>
 
   <section class="section">
     <div class="container narrow">
-      <h2>Serious fundamentals, taught with warmth</h2>
-      <p>Piano is one of the best instruments to learn music on — it builds a foundation that carries into every other instrument. Our instructors are classically trained and bring years of performance and teaching experience, but they teach with the kind of patience and encouragement that keeps students coming back.</p>
-      <p>We work with everyone from first-time young beginners to adults returning to the keys and advancing students ready to take their playing to the next level. Lessons are personalized — we build around each student's goals, skill level, and the way they learn.</p>
+      <h2>The best foundation in music</h2>
+      <p>Piano is where music makes the most sense. The whole system is laid out in front of you — every note visible, every chord and scale a shape you can see. That's why the fundamentals a piano student builds — reading, rhythm, harmony, ear training — transfer to every other instrument they'll ever touch.</p>
+      <p>Our piano instructors are classically trained with years of performance and teaching experience, and they teach with the patience that keeps students coming back. We work with first-time young beginners, adults returning to the keys after decades, and advancing students preparing for something bigger.</p>
 
       <div class="feature-grid">
-        <div class="feature"><h3>Strong Foundations</h3><p>Reading, technique, theory, and ear training that transfer to any instrument.</p></div>
-        <div class="feature"><h3>Every Age</h3><p>From young beginners through adult learners and advancing students.</p></div>
-        <div class="feature"><h3>Real Enjoyment</h3><p>We balance discipline with music students actually want to play.</p></div>
+        <div class="feature"><h3>Classically Trained</h3><p>Real technique and reading skills from instructors with performance backgrounds.</p></div>
+        <div class="feature"><h3>The Why Included</h3><p>Theory and ear training woven into lessons — not bolted on as homework.</p></div>
+        <div class="feature"><h3>Music You'll Love</h3><p>Classical, modern, worship, film scores — repertoire built around each student.</p></div>
+      </div>
+
+      <h2>How playing develops</h2>
+      <p>Every student's pace is their own — age, practice, and prior experience all matter — but the arc is consistent:</p>
+
+      <div class="milestone-list">
+        {phases.map((p) => (
+          <div class="milestone">
+            <span class="m-period">{p.num}</span>
+            <div>
+              <h3>{p.title}</h3>
+              <p>{p.items}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       <h2>What a first lesson looks like</h2>
-      <p>Every new student starts with a consultation — a one-on-one assessment where we understand your experience, goals, and how you learn. For students with prior experience who want to advance, we build a custom plan around your specific needs. No pressure, just a clear path forward.</p>
+      <p>Every new student starts with a consultation — a one-on-one assessment where we understand your experience, goals, and how you learn. From there we match you with the right instructor and build a clear plan. No pressure, just a path forward.</p>
     </div>
   </section>
 
@@ -46,6 +68,11 @@ import Base from '../layouts/Base.astro';
   .narrow h2 { margin: 2.5rem 0 1rem; }
   .narrow h2:first-child { margin-top: 0; }
   .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .milestone-list { display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0; }
+  .milestone { display: flex; gap: 1.4rem; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem 1.6rem; }
+  .m-period { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; color: var(--orange); white-space: nowrap; }
+  .milestone h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .milestone p { color: var(--gray); font-size: 0.95rem; margin: 0; }
   .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin: 2.5rem 0; }
   .feature { background: var(--cream-soft); border-radius: 12px; padding: 1.6rem; }
   .feature h3 { color: var(--navy); margin-bottom: 0.5rem; font-size: 1.15rem; }
@@ -56,5 +83,5 @@ import Base from '../layouts/Base.astro';
   .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
-  @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } .milestone { flex-direction: column; gap: 0.5rem; } }
 </style>

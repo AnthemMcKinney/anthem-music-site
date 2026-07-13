@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base
+  path="/drum-lessons"
+  title="Drum Lessons in McKinney, TX | Anthem Music"
+  description="Drum and percussion lessons in downtown McKinney. Timing, technique, and groove for all ages — from first beats to full-kit control. Book a consultation.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Drums · Percussion</span>
+      <h1 class="center">Drum lessons in McKinney</h1>
+      <p class="lead mx-auto center">Timing, technique, and groove — from a student's first beats to full-kit control, taught the same way we teach everything: with the why included.</p>
+      <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>Rhythm is the framework of all music</h2>
+      <p>Every instrument at Anthem gets taught on top of rhythm — but for drummers, rhythm <em>is</em> the instrument. Our drum students learn the same musical framework as our guitarists and pianists: time signatures, note durations, patterns, and song form. The difference is they live inside it. A drummer who understands why a groove works — not just how to copy it — can sit down with any band, any song, any style, and hold it together.</p>
+      <p>Lessons are built around each student. Young beginners start with the coordination and stick control their hands are ready for; teens and adults often come in wanting to play along with the music they love, and we build toward exactly that.</p>
+
+      <div class="feature-grid">
+        <div class="feature"><h3>Timing First</h3><p>Counting, subdivision, and metronome work that make every other skill possible.</p></div>
+        <div class="feature"><h3>Technique</h3><p>Stick control, dynamics, and coordination — clean fundamentals before speed.</p></div>
+        <div class="feature"><h3>Groove &amp; Feel</h3><p>Playing musically with real songs, not just exercises — locking in and serving the music.</p></div>
+      </div>
+
+      <h2>What students build</h2>
+      <p>Beginners work from pad and snare fundamentals into basic kit grooves — the rock and pop patterns behind most of the music they know. From there: fills, dynamics, reading rhythm notation, odd meters, and different styles. The consistent thread is playing <em>with</em> music early and often, because keeping time with a real song teaches what no isolated exercise can.</p>
+
+      <h2>What a first lesson looks like</h2>
+      <p>Every new student starts with a consultation — we get a feel for age, coordination, goals, and what music excites them, then build a plan from there. No kit at home yet? We'll tell you honestly what to start with and what to skip.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div><h2>Start playing drums</h2><p>Book a consultation and we'll build a plan around your goals — and the music you actually want to play.</p></div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .narrow { max-width: 760px; }
+  .narrow h2 { margin: 2.5rem 0 1rem; }
+  .narrow h2:first-child { margin-top: 0; }
+  .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .narrow p em { color: var(--navy); font-style: italic; }
+  .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin: 2.5rem 0; }
+  .feature { background: var(--cream-soft); border-radius: 12px; padding: 1.6rem; }
+  .feature h3 { color: var(--navy); margin-bottom: 0.5rem; font-size: 1.15rem; }
+  .feature p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+  @media (max-width: 700px) { .feature-grid { grid-template-columns: 1fr; } }
+</style>
