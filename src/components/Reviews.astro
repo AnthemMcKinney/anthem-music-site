@@ -1,6 +1,6 @@
 ---
 // Static reviews from Google. To add one later, append to this array.
-// Set `specialNeeds: true` to render a review in the highlighted callout block.
+// Set `specialNeeds: true` to render a review in the highlighted adaptive-instruction block.
 const reviews = [
   {
     name: "Dani Davis",
@@ -32,8 +32,16 @@ const reviews = [
     text: "We've had a wonderful experience with Anthem Music. My 8-year-old daughter has worked well with her instructor, Britt, and looks forward to every piano lesson. Dan, the owner, has been easy to work with and so accommodating! Plus the pricing can't be beat for the quality received. If you're considering music lessons for your child, definitely reach out to them.",
     specialNeeds: false
   },
-  // When adaptive / special-needs reviews come in, add them like this:
-  // { name: "Parent Name", text: "…", specialNeeds: true },
+  {
+    name: "Aly C.",
+    text: "My kids absolutely adore Mr. Dan. He takes such a creative, student-focused approach and will truly meet your child where they are. My son has thrived with his flexible and encouraging teaching style. My daughter is also gaining confidence with her singing while learning the piano. We're so grateful for the patience, kindness, and genuine care that has been shown to us. They are welcoming to all learning styles and it is a great place to watch your children grow their musical talents. We absolutely recommend Anthem Music Studios!",
+    specialNeeds: true
+  },
+  {
+    name: "Yoli Dederichs",
+    text: "Our adult son began taking guitar lessons with Dan back in early 2025. Dan is patient with him as our son is on the autism spectrum. He doesn't feel rushed and can progress at his own pace. Dan recognized he would be better suited to play the ukulele which he has really enjoyed. Dan encouraged him to participate in the Spring Recital where he did an awesome job! We highly recommend Dan.",
+    specialNeeds: true
+  },
 ];
 
 const standard = reviews.filter((r) => !r.specialNeeds);
@@ -49,12 +57,12 @@ const featured = reviews.filter((r) => r.specialNeeds);
     <div class="review-grid">
       {standard.map((r) => (
         <figure class="review-card">
-          <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
-          <figcaption>
+          <div class="review-top">
             <span class="rev-name">{r.name}</span>
-            <span class="rev-source">Google Review</span>
-          </figcaption>
+            <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+          </div>
+          <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
+          <figcaption class="rev-source">Google Review</figcaption>
         </figure>
       ))}
     </div>
@@ -62,19 +70,19 @@ const featured = reviews.filter((r) => r.specialNeeds);
     {featured.length > 0 && (
       <div class="featured-block">
         <div class="featured-head center">
-          <span class="eyebrow" style="justify-content:center;">Families We're Proud to Serve</span>
+          <span class="eyebrow" style="justify-content:center;">Every Learner Welcome</span>
           <h3>Adaptive &amp; special-needs instruction</h3>
-          <p>Word-of-mouth matters most in this community. Here's what these families share:</p>
+          <p>Every student learns differently — and some need a teacher willing to adapt the lesson to them, not the other way around. These families' words mean the most to us:</p>
         </div>
-        <div class="review-grid">
+        <div class="review-grid featured-grid">
           {featured.map((r) => (
             <figure class="review-card featured">
-              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-              <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
-              <figcaption>
+              <div class="review-top">
                 <span class="rev-name">{r.name}</span>
-                <span class="rev-source">Google Review</span>
-              </figcaption>
+                <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+              </div>
+              <blockquote>&ldquo;{r.text}&rdquo;</blockquote>
+              <figcaption class="rev-source">Google Review</figcaption>
             </figure>
           ))}
         </div>
@@ -85,45 +93,48 @@ const featured = reviews.filter((r) => r.specialNeeds);
 
 <style>
   .reviews { background: var(--cream-soft); }
-  .reviews-head { margin-bottom: 2.5rem; }
-  /* Locked 3-across: 6 reviews = clean 2 rows of 3 */
+  .reviews-head { margin-bottom: 2.2rem; }
+  /* Locked 3-across: 6 standard reviews = clean 2 rows of 3 */
   .review-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: 1.1rem;
   }
   .review-card {
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 1.8rem;
+    padding: 1.25rem 1.35rem;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.9rem;
+    gap: 0.55rem;
   }
+  /* Name + stars share one line — compact header row */
+  .review-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+  .rev-name { color: var(--navy); font-weight: 600; font-size: 0.9rem; }
   /* Gold/yellow stars — standard review convention, matches the Student Login yellow */
-  .stars { color: #F6B01E; letter-spacing: 2px; font-size: 1.05rem; }
+  .stars { color: #F6B01E; letter-spacing: 1.5px; font-size: 0.9rem; white-space: nowrap; }
   .review-card blockquote {
     margin: 0;
     color: var(--navy);
     font-family: var(--font-display);
-    font-size: 1.02rem;
-    line-height: 1.55;
+    font-size: 0.94rem;
+    line-height: 1.5;
     flex: 1;
   }
-  .review-card figcaption { display: flex; flex-direction: column; gap: 0.1rem; margin-top: auto; }
-  .rev-name { color: var(--navy); font-weight: 600; font-size: 0.92rem; }
-  .rev-source { color: var(--gray-light); font-size: 0.78rem; font-weight: 500; }
+  .rev-source { color: var(--gray-light); font-size: 0.74rem; font-weight: 500; margin-top: auto; }
 
-  .featured-block { margin-top: 3.5rem; }
-  .featured-head { margin-bottom: 2rem; }
-  .featured-head p { color: var(--gray); max-width: 52ch; margin: 0.6rem auto 0; }
+  .featured-block { margin-top: 3rem; }
+  .featured-head { margin-bottom: 1.8rem; }
+  .featured-head p { color: var(--gray); max-width: 56ch; margin: 0.6rem auto 0; }
+  /* 2 featured reviews = 2-up, centered and slightly wider cards */
+  .featured-grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto; }
   .review-card.featured { background: var(--navy); border-color: var(--navy-light); }
   .review-card.featured blockquote { color: var(--cream); }
   .review-card.featured .rev-name { color: var(--cream); }
   .review-card.featured .rev-source { color: var(--gray-light); }
 
   @media (max-width: 900px) { .review-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .review-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .review-grid, .featured-grid { grid-template-columns: 1fr; } }
 </style>

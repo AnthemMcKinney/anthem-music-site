@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base path="/schedule" title="Book a Lesson | Anthem Music McKinney" description="Book a consultation or lesson with an Anthem Music instructor in downtown McKinney. Pick your instrument and see open times.">
+<Base path="/schedule" title="Book a Consultation | Anthem Music McKinney" description="Book a free consultation with an Anthem Music instructor in downtown McKinney. Pick your instrument and see open times.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Book a Consultation</span>
@@ -23,7 +23,9 @@ import Base from '../layouts/Base.astro';
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
   .page-hero h1 { margin-bottom: 1rem; }
-  .widget-wrap { max-width: 900px; }
-  #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; min-height: 400px; }
+  .widget-wrap { max-width: 1040px; }
+  /* Wider wrap + slimmer padding gives the MMS widget more room, which helps
+     the instrument list ("5. Violin") render without truncating. */
+  #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
   .widget-help { margin-top: 1.5rem; color: var(--gray); font-size: 0.95rem; }
 </style>

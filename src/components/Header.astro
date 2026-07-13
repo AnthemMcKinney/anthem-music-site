@@ -7,7 +7,7 @@ const nav = [
   { label: "Schedule", href: "/schedule" },
   { label: "Contact", href: "/contact" },
 ];
-const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
+const portalUrl = "/student-login";
 ---
 <header class="site-header">
   <div class="container header-inner">
@@ -18,8 +18,8 @@ const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
 
     <nav class="nav-desktop" aria-label="Main navigation">
       {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href={portalUrl} class="btn parent-login" target="_blank" rel="noopener noreferrer">Student Login</a>
-      <a href="/schedule" class="btn btn-primary nav-cta">Book a Lesson</a>
+      <a href={portalUrl} class="btn parent-login">Student Login</a>
+      <a href="/schedule" class="btn btn-primary nav-cta">Book a Consultation</a>
     </nav>
 
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" id="navToggle">
@@ -29,8 +29,8 @@ const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
 
   <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
     {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-    <a href={portalUrl} class="btn parent-login" target="_blank" rel="noopener noreferrer">Student Login</a>
-    <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
+    <a href={portalUrl} class="btn parent-login">Student Login</a>
+    <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
   </nav>
 </header>
 
@@ -82,7 +82,7 @@ const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
   .nav-mobile a:not(.btn) { color: var(--navy); font-weight: 500; padding: 0.6rem 0; }
   .nav-mobile.open { display: flex; }
 
-  @media (max-width: 1120px) {
+  @media (max-width: 1220px) {
     .nav-desktop { display: none; }
     .nav-toggle { display: flex; }
   }

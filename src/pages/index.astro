@@ -4,21 +4,21 @@ import Shield from '../components/Shield.astro';
 import Reviews from '../components/Reviews.astro';
 
 const lessons = [
-  { name: "Guitar & Ukulele", icon: "guitar", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
-  { name: "Piano", icon: "piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
-  { name: "Violin", icon: "glyph", glyph: "𝄞", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
-  { name: "Drums & Percussion", icon: "drums", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
-  { name: "Brass", icon: "glyph", glyph: "♬", href: "/programs", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique." },
-  { name: "Kinder Music", icon: "school", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
+  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
+  { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
+  { name: "Violin", href: "/programs", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
+  { name: "Drums & Percussion", href: "/programs", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
+  { name: "Brass", href: "/programs", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique." },
+  { name: "Kinder Music", href: "/programs", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
 ];
 
-// Tabler outline icons (MIT licensed), inlined — no external dependency.
-const icons: Record<string, string> = {
-  guitar: '<path d="M16 18.5c2 -2.5 4 -6.5 4 -10.5c0 -2.946 -2.084 -4.157 -4.204 -4.654c-.864 -.23 -2.13 -.346 -3.796 -.346c-1.667 0 -2.932 .115 -3.796 .346c-2.12 .497 -4.204 1.708 -4.204 4.654c0 3.312 2 8 4 10.5c.297 .37 .618 .731 .963 1.081l.354 .347a3.9 3.9 0 0 0 5.364 0a14.05 14.05 0 0 0 1.319 -1.428"/>',
-  piano: '<path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"/><path d="M9 19v-6"/><path d="M8 5v8h2v-8"/><path d="M15 19v-6"/><path d="M14 5v8h2v-8"/>',
-  drums: '<path d="M3 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M13 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M9 17v-13h10v13"/><path d="M9 8h10"/>',
-  school: '<path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/>',
-};
+// Hero images — one is picked at random on each page load (see inline script in the hero).
+const heroImages = [
+  { src: "/images/hero.jpg", alt: "The Anthem Music studio in downtown McKinney — guitars, drums, and bright open windows" },
+  { src: "/images/teaching-kids.jpg", alt: "Dan Brady teaching a group of young students at Anthem Music" },
+  { src: "/images/recital.jpg", alt: "Anthem Music students and families at a studio recital" },
+  { src: "/images/studio-wide.jpg", alt: "Inside the Anthem Music studio — a warm, instrument-filled teaching space" },
+];
 
 const instructors = [
   { name: "Dan Brady", role: "Owner · Guitar & Piano", img: "/instructors/dan.jpg" },
@@ -34,7 +34,7 @@ const instructors = [
         <h1>Where musicians are <em>formed</em>,<br class="h1-break" /> not just taught.</h1>
         <p class="lead">Guitar, piano, violin, drums, and brass for all ages — rooted in craft, mentorship, and a genuine love of music. Serious about musicianship, warm enough for the whole family.</p>
         <div class="hero-actions">
-          <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
+          <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
           <a href="/#lessons" class="btn btn-outline">Explore Lessons</a>
         </div>
         <div class="hero-trust">
@@ -43,7 +43,19 @@ const instructors = [
         </div>
       </div>
       <div class="hero-image-wrap">
-        <img src="/images/hero.jpg" alt="The Anthem Music studio in downtown McKinney — guitars, drums, and bright open windows" width="1600" height="1200" />
+        <img id="heroImg" src="/images/hero.jpg" alt={heroImages[0].alt} width="1600" height="1200" />
+        <script is:inline define:vars={{ heroImages }}>
+          // Pick a random hero on each load. Runs during parse, immediately after the
+          // img tag, so the swap happens before the default src starts downloading.
+          (function () {
+            var pick = heroImages[Math.floor(Math.random() * heroImages.length)];
+            var img = document.getElementById("heroImg");
+            if (img && img.getAttribute("src") !== pick.src) {
+              img.src = pick.src;
+              img.alt = pick.alt;
+            }
+          })();
+        </script>
         <div class="hero-badge">
           <Shield size={28} color="var(--orange)" />
           <div>
@@ -65,13 +77,6 @@ const instructors = [
       <div class="lessons-grid">
         {lessons.map((l) => (
           <a href={l.href} class="lesson-card">
-            <span class="lesson-icon" aria-hidden="true">
-              {l.icon === "glyph" ? (
-                <span class="lesson-glyph">{l.glyph}</span>
-              ) : (
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" set:html={icons[l.icon]} />
-              )}
-            </span>
             <h3>{l.name}</h3>
             <p>{l.blurb}</p>
             <span class="lesson-link">Learn more →</span>
@@ -88,17 +93,20 @@ const instructors = [
       <div class="philosophy-copy">
         <span class="eyebrow">The Anthem Approach</span>
         <h2>We teach the <em>why</em>, not just the notes.</h2>
-        <p>Most programs hand a student a song, walk them through it note by note, and call it a lesson. The problem: that student can now play exactly one thing — usually not very well — and they're stuck the moment they step outside it.</p>
-        <p>We teach differently. As students move through copying, creating, and innovating, we teach the <em>why</em> behind every concept — why certain chords always show up together, why a scale pattern fits one moment and not the next, why the instrument is built the way it is. That understanding is the difference between memorizing music and actually playing it.</p>
-        <p>The goal isn't just to do music. It's to understand it well enough to play by ear, sit in with anyone, and make something your own. Learn to love music, and the playing takes care of itself.</p>
+        <blockquote class="founder-quote">
+          <p>&ldquo;When I first started playing, people would see me play a song and ask me to teach it to them — so I did. A week later, they knew one little riff, and it didn't sound good. I realized I wasn't teaching them music. I was skipping the framework, the timing, the patterns woven through every song. If they wanted to play the instrument — not just one tune — I had to teach them <em>why</em>.&rdquo;</p>
+          <cite>— Dan Brady, Owner</cite>
+        </blockquote>
+        <p>Most programs never leave the <em>copy</em> phase — learning songs note by note. Copying matters early; it's how mechanics and skills get built. But our foundational principle is teaching students to think, not copy: why certain chords keep showing up in the songs they're learning, what actually makes a chord or a scale, how music is put together. That's what lets a student write their own songs — and play along with anything, any time, by ear.</p>
+        <p>And the goal isn't just to copy or even to create. It's to get so good that they become the innovator in their circle — the one everyone else copies.</p>
         <a href="/about" class="btn btn-cream">Read Our Story</a>
       </div>
       <div class="philosophy-media">
         <img src="/images/teaching-kids.jpg" alt="Dan Brady teaching a group of young students at Anthem Music" loading="lazy" width="900" height="675" />
         <div class="philosophy-steps">
-          <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Master the mechanics and techniques that build real coordination.</p></div></div>
-          <div class="pstep"><span>02</span><div><strong>Create</strong><p>Learn the why behind the music — then use it to play what's your own.</p></div></div>
-          <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>With the fundamentals understood, making new music comes naturally.</p></div></div>
+          <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Build the mechanics — hands, timing, technique. Essential, but only the beginning.</p></div></div>
+          <div class="pstep"><span>02</span><div><strong>Create</strong><p>Understand the why — chords, scales, patterns — and start making music that's yours.</p></div></div>
+          <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Get so good that you're the one everyone else copies.</p></div></div>
         </div>
       </div>
     </div>
@@ -132,9 +140,9 @@ const instructors = [
     <div class="container cta-inner">
       <div>
         <h2>Ready to start?</h2>
-        <p>Book a lesson and we'll help you find the right instrument, the right instructor, and a clear plan to get going — no pressure, just a good first step.</p>
+        <p>Book a consultation and we'll help you find the right instrument, the right instructor, and a clear plan to get going — no pressure, just a good first step.</p>
       </div>
-      <a href="/schedule" class="btn btn-primary">Book a Lesson</a>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
     </div>
   </section>
 </Base>
@@ -163,9 +171,7 @@ const instructors = [
   .lessons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .lesson-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; transition: transform .2s, box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
   .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
-  .lesson-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--orange); display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
-  .lesson-glyph { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; color: var(--navy); line-height: 1; }
-  .lesson-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
+  .lesson-card h3 { color: var(--navy); margin-bottom: 0.6rem; padding-top: 0.2rem; border-top: 3px solid var(--orange); display: inline-block; align-self: flex-start; padding-right: 1.5rem; }
   .lesson-card p { color: var(--gray); font-size: 0.95rem; flex: 1; }
   .lesson-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; margin-top: 1rem; }
 
@@ -173,6 +179,9 @@ const instructors = [
   .philosophy-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .philosophy-copy p { color: var(--cream); opacity: 0.82; margin-bottom: 1.2rem; }
   .philosophy-copy p em { color: var(--orange); font-style: italic; }
+  .founder-quote { margin: 0 0 1.4rem; padding: 1.2rem 1.4rem; border-left: 3px solid var(--orange); background: var(--navy-light); border-radius: 0 12px 12px 0; }
+  .founder-quote p { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.6; opacity: 0.95; margin-bottom: 0.6rem; }
+  .founder-quote cite { color: var(--orange); font-style: normal; font-size: 0.88rem; font-weight: 600; }
   .philosophy-copy h2 { margin-bottom: 1.3rem; }
   .philosophy-media { display: flex; flex-direction: column; gap: 1.2rem; }
   .philosophy-media > img { border-radius: 14px; width: 100%; height: auto; object-fit: cover; box-shadow: 0 16px 40px rgba(0,0,0,.3); }

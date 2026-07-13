@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+
+const portalUrl = "https://app.mymusicstaff.com/Default.aspx";
+
+const canDo = [
+  { title: "View your lesson schedule", desc: "See upcoming lessons, times, and your instructor at a glance." },
+  { title: "Manage billing & invoices", desc: "View invoices, check your balance, and manage payment details." },
+  { title: "Track practice & progress", desc: "See lesson notes and practice assignments from your instructor." },
+  { title: "Update your information", desc: "Keep contact info and preferences current so we can reach you." },
+];
+---
+<Base
+  path="/student-login"
+  title="Student & Parent Login | Anthem Music McKinney"
+  description="Log in to the Anthem Music student portal to view your lesson schedule, invoices, practice notes, and account details."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Student &amp; Parent Portal</span>
+      <h1 class="center">Your lessons, all in one place</h1>
+      <p class="lead mx-auto center">Current families use the portal to check schedules, invoices, and practice notes. Log in below — or read on if it's your first time.</p>
+      <div class="center" style="margin-top:1.8rem;">
+        <a href={portalUrl} class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer">Log In to the Portal</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:2rem;">
+    <div class="container portal-grid">
+      <div class="portal-card">
+        <h2>First time logging in?</h2>
+        <ol class="steps">
+          <li><strong>Check your email.</strong> When you enrolled, our system (MyMusicStaff) sent an invitation to the email address you signed up with. It contains your login link.</li>
+          <li><strong>Can't find it?</strong> Search your inbox for &ldquo;MyMusicStaff&rdquo; — and check spam. Still nothing? Use the <em>Forgot Password</em> link on the login page with your signup email, or just text us and we'll resend the invite.</li>
+          <li><strong>Bookmark it.</strong> After your first login, the portal works on any device — phone, tablet, or computer.</li>
+        </ol>
+        <p class="portal-help">Locked out or something looks wrong? Call or text <a href="tel:+14695009863">(469) 500-9863</a> and we'll sort it out quickly.</p>
+      </div>
+      <div class="portal-card">
+        <h2>What you can do in the portal</h2>
+        <ul class="cando">
+          {canDo.map((c) => (
+            <li>
+              <strong>{c.title}</strong>
+              <p>{c.desc}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Not a student yet?</h2>
+        <p>Book a consultation and we'll help you find the right instrument, the right instructor, and a clear plan to get going.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2.5rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .btn-lg { padding: 0.85rem 2rem; font-size: 1.05rem; }
+
+  .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1000px; }
+  .portal-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; }
+  .portal-card h2 { font-size: 1.35rem; color: var(--navy); margin-bottom: 1.2rem; }
+
+  .steps { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.9rem; color: var(--gray); font-size: 0.96rem; line-height: 1.55; }
+  .steps strong { color: var(--navy); }
+  .portal-help { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--gray); font-size: 0.92rem; }
+
+  .cando { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+  .cando strong { color: var(--navy); display: block; margin-bottom: 0.15rem; }
+  .cando p { color: var(--gray); font-size: 0.92rem; margin: 0; }
+
+  .cta-band { background: var(--orange); padding: clamp(2.5rem, 5vw, 4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+
+  @media (max-width: 780px) { .portal-grid { grid-template-columns: 1fr; } }
+</style>
