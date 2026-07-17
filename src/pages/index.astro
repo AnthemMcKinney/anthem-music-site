@@ -4,17 +4,17 @@ import Shield from '../components/Shield.astro';
 import Reviews from '../components/Reviews.astro';
 
 const lessons = [
-  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines — guitar, bass, ukulele, and banjo for every age." },
+  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines - guitar, bass, ukulele, and banjo for every age." },
   { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
   { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
-  { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove — from first beats to full-kit control." },
-  { name: "Brass", href: "/brass-lessons", blurb: "Private lessons on trumpet, french horn, and tuba — anything with three valves. Build tone, range, and technique." },
+  { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove - from first beats to full-kit control." },
+  { name: "Brass", href: "/brass-lessons", blurb: "Private lessons on trumpet, french horn, and tuba - anything with three valves. Build tone, range, and technique." },
   { name: "Kinder Music", href: "/kinder-music", blurb: "Music core concepts for ages 2–6. Rhythm, listening, and joyful first exposure." },
 ];
 
-// Hero images — one is picked at random on each page load (see inline script in the hero).
+// Hero images - one is picked at random on each page load (see inline script in the hero).
 const heroImages = [
-  { src: "/images/hero.jpg", alt: "The Anthem Music studio in downtown McKinney — guitars, drums, and bright open windows" },
+  { src: "/images/hero.jpg", alt: "The Anthem Music studio in downtown McKinney - guitars, drums, and bright open windows" },
   { src: "/images/student-recital.jpg", alt: "A young Anthem Music student performing at the piano during a studio recital" },
   { src: "/images/kinder-circle.jpg", alt: "Dan Brady playing guitar with young children in a music class circle" },
   { src: "/images/christmas-recital.jpg", alt: "Dan Brady speaking to families gathered at an Anthem Music studio recital" },
@@ -32,7 +32,7 @@ const instructors = [
       <div class="hero-copy">
         <span class="eyebrow">Downtown McKinney · Music Lessons for All Ages</span>
         <h1>Where musicians are <em>formed</em>,<br class="h1-break" /> not just taught.</h1>
-        <p class="lead">Guitar, piano, violin, drums, and brass for all ages — rooted in craft, mentorship, and a genuine love of music. Serious about musicianship, warm enough for the whole family.</p>
+        <p class="lead">Guitar, piano, violin, drums, and brass for all ages - rooted in craft, mentorship, and a genuine love of music. Serious about musicianship, warm enough for the whole family.</p>
         <div class="hero-actions">
           <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
           <a href="/#lessons" class="btn btn-outline">Explore Lessons</a>
@@ -72,7 +72,7 @@ const instructors = [
       <div class="section-head">
         <span class="eyebrow">What We Teach</span>
         <h2>Lessons for every age and instrument</h2>
-        <p class="lead mx-auto center">Every student is met where they are. No rigid curriculum — instruction is built around each player's goals, pace, and the way they learn best.</p>
+        <p class="lead mx-auto center">Every student is met where they are. No rigid curriculum - instruction is built around each player's goals, pace, and the way they learn best.</p>
       </div>
       <div class="lessons-grid">
         {lessons.map((l) => (
@@ -94,19 +94,20 @@ const instructors = [
         <span class="eyebrow">The Anthem Approach</span>
         <h2>We teach the <em>why</em>, not just the notes.</h2>
         <blockquote class="founder-quote">
-          <p>&ldquo;When I first started playing, people would see me play a song and ask me to teach it to them — so I did. A week later, they knew one little riff, and it didn't sound good. I realized I wasn't teaching them music. I was skipping the framework, the timing, the patterns woven through every song. If they wanted to play the instrument — not just one tune — I had to teach them <em>why</em>.&rdquo;</p>
-          <cite>— Dan Brady, Owner</cite>
+          <p>&ldquo;When I first started playing, people would see me play a song and ask me to teach it to them - so I did. A week later, they knew one little riff, and it didn't sound good. I realized I wasn't teaching them music. I was skipping the framework, the timing, the patterns woven through every song. If they wanted to play the instrument - not just one tune - I had to teach them <em>why</em>.&rdquo;</p>
+          <cite>- Dan Brady, Owner</cite>
         </blockquote>
-        <p>Most programs never leave the <em>copy</em> phase — learning songs note by note. Copying matters early; it's how mechanics and skills get built. But our foundational principle is teaching students to think, not copy: why certain chords keep showing up in the songs they're learning, what actually makes a chord or a scale, how music is put together. That's what lets a student write their own songs — and play along with anything, any time, by ear.</p>
-        <p>And the goal isn't just to copy or even to create. It's to get so good that they become the innovator in their circle — the one everyone else copies.</p>
+        <p>Every musician starts by copying - it's how we all learn, and the players we copy were once innovators themselves. Copying builds the mechanics: hands, timing, vocabulary. But most programs stop there, teaching songs note by note, one at a time.</p>
+        <p>Our foundational principle is teaching students the <em>why</em> underneath: why certain chords keep showing up in the songs they're learning, what actually makes a chord or a scale, how music is put together. That's what turns copying into creating - writing their own songs, playing along with anything, any time, by ear.</p>
+        <p>And creating isn't the destination either. The circle closes when a student becomes the innovator - the one making something worth copying.</p>
         <a href="/about" class="btn btn-cream">Read Our Story</a>
       </div>
       <div class="philosophy-media">
         <img src="/images/teaching-kids.jpg" alt="Dan Brady teaching a group of young students at Anthem Music" loading="lazy" width="900" height="675" />
         <div class="philosophy-steps">
-          <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Build the mechanics — hands, timing, technique. Essential, but only the beginning.</p></div></div>
-          <div class="pstep"><span>02</span><div><strong>Create</strong><p>Understand the why — chords, scales, patterns — and start making music that's yours.</p></div></div>
-          <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Get so good that you're the one everyone else copies.</p></div></div>
+          <div class="pstep"><span>01</span><div><strong>Copy</strong><p>Learn from the players who came before you - build the mechanics, timing, and vocabulary.</p></div></div>
+          <div class="pstep"><span>02</span><div><strong>Create</strong><p>Understand the why - chords, scales, patterns - and use those tools to make music that's yours.</p></div></div>
+          <div class="pstep"><span>03</span><div><strong>Innovate</strong><p>Develop your own voice. Become the musician others learn from.</p></div></div>
         </div>
       </div>
     </div>
@@ -117,7 +118,7 @@ const instructors = [
       <div class="section-head">
         <span class="eyebrow">Our Team</span>
         <h2>Instructors who mentor, not just instruct</h2>
-        <p class="lead mx-auto center">Our teachers bring decades of combined experience across performance, classroom instruction, and real musicianship — and they genuinely care about the students they teach.</p>
+        <p class="lead mx-auto center">Our teachers bring decades of combined experience across performance, classroom instruction, and real musicianship - and they genuinely care about the students they teach.</p>
       </div>
       <div class="instructor-grid">
         {instructors.map((i) => (
@@ -140,7 +141,7 @@ const instructors = [
     <div class="container cta-inner">
       <div>
         <h2>Ready to start?</h2>
-        <p>Book a consultation and we'll help you find the right instrument, the right instructor, and a clear plan to get going — no pressure, just a good first step.</p>
+        <p>Book a consultation and we'll help you find the right instrument, the right instructor, and a clear plan to get going - no pressure, just a good first step.</p>
       </div>
       <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
     </div>
@@ -210,7 +211,7 @@ const instructors = [
     .instructor-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 860px) {
-    /* Hero stacks: copy on top, image below — clean on phones */
+    /* Hero stacks: copy on top, image below - clean on phones */
     .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .h1-break { display: none; }
     .hero-badge { left: auto; right: 16px; }

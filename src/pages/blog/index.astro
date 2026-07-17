@@ -7,8 +7,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 ---
 <Base
   path="/blog"
-  title="Blog | Anthem Music — McKinney, TX"
-  description="Notes on music, guitar, piano, and learning to play — from the team at Anthem Music in downtown McKinney."
+  title="Blog | Anthem Music - McKinney, TX"
+  description="Notes on music, guitar, piano, and learning to play - from the team at Anthem Music in downtown McKinney."
 >
   <section class="page-hero">
     <div class="container">
@@ -21,7 +21,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   <section class="section">
     <div class="container">
       {posts.length === 0 ? (
-        <p class="center" style="color:var(--gray);">Posts are on the way — check back soon.</p>
+        <p class="center" style="color:var(--gray);">Posts are on the way - check back soon.</p>
       ) : (
         <div class="post-grid">
           {posts.map((post) => (
