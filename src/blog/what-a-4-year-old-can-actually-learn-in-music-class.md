@@ -6,15 +6,15 @@ author: "Anthem Music"
 draft: false
 ---
 
-Let's get something out of the way: yes, we sit in a circle and sing Wheels on the Bus. Egg shakers make appearances. If you peeked into the first fifteen minutes of our Primary Music class, it would look a lot like every preschool music class you've ever seen.
+Let's get something out of the way: yes, we sing Wheels on the Bus. There are maracas and tambourines. And nobody sits still for long. Group time at our studio is kids singing, dancing, and playing freeze games while the instructor plays guitar. If you peeked into the first fifteen minutes of our Primary Music class, it would look a lot like every preschool music class you've ever seen.
 
-It's what happens after the song that makes our classes different.
+Look closer, though, and the songs aren't random. We work from a rotation of about 20 of them, each chosen to help build number and letter memorization, and they're the same songs the kids will eventually learn to play on the piano. That's the pattern with everything in these classes: it looks like play, and underneath it's a curriculum.
 
-## After circle time, they play real instruments
+## After group time, they play real instruments
 
 In our Primary Music class (ages 2-4), group time is followed by one-on-one instructor time, and each child picks a focus: pattern games, art, or an actual instrument. Not a toy version. The real thing.
 
-At the piano, we use picture music books with matching stickers on the keys, so a 3-year-old can find the right notes and play songs they actually recognize. There's something special about watching a kid that small realize the song coming out of the piano is one they know, and that they're the one playing it.
+At the piano, we use picture music books with matching stickers on the keys, so a 3-year-old can find the right notes and play the same songs we just sang together in group. There's something special about watching a kid that small realize the song coming out of the piano is one they know, and that they're the one playing it.
 
 At the drums, sure, there's plenty of banging. But we're working toward bang, bang, bang, bang while counting one, two, three, four, and repeating it. Then the instructor plays the same songs we sang in group while the child keeps the rhythm. Some kids lock right in. Others mostly just bang away, and that's fine too, because either way they're sitting at a professional instrument, learning how it works, building the physical mechanics. That beats waiting around until fourth grade, which is when most kids get their first real crack at an instrument in school.
 
