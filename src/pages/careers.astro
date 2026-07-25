@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Evergreen shell + swappable openings list. When needs change, edit this array only.
+const openings = [
+  { name: "Guitar & Ukulele", note: "Beginners through intermediate players - acoustic, electric, and uke." },
+  { name: "Piano", note: "Young beginners through advancing students. Classical foundation, modern application." },
+  { name: "Drums & Percussion", note: "First beats through full-kit control." },
+  { name: "Children's Music Classes", note: "Group classes for ages 2–6 in our Kinder Music program - rhythm, movement, and joyful first exposure." },
+];
+---
+<Base
+  path="/careers"
+  title="Teach at Anthem | Music Instructor Openings in McKinney, TX"
+  description="Anthem Music in downtown McKinney is growing and looking for contract music instructors - guitar, piano, drums, and early-childhood music. Teachers first, players second.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Careers</span>
+      <h1 class="center">Teach at Anthem</h1>
+      <p class="lead mx-auto center">Anthem is growing, and we're looking for instructors who love teaching as much as they love playing. If that's you - or someone you know - we'd love to talk.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>We're looking for teachers first</h2>
+      <p>Plenty of people can play. We're looking for the ones who can teach - people who enjoy working with kids and beginners, know how to make a lesson fun, and understand that great teaching goes beyond showing someone what notes to play.</p>
+      <p>At Anthem, we teach the mechanics of an instrument, but we also teach the <em>why</em> behind the music. We want students to understand what they're playing, build confidence, and become lifelong musicians - not just learn a handful of songs. Our students span all ages and all learning styles, including students who learn differently - patience and adaptability matter as much here as chops.</p>
+
+      <h2>Current needs</h2>
+      <div class="openings-list">
+        {openings.map((o) => (
+          <div class="opening">
+            <h3>{o.name}</h3>
+            <p>{o.note}</p>
+          </div>
+        ))}
+      </div>
+      <p>Our biggest needs are <strong>weekday afternoons and weekends</strong>. Instructors teach on a contract basis at our studio in downtown McKinney - scheduling, billing, and studio operations are handled for you, so your time goes into teaching.</p>
+      <p>Don't see your instrument? Reach out anyway. Anthem is growing, and we also keep a trusted network of teaching partners across the local music community - good teachers are always worth knowing.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Sound like you?</h2>
+        <p>Send us a note about your background, what you teach, and your availability. Know someone great? Pass this along.</p>
+      </div>
+      <a href="mailto:danbrady@anthemmusic.net?subject=Teaching%20at%20Anthem" class="btn btn-primary">Email Us</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .narrow { max-width: 760px; }
+  .narrow h2 { margin: 2.5rem 0 1rem; }
+  .narrow h2:first-child { margin-top: 0; }
+  .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .narrow p em { color: var(--orange); font-style: italic; }
+  .narrow p strong { color: var(--navy); }
+  .openings-list { display: flex; flex-direction: column; gap: 1rem; margin: 1.6rem 0; }
+  .opening { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.3rem 1.5rem; }
+  .opening h3 { color: var(--navy); font-size: 1.1rem; margin-bottom: 0.35rem; }
+  .opening p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+</style>
