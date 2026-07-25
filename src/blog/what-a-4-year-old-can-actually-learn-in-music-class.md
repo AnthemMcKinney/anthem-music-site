@@ -1,48 +1,43 @@
 ---
 title: "What a 4-Year-Old Can Actually Learn in Music Class"
-description: "Most early-childhood music programs are sing-alongs. Here's what our ages 2-6 classes in McKinney actually teach, and why it gives kids a real head start."
+description: "Yes, we sing Wheels on the Bus. Then your 3-year-old sits at a real drum kit and counts to four. Inside our music classes for ages 2-6 in McKinney."
 pubDate: 2026-07-25
 author: "Anthem Music"
 draft: false
 ---
 
-When parents hear "music class for preschoolers," most picture the same thing: a circle of kids shaking egg shakers while an adult sings The Wheels on the Bus. That's a perfectly nice way to spend a morning. It's also not what we do.
+Let's get something out of the way: yes, we sit in a circle and sing Wheels on the Bus. Egg shakers make appearances. If you peeked into the first fifteen minutes of our Primary Music class, it would look a lot like every preschool music class you've ever seen.
 
-Here's a question we think is more interesting: what is a 3- or 4-year-old actually capable of learning about music? The answer surprised even us when we built our early-childhood program, and it's a big part of why we run these classes the way we do.
+It's what happens after the song that makes our classes different.
 
-## More than they get credit for
+## After circle time, they play real instruments
 
-By the end of our 4-month course, most kids in our Kinder Music class (ages 4-6) can:
+In our Primary Music class (ages 2-4), group time is followed by one-on-one instructor time, and each child picks a focus: pattern games, art, or an actual instrument. Not a toy version. The real thing.
 
-- Identify and repeat rhythm patterns in 4/4 and 3/4 time
-- Identify all 12 notes in music
-- Read basic notation and play from the treble clef
-- Hear the difference between major and minor
-- Keep rhythm and play scales along with the instructor and other students
-- Recognize the patterns inside songs they already know and love
+At the piano, we use picture music books with matching stickers on the keys, so a 3-year-old can find the right notes and play songs they actually recognize. There's something special about watching a kid that small realize the song coming out of the piano is one they know, and that they're the one playing it.
 
-Read that list again and remember we're talking about kids who can't tie their shoes yet. None of this requires talent. It requires a real curriculum, small classes, and teaching that meets kids where they are.
+At the drums, sure, there's plenty of banging. But we're working toward bang, bang, bang, bang while counting one, two, three, four, and repeating it. Then the instructor plays the same songs we sang in group while the child keeps the rhythm. Some kids lock right in. Others mostly just bang away, and that's fine too, because either way they're sitting at a professional instrument, learning how it works, building the physical mechanics. That beats waiting around until fourth grade, which is when most kids get their first real crack at an instrument in school.
 
-## The trick: it still looks like play
+## The pattern games are secretly the point
 
-Here's the part we care most about. To the kids, none of this feels like a lesson. It's singing, dancing, instrument games, drawing, and pattern play. The structure lives underneath: each month moves through rhythm, then notes and scales, then patterns and sequencing, and everything gets applied through songs they recognize.
+Every class also includes matching, sequencing, and pattern recognition games. That might sound like filler between songs. It's the opposite.
 
-That's not an accident. We believe kids learn music the same way they learn language: through play, repetition, and patterns, long before anyone hands them a grammar book. Our job is to make sure the play is actually building something.
+Music is patterns. Rhythm is a pattern, scales are patterns, and every song your child loves is built from patterns stacked on top of each other. But it goes further than music: recognizing patterns, predicting what comes next, and finding a cadence is how musicians think, and honestly, it's how people solve problems everywhere. We're training little minds to notice structure. The instruments are how we make that training irresistible.
 
-## Why we bother with fundamentals this early
+## Ages 4-6: same idea, turned up
 
-Everything we teach at Anthem comes back to one idea: understanding why the music works, not just copying what the teacher does. That starts here.
+Our Kinder Music class (ages 4-6) runs on the same framework at a more advanced level. We bring in ukulele a lot with this group. Kids this age usually start gravitating toward a specific instrument, so we lean into that: they get small assignments, and we encourage parents to have an instrument at home to practice on.
 
-A child who comes out of these classes and later picks up piano, guitar, violin, or drums walks into their first lesson already understanding rhythm, recognizing notes, and hearing patterns. That's a head start most beginners never get, and it's the same framework our older students build on. The instrument changes. The fundamentals don't.
+By the end of the 4-month course, most of these kids can identify all 12 notes in music, read basic notation and play from the treble clef, hear the difference between major and minor, and keep rhythm playing alongside the instructor and other students. Kids who can't tie their shoes yet, reading music. They're capable of far more than they usually get credit for.
 
-## How the classes work
+## Why we start this early
 
-We run two classes, split by age. Primary Music (ages 2-4) pairs short group time with one-on-one instructor time, because two-year-olds and group instruction have a complicated relationship. Kinder Music (ages 4-6) is a 45-minute class for kids who may not be ready to commit to one instrument but are absolutely ready for real musical concepts.
+Here's the belief behind the whole program: waiting until a child is 8, 9, or 10 to start music wastes years when their brains are most wired for it. We've watched 4-year-olds play full songs. Parents who grew up around music know exactly what we mean, and usually wish someone had started them earlier too.
 
-Both classes are capped at four students. Not "small for a preschool program" small. Four. At that size, every child gets real attention every single class, and nobody gets lost in the shuffle. Tuition is $129 a month, and full details are on our [Kinder and Primary Music page](/kinder-music).
+A child who comes through these classes walks into their first piano, guitar, violin, or drum lesson already understanding rhythm, recognizing notes, and hearing patterns. The instrument changes. The fundamentals don't. That's the head start.
 
-## Is your child ready for this?
+## The details
 
-If your little one hums, taps on things, dances when music comes on, or asks about instruments, that curiosity is enough to start. You don't need to wait until they're "old enough for real lessons." This is real lessons, built for exactly where they are.
+Two classes, split by age: Primary Music (ages 2-4) and Kinder Music (ages 4-6). Both are capped at four students, so every child gets real attention every class. Tuition is $129 a month, and the full breakdown is on our [Kinder and Primary Music page](/kinder-music).
 
-Classes are small and we add new ones based on interest, so if this sounds like your child, [book a consultation](/schedule) or [reach out](/contact) and we'll find the right class and time. And if you're not sure whether your child is ready, we wrote about [how we think about readiness](/blog/is-my-child-ready-for-music-lessons/) too.
+If your little one hums, taps on everything, or dances when music comes on, that's enough to start. [Book a consultation](/schedule) or [reach out](/contact) and we'll find the right class for your child. Not sure they're ready? We wrote about [how we think about readiness](/blog/is-my-child-ready-for-music-lessons/) too.
