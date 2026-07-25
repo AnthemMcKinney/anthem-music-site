@@ -6,9 +6,9 @@ author: "Anthem Music"
 draft: false
 ---
 
-Let's get something out of the way: yes, we sing Wheels on the Bus. There are maracas and tambourines. And nobody sits still for long. Group time at our studio is kids singing, dancing, and playing freeze games while the instructor plays guitar. If you peeked into the first fifteen minutes of our Primary Music class, it would look a lot like every preschool music class you've ever seen.
+Let's get something out of the way: yes, we sing Wheels on the Bus and Head Shoulders Knees and Toes. There are maracas and tambourines. If you peeked into the first few minutes of our Primary or Kinder music class, it would look very similar to others - kids in a circle singing, clapping, banging or shaking something - but nobody sits still for long. Group time at our studio quickly transforms into movement. They're singing, marching, skipping, dancing, and playing music and listening games while the instructor sings and plays along. It would look a little chaotic, but there's a method to the crazy.
 
-Look closer, though, and the songs aren't random. We work from a rotation of about 20 of them, each chosen to help build number and letter memorization, and they're the same songs the kids will eventually learn to play on the piano. That's the pattern with everything in these classes: it looks like play, and underneath it's a curriculum.
+If you look closer, the songs aren't random. We work from a rotation of about 20 different children's songs, each chosen based on familiarity, and to help with number, letter, and pattern memorization. They also happen to be the same songs the kids will eventually learn to play on the piano, ukulele, drums, violin, and other instruments we have available. That's the pattern with everything in these classes: it looks like play, and underneath it's a curriculum.
 
 ## After group time, they play real instruments
 
