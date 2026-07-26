@@ -1,6 +1,6 @@
 ---
 title: "What a 4-Year-Old Can Actually Learn in Music Class"
-description: "Yes, we sing Wheels on the Bus. Then your 3-year-old sits at a real drum kit and counts to four. Inside our music classes for ages 2-6 in McKinney."
+description: "Yes, we sing Wheels on the Bus. Then your 4-year-old sits at a real drum kit and counts to four. Inside our music classes for ages 2-6 in McKinney."
 pubDate: 2026-07-25
 author: "Anthem Music"
 draft: false
