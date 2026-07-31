@@ -41,6 +41,14 @@ const canonical = site + path;
     "@context": "https://schema.org",
     "@type": "MusicSchool",
     "name": "Anthem Music LLC",
+    // alternateName + sameAs tie this site to the Google Business Profile and social
+    // accounts, which helps Google treat them as one entity.
+    "alternateName": ["Anthem Music", "Anthem Music Studios"],
+    "sameAs": [
+      "https://www.facebook.com/anthemmusicstudios",
+      "https://www.instagram.com/anthemmusicstudios/",
+      "https://www.youtube.com/@anthemmusic4228"
+    ],
     "description": description,
     "url": site,
     "telephone": "+1-469-500-9863",
