@@ -82,6 +82,15 @@ const instructors = [
             <span class="lesson-link">Learn more →</span>
           </a>
         ))}
+        {/* Full-width card: homeschool is an audience, not an instrument, so it
+            spans the grid rather than sitting as a stranded 7th tile. */}
+        <a href="/homeschool-music-lessons" class="lesson-card lesson-card-wide">
+          <div>
+            <h3>Homeschool Music</h3>
+            <p>Daytime lessons and group classes for homeschool families, every day of the week. Most families book between 9:00 a.m. and 3:00 p.m. - and we document hours for high school fine arts credit.</p>
+          </div>
+          <span class="lesson-link">Learn more →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -172,6 +181,21 @@ const instructors = [
   .lessons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .lesson-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; transition: transform .2s, box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
   .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
+  /* Spans all columns beneath the instrument cards; cream fill sets it apart
+     as an audience card without competing with the orange CTAs. */
+  .lesson-card-wide {
+    grid-column: 1 / -1;
+    background: var(--cream-soft);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .lesson-card-wide p { max-width: 68ch; margin-bottom: 0; }
+  .lesson-card-wide .lesson-link { margin-top: 0; white-space: nowrap; }
+  @media (max-width: 700px) {
+    .lesson-card-wide { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  }
   .lesson-card h3 { color: var(--navy); margin-bottom: 0.6rem; padding-top: 0.2rem; border-top: 3px solid var(--orange); display: inline-block; align-self: flex-start; padding-right: 1.5rem; }
   .lesson-card p { color: var(--gray); font-size: 0.95rem; flex: 1; }
   .lesson-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; margin-top: 1rem; }
