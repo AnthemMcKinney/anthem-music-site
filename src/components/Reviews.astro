@@ -63,6 +63,7 @@ const featured = reviews.filter((r) => r.specialNeeds);
           <span class="eyebrow" style="justify-content:center;">Every Learner Welcome</span>
           <h3>Adaptive &amp; special-needs instruction</h3>
           <p>Every student learns differently — and some need a teacher willing to adapt the lesson to them, not the other way around. These families' words mean the most to us:</p>
+          <p style="margin-top:0.5rem;"><a href="/adaptive-music-lessons" class="featured-link">How adaptive lessons work at Anthem →</a></p>
         </div>
         <div class="review-grid featured-grid">
           {featured.map((r) => (
@@ -120,6 +121,7 @@ const featured = reviews.filter((r) => r.specialNeeds);
   .featured-block { margin-top: 3rem; }
   .featured-head { margin-bottom: 1.8rem; }
   .featured-head p { color: var(--gray); max-width: 56ch; margin: 0.6rem auto 0; }
+  .featured-link { color: var(--orange); font-weight: 600; font-size: 0.95rem; }
   /* 2 featured reviews = 2-up, centered and slightly wider cards */
   .featured-grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto; }
   .review-card.featured { background: var(--navy); border-color: var(--navy-light); }

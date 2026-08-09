@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro';
+
+const adaptations = [
+  { name: "Pacing built around the student", note: "Shorter lessons, breaks partway through, and material repeated as long as it takes. There's no timeline a student is behind on." },
+  { name: "Parents welcome in the room", note: "Sit in for the whole lesson, part of it, or none of it. You know your child best, and some students do better with you there." },
+  { name: "A sensory-aware studio", note: "Volume, lighting, and stimulation kept in check. Same room, same instructor, same routine each week, so the lesson is predictable." },
+  { name: "Recitals are optional", note: "Performing is encouraged, never required. Some students play for family only, some record at home instead, some take the stage when they're ready." },
+];
+
+const faqs = [
+  {
+    q: "Do you work with students on the autism spectrum?",
+    a: "Yes. We teach autistic students, students with ADHD, Down syndrome, sensory sensitivities, and a range of other learning differences. Our approach is to adapt the lesson to the student rather than asking the student to adapt to a standard lesson format.",
+  },
+  {
+    q: "Is this music therapy?",
+    a: "No, and we're careful about that distinction. Music therapy is a board-certified clinical profession with non-musical treatment goals. What we do is music instruction - the goal is learning to play - taught by instructors who adapt how they teach. If music therapy is what your family needs, tell us and we'll help you find a certified therapist.",
+  },
+  {
+    q: "What if my child can't sit still for a full lesson?",
+    a: "That's common and it's not a problem. We use shorter working stretches, movement breaks, and instruments the student can physically engage with. Some students build up to a full lesson over months; others never need to, and still make real progress.",
+  },
+  {
+    q: "Can I stay in the room during lessons?",
+    a: "Absolutely. Some parents stay every week, some step out after the first few lessons, some are in the lobby from day one. All of those are normal here.",
+  },
+  {
+    q: "What if my child doesn't make progress the way other students do?",
+    a: "Progress looks different for every student, and we measure it against where that student started - not against a curriculum schedule. Sitting at a real instrument, building physical mechanics, and staying engaged week to week is progress.",
+  },
+  {
+    q: "What instruments work best for students who learn differently?",
+    a: "It depends entirely on the student, which is what the consultation is for. Drums and ukulele are often good starting points because they give immediate feedback and are physically forgiving, but we've had students thrive on piano, guitar, and violin. Sometimes the right instrument isn't the one the family expected.",
+  },
+];
+---
+<Base
+  path="/adaptive-music-lessons"
+  title="Adaptive & Special-Needs Music Lessons in McKinney, TX | Anthem Music"
+  description="Adaptive music lessons in downtown McKinney for autistic students, students with ADHD, and kids who learn differently. Flexible pacing, sensory-aware studio, parents welcome. Music instruction, not therapy.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Every Learner Welcome</span>
+      <h1 class="center">Adaptive music lessons in McKinney</h1>
+      <p class="lead mx-auto center">Music lessons for students who learn differently - built around how your child actually learns, at the pace they actually move.</p>
+      <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>We adapt the lesson, not the student</h2>
+      <p>Most music instruction has one shape, and a student either fits it or gets labeled as not ready. We think that's backwards. Every student learns differently, and some need a teacher willing to rebuild the lesson around them - the pace, the order, the way something gets explained, how long any of it takes.</p>
+      <p>We teach autistic students, students with ADHD and Down syndrome, students with sensory sensitivities, and students whose learning differences don't come with a label at all. What they get here is a <strong>music curriculum</strong> - real instruments, real skills, real songs - taught by instructors who adjust how they deliver it.</p>
+      <p>That distinction matters: this is <strong>music instruction, not music therapy</strong>. Music therapy is a board-certified clinical profession with non-musical treatment goals, and we don't claim it. Our goal is that your child learns to play. If therapy is what your family is looking for, tell us and we'll help you find a certified music therapist - we'd rather point you to the right person than keep you in the wrong seat.</p>
+
+      <h2>What we actually change</h2>
+      <div class="adapt-list">
+        {adaptations.map((a) => (
+          <div class="adapt">
+            <h3>{a.name}</h3>
+            <p>{a.note}</p>
+          </div>
+        ))}
+      </div>
+      <p>Everything starts with a consultation. Tell us what your child responds to, what tends to derail a lesson, what's worked and what hasn't with other teachers. We'd rather know all of it up front than discover it in week three.</p>
+
+      <h2>What families have said</h2>
+      <figure class="pull-review">
+        <blockquote>&ldquo;Our adult son began taking guitar lessons with Dan back in early 2025. Dan is patient with him as our son is on the autism spectrum. He doesn't feel rushed and can progress at his own pace. Dan recognized he would be better suited to play the ukulele which he has really enjoyed. Dan encouraged him to participate in the Spring Recital where he did an awesome job!&rdquo;</blockquote>
+        <figcaption>Yoli Dederichs &middot; Google Review</figcaption>
+      </figure>
+      <figure class="pull-review">
+        <blockquote>&ldquo;My kids absolutely adore Mr. Dan. He takes such a creative, student-focused approach and will truly meet your child where they are. My son has thrived with his flexible and encouraging teaching style. We're so grateful for the patience, kindness, and genuine care that has been shown to us. They are welcoming to all learning styles and it is a great place to watch your children grow their musical talents.&rdquo;</blockquote>
+        <figcaption>Aly C. &middot; Google Review</figcaption>
+      </figure>
+
+      <h2>If cost is a barrier</h2>
+      <p>Families come to us in a lot of different circumstances, and we'd rather have the conversation than lose a student who wants to play. If the tuition is the thing standing in the way, tell us during the consultation and we'll see what we can work out.</p>
+
+      <h2>Common questions</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Let's talk about your student</h2>
+        <p>Book a consultation and tell us what your child needs. No pressure, no assumptions - just a conversation about what might work.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .narrow { max-width: 760px; }
+  .narrow h2 { margin: 2.5rem 0 1rem; }
+  .narrow h2:first-child { margin-top: 0; }
+  .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .narrow p strong { color: var(--navy); }
+  .narrow a { color: var(--orange); font-weight: 500; }
+  .adapt-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.6rem 0; }
+  .adapt { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.3rem 1.5rem; }
+  .adapt h3 { color: var(--navy); font-size: 1.05rem; margin-bottom: 0.35rem; }
+  .adapt p { color: var(--gray); font-size: 0.94rem; margin: 0; }
+  .pull-review { margin: 0 0 1.4rem; padding: 1.2rem 1.4rem; border-left: 3px solid var(--orange); background: var(--cream-soft); border-radius: 0 12px 12px 0; }
+  .pull-review blockquote { margin: 0; color: var(--navy); font-family: var(--font-display); font-size: 1rem; line-height: 1.55; }
+  .pull-review figcaption { color: var(--gray-light); font-size: 0.8rem; font-weight: 500; margin-top: 0.7rem; }
+  .faq-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1.6rem 0; }
+  .faq-item { background: var(--cream-soft); border-radius: 12px; padding: 1.1rem 1.4rem; }
+  .faq-item summary { color: var(--navy); font-weight: 600; cursor: pointer; font-size: 1rem; }
+  .faq-item p { color: var(--gray); font-size: 0.95rem; margin: 0.8rem 0 0; }
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+  @media (max-width: 700px) { .adapt-list { grid-template-columns: 1fr; } }
+</style>
