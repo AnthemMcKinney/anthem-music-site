@@ -42,7 +42,7 @@ We'd tell her that her instinct was right, and that the question isn't whether h
 
 And that's not a question we answer from a chart. We answer it by meeting the child. A consultation gives us time to hear what a parent already knows about their own kid, watch how their child responds to an instrument and to us, and figure out together what setup would serve them best.
 
-For most kids this age, that's a small group class built for how they learn, with real instruments in their hands and games doing the heavy lifting. That's why our early childhood classes are split into [Primary Music for ages 2-4 and Kinder Music for ages 4-6](/kinder-music), each capped at four students. A 3-year-old and a 6-year-old need different rooms.
+For most kids this age, that's a small group class built for how they learn, with real instruments in their hands and games doing the heavy lifting. That's why our early childhood classes are split into [PreK Music for ages 2-4 and Kinder Music for ages 4-6](/kinder-music), each capped at four students. A 3-year-old and a 6-year-old need different rooms.
 
 For some kids, custom private lessons are the better fit. That lets us focus on a child's specific learning style and needs. We don't use the typical 10-year-old format either. These lessons tend to bounce around on purpose: sometimes it's piano, sometimes ukulele, then maybe drums. We incorporate other instruments for an extremely valuable reason. They all work together to build an incredible musical foundation, teaching notes, scales, chords, and rhythm with hands-on experience. Sometimes we're working on songs the child picked, sometimes on timeless classics.
 

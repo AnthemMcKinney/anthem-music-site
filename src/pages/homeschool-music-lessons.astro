@@ -1,33 +1,56 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const daytime = [
-  { name: "Piano", note: "Private lessons, young beginners through advancing students." },
-  { name: "Guitar & Ukulele", note: "Private lessons - acoustic, electric, ukulele, bass, and banjo." },
-  { name: "Drums & Percussion", note: "Private lessons - timing, technique, and full-kit control." },
-  { name: "Music Fundamentals", note: "Notation, rhythm, ear training, and theory - the enrichment piece that makes every instrument easier." },
+// Two age bands, two sections each per week (four class times total). Times are set
+// each semester - edit here when the schedule is confirmed.
+const sections = [
+  {
+    name: "Foundations",
+    ages: "Ages 6-9",
+    desc: "First real music class for younger students. Rhythm and meter, reading notation, the keyboard as a map of how music works, and playing together as a group. Students rotate through instruments rather than committing to one.",
+  },
+  {
+    name: "Musicianship",
+    ages: "Ages 10-14",
+    desc: "For older students ready for the real framework: keys and scales, chord construction, ear training, and playing along with other musicians. The theory is taught through playing, not worksheets.",
+  },
+];
+
+const included = [
+  { name: "45-minute weekly class", note: "One class per week through the semester, in the studio, on real instruments - not a lecture and not a sing-along." },
+  { name: "Daytime, not evenings", note: "Classes run during the school day, so music fits into your week instead of competing with dinner and everything else." },
+  { name: "Small by design", note: "Classes stay small enough that every student plays every week and nobody hides in the back." },
+  { name: "Semester enrollment", note: "Fall and spring semesters, so you can plan music the same way you plan the rest of the year." },
 ];
 
 const faqs = [
   {
-    q: "Do you teach during the school day?",
-    a: "Yes. Most of our homeschool families schedule lessons between 9:00 a.m. and 3:00 p.m., which keeps evenings free for sports, church, and family time. We teach homeschool students every day of the week, in both group classes and one-on-one lessons, so daytime hours are a normal part of how the studio runs rather than an exception we squeeze in.",
+    q: "Is this a class or private lessons?",
+    a: "It's a real class. Students learn together in a group, on a curriculum that builds across the semester, the way a music class at a school would run - except it's in a working studio on real instruments. Private one-on-one lessons are a separate offering, and plenty of families do both.",
+  },
+  {
+    q: "How much does it cost?",
+    a: "The Homeschool Music Class is $109 per student per month, with 15% off each additional child. Two siblings come to about $202 a month total, three to about $294. Enrollment runs by semester.",
+  },
+  {
+    q: "What if my child wants to focus on one instrument?",
+    a: "Then private lessons are the better fit, and we teach those during the day too. Many students start in the class, discover the instrument that grabs them, and add a private lesson later. The class is the foundation; private lessons are the deep dive.",
+  },
+  {
+    q: "Do we need an instrument at home?",
+    a: "Not to start. Everything happens on studio instruments during class. Once a student gravitates toward something specific, having that instrument at home makes a real difference, and we'll help you figure out what to buy without overspending.",
   },
   {
     q: "Can music count toward a high school fine arts credit?",
-    a: "Yes. We're happy to document lesson hours, repertoire, and progress so a parent can record fine arts credit on a transcript. Just let us know at the start of the year and we'll keep records as we go.",
+    a: "Yes. We're happy to document class hours, repertoire, and skills covered so a parent can record fine arts credit on a transcript. Tell us at the start of the year and we'll keep the records as we go.",
   },
   {
     q: "Is your instruction religious or secular?",
     a: "Secular. There's no statement of faith to sign and no religious curriculum. Students are welcome to bring in worship music or any other repertoire they want to learn - we teach the music our students care about.",
   },
   {
-    q: "Do you offer group classes, or only private lessons?",
-    a: "Both. Our Primary Music (ages 2-4) and Kinder Music (ages 4-6) group classes are capped at four students. Older students typically take one-on-one lessons, and we can often arrange sibling or small-group instruction - ask us.",
-  },
-  {
     q: "Can I drop my student off, or should I stay?",
-    a: "Either. Some parents use the lesson hour to run errands or work with another child at the studio; others stay and watch. Both are completely normal here, and neither one makes you the odd family out.",
+    a: "Either. Some parents use the class hour to run errands or work with another child; others stay in the studio. Both are completely normal here.",
   },
   {
     q: "Can you help our co-op or school start a music program?",
@@ -41,40 +64,64 @@ const faqs = [
 ---
 <Base
   path="/homeschool-music-lessons"
-  title="Homeschool Music Lessons in McKinney, TX | Anthem Music"
-  description="Daytime music lessons and classes for homeschool families in downtown McKinney. Piano, guitar, ukulele, drums, and music fundamentals - Pre-K through high school, secular, with fine arts credit documentation available.">
+  title="Homeschool Music Classes in McKinney, TX | Anthem Music"
+  description="A real daytime music class for homeschool students in downtown McKinney. 45 minutes weekly, semester enrollment, $109/month with sibling discounts. Ages 6-14, secular, fine arts credit documentation available.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">For Homeschool Families</span>
-      <h1 class="center">Homeschool music lessons in McKinney</h1>
-      <p class="lead mx-auto center">Daytime lessons and group classes built around your schedule - not squeezed into the after-school rush. Pre-K through high school, in downtown McKinney.</p>
+      <h1 class="center">Homeschool music classes in McKinney</h1>
+      <p class="lead mx-auto center">A real music class that fits your school day - taught in a working studio, on real instruments, with a curriculum that builds across the semester.</p>
       <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
     </div>
   </section>
 
   <section class="section">
     <div class="container narrow">
-      <h2>Music that fits the homeschool day</h2>
-      <p>Homeschool families have been part of Anthem Music from the very beginning. We teach homeschool students every day of the week, with daytime lessons and group classes built to fit your family's schedule - not the traditional school day.</p>
-      <p>Most families book between 9:00 a.m. and 3:00 p.m., which keeps evenings open for sports, church, and everything else.</p>
-      <p>Instruction here is <strong>enrichment</strong>: supplemental, interest-based, and built around each student's goals rather than a rigid grade-level curriculum. A student who wants to read notation fluently and a student who wants to play the songs they love both belong here - we just teach them differently.</p>
+      <h2>A class, not lessons with a label on them</h2>
+      <p>Plenty of studios will sell you a private lesson at 10am and call it a homeschool program. This isn't that. The Homeschool Music Class is a group class with its own curriculum, its own semester arc, and its own reason to exist: students learning music together, the way a school music class would work if the school had a real studio and professional instruments.</p>
+      <p>Homeschool families have been part of Anthem from the beginning, and this is the program we built for them. It slots into your week as an enrichment block - one 45-minute class, during the day, on a schedule you can plan a semester around.</p>
 
-      <h2>Daytime offerings</h2>
-      <div class="offer-list">
-        {daytime.map((d) => (
-          <div class="offer">
-            <h3>{d.name}</h3>
-            <p>{d.note}</p>
+      <div class="incl-list">
+        {included.map((i) => (
+          <div class="incl">
+            <h3>{i.name}</h3>
+            <p>{i.note}</p>
           </div>
         ))}
       </div>
-      <p>We also teach violin, flute, and brass (trumpet, French horn, tuba) - ask about current availability. <strong>Coming soon:</strong> cello. And if we can't cover an instrument ourselves, we'll point you to someone in our referral network who can.</p>
 
-      <h2>Group classes for your youngest</h2>
-      <p>Our early-childhood program runs in two levels - <strong>Primary Music (ages 2-4)</strong> and <strong>Kinder Music (ages 4-6)</strong> - capped at four students per class so every child gets real attention. Group time covers rhythm, movement, listening games, and pattern recognition, then each child works one-on-one with an instructor at a real instrument. Tuition is $129 a month. Full details are on our <a href="/kinder-music">Kinder &amp; Primary Music page</a>, and we wrote about <a href="/blog/what-a-4-year-old-can-actually-learn-in-music-class/">what these classes actually look like</a> if you want to see inside one.</p>
+      <h2>Two age groups</h2>
+      <p>We run four class sections each week - two for younger students, two for older - so students learn alongside kids at a similar stage. Current semester times are confirmed at enrollment; book a consultation and we'll place your student in the right section.</p>
+      <div class="section-grid">
+        {sections.map((s) => (
+          <div class="sec-card">
+            <span class="sec-ages">{s.ages}</span>
+            <h3>{s.name}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2>What it costs</h2>
+      <div class="price-box">
+        <div class="price-head">
+          <span class="price-num">$109</span>
+          <span class="price-unit">per student / month</span>
+        </div>
+        <p class="price-note">15% off each additional child &middot; semester enrollment</p>
+        <ul class="price-family">
+          <li><strong>One student</strong><span>$109/mo</span></li>
+          <li><strong>Two siblings</strong><span>about $202/mo</span></li>
+          <li><strong>Three siblings</strong><span>about $294/mo</span></li>
+        </ul>
+      </div>
+      <p>We priced this to sit alongside your other activities rather than replace them. Homeschool families often run two, three, or four kids deep, and music shouldn't be the thing that gets cut because the per-child math stopped working.</p>
+
+      <h2>Want to go deeper on one instrument?</h2>
+      <p>The class is the foundation. For students who find their instrument and want to chase it, we teach private one-on-one lessons during daytime hours as well - piano, guitar, ukulele, drums, violin, brass, and flute. Many families do both: the class for musicianship and playing with others, a private lesson for depth. Ask about private rates during your consultation.</p>
 
       <h2>Fine arts credit for high schoolers</h2>
-      <p>If your student needs a fine arts credit, we're happy to help you document it. We'll track lesson hours, repertoire, and skills covered over the year, and provide a summary you can use for your transcript records. Tell us at the start and we'll keep the records as we go - no reconstructing a year of lessons in May.</p>
+      <p>If your student needs a fine arts credit, we're happy to help you document it. We'll track hours, repertoire, and skills covered over the year and provide a summary you can use for your transcript records. Tell us at the start and we'll keep the records as we go - no reconstructing a year of music in May.</p>
 
       <h2>Music programs for co-ops &amp; private schools</h2>
       <p>Before Anthem had a storefront, our founder spent a couple of years building and teaching music programs on-site at private schools - designing each one from scratch, then showing up every week to teach it. Every program was different: different ages, different schedules, different goals. That's still how we approach it.</p>
@@ -93,7 +140,6 @@ const faqs = [
     </div>
   </section>
 
-  <!-- FAQ structured data - lets Google surface these Q&As directly in search results -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -108,7 +154,7 @@ const faqs = [
     <div class="container cta-inner">
       <div>
         <h2>Let's find your family's spot</h2>
-        <p>Music is one of the few subjects children pursue simply because they love it - and those are usually the lessons that stay with them for life. Book a consultation and we'll talk through instruments, daytime scheduling, and what fits your student best.</p>
+        <p>Music is one of the few subjects children pursue simply because they love it - and those are usually the lessons that stay with them for life. Book a consultation and we'll talk through class times, age groups, and what fits your family.</p>
       </div>
       <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
     </div>
@@ -124,19 +170,41 @@ const faqs = [
   .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
   .narrow p strong { color: var(--navy); }
   .narrow a { color: var(--orange); font-weight: 500; }
-  .offer-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.6rem 0; }
-  .offer { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.3rem 1.5rem; }
-  .offer h3 { color: var(--navy); font-size: 1.08rem; margin-bottom: 0.35rem; }
-  .offer p { color: var(--gray); font-size: 0.94rem; margin: 0; }
+
+  .incl-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.8rem 0; }
+  .incl { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.3rem 1.5rem; }
+  .incl h3 { color: var(--navy); font-size: 1.05rem; margin-bottom: 0.35rem; }
+  .incl p { color: var(--gray); font-size: 0.94rem; margin: 0; }
+
+  .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.8rem 0; }
+  .sec-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.7rem; }
+  .sec-ages { color: var(--orange); font-weight: 700; font-size: 0.86rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .sec-card h3 { color: var(--navy); font-size: 1.25rem; margin: 0.4rem 0 0.7rem; }
+  .sec-card p { color: var(--gray); font-size: 0.94rem; margin: 0; }
+
+  .price-box { background: var(--navy); border-radius: 14px; padding: 1.9rem 2rem; margin: 1.8rem 0; }
+  .price-head { display: flex; align-items: baseline; gap: 0.7rem; }
+  .price-num { font-family: var(--font-display); font-size: 2.6rem; font-weight: 600; color: var(--cream); line-height: 1; }
+  .price-unit { color: var(--gray-light); font-size: 0.95rem; }
+  .price-note { color: var(--orange); font-weight: 600; font-size: 0.92rem; margin: 0.7rem 0 0; }
+  .price-family { list-style: none; margin: 1.3rem 0 0; padding: 1.2rem 0 0; border-top: 1px solid var(--navy-light); display: flex; flex-direction: column; gap: 0.6rem; }
+  .price-family li { display: flex; justify-content: space-between; gap: 1rem; }
+  .price-family strong { color: var(--cream); font-weight: 500; font-size: 0.96rem; }
+  .price-family span { color: var(--gray-light); font-size: 0.96rem; }
+
   .faq-list { display: flex; flex-direction: column; gap: 0.7rem; margin: 1.6rem 0; }
   .faq-item { background: var(--cream-soft); border-radius: 12px; padding: 1.1rem 1.4rem; }
   .faq-item summary { color: var(--navy); font-weight: 600; cursor: pointer; font-size: 1rem; }
   .faq-item p { color: var(--gray); font-size: 0.95rem; margin: 0.8rem 0 0; }
+
   .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
   .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
   .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
-  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 52ch; }
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
-  @media (max-width: 700px) { .offer-list { grid-template-columns: 1fr; } }
+
+  @media (max-width: 700px) {
+    .incl-list, .section-grid { grid-template-columns: 1fr; }
+  }
 </style>

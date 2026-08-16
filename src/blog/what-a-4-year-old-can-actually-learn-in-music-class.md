@@ -6,13 +6,13 @@ author: "Anthem Music"
 draft: false
 ---
 
-Let's get something out of the way: yes, we sing Wheels on the Bus and Head Shoulders Knees and Toes. There are maracas and tambourines. If you peeked into the first few minutes of our Primary or Kinder music class, it would look very similar to others - kids in a circle singing, clapping, banging or shaking something - but nobody sits still for long. Group time at our studio quickly transforms into movement. They're singing, marching, skipping, dancing, and playing music and listening games while the instructor sings and plays along. It would look a little chaotic, but there's a method to the crazy.
+Let's get something out of the way: yes, we sing Wheels on the Bus and Head Shoulders Knees and Toes. There are maracas and tambourines. If you peeked into the first few minutes of our PreK or Kinder music class, it would look very similar to others - kids in a circle singing, clapping, banging or shaking something - but nobody sits still for long. Group time at our studio quickly transforms into movement. They're singing, marching, skipping, dancing, and playing music and listening games while the instructor sings and plays along. It would look a little chaotic, but there's a method to the crazy.
 
 If you look closer, the songs aren't random. We work from a rotation of about 20 different children's songs, each chosen based on familiarity, and to help with number, letter, and pattern memorization. They also happen to be the same songs the kids will eventually learn to play on the piano, ukulele, drums, violin, and other instruments we have available. That's the pattern with everything in these classes: it looks like play, and underneath it's a curriculum.
 
 ## After group time, they play real instruments
 
-In our Primary Music class (ages 2-4), group time is followed by one-on-one instructor time, and each child picks a focus: pattern games, art, or an actual instrument. Not a toy version. The real thing.
+In our PreK Music class (ages 2-4), group time is followed by one-on-one instructor time, and each child picks a focus: pattern games, art, or an actual instrument. Not a toy version. The real thing.
 
 At the piano, we use picture music books with matching stickers on the keys, so a 3-year-old can find the right notes and play the same songs we just sang together in group. There's something special about watching a kid that small realize the song coming out of the piano is one they know, and that they're the one playing it.
 
@@ -38,6 +38,6 @@ A child who comes through these classes walks into their first piano, guitar, vi
 
 ## The details
 
-Two classes, split by age: Primary Music (ages 2-4) and Kinder Music (ages 4-6). Both are capped at four students, so every child gets real attention every class. Tuition is $129 a month, and the full breakdown is on our [Kinder and Primary Music page](/kinder-music).
+Two classes, split by age: PreK Music (ages 2-4) and Kinder Music (ages 4-6). Both are capped at four students, so every child gets real attention every class. Tuition is $129 a month, and the full breakdown is on our [Kinder and PreK Music page](/kinder-music).
 
 If your little one hums, taps on everything, or dances when music comes on, that's enough to start. [Book a consultation](/schedule) or [reach out](/contact) and we'll find the right class for your child. Not sure they're ready? We wrote about [how we think about readiness](/blog/is-my-child-ready-for-music-lessons/) too.

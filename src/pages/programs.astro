@@ -1,40 +1,133 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Grid = instruments/programs we teach directly (brass included - Dan teaches
-// valved brass privately). Ensemble/large-group PLAY is handled in the referral
-// section below, framed as our open-door "we'll find you the right fit" approach.
-const programs = [
-  { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players. Christine Dao builds solid fundamentals with patience and care." },
-  { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove - from a student's first beats to full-kit control. Learn to lock in and play with feel." },
-  { name: "Brass", href: "/brass-lessons", blurb: "Private lessons on trumpet, french horn, and tuba - anything with three valves. Build tone, range, and technique one-on-one, whether you play for yourself or want a foundation for ensemble work." },
-  { name: "Kinder Music", href: "/kinder-music", blurb: "Two levels: Primary (ages 2–4) and Kinder (ages 4–6), capped at 4 students. Joyful first exposure that sets the foundation for a lifetime of music." },
-  { name: "Songwriting & Production", blurb: "For students ready to create their own music - songwriting, arrangement, and an introduction to DAW-based production." },
-  { name: "Homeschool Music", href: "/homeschool-music-lessons", blurb: "Daytime lessons and group classes for homeschool families, every day of the week. Secular instruction, Pre-K through high school, with fine arts credit documentation available." },
-  { name: "Adaptive Lessons", href: "/adaptive-music-lessons", blurb: "Music instruction for students who learn differently - flexible pacing, a sensory-aware studio, and lessons built around how your child actually learns." },
+// Programs hub. Three buckets: 1:1 private (premium, price on consultation),
+// group classes (published prices - value is the pitch), and specialized programs.
+// Structured so future Anthem divisions (studio, gear, events) can slot in as
+// their own sections or pages without rebuilding this one.
+const privateLessons = [
+  { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "Acoustic, electric, bass, and banjo. From first chords to lead playing, on a workbook refined over hundreds of students." },
+  { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
+  { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
+  { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove - from first beats to full-kit control." },
+  { name: "Brass", href: "/brass-lessons", blurb: "Trumpet, French horn, and tuba. Build tone, range, and technique one-on-one." },
+  { name: "Flute", blurb: "Private flute instruction for beginners through intermediate players - tone, breath support, reading, and technique." },
+  { name: "Songwriting & Production", blurb: "For students ready to make their own music: songwriting, arrangement, and an introduction to recording and production tools." },
+];
+
+const groupClasses = [
+  {
+    name: "PreK Music",
+    ages: "Ages 2-4",
+    price: "$129/mo",
+    href: "/kinder-music",
+    blurb: "Group time with patterns, rhythm, and scales, then one-on-one instructor time at a real instrument. Capped at 4 students.",
+  },
+  {
+    name: "Kinder Music",
+    ages: "Ages 4-6",
+    price: "$129/mo",
+    href: "/kinder-music",
+    blurb: "A 4-month curriculum in rhythm, notes, and patterns, taught through singing, movement, and instruments. Capped at 4 students.",
+  },
+  {
+    name: "Homeschool Music Class",
+    ages: "Ages 6-14",
+    price: "$109/mo",
+    href: "/homeschool-music-lessons",
+    blurb: "A real daytime music class, 45 minutes weekly, by semester. Two age groups, four sections a week, 15% off each additional child.",
+  },
+];
+
+const specialized = [
+  {
+    name: "Adaptive Lessons",
+    href: "/adaptive-music-lessons",
+    blurb: "Music instruction for students who learn differently - flexible pacing, a sensory-aware studio, and lessons built around how your child actually learns. Instruction, not therapy.",
+  },
+  {
+    name: "Homeschool Program",
+    href: "/homeschool-music-lessons",
+    blurb: "Daytime classes and private lessons built around the homeschool week, plus fine arts credit documentation for high school students.",
+  },
+  {
+    name: "Co-ops & Private Schools",
+    href: "/homeschool-music-lessons",
+    blurb: "On-site music programs for co-ops, private schools, and homeschool groups - teaching, curriculum help, or guidance on getting a program started.",
+  },
 ];
 ---
 <Base
   path="/programs"
-  title="Music Programs in McKinney | Violin, Drums, Brass & More | Anthem Music"
-  description="Explore Anthem Music's programs in downtown McKinney: violin, drums, brass, Kinder Music for ages 2–6, and songwriting - plus band and orchestra referrals through Texas Homeschool Music.">
+  title="Music Programs in McKinney | Lessons, Classes & Homeschool | Anthem Music"
+  description="All Anthem Music programs in downtown McKinney: private lessons on guitar, piano, violin, drums, brass and flute; PreK and Kinder classes; the Homeschool Music Class; and adaptive instruction for students who learn differently.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Our Programs</span>
-      <h1 class="center">More ways to make music</h1>
-      <p class="lead mx-auto center">Beyond guitar and piano, Anthem offers a full range of instruction - from first strings to brass, plus programs for our youngest musicians.</p>
+      <h1 class="center">Three ways to study music</h1>
+      <p class="lead mx-auto center">Private lessons for students who want to go deep on an instrument, group classes for younger kids and homeschool families, and specialized programs for students who learn differently.</p>
+      <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">One-on-One</span>
+        <h2>Private lessons</h2>
+        <p class="lead mx-auto center">Weekly 1:1 instruction built entirely around one student's goals, pace, and the way they learn. This is the deep-dive option - the place students go when they want to master an instrument, not just try one.</p>
+      </div>
       <div class="prog-grid">
-        {programs.map((p) => (
+        {privateLessons.map((p) => (
           <div class="prog-card">
             <span class="prog-icon" aria-hidden="true">{p.name.charAt(0)}</span>
             <h3>{p.name}</h3>
             <p>{p.blurb}</p>
             {p.href && <a href={p.href} class="prog-link">Learn more →</a>}
+          </div>
+        ))}
+      </div>
+      <p class="tier-note center">Private lesson rates depend on the instructor and schedule - we'll walk through options during your consultation. Multi-child discounts available.</p>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Group Classes</span>
+        <h2>Learn alongside other students</h2>
+        <p class="lead mx-auto center">Small classes where students learn together on a real curriculum. Priced well below private instruction, because the whole point is that music should fit into a family's life without crowding everything else out.</p>
+      </div>
+      <div class="class-grid">
+        {groupClasses.map((c) => (
+          <a href={c.href} class="class-card">
+            <span class="c-ages">{c.ages}</span>
+            <h3>{c.name}</h3>
+            <p>{c.blurb}</p>
+            <div class="c-foot">
+              <span class="c-price">{c.price}</span>
+              <span class="prog-link">Learn more →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Specialized Programs</span>
+        <h2>Built for specific families</h2>
+        <p class="lead mx-auto center">Some students need something shaped differently. These programs exist because families asked for them.</p>
+      </div>
+      <div class="prog-grid three">
+        {specialized.map((s) => (
+          <div class="prog-card">
+            <span class="prog-icon" aria-hidden="true">{s.name.charAt(0)}</span>
+            <h3>{s.name}</h3>
+            <p>{s.blurb}</p>
+            <a href={s.href} class="prog-link">Learn more →</a>
           </div>
         ))}
       </div>
@@ -77,7 +170,7 @@ const programs = [
 
   <section class="cta-band">
     <div class="container cta-inner">
-      <div><h2>Not sure where to start?</h2><p>Book a lesson and we'll help you find the right program, instrument, and instructor.</p></div>
+      <div><h2>Not sure where to start?</h2><p>Book a consultation and we'll help you find the right program, instrument, and instructor.</p></div>
       <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
     </div>
   </section>
@@ -86,12 +179,28 @@ const programs = [
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
   .page-hero h1 { margin-bottom: 1rem; }
+  .section.alt { background: var(--cream-soft); }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 3rem); }
+  .section-head .eyebrow { justify-content: center; }
+  .section-head h2 { margin-bottom: 1rem; }
+
   .prog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
   .prog-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; }
   .prog-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
   .prog-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
-  .prog-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; display: inline-block; margin-top: 0.8rem; }
   .prog-card p { color: var(--gray); font-size: 0.95rem; margin: 0; }
+  .prog-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; display: inline-block; margin-top: 0.8rem; }
+  .tier-note { color: var(--gray); font-size: 0.95rem; margin-top: 2rem; max-width: 62ch; margin-left: auto; margin-right: auto; }
+
+  .class-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .class-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .class-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
+  .c-ages { color: var(--orange); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .class-card h3 { color: var(--navy); font-size: 1.25rem; margin: 0.4rem 0 0.7rem; }
+  .class-card p { color: var(--gray); font-size: 0.94rem; flex: 1; margin: 0; }
+  .c-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .c-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--navy); }
+  .c-foot .prog-link { margin-top: 0; }
 
   .referral { background: var(--cream-soft); }
   .referral .narrow { max-width: 760px; }
@@ -109,6 +218,6 @@ const programs = [
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
 
-  @media (max-width: 900px) { .prog-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 560px) { .prog-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .prog-grid, .class-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 560px) { .prog-grid, .class-grid { grid-template-columns: 1fr; } }
 </style>
