@@ -3,13 +3,21 @@ import Base from '../layouts/Base.astro';
 import Shield from '../components/Shield.astro';
 import Reviews from '../components/Reviews.astro';
 
+// Offering 1 - private lessons, organized by instrument.
 const lessons = [
   { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "From first chords to lead lines - guitar, bass, ukulele, and banjo for every age." },
   { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
   { name: "Violin", href: "/violin-lessons", blurb: "Suzuki-informed strings instruction for young beginners through advancing players." },
   { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove - from first beats to full-kit control." },
   { name: "Brass", href: "/brass-lessons", blurb: "Private lessons on trumpet, french horn, and tuba - anything with three valves. Build tone, range, and technique." },
-  { name: "PreK Music", href: "/kinder-music", blurb: "Ages 2-4. Rhythm, listening, scales, and a joyful first exposure to real instruments - the framework every instrument is built on." },
+  { name: "Flute", href: "/schedule", blurb: "Flute for beginners through intermediate players - tone, breath support, reading, and technique." },
+];
+
+// Offering 2 - group classes (the homepage cutout; full detail lives on /programs).
+const groupClasses = [
+  { name: "PreK Music", ages: "Ages 2-4", href: "/kinder-music", blurb: "A playful first taste of music - rhythm, listening, and the framework every instrument is built on. Capped at 4." },
+  { name: "Youth Group", ages: "Ages 4-6", href: "/youth-group", blurb: "An after-school group for kids who've outgrown PreK - rhythm, reading, and first instrument skills, learned together." },
+  { name: "Homeschool Music Class", ages: "Ages 6-14", href: "/homeschool-music-lessons", blurb: "A real daytime class by semester, on real instruments - with fine arts credit documentation for older students." },
 ];
 
 // Hero images - one is picked at random on each page load (see inline script in the hero).
@@ -74,7 +82,7 @@ const instructors = [
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">What We Teach</span>
-        <h2>Lessons for every age and instrument</h2>
+        <h2>Lessons and classes for every age</h2>
         <p class="lead mx-auto center">Every student is met where they are. No rigid curriculum - instruction is built around each player's goals, pace, and the way they learn best.</p>
       </div>
       <div class="lessons-grid">
@@ -85,15 +93,26 @@ const instructors = [
             <span class="lesson-link">Learn more →</span>
           </a>
         ))}
-        {/* Full-width card: homeschool is an audience, not an instrument, so it
-            spans the grid rather than sitting as a stranded 7th tile. */}
-        <a href="/homeschool-music-lessons" class="lesson-card lesson-card-wide">
-          <div>
-            <h3>Homeschool Music</h3>
-            <p>Daytime lessons and group classes for homeschool families, every day of the week. Most families book between 9:00 a.m. and 3:00 p.m. - and we document hours for high school fine arts credit.</p>
-          </div>
-          <span class="lesson-link">Learn more →</span>
-        </a>
+      </div>
+
+      {/* Offering 2 cutout: group classes as a distinct, labeled block beneath
+          the instrument grid - the full lineup lives on /programs. */}
+      <div class="group-cutout">
+        <div class="group-head">
+          <span class="eyebrow" style="justify-content:center;">Group Classes</span>
+          <h3>Prefer to learn in a group?</h3>
+          <p class="group-sub">Small classes for younger musicians and homeschool families - the same fundamentals, learned together.</p>
+        </div>
+        <div class="group-grid">
+          {groupClasses.map((c) => (
+            <a href={c.href} class="group-card">
+              <span class="g-ages">{c.ages}</span>
+              <h4>{c.name}</h4>
+              <p>{c.blurb}</p>
+              <span class="lesson-link">Learn more →</span>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -184,24 +203,22 @@ const instructors = [
   .lessons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .lesson-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; transition: transform .2s, box-shadow .2s, border-color .2s; display: flex; flex-direction: column; }
   .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
-  /* Spans all columns beneath the instrument cards; cream fill sets it apart
-     as an audience card without competing with the orange CTAs. */
-  .lesson-card-wide {
-    grid-column: 1 / -1;
-    background: var(--cream-soft);
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-  .lesson-card-wide p { max-width: 68ch; margin-bottom: 0; }
-  .lesson-card-wide .lesson-link { margin-top: 0; white-space: nowrap; }
-  @media (max-width: 700px) {
-    .lesson-card-wide { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  }
   .lesson-card h3 { color: var(--navy); margin-bottom: 0.6rem; padding-top: 0.2rem; border-top: 3px solid var(--orange); display: inline-block; align-self: flex-start; padding-right: 1.5rem; }
   .lesson-card p { color: var(--gray); font-size: 0.95rem; flex: 1; }
   .lesson-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; margin-top: 1rem; }
+
+  /* Group Classes cutout (offering 2) - cream cards set it apart from the
+     white instrument grid above, signaling a distinct, secondary offering. */
+  .group-cutout { margin-top: clamp(2.2rem, 4.5vw, 3.4rem); }
+  .group-head { text-align: center; max-width: 560px; margin: 0 auto 1.6rem; }
+  .group-head h3 { color: var(--navy); font-size: clamp(1.3rem, 2.6vw, 1.65rem); margin: 0.35rem 0 0.5rem; }
+  .group-sub { color: var(--gray); font-size: 0.98rem; }
+  .group-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
+  .group-card { background: var(--cream-soft); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem 1.6rem; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .group-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
+  .g-ages { color: var(--orange); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .group-card h4 { color: var(--navy); font-size: 1.15rem; margin: 0.35rem 0 0.6rem; }
+  .group-card p { color: var(--gray); font-size: 0.92rem; flex: 1; margin: 0; }
 
   .philosophy { background: var(--navy); }
   .philosophy-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
@@ -234,7 +251,7 @@ const instructors = [
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
 
   @media (max-width: 980px) {
-    .lessons-grid { grid-template-columns: repeat(2, 1fr); }
+    .lessons-grid, .group-grid { grid-template-columns: repeat(2, 1fr); }
     .instructor-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 860px) {
@@ -247,7 +264,7 @@ const instructors = [
     .philosophy-inner { grid-template-columns: 1fr; }
   }
   @media (max-width: 520px) {
-    .lessons-grid { grid-template-columns: 1fr; }
+    .lessons-grid, .group-grid { grid-template-columns: 1fr; }
     .instructor-grid { grid-template-columns: 1fr; }
   }
 </style>
