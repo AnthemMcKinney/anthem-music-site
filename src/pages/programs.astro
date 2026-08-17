@@ -51,6 +51,11 @@ const specialized = [
     href: "/schedule",
     blurb: "For teen and adult musicians with something to say - a short, fixed-length run of sessions on songwriting, arrangement, and recording. We work as an advisor on your project, not an open-ended lesson track, so you finish with something you made.",
   },
+  {
+    name: "Bands, Orchestras & Ensembles",
+    href: "/contact",
+    blurb: "Looking for opportunities beyond private lessons? We teach many band and orchestra instruments and work with trusted local ensembles and music programs. We'll help students find the right next step - whether it's with us or one of our community partners.",
+  },
 ];
 ---
 <Base
@@ -91,7 +96,7 @@ const specialized = [
       <div class="section-head">
         <span class="eyebrow">Group Classes</span>
         <h2>Learn alongside other students</h2>
-        <p class="lead mx-auto center">Small classes where students learn together on a real curriculum - a more accessible way in than private instruction, and for a lot of families the better first step.</p>
+        <p class="lead mx-auto center">Small classes where students learn together through a real curriculum - building musicianship, confidence, and community in a setting designed for their age and goals.</p>
       </div>
       <div class="class-grid">
         {groupClasses.map((c) => (
@@ -122,38 +127,6 @@ const specialized = [
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="section referral">
-    <div class="container narrow">
-      <span class="eyebrow">Band, Orchestra &amp; Ensembles</span>
-      <h2>Want to play in a band, orchestra, or ensemble?</h2>
-      <p class="lead">
-        Here's how we think about it: we'd love to talk with you, and there's a good
-        chance we can help directly. We teach a wide range of instruments and students
-        right here at the studio. But if what you're after is playing <em>with</em> a
-        larger group - concert band, marching band, orchestra - that's its own world,
-        and we'll make sure you land in the right place.
-      </p>
-
-      <p>We're connected to a network of trusted local musicians, ensembles, and
-        programs. Whatever your student is reaching for, we'll either teach it - or
-        connect you with someone who's the right fit:</p>
-
-      <ul class="referral-list">
-        <li>Concert band and marching band</li>
-        <li>Orchestra and string ensembles</li>
-        <li>Homeschool music groups and co-op ensembles</li>
-        <li>Adaptive and therapeutic music programs for students who learn differently</li>
-        <li>Specialty instruction - advanced styles and mastery-level goals</li>
-        <li>Group classes, recitals, and community performance events</li>
-      </ul>
-
-      <p>You'll never get a flat "we don't do that" from us. We'll see if it's a fit at
-      the studio - and if it isn't, we know the right people to call.</p>
-
-      <a href="/contact" class="btn btn-primary">Contact Us to Learn More</a>
     </div>
   </section>
 
@@ -192,14 +165,11 @@ const specialized = [
   .class-card p { color: var(--gray); font-size: 0.94rem; flex: 1; margin: 0; }
   .c-foot { margin-top: 1.1rem; }
 
-  .referral { background: var(--cream-soft); }
-  .referral .narrow { max-width: 760px; }
-  .referral h2 { margin: 0.5rem 0 1rem; }
-  .referral p { color: var(--gray); margin-bottom: 1.2rem; }
-  .referral p em { color: var(--orange); font-style: italic; }
-  .referral-list { list-style: none; display: grid; gap: 0.6rem; margin: 0 0 1.6rem; padding: 0; }
-  .referral-list li { color: var(--navy); font-weight: 500; padding-left: 1.6rem; position: relative; }
-  .referral-list li::before { content: "\266A"; color: var(--orange); position: absolute; left: 0; top: 0; }
+  /* Specialized section has 4 cards: the 4th wraps to a second row and centers
+     beneath the first three, keeping the same single-column width. */
+  @media (min-width: 901px) {
+    .prog-grid.three .prog-card:nth-child(4) { grid-column: 1 / -1; justify-self: center; width: calc((100% - 2 * 1.4rem) / 3); }
+  }
 
   .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
   .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
