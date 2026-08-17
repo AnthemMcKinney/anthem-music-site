@@ -1,10 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Programs hub. Three buckets: 1:1 private (premium, price on consultation),
-// group classes (published prices - value is the pitch), and specialized programs.
-// Structured so future Anthem divisions (studio, gear, events) can slot in as
-// their own sections or pages without rebuilding this one.
+// Programs hub. Loose groupings, not a rigid taxonomy: 1:1 private, group classes,
+// and programs shaped for specific families. No published prices - everything routes
+// to the consultation. Structured so future Anthem divisions (studio, gear, events)
+// can slot in as their own sections or pages without rebuilding this one.
 const privateLessons = [
   { name: "Guitar & Ukulele", href: "/guitar-lessons", blurb: "Acoustic, electric, bass, and banjo. From first chords to lead playing, on a workbook refined over hundreds of students." },
   { name: "Piano", href: "/piano-lessons", blurb: "Classical foundation, modern application. Reading, technique, and playing you'll actually enjoy." },
@@ -12,30 +12,26 @@ const privateLessons = [
   { name: "Drums & Percussion", href: "/drum-lessons", blurb: "Timing, technique, and groove - from first beats to full-kit control." },
   { name: "Brass", href: "/brass-lessons", blurb: "Trumpet, French horn, and tuba. Build tone, range, and technique one-on-one." },
   { name: "Flute", blurb: "Private flute instruction for beginners through intermediate players - tone, breath support, reading, and technique." },
-  { name: "Songwriting & Production", blurb: "For students ready to make their own music: songwriting, arrangement, and an introduction to recording and production tools." },
 ];
 
 const groupClasses = [
   {
     name: "PreK Music",
     ages: "Ages 2-4",
-    price: "$129/mo",
     href: "/kinder-music",
-    blurb: "Group time with patterns, rhythm, and scales, then one-on-one instructor time at a real instrument. Capped at 4 students.",
+    blurb: "Group time with patterns, rhythm, and scales, then one-on-one instructor time at a real instrument. A gentle, playful first taste of music, capped at 4 students.",
   },
   {
-    name: "Kinder Music",
-    ages: "Ages 4-6",
-    price: "$129/mo",
-    href: "/kinder-music",
-    blurb: "A 4-month curriculum in rhythm, notes, and patterns, taught through singing, movement, and instruments. Capped at 4 students.",
+    name: "Youth Group",
+    ages: "Ages 4-7",
+    href: "/schedule",
+    blurb: "A small group for kids who've outgrown PreK - building rhythm, listening, and first instrument skills together, at a pace that fits the early-elementary age.",
   },
   {
     name: "Homeschool Music Class",
     ages: "Ages 6-14",
-    price: "$109/mo",
     href: "/homeschool-music-lessons",
-    blurb: "A real daytime music class, 45 minutes weekly, by semester. Two age groups, four sections a week, 15% off each additional child.",
+    blurb: "A real daytime music class - weekly, by semester, on real instruments in a working studio. Built around the homeschool week, with fine arts credit documentation for older students.",
   },
 ];
 
@@ -46,26 +42,26 @@ const specialized = [
     blurb: "Music instruction for students who learn differently - flexible pacing, a sensory-aware studio, and lessons built around how your child actually learns. Instruction, not therapy.",
   },
   {
-    name: "Homeschool Program",
-    href: "/homeschool-music-lessons",
-    blurb: "Daytime classes and private lessons built around the homeschool week, plus fine arts credit documentation for high school students.",
-  },
-  {
     name: "Co-ops & Private Schools",
     href: "/homeschool-music-lessons",
     blurb: "On-site music programs for co-ops, private schools, and homeschool groups - teaching, curriculum help, or guidance on getting a program started.",
+  },
+  {
+    name: "Songwriting & Production",
+    href: "/schedule",
+    blurb: "For students with something to say: a short, fixed-length run of sessions on songwriting, arrangement, and the basics of recording - focused advising, not an open-ended track, so students walk out with something they made.",
   },
 ];
 ---
 <Base
   path="/programs"
   title="Music Programs in McKinney | Lessons, Classes & Homeschool | Anthem Music"
-  description="All Anthem Music programs in downtown McKinney: private lessons on guitar, piano, violin, drums, brass and flute; PreK and Kinder classes; the Homeschool Music Class; and adaptive instruction for students who learn differently.">
+  description="Anthem Music programs in downtown McKinney: private lessons on guitar, piano, violin, drums, brass and flute; PreK and youth group classes; the daytime Homeschool Music Class; adaptive instruction; and songwriting and production.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Our Programs</span>
-      <h1 class="center">Three ways to study music</h1>
-      <p class="lead mx-auto center">Private lessons for students who want to go deep on an instrument, group classes for younger kids and homeschool families, and specialized programs for students who learn differently.</p>
+      <h1 class="center">More than one way to learn music</h1>
+      <p class="lead mx-auto center">Every student comes to music differently, so we teach it a lot of different ways - one-on-one, in a small group, built around a homeschool week, or shaped around a specific goal. What's below is a starting point, not the whole menu. If you don't see your exact fit, that's what the consultation is for.</p>
       <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
     </div>
   </section>
@@ -80,7 +76,6 @@ const specialized = [
       <div class="prog-grid">
         {privateLessons.map((p) => (
           <div class="prog-card">
-            <span class="prog-icon" aria-hidden="true">{p.name.charAt(0)}</span>
             <h3>{p.name}</h3>
             <p>{p.blurb}</p>
             {p.href && <a href={p.href} class="prog-link">Learn more →</a>}
@@ -96,7 +91,7 @@ const specialized = [
       <div class="section-head">
         <span class="eyebrow">Group Classes</span>
         <h2>Learn alongside other students</h2>
-        <p class="lead mx-auto center">Small classes where students learn together on a real curriculum. Priced well below private instruction, because the whole point is that music should fit into a family's life without crowding everything else out.</p>
+        <p class="lead mx-auto center">Small classes where students learn together on a real curriculum - a more accessible way in than private instruction, and for a lot of families the better first step.</p>
       </div>
       <div class="class-grid">
         {groupClasses.map((c) => (
@@ -104,10 +99,7 @@ const specialized = [
             <span class="c-ages">{c.ages}</span>
             <h3>{c.name}</h3>
             <p>{c.blurb}</p>
-            <div class="c-foot">
-              <span class="c-price">{c.price}</span>
-              <span class="prog-link">Learn more →</span>
-            </div>
+            <span class="prog-link c-foot">Learn more →</span>
           </a>
         ))}
       </div>
@@ -119,12 +111,11 @@ const specialized = [
       <div class="section-head">
         <span class="eyebrow">Specialized Programs</span>
         <h2>Built for specific families</h2>
-        <p class="lead mx-auto center">Some students need something shaped differently. These programs exist because families asked for them.</p>
+        <p class="lead mx-auto center">Some students need something shaped differently. These exist because families asked for them.</p>
       </div>
       <div class="prog-grid three">
         {specialized.map((s) => (
           <div class="prog-card">
-            <span class="prog-icon" aria-hidden="true">{s.name.charAt(0)}</span>
             <h3>{s.name}</h3>
             <p>{s.blurb}</p>
             <a href={s.href} class="prog-link">Learn more →</a>
@@ -146,11 +137,9 @@ const specialized = [
         and we'll make sure you land in the right place.
       </p>
 
-      <p>We're proud to partner with
-        <a href="https://texashomeschoolmusic.org/J/" target="_blank" rel="noopener noreferrer">Texas Homeschool Music</a>
-        and a network of trusted local musicians and programs. Whatever your student is
-        reaching for, we'll either teach it - or connect you with someone who's the
-        right fit:</p>
+      <p>We're connected to a network of trusted local musicians, ensembles, and
+        programs. Whatever your student is reaching for, we'll either teach it - or
+        connect you with someone who's the right fit:</p>
 
       <ul class="referral-list">
         <li>Concert band and marching band</li>
@@ -179,28 +168,28 @@ const specialized = [
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
   .page-hero h1 { margin-bottom: 1rem; }
+  /* Tighter than the global .section rhythm - this page stacks five sections and
+     the default clamp() left acres of space between them. */
+  .section { padding: clamp(2.25rem,4.5vw,3.5rem) 0; }
   .section.alt { background: var(--cream-soft); }
-  .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 3rem); }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(1.4rem, 3vw, 2rem); }
   .section-head .eyebrow { justify-content: center; }
-  .section-head h2 { margin-bottom: 1rem; }
+  .section-head h2 { margin-bottom: 0.8rem; }
 
-  .prog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-  .prog-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; }
-  .prog-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--cream); color: var(--navy); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+  .prog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; }
+  .prog-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem 1.8rem; }
   .prog-card h3 { color: var(--navy); margin-bottom: 0.6rem; }
   .prog-card p { color: var(--gray); font-size: 0.95rem; margin: 0; }
   .prog-link { color: var(--orange); font-weight: 600; font-size: 0.92rem; display: inline-block; margin-top: 0.8rem; }
-  .tier-note { color: var(--gray); font-size: 0.95rem; margin-top: 2rem; max-width: 62ch; margin-left: auto; margin-right: auto; }
+  .tier-note { color: var(--gray); font-size: 0.95rem; margin-top: 1.6rem; max-width: 62ch; margin-left: auto; margin-right: auto; }
 
-  .class-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-  .class-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 2rem; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .class-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; }
+  .class-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.7rem 1.8rem; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
   .class-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,60,.1); border-color: transparent; }
   .c-ages { color: var(--orange); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .class-card h3 { color: var(--navy); font-size: 1.25rem; margin: 0.4rem 0 0.7rem; }
   .class-card p { color: var(--gray); font-size: 0.94rem; flex: 1; margin: 0; }
-  .c-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-  .c-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--navy); }
-  .c-foot .prog-link { margin-top: 0; }
+  .c-foot { margin-top: 1.1rem; }
 
   .referral { background: var(--cream-soft); }
   .referral .narrow { max-width: 760px; }
