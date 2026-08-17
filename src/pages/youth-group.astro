@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Youth Group (ages 4-6, after-school). The former Kinder 4-6 class, reframed.
+// Built from the Kinder 4-6 core class outline. No published price.
+const facts = [
+  { k: "Ages", v: "4-6" },
+  { k: "When", v: "After school, once weekly" },
+  { k: "Length", v: "30 minutes, growing to 45 as the group fills" },
+  { k: "Class size", v: "Small by design - capped at 4 students" },
+];
+
+const outcomes = [
+  "Keep basic 4/4 and 3/4 rhythm patterns",
+  "Recognize the notes in music - working toward all twelve",
+  "Read basic musical notation",
+  "Tell common scales apart, and hear major vs. minor",
+  "Understand basic treble and bass ideas",
+  "Keep rhythm and play scales with the instructor and other kids",
+  "Sing and play fun, iconic songs",
+  "Begin getting hands on a few common instruments",
+];
+---
+<Base
+  path="/youth-group"
+  title="Youth Group Music Class (Ages 4-6, After School) | Anthem Music McKinney"
+  description="An after-school music class for ages 4-6 in downtown McKinney. Rhythm, notes, scales, and reading taught through singing, movement, instruments, and play - the framework every instrument is built on. Capped at 4.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Youth Group · Ages 4-6</span>
+      <h1 class="center">A first music class, after school</h1>
+      <p class="lead mx-auto center">For kids who've outgrown the youngest room but aren't ready to sit down with one instrument yet - a small after-school class that builds the foundation every instrument is built on.</p>
+      <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2>The bridge between playtime and an instrument</h2>
+      <p>By four, five, and six, kids are ready for more than a sing-along - but a full private lesson on a single instrument is often a bigger commitment than a young beginner needs. Youth Group is the step in between: a real class, in a group, that builds musicianship through singing, movement, instruments, drawing, and pattern games, and gets kids playing together rather than sitting still.</p>
+      <p>The point isn't to pick an instrument yet. It's to build the framework - rhythm, notes, scales, and reading - that makes the eventual first instrument come faster, whether that ends up being piano, guitar, drums, or something like trumpet or cello later on.</p>
+
+      <div class="facts-grid">
+        {facts.map((f) => (
+          <div class="fact">
+            <span class="fact-k">{f.k}</span>
+            <span class="fact-v">{f.v}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2>What they'll start to do</h2>
+      <p>As they move through the class, most kids begin to:</p>
+      <ul class="outcome-list">
+        {outcomes.map((o) => <li>{o}</li>)}
+      </ul>
+
+      <h2>Why after school, and why small</h2>
+      <p>Youth Group runs after school so it fits families whose kids are in class during the day. And it stays small on purpose - capped at four - so every child gets real hands-on time each week and nobody hides in the back. As a class fills, sessions stretch from 30 minutes to 45 to match what the group can handle.</p>
+
+      <h2>Getting started</h2>
+      <p>We run Youth Group after school, and we're glad to add times as interest grows. Book a consultation and we'll get your child into a class - or, if the current time doesn't work, tell us and we'll look at opening one that does.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <div>
+        <h2>Ready when they are</h2>
+        <p>Book a consultation to join the after-school class - or ask us to start one at a time that fits your family.</p>
+      </div>
+      <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .narrow { max-width: 760px; }
+  .narrow h2 { margin: 2.5rem 0 1rem; }
+  .narrow h2:first-child { margin-top: 0; }
+  .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
+  .facts-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.8rem 0; }
+  .fact { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.3rem; }
+  .fact-k { display: block; color: var(--orange); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .fact-v { color: var(--navy); font-weight: 500; font-size: 0.95rem; }
+  .outcome-list { margin: 0 0 1.5rem; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .outcome-list li { color: var(--gray); }
+  .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
+  .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 50ch; }
+  .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
+  @media (max-width: 700px) { .facts-grid { grid-template-columns: 1fr; } }
+</style>

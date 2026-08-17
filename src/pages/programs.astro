@@ -23,9 +23,9 @@ const groupClasses = [
   },
   {
     name: "Youth Group",
-    ages: "Ages 4-7",
-    href: "/schedule",
-    blurb: "A small group for kids who've outgrown PreK - building rhythm, listening, and first instrument skills together, at a pace that fits the early-elementary age.",
+    ages: "Ages 4-6",
+    href: "/youth-group",
+    blurb: "An after-school group for kids who've outgrown PreK - building rhythm, listening, and first instrument skills together, at a pace that fits the early-elementary age.",
   },
   {
     name: "Homeschool Music Class",
@@ -44,12 +44,12 @@ const specialized = [
   {
     name: "Co-ops & Private Schools",
     href: "/homeschool-music-lessons",
-    blurb: "On-site music programs for co-ops, private schools, and homeschool groups - teaching, curriculum help, or guidance on getting a program started.",
+    blurb: "For the co-op director, school, or community group that wants music brought on-site - we'll teach it, help build the curriculum, or guide you through starting a program of your own.",
   },
   {
     name: "Songwriting & Production",
     href: "/schedule",
-    blurb: "For students with something to say: a short, fixed-length run of sessions on songwriting, arrangement, and the basics of recording - focused advising, not an open-ended track, so students walk out with something they made.",
+    blurb: "For teen and adult musicians with something to say - a short, fixed-length run of sessions on songwriting, arrangement, and recording. We work as an advisor on your project, not an open-ended lesson track, so you finish with something you made.",
   },
 ];
 ---
@@ -109,9 +109,9 @@ const specialized = [
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Specialized Programs</span>
-        <h2>Built for specific families</h2>
-        <p class="lead mx-auto center">Some students need something shaped differently. These exist because families asked for them.</p>
+        <span class="eyebrow">More ways in</span>
+        <h2>Specialized programs</h2>
+        <p class="lead mx-auto center">A few programs that don't fit the standard lesson or class mold - each built around a specific need or goal: a student who learns differently, a school or co-op that wants music brought on-site, or an older student ready to write and record their own.</p>
       </div>
       <div class="prog-grid three">
         {specialized.map((s) => (
@@ -167,7 +167,8 @@ const specialized = [
 
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
-  .page-hero h1 { margin-bottom: 1rem; }
+  .page-hero h1 { margin-bottom: 0.8rem; }
+  .page-hero .lead { max-width: 62ch; margin-left: auto; margin-right: auto; }
   /* Tighter than the global .section rhythm - this page stacks five sections and
      the default clamp() left acres of space between them. */
   .section { padding: clamp(2.25rem,4.5vw,3.5rem) 0; }

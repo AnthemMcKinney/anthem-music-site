@@ -1,88 +1,78 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const classes = [
-  {
-    name: "PreK Music",
-    ages: "Ages 2–4",
-    length: "30 min group + 15–20 min individual time",
-    size: "Capped at 4 students",
-    tuition: "$129/month per student",
-    desc: "For little ones who've shown an interest in music. Each class opens with a new song in a group setting - patterns, sequencing, scales, and rhythm - then each child picks an area of focus (patterns, art, or an instrument, mainly piano and ukulele) with one-on-one instructor time.",
-  },
-  {
-    name: "Kinder Music",
-    ages: "Ages 4–6",
-    length: "45 min class",
-    size: "Capped at 4 students",
-    tuition: "$129/month per student",
-    desc: "For PreK and kinder kids who may not be ready for a specific instrument but are ready for real musical concepts. Singing, dancing, playing instruments, drawing, and pattern games - all built around rhythm, scales, and sequencing.",
-  },
+// PreK Music (ages 2-4). Built from the Primary Music course outline.
+// URL stays /kinder-music for now (old inbound links / SEO); content is PreK-only.
+const facts = [
+  { k: "Ages", v: "2-4" },
+  { k: "Format", v: "30-minute group time plus one-on-one instrument time" },
+  { k: "Class size", v: "Capped at 4 students" },
+  { k: "Enrollment", v: "By semester - fall, spring, and summer" },
 ];
 
 const outcomes = [
-  "Identify and repeat basic rhythm patterns in 4/4 and 3/4 time",
-  "Identify the notes in music - all 12 by the end of Kinder Music",
-  "Read basic musical notation and play from the treble clef",
-  "Hear the difference between major and minor scales and chords",
-  "Keep rhythm and play scales with the instructor and other students",
-  "Sing and play fun, iconic songs - and recognize the patterns inside them",
+  "Identify and repeat basic repeating patterns",
+  "Keep basic 4/4 and 3/4 rhythm patterns",
+  "Recognize the natural notes in music",
+  "Hear the difference between major and minor chords and scales",
+  "Notice the patterns and sequencing inside a song",
+  "Keep rhythm and play simple scales with the instructor and other kids",
+  "Sing and play fun, iconic songs",
 ];
 ---
 <Base
   path="/kinder-music"
-  title="Kinder & PreK Music Classes (Ages 2–6) | Anthem Music McKinney"
-  description="Music core classes for ages 2–6 in downtown McKinney. A real 4-month curriculum in rhythm, scales, and patterns that prepares young children for any instrument. Small classes, capped at 4.">
+  title="PreK Music Class (Ages 2-4) | Anthem Music McKinney"
+  description="A real music class for ages 2-4 in downtown McKinney. Rhythm, scales, and patterns taught through singing, movement, instruments, and play - the framework every instrument is built on. Small classes, capped at 4.">
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow" style="justify-content:center;">PreK &amp; Kinder Music · Ages 2–6</span>
-      <h1 class="center">Where young musicians begin</h1>
-      <p class="lead mx-auto center">Before a child picks their instrument, they can learn the framework every instrument is built on - rhythm, scales, and patterns - through singing, movement, games, and play.</p>
+      <span class="eyebrow" style="justify-content:center;">PreK Music · Ages 2-4</span>
+      <h1 class="center">Where the youngest musicians begin</h1>
+      <p class="lead mx-auto center">Long before a child picks an instrument, they can learn the framework every instrument is built on - rhythm, scales, and patterns - through singing, movement, games, and play.</p>
       <div class="center" style="margin-top:1.8rem;"><a href="/schedule" class="btn btn-primary">Book a Consultation</a></div>
     </div>
   </section>
 
   <section class="section">
     <div class="container narrow">
-      <h2>A real curriculum, not just music playtime</h2>
-      <p>Most early-childhood music programs are sing-alongs. Ours is a structured 4-month curriculum that happens to be delivered through singing, dancing, instruments, coloring, and games. Each month moves through rhythm, notes and scales, and patterns and sequencing - the same fundamentals that our guitar, piano, violin, and drum students build on, sized for small hands and short attention spans.</p>
-      <p>That's the point: whether your child eventually chooses piano, guitar, drums, trumpet, or cello, the core skills transfer. Kids who come through these classes start their first instrument already understanding rhythm, recognizing notes, and hearing patterns - a head start most beginners don't get.</p>
+      <h2>A real curriculum, not music playtime</h2>
+      <p>Most classes for this age are sing-alongs. Ours is a structured curriculum that happens to be delivered through singing, dancing, instruments, coloring, and games. The goal is simple: channel a young child's natural interest in music into the framework they'll need the day they start a real instrument - whether that turns out to be piano, guitar, drums, or something like trumpet or cello years down the road.</p>
+      <p>Those core skills - rhythm, the natural notes and scales, and how patterns combine to make a song - carry over to every instrument. Kids who come through PreK Music start their first instrument already feeling the beat, recognizing notes, and hearing patterns. That's a head start most beginners never get.</p>
 
-      <img class="kinder-photo" src="/images/kinder-circle.jpg" alt="Young children playing glockenspiels in a circle while Dan Brady plays guitar" loading="lazy" width="1400" height="932" />
+      <img class="prek-photo" src="/images/kinder-circle.jpg" alt="Young children playing glockenspiels in a circle while an instructor plays guitar" loading="lazy" width="1400" height="932" />
 
-      <h2>Two classes, by age</h2>
-      <div class="class-grid">
-        {classes.map((c) => (
-          <div class="class-card">
-            <span class="c-ages">{c.ages}</span>
-            <h3>{c.name}</h3>
-            <p>{c.desc}</p>
-            <ul class="c-facts">
-              <li>{c.length}</li>
-              <li>{c.size}</li>
-              <li>{c.tuition}</li>
-            </ul>
+      <h2>How a class runs</h2>
+      <p>Each class opens in a group with a new song, then revisits the previous week's song - highlighting a specific idea like a rhythm pattern, a scale, or the way parts layer together. After about 25-30 minutes of group time, each child moves into a short one-on-one focus of their choice: a pattern or sequencing activity, some art, or their instrument of the moment - usually piano or ukulele - with the instructor alongside.</p>
+
+      <div class="facts-grid">
+        {facts.map((f) => (
+          <div class="fact">
+            <span class="fact-k">{f.k}</span>
+            <span class="fact-v">{f.v}</span>
           </div>
         ))}
       </div>
 
-      <h2>What they'll be able to do</h2>
-      <p>By the end of the 4-month course, most children can:</p>
+      <h2>What they'll start to do</h2>
+      <p>As the semester unfolds, most children begin to:</p>
       <ul class="outcome-list">
         {outcomes.map((o) => <li>{o}</li>)}
       </ul>
 
-      <h2>How the four months unfold</h2>
-      <p>Each month follows the same rhythm: a week on rhythm patterns, two weeks on notes, scales, and chords, then a week applying it all through well-known children's songs. Concepts build steadily - from repeating patterns and the major scale in month one to reading the treble clef and playing songs on piano, xylophone, and ukulele by month four.</p>
+      <h2>Why it's capped at four</h2>
+      <p>Two- to four-year-olds don't learn in a crowd. Keeping classes tiny means every child gets real one-on-one time at an instrument each week, and the instructor knows exactly where each of them is. We add new classes as interest grows rather than packing more kids into a room.</p>
 
       <h2>Getting started</h2>
-      <p>Classes are small on purpose - capped at four - and we add new classes based on interest. Book a consultation or submit an interest form and we'll find the right class and time for your child.</p>
+      <p>Book a consultation and we'll place your child in a class that fits their age and readiness. Don't see a time that works? Tell us - we open new classes based on interest, and yours might be the one that starts the next.</p>
     </div>
   </section>
 
   <section class="cta-band">
     <div class="container cta-inner">
-      <div><h2>Give them the head start</h2><p>Book a consultation and we'll talk through which class fits your child's age and readiness.</p></div>
+      <div>
+        <h2>Give them the head start</h2>
+        <p>Book a consultation to join a class - or ask us to start one at a time that fits your family.</p>
+      </div>
       <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
     </div>
   </section>
@@ -95,21 +85,18 @@ const outcomes = [
   .narrow h2 { margin: 2.5rem 0 1rem; }
   .narrow h2:first-child { margin-top: 0; }
   .narrow p { color: var(--gray); margin-bottom: 1.2rem; }
-  .kinder-photo { width: 100%; height: auto; border-radius: 14px; margin: 2rem 0 0.5rem; box-shadow: 0 14px 34px rgba(13,31,60,.12); }
-  .class-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
-  .class-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.8rem; }
-  .c-ages { color: var(--orange); font-weight: 700; font-size: 0.88rem; letter-spacing: 0.04em; text-transform: uppercase; }
-  .class-card h3 { color: var(--navy); font-size: 1.3rem; margin: 0.4rem 0 0.8rem; }
-  .class-card p { color: var(--gray); font-size: 0.95rem; }
-  .c-facts { list-style: none; margin: 1rem 0 0; padding: 1rem 0 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 0.4rem; }
-  .c-facts li { color: var(--navy); font-size: 0.92rem; font-weight: 500; }
+  .prek-photo { width: 100%; height: auto; border-radius: 14px; margin: 2rem 0 0.5rem; box-shadow: 0 14px 34px rgba(13,31,60,.12); }
+  .facts-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1rem; margin: 1.8rem 0; }
+  .fact { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.3rem; }
+  .fact-k { display: block; color: var(--orange); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .fact-v { color: var(--navy); font-weight: 500; font-size: 0.95rem; }
   .outcome-list { margin: 0 0 1.5rem; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .outcome-list li { color: var(--gray); }
   .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
   .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
   .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
-  .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
+  .cta-band p { color: var(--white); opacity: 0.92; max-width: 50ch; }
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
-  @media (max-width: 700px) { .class-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .facts-grid { grid-template-columns: 1fr; } }
 </style>
