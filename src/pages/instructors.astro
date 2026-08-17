@@ -1,40 +1,48 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const instructors = [
-  {
-    name: "Dan Brady",
-    role: "Owner · Guitar & Piano (plus Bass, Ukulele, Banjo)",
-    img: "/instructors/dan.jpg",
-    bio: "Dan is the founder of Anthem Music and one of its most versatile instructors - teaching both guitar and piano, along with bass, ukulele, and banjo. That range is rare: most instructors specialize in a single instrument family, but Dan's command of both fretted and keyed instruments gives his students a deeper, more connected understanding of how music actually works. A veteran with over 30 years of playing and 15-plus years of teaching, he brings a patient, meet-you-where-you-are approach that's earned him a loyal following of students and families. A father of seven and active in the McKinney community - including youth sports coaching and Dowell Middle School athletics - Dan has a special heart for working with students of all abilities, including those with special needs and the homeschool community. Before music became his full-time calling, he built a career in IT and project management, and that systems-minded discipline shows up in how thoughtfully he structures each student's growth.",
-  },
+const owner = {
+  name: "Dan Brady",
+  role: "Founder & Owner",
+  tags: "Guitar & Piano · Bass, Ukulele, Banjo",
+  img: "/instructors/dan.jpg",
+  bio: "Dan is the founder of Anthem Music and one of its most versatile instructors - teaching both guitar and piano, along with bass, ukulele, and banjo. That range is rare: most instructors specialize in a single instrument family, but Dan's command of both fretted and keyed instruments gives his students a deeper, more connected understanding of how music actually works. A veteran with over 30 years of playing and 15-plus years of teaching, he brings a patient, meet-you-where-you-are approach that's earned him a loyal following of students and families. A father of seven and active in the McKinney community - including youth sports coaching and Dowell Middle School athletics - Dan has a special heart for working with students of all abilities, including those with special needs and the homeschool community. Before music became his full-time calling, he built a career in IT and project management, and that systems-minded discipline shows up in how thoughtfully he structures each student's growth.",
+};
+
+const team = [
   {
     name: "Britton Lowenthal",
     role: "Piano · Trumpet",
     img: "/instructors/britton.jpg",
-    bio: "Britt is a classically trained pianist with over a decade of piano experience and seven years of trumpet performance. A standout young musician, she has served as Drum Major and holds leadership roles in her school's award-winning music programs. Britt combines strong classical fundamentals with genuine warmth in the studio - her students consistently look forward to every lesson. She's especially skilled at building confidence in young and beginning players.",
+    bio: "Britt is a classically trained pianist with over a decade of piano experience and seven years of trumpet performance. A standout young musician, she has served as Drum Major and holds leadership roles in her school's award-winning music programs. Britt combines strong classical fundamentals with genuine warmth in the studio, and she's especially skilled at building confidence in young and beginning players.",
   },
   {
     name: "Christine Dao",
     role: "Violin · Piano",
     img: "/instructors/christine.jpg",
-    bio: "Christine brings a calm, encouraging presence and strong technical foundation to Anthem's strings program. She teaches violin and piano with a focus on solid fundamentals, careful listening, and steady progress - an approach that works beautifully for young beginners and advancing students alike. Christine believes every student can learn to play, and she tailors her instruction to the way each individual learns best.",
+    bio: "Christine brings a calm, encouraging presence and strong technical foundation to Anthem's strings program. She teaches violin and piano with a focus on solid fundamentals, careful listening, and steady progress - an approach that works beautifully for young beginners and advancing students alike. She believes every student can learn to play, and tailors her instruction to the way each individual learns best.",
   },
   {
     name: "Alexandra Smith",
     role: "Early Childhood Music & Theory",
     img: "/instructors/alex.jpg",
-    bio: "Alexandra is an elementary music teacher who specializes in early childhood learning and music theory - someone who loves helping students understand how music actually works, not just memorize what to play. Her approach uses patterns, colors, shapes, numbers, and visual relationships to make musical ideas easier to see, hear, and understand, connecting rhythm, melody, harmony, and theory in practical ways. At Anthem she works with young and beginning students, helping them build a strong foundation along with real confidence and curiosity - and encouraging them to explore music creatively and recognize the patterns behind what they hear.",
+    bio: "Alexandra is an elementary music teacher who specializes in early childhood learning and music theory - someone who loves helping students understand how music actually works, not just memorize what to play. Her approach uses patterns, colors, shapes, numbers, and visual relationships to make musical ideas easier to see, hear, and understand. At Anthem she works with young and beginning students, helping them build a strong foundation along with real confidence and curiosity.",
   },
   {
     name: "Elpis Jang",
     role: "Flute · Piano",
     img: "/instructors/elpis.jpg",
-    bio: "Elpis is a dedicated young flutist with eight years of experience, and has played in her school's top band since sixth grade. At Boyd she serves as a section leader and part of the band's leadership team - roles that have given her real practice at helping and encouraging other players. At Anthem she works mostly with younger and beginning flute and piano students, building strong fundamentals, confidence, and a genuine love of playing. Still early in her own teaching journey, she brings patience, diligence, and a natural rapport with younger students to every lesson.",
+    bio: "Elpis is a dedicated young flutist with eight years of experience, and has played in her school's top band since sixth grade. At Boyd she serves as a section leader and part of the band's leadership team - roles that have given her real practice at helping and encouraging other players. At Anthem she works mostly with younger and beginning flute and piano students, building strong fundamentals, confidence, and a genuine love of playing.",
+  },
+  {
+    name: "Lucas Henderson",
+    role: "Guitar",
+    img: "/instructors/lucas.jpg",
+    bio: "Lucas teaches guitar at Anthem, from first chords through first songs. He's a capable young player with an easygoing, encouraging style that puts beginners at ease, and he genuinely enjoys helping newer students find their footing on the instrument.",
   },
 ];
 ---
-<Base path="/instructors" title="Our Instructors | Anthem Music McKinney" description="Meet the instructors at Anthem Music in downtown McKinney - experienced, patient mentors teaching guitar, piano, violin, drums, and brass.">
+<Base path="/instructors" title="Our Instructors | Anthem Music McKinney" description="Meet the instructors at Anthem Music in downtown McKinney - experienced, patient mentors teaching guitar, piano, violin, drums, brass, flute, and early-childhood music.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Our Team</span>
@@ -45,14 +53,26 @@ const instructors = [
 
   <section class="section">
     <div class="container">
-      <div class="bio-list">
-        {instructors.map((i, idx) => (
-          <article class={`bio-card ${idx % 2 === 1 ? 'reverse' : ''}`}>
-            <div class="bio-photo">
-              <img src={i.img} alt={i.name} loading="lazy" width="380" height="440" />
+      <article class="owner-card">
+        <div class="owner-photo">
+          <img src={owner.img} alt={owner.name} width="380" height="440" />
+        </div>
+        <div class="owner-content">
+          <span class="owner-eyebrow">{owner.role}</span>
+          <h2>{owner.name}</h2>
+          <span class="bio-role">{owner.tags}</span>
+          <p>{owner.bio}</p>
+        </div>
+      </article>
+
+      <div class="team-grid">
+        {team.map((i) => (
+          <article class="team-card">
+            <div class="team-photo">
+              <img src={i.img} alt={i.name} loading="lazy" width="300" height="375" />
             </div>
-            <div class="bio-content">
-              <h2>{i.name}</h2>
+            <div class="team-body">
+              <h3>{i.name}</h3>
               <span class="bio-role">{i.role}</span>
               <p>{i.bio}</p>
             </div>
@@ -76,15 +96,39 @@ const instructors = [
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0; }
   .page-hero h1 { margin-bottom: 1rem; }
-  .bio-list { display: flex; flex-direction: column; gap: clamp(2.5rem, 5vw, 4.5rem); }
-  .bio-card { display: grid; grid-template-columns: 380px 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
-  .bio-card.reverse { grid-template-columns: 1fr 380px; }
-  .bio-card.reverse .bio-photo { order: 2; }
-  .bio-photo { border-radius: 16px; overflow: hidden; aspect-ratio: 3/3.4; background: var(--cream); box-shadow: 0 16px 40px rgba(13,31,60,.12); }
-  .bio-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .bio-content h2 { color: var(--navy); margin-bottom: 0.3rem; }
-  .bio-role { color: var(--orange); font-weight: 600; font-size: 0.95rem; display: block; margin-bottom: 1.2rem; }
-  .bio-content p { color: var(--gray); }
+
+  /* Featured owner */
+  .owner-card {
+    display: grid; grid-template-columns: 320px 1fr; gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center; background: var(--cream-soft); border-radius: 20px;
+    padding: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .owner-photo { border-radius: 16px; overflow: hidden; aspect-ratio: 3/3.4; box-shadow: 0 16px 40px rgba(13,31,60,.14); }
+  .owner-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .owner-eyebrow { color: var(--orange); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .owner-content h2 { color: var(--navy); margin: 0.35rem 0 0.15rem; }
+  .owner-content p { color: var(--gray); }
+  .bio-role { color: var(--orange); font-weight: 600; font-size: 0.95rem; display: block; margin-bottom: 1rem; }
+
+  /* Team grid */
+  .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(1.2rem, 2.5vw, 1.8rem); }
+  .team-card { background: var(--white); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .team-photo { aspect-ratio: 4/5; overflow: hidden; background: var(--cream); }
+  .team-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .team-body { padding: 1.3rem 1.4rem 1.5rem; }
+  .team-body h3 { color: var(--navy); margin: 0 0 0.15rem; font-size: 1.15rem; }
+  .team-body .bio-role { margin-bottom: 0.7rem; font-size: 0.9rem; }
+  .team-body p { color: var(--gray); font-size: 0.92rem; margin: 0; }
+
+  @media (max-width: 820px) {
+    .owner-card { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .owner-photo { max-width: 280px; }
+    .bio-role, .owner-content p { text-align: left; }
+    .team-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 540px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
 
   .cta-band { background: var(--orange); padding: clamp(2.5rem,5vw,4rem) 0; }
   .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
@@ -92,10 +136,4 @@ const instructors = [
   .cta-band p { color: var(--white); opacity: 0.92; max-width: 46ch; }
   .cta-band .btn-primary { background: var(--white); color: var(--orange-dark); }
   .cta-band .btn-primary:hover { background: var(--navy); color: var(--cream); }
-
-  @media (max-width: 780px) {
-    .bio-card, .bio-card.reverse { grid-template-columns: 1fr; }
-    .bio-card.reverse .bio-photo { order: 0; }
-    .bio-photo { max-width: 340px; }
-  }
 </style>
