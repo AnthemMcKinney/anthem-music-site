@@ -1,18 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Two age bands, two sections each per week (four class times total). Times are set
-// each semester - edit here when the schedule is confirmed.
+// Two classes (Foundations 6-9, Musicianship 10-14), offered on alternating days.
+// Times are set each semester - students are placed at enrollment.
+// arc = the four-unit semester skill progression; outcome = what students can do by the showcase.
 const sections = [
   {
     name: "Foundations",
     ages: "Ages 6-9",
-    desc: "First real music class for younger students. Rhythm and meter, reading notation, the keyboard as a map of how music works, and playing together as a group. Students rotate through instruments rather than committing to one.",
+    desc: "Most students' first real music class. They rotate through instruments rather than committing to one, building the framework - rhythm, notes, first chords, playing together - that makes whatever they choose next come faster.",
+    arc: ["Pulse & rhythm", "Notes & the keyboard map", "First chords & playing together", "Songs & a showcase"],
+    outcome: "By the showcase: keep a steady beat, read a few notes, play a first chord, and perform a simple piece with the group.",
   },
   {
     name: "Musicianship",
     ages: "Ages 10-14",
-    desc: "For older students ready for the real framework: keys and scales, chord construction, ear training, and playing along with other musicians. The theory is taught through playing, not worksheets.",
+    desc: "For older students ready for the real framework - the theory behind the music they already listen to, taught at an instrument and in a group, never from a worksheet.",
+    arc: ["Notes, scales & keys", "Chords & progressions", "Ear training & reading", "Playing together & a showcase"],
+    outcome: "By the showcase: find a song's key, play its progression, add a simple melody or lead, and perform it as an ensemble.",
   },
 ];
 
@@ -91,17 +96,26 @@ const faqs = [
         ))}
       </div>
 
-      <h2>Two age groups</h2>
-      <p>We run four class sections each week - two for younger students, two for older - so students learn alongside kids at a similar stage. Current semester times are confirmed at enrollment; book a consultation and we'll place your student in the right section.</p>
+      <h2>What a semester covers</h2>
+      <p>Both classes teach musicianship, not just an instrument - the transferable framework of rhythm, notes, chords, and playing with others that makes any instrument a student picks up later come faster. Everything is taught by playing, in a small group, on real instruments, and every semester ends in a showcase for parents. There are two classes by age, each following the same four-part arc at its own depth, and we document the skills and hours along the way so the work can count toward a fine arts credit.</p>
       <div class="section-grid">
         {sections.map((s) => (
           <div class="sec-card">
             <span class="sec-ages">{s.ages}</span>
             <h3>{s.name}</h3>
             <p>{s.desc}</p>
+            <ol class="arc">
+              {s.arc.map((step, i) => (
+                <li><span class="arc-n">{i + 1}</span>{step}</li>
+              ))}
+            </ol>
+            <p class="sec-outcome">{s.outcome}</p>
           </div>
         ))}
       </div>
+      <p class="syllabus-cta">
+        Want the week-by-week? <a href="/anthem-homeschool-music-syllabus.pdf" download>Download the full semester syllabus (PDF)</a> - the arc, the weekly plan, and the skills students can document by the end, ready to file for your records.
+      </p>
 
       <h2>What it costs</h2>
       <p>We keep this class affordable on purpose. Homeschool families often run two, three, or four kids deep, and music shouldn't be the thing that gets cut because the per-child math stopped working - so it's priced to sit alongside your other activities rather than replace them, with a discount for each additional child. Enrollment runs by semester, and we'll walk through exact rates during your consultation.</p>
@@ -110,7 +124,7 @@ const faqs = [
       <p>The class is the foundation. For students who find their instrument and want to chase it, we teach private one-on-one lessons during daytime hours as well - piano, guitar, ukulele, drums, violin, brass, and flute. Many families do both: the class for musicianship and playing with others, a private lesson for depth. Ask about private rates during your consultation.</p>
 
       <h2>Fine arts credit for high schoolers</h2>
-      <p>If your student needs a fine arts credit, we're happy to help you document it. We'll track hours, repertoire, and skills covered over the year and provide a summary you can use for your transcript records. Tell us at the start and we'll keep the records as we go - no reconstructing a year of music in May.</p>
+      <p>If your student needs a fine arts credit, we're happy to help you document it. We'll track hours, repertoire, and skills covered over the year and provide a summary you can use for your transcript records. Tell us at the start and we'll keep the records as we go - no reconstructing a year of music in May. The <a href="/anthem-homeschool-music-syllabus.pdf" download>downloadable syllabus</a> lists the skills each class covers, so you have a head start on the paperwork.</p>
 
       <h2>Music programs for co-ops &amp; private schools</h2>
       <p>Before Anthem had a storefront, our founder spent a couple of years building and teaching music programs on-site at private schools - designing each one from scratch, then showing up every week to teach it. Every program was different: different ages, different schedules, different goals. That's still how we approach it.</p>
@@ -170,6 +184,12 @@ const faqs = [
   .sec-ages { color: var(--orange); font-weight: 700; font-size: 0.86rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .sec-card h3 { color: var(--navy); font-size: 1.25rem; margin: 0.4rem 0 0.7rem; }
   .sec-card p { color: var(--gray); font-size: 0.94rem; margin: 0; }
+  .sec-card .arc { list-style: none; counter-reset: none; margin: 1.1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .sec-card .arc li { display: flex; align-items: center; gap: 0.6rem; color: var(--navy); font-weight: 500; font-size: 0.9rem; }
+  .arc-n { flex: none; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--orange); color: var(--white); font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .sec-outcome { margin: 1.1rem 0 0 !important; padding-top: 0.9rem; border-top: 1px solid var(--line); font-size: 0.9rem !important; color: var(--navy) !important; }
+  .syllabus-cta { background: var(--cream-soft); border-radius: 12px; padding: 1.1rem 1.4rem; font-size: 0.95rem; margin-top: 1.6rem; }
+  .syllabus-cta a { color: var(--orange); font-weight: 600; }
 
   .price-box { background: var(--navy); border-radius: 14px; padding: 1.9rem 2rem; margin: 1.8rem 0; }
   .price-head { display: flex; align-items: baseline; gap: 0.7rem; }
