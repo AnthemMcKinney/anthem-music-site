@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base path="/book-a-class" title="Book a Group Class | Anthem Music McKinney" description="See live class times and open seats for Anthem Music group classes in downtown McKinney - PreK, Youth Group, and the Homeschool Music Class - and enroll online.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Group Classes</span>
+      <h1 class="center">Book a group class</h1>
+      <p class="lead mx-auto center">Pick a class below to see its day, time, and how many seats are open - PreK, Youth Group, and our Homeschool classes. Not sure which fits, or want to talk first? <a href="/schedule">Book a consultation</a> and we'll help you place your child.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem;">
+    <div class="container widget-wrap">
+      <div id="mms-booking">
+        <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3pRREQxSmMifQ=="></script>
+      </div>
+      <p class="widget-help center">Questions before enrolling? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>, or <a href="/schedule">book a consultation</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .page-hero a { color: var(--orange); font-weight: 500; }
+  .widget-wrap { max-width: 1040px; }
+  #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
+  .widget-help { margin-top: 1.5rem; color: var(--gray); font-size: 0.95rem; }
+  .widget-help a { color: var(--orange); font-weight: 500; }
+</style>
