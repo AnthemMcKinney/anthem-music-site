@@ -15,6 +15,11 @@ import Base from '../layouts/Base.astro';
       <div id="mms-booking">
         <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3pRREQxSmMifQ=="></script>
       </div>
+      <div class="new-class-note">
+        <h3>Don't see a time that fits your schedule?</h3>
+        <p>Let's build one that does. Book a consultation and we'll pair your child with an instructor who's available when you are - and when there's enough interest, we'll start a new class around that schedule.</p>
+        <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+      </div>
       <p class="widget-help center">Questions before enrolling? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>, or <a href="/schedule">book a consultation</a>.</p>
     </div>
   </section>
@@ -28,4 +33,7 @@ import Base from '../layouts/Base.astro';
   #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
   .widget-help { margin-top: 1.5rem; color: var(--gray); font-size: 0.95rem; }
   .widget-help a { color: var(--orange); font-weight: 500; }
+  .new-class-note { max-width: 720px; margin: 2.2rem auto 0; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 14px; padding: 1.7rem 1.8rem; text-align: center; }
+  .new-class-note h3 { color: var(--navy); margin-bottom: 0.5rem; font-size: 1.2rem; }
+  .new-class-note p { color: var(--gray); margin: 0 auto 1.2rem; max-width: 60ch; }
 </style>
