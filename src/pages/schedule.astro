@@ -6,17 +6,25 @@ import Base from '../layouts/Base.astro';
     <div class="container">
       <span class="eyebrow" style="justify-content:center;">Book a Consultation</span>
       <h1 class="center">Let's find the right fit</h1>
-      <p class="lead mx-auto center">New to Anthem? Choose <strong>Consultation</strong> below - a quick one-on-one assessment, instrument setup, and a clear plan to get started. No pressure, just a good first step. Current students can book directly under their instrument.</p>
-      <p class="lead mx-auto center" style="margin-top:0.6rem;font-size:0.98rem;">Ready to enroll in a group class instead? <a href="/book-a-class" style="color:var(--orange);font-weight:600;">See class times &amp; open seats →</a></p>
+      <p class="lead mx-auto center">Every new student starts with a consultation - a relaxed, no-pressure visit to meet an instructor, see the studio, ask questions, and figure out the right instrument, program, and schedule together. Booking below reserves that visit; it doesn't enroll you in a class or start weekly lessons yet.</p>
     </div>
   </section>
 
   <section class="section" style="padding-top:1rem;">
     <div class="container widget-wrap">
+      <div class="howto">
+        <h2>How booking works</h2>
+        <p><strong>Not sure where to start?</strong> Choose <strong>Consultation</strong>. On the next screen you can tell us the instrument or program you're curious about - tap <em>Show More</em> to see everything we offer - and we'll pair you with the right instructor.</p>
+        <p><strong>Already know the instrument or class you want?</strong> Pick it on the first screen. That simply narrows the list to the instructors who teach it - you'll still choose your instructor by reading their profiles, then pick a time that works.</p>
+        <p class="howto-note">Either way, this books a <strong>consultation</strong>. Choosing "PreK" or "Guitar" here means "I'd like to talk about that," not "enroll me" - we'll sort out the exact class, day, and plan together when we meet.</p>
+      </div>
       <div id="mms-booking">
         <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3p3MEpiSjUifQ=="></script>
       </div>
       <p class="widget-help center">Questions before booking? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>.</p>
+      <div class="class-crosslink center">
+        <p>Rather come straight to a class and see if it's a fit? Seats fill fast - <a href="/book-a-class">see class times &amp; open seats →</a></p>
+      </div>
     </div>
   </section>
 </Base>
@@ -29,4 +37,15 @@ import Base from '../layouts/Base.astro';
      the instrument list ("5. Violin") render without truncating. */
   #mms-booking { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
   .widget-help { margin-top: 1.5rem; color: var(--gray); font-size: 0.95rem; }
+  .widget-help a { color: var(--orange); font-weight: 500; }
+  .howto { max-width: 760px; margin: 0 auto 1.6rem; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem 1.8rem; }
+  .howto h2 { color: var(--navy); font-size: 1.2rem; margin-bottom: 0.7rem; }
+  .howto p { color: var(--gray); font-size: 0.96rem; margin-bottom: 0.8rem; }
+  .howto p:last-child { margin-bottom: 0; }
+  .howto p strong { color: var(--navy); }
+  .howto p em { font-style: italic; }
+  .howto-note { border-top: 1px solid var(--line); padding-top: 0.85rem; }
+  .class-crosslink { margin-top: 1.4rem; }
+  .class-crosslink p { color: var(--gray); font-size: 0.95rem; }
+  .class-crosslink a { color: var(--orange); font-weight: 600; }
 </style>
