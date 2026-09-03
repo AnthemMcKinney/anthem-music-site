@@ -1,6 +1,6 @@
 ---
-title: "Covering Music in Your Homeschool When You Don't Play an Instrument"
-description: "Music is the subject homeschool families push to next year. Here's why it gets dropped, what actually works instead, and how fine arts credit fits in."
+title: "How to Handle Music in Your Homeschool Program"
+description: "Music is the subject homeschool families push to next year, usually because nobody at home plays. Here's what works instead, and how fine arts credit fits in."
 pubDate: 2026-09-03
 author: "Anthem Music"
 draft: false
