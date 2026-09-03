@@ -30,7 +30,9 @@ For younger students, there's another advantage. In our Foundations class, kids 
 
 Older students who are ready for the real framework move into Musicianship, where they learn the theory behind the music they already listen to: how scales and keys work, how chords get built and strung into progressions, how to hear those progressions by ear, and how to play a part in a group. All of it taught at an instrument, never from a worksheet.
 
-Both classes end the semester with a showcase for parents, which is its own kind of teacher. Nothing focuses a student like knowing people are going to be sitting in chairs listening in eleven weeks.
+Students also work toward our May and December student showcases. Performing for a real audience is its own kind of teacher. It gives a student a goal, a deadline, and a reason to turn what they've been learning into something they can actually perform.
+
+And if a student's path eventually points toward a traditional band or orchestra experience, we can point you in the right direction. Anthem teaches several band and orchestral instruments, and we've spent years around the homeschool music community in North Texas, so we know what exists and who runs it. The goal was never to keep every student inside one program. It's to help families find the right musical path, and to bridge the gap when that path runs past what we specialize in.
 
 ## The transcript question
 
@@ -44,7 +46,7 @@ That matters beyond paperwork. A student who finishes a semester able to find a 
 
 Our homeschool classes run during the school day, once a week for 45 minutes, by semester.
 
-That's deliberate. Homeschool families already own their weekday hours, and evenings are the most contested part of everyone's week. Running music at 9 in the morning means it doesn't compete with dinner, siblings' activities, or the general end-of-day collapse. It also means your student is learning music at an hour when they're actually awake.
+That's deliberate. Homeschool families already own their weekday hours, and evenings are the most contested part of everyone's week. We form daytime class times around the schedules of participating families, which keeps music from competing with dinner, sports, siblings' activities, and the general end-of-day collapse. As enrollment grows we add class blocks, so the schedule expands around the families in the program rather than the other way around.
 
 Classes stay small enough that everyone plays every week and nobody hides in the back, and they're priced by the semester with a discount for each additional child, which we know matters when you're enrolling more than one.
 
@@ -52,6 +54,8 @@ One more thing worth saying plainly, because families ask: our instruction is se
 
 ## If music has been on your list since August
 
-You don't need to know anything about music to give your child a real music education. You need someone else to handle that subject the way you'd hand off a lab science or a foreign language.
+You don't have to become the music teacher. You just have to make sure music gets taught.
+
+That's the part we can take off your plate entirely: the core instruction, real hands-on time across instruments, musicianship and ensemble skills, records you can put on a transcript, performances to work toward, a path into private study when a student is ready for it, and an introduction to the right outside program when their path goes somewhere we don't specialize. Handle it the way you'd hand off a lab science or a foreign language, and let it be one less subject you're carrying.
 
 Full details on both classes, including the semester arc and what students can do by the showcase, are on our [homeschool music classes page](/homeschool-music-lessons). If you want to talk through which class fits your student, or whether a class or private lessons makes more sense for them, [book a consultation](/schedule) or [reach out](/contact) and we'll help you sort it out.
