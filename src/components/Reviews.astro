@@ -32,6 +32,11 @@ const reviews = [
     text: "Our adult son began taking guitar lessons with Dan back in early 2025. Dan is patient with him as our son is on the autism spectrum. He doesn't feel rushed and can progress at his own pace. Dan recognized he would be better suited to play the ukulele which he has really enjoyed. Dan encouraged him to participate in the Spring Recital where he did an awesome job! We highly recommend Dan.",
     specialNeeds: true
   },
+  {
+    name: "Ginger Hutto",
+    text: "Dan is great. My son is a young adult with a traumatic brain injury and deals with hearing loss. Dan started with the basics and after a couple of weeks realized my son doesn't learn the way he was presenting. After taking a couple of weeks to get to know him, he came up with a plan that worked for him. He truly cares about his students and wants them to have the best experience. I highly recommend Anthem Music and I'm so thankful for them for making my son's experience the best.",
+    specialNeeds: true
+  },
 ];
 
 const standard = reviews.filter((r) => !r.specialNeeds);
@@ -122,7 +127,7 @@ const featured = reviews.filter((r) => r.specialNeeds);
   .featured-head p { color: var(--gray); max-width: 56ch; margin: 0.6rem auto 0; }
   .featured-link { color: var(--orange); font-weight: 600; font-size: 0.95rem; }
   /* 2 featured reviews = 2-up, centered and slightly wider cards */
-  .featured-grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto; }
+  .featured-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); max-width: 1040px; margin: 0 auto; }
   .review-card.featured { background: var(--navy); border-color: var(--navy-light); }
   .review-card.featured blockquote { color: var(--cream); }
   .review-card.featured .rev-name { color: var(--cream); }
