@@ -1,6 +1,6 @@
 ---
 title: "How to Handle Music in Your Homeschool Program"
-description: "Music is the subject homeschool families push to next year, usually because nobody at home plays. Here's what works instead, and how fine arts credit fits in."
+description: "Music is the subject homeschool families keep pushing to next year. Here's why it gets dropped, what actually works instead, and how fine arts credit fits in."
 pubDate: 2026-09-03
 author: "Anthem Music"
 draft: false
@@ -8,7 +8,7 @@ draft: false
 
 Talk to enough homeschool parents and a pattern shows up. Math is handled. Reading is handled. Science has a curriculum, history has a spine, and there's a plan for writing. Then there's music, which has been on the list since August and keeps sliding to next semester.
 
-It's rarely because the family doesn't care about music. It's because a parent who never learned an instrument is being asked to teach one, and unlike most subjects, you can't stay a chapter ahead of your kid in the book. That's a real problem, and it deserves a better answer than guilt.
+It's rarely because the family doesn't care about music. Sometimes nobody at home plays. Just as often the parent played for years and knows plenty, but knowing music and knowing how to teach it in the right order are two very different skills. Either way, unlike most subjects, you can't stay a chapter ahead of your student in the book. That's a real problem, and it deserves a better answer than guilt.
 
 ## Why the usual workarounds stall out
 
