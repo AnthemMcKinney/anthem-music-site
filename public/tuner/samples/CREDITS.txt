@@ -1,0 +1,17 @@
+Anthem reference recordings
+Source: tonejs-instruments by Nicholas Brosowsky and contributors
+https://github.com/nbrosowsky/tonejs-instruments
+Sample license: Creative Commons Attribution 3.0
+https://creativecommons.org/licenses/by/3.0/
+Original guitar: University of Iowa Electronic Music Studios
+Original electric bass: Karoryfer
+Original violin: Versilian Studios / VSCO 2
+Original saxophone: Karoryfer
+Source inventory: https://github.com/nbrosowsky/tonejs-instruments/blob/master/sample-source-info.txt
+Changes: mono, leading silence removed, trimmed to 2.4 seconds, normalized, short attack/end fades; violin given an exponential decay. Playback adjusts pitch to selected target using measured source fundamental. No endorsement implied.
+
+Tuning success sound: "New Notification 013" by Universfield
+Source: https://pixabay.com/sound-effects/new-notification-013-363676/
+License: Pixabay Content License
+https://pixabay.com/service/license-summary/
+The app skips leading/trailing silence and applies controlled playback gain. The bundled MP3 remains otherwise unchanged.

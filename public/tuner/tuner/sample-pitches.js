@@ -1,0 +1,23 @@
+export const samplePitches={
+  "bass-electric-As1.wav": 58.254385317052005,
+  "bass-electric-E1.wav": 41.35875232172156,
+  "bass-electric-E2.wav": 82.35055220261968,
+  "bass-electric-G1.wav": 48.89656876699408,
+  "bass-electric-G2.wav": 97.91933157704386,
+  "guitar-acoustic-A2.wav": 110.10979382675026,
+  "guitar-acoustic-B3.wav": 246.77997228575137,
+  "guitar-acoustic-D3.wav": 146.7600632369216,
+  "guitar-acoustic-E2.wav": 82.29853961427635,
+  "guitar-acoustic-E4.wav": 330.3660132877448,
+  "guitar-acoustic-G3.wav": 195.60415400164106,
+  "violin-A4.wav": 444.8678929424457,
+  "violin-E4.wav": 330.4661182769585,
+  "violin-E5.wav": 667.2958660786857,
+  "violin-G3.wav": 195.88225548835987,
+  "saxophone-Cs3.wav": 138.62516459981734,
+  "saxophone-As3.wav": 233.1291969850677,
+  "saxophone-E4.wav": 329.64056995587066,
+  "saxophone-A4.wav": 440.0081150444159,
+  "saxophone-D5.wav": 587.9678939318541,
+  "saxophone-G5.wav": 784.509589247864
+};

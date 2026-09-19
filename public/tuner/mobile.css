@@ -1,0 +1,10 @@
+/* Keep the tuning action visible on phone screens without shrinking tap targets. */
+@media(max-width:740px){
+ header{height:65px}.intro{padding:16px 0}.intro .eyebrow{display:none}h1{font-size:29px}
+ aside{padding:14px 16px}.string-heading{margin:12px 0 8px}.string{min-height:59px}
+ .reference{margin-top:11px;padding:10px}.tuning-panel{padding:14px 20px}
+ #target-note{font-size:70px}.note-display{margin-top:4px}.target-frequency{margin:3px 0 9px}
+ .hint{min-height:36px;margin:7px auto}.meter-labels{margin-bottom:15px}.readings{margin-bottom:15px}
+ .start{padding:15px 18px}.privacy{margin-top:10px}
+ .strings{grid-template-columns:repeat(var(--string-count,6),minmax(0,1fr))}
+}

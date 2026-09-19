@@ -1,0 +1,31 @@
+/* Open strings, with the thinnest at the top. */
+.neck-caption{font-size:11px;color:#5c6470;margin:9px 0 7px;letter-spacing:.15px}.neck-caption[hidden]{display:none}
+.strings.guitar-neck{position:relative;isolation:isolate;display:grid;grid-template-columns:1fr;gap:0;padding:5px 0;border-radius:12px;overflow:hidden;background:#efe8da}
+.guitar-neck:before{content:"";position:absolute;z-index:-1;left:64px;right:0;top:0;bottom:0;border-left:6px solid #e0d5bd;border-radius:3px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 3px),#939795 calc(25% - 3px),#d3d0c4 25%),linear-gradient(100deg,#253744,#142737);box-shadow:inset 0 0 12px #0004}
+.guitar-neck:after{content:"";position:absolute;z-index:-1;width:9px;height:9px;border-radius:50%;background:#e8dfcb99;left:calc(64px + (100% - 64px)*.625);top:calc(50% - 4.5px)}
+.guitar-neck .string{position:relative;display:flex;align-items:center;gap:0;width:100%;height:44px;min-height:44px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:#26374a;text-align:left}
+.guitar-neck .string-name{display:flex;align-items:baseline;justify-content:center;width:58px;flex-shrink:0;border-radius:8px;margin:0 3px;padding:5px 0}
+.guitar-neck .string small{display:inline;font-size:11px;margin-right:5px;color:#66717c}.guitar-neck .string strong{font-size:20px;line-height:1}.guitar-neck .string sub{font-size:10px;margin-left:2px}
+.guitar-neck .string-wire{height:max(2px,var(--thickness));flex:1;background:#e5dcc7;box-shadow:0 1px 2px #0008}
+.guitar-neck .string-pick{width:20px;color:#ffd363;font-size:17px;text-align:center;height:100%;display:grid;place-items:center;background:#172b3a}
+.guitar-neck .string[aria-pressed=true]{background:#f6c54418;box-shadow:none}.guitar-neck .string[aria-pressed=true] .string-name{background:#f6c544;color:#15283b}.guitar-neck .string[aria-pressed=true] .string-wire{background:#ffd363;box-shadow:0 0 7px #ffd36388}
+.guitar-neck .string:hover .string-name{background:#f6c54466}.guitar-neck .string:focus-visible{outline:2px solid #e85d1a;outline-offset:-2px}
+.string-tip.guitar-tip{display:block;font-size:12px;line-height:1.5;margin:12px 0}
+@media(max-width:740px){.strings.guitar-neck{grid-template-columns:1fr}.guitar-neck .string{height:44px;min-height:44px}.neck-caption{margin:6px 0;font-size:11px}}
+
+/* Same string guide, with instrument-specific physical details. */
+.guitar-neck[data-instrument="violin"]:before{background:linear-gradient(100deg,#273744,#111f2c);border-left-width:4px}
+.guitar-neck[data-instrument="violin"]:after{display:none}
+.guitar-neck[data-instrument="banjo"]:before{background:repeating-linear-gradient(90deg,transparent 0,transparent calc(16.6667% - 2px),#aaa99f calc(16.6667% - 2px),#d3d0c4 16.6667%),linear-gradient(100deg,#253744,#142737)}
+.guitar-neck .short-string .string-wire{margin-left:calc((100% - 84px)*.83333);position:relative}
+.guitar-neck .short-string .string-wire:before{content:"";position:absolute;left:-5px;top:-4px;width:8px;height:8px;background:#ddd4bf;border:1px solid #182939;border-radius:50%}
+
+.strings.sax-guide{display:grid;grid-template-columns:58px 1fr;grid-template-areas:"mark copy" "transpose transpose";gap:12px;padding:17px;border-radius:14px;color:white;background:radial-gradient(circle at 90% 5%,#e85d1a 0 2px,transparent 3px),linear-gradient(145deg,#152b4a,#09182f);box-shadow:inset 0 0 0 1px #ffffff18,0 8px 22px #0d1f3c20}
+.sax-mark{grid-area:mark;width:58px;height:58px;display:grid;place-items:center;border-radius:50%;font-size:36px;background:#f6c544;color:#0d1f3c;box-shadow:0 0 0 5px #f6c54422}
+.sax-copy{grid-area:copy;display:flex;flex-direction:column;justify-content:center}.sax-copy strong{font:600 19px Lora,Georgia,serif;color:#fff}.sax-copy span{font-size:13px;color:#f6c544;font-weight:750;margin-top:2px}.sax-copy small{font-size:11px;color:#d5dce7;margin-top:4px;line-height:1.35}
+.sax-transpose{grid-area:transpose;display:grid;grid-template-columns:1fr auto auto 1fr auto;align-items:center;gap:8px;border-top:1px solid #ffffff20;padding-top:12px}.sax-transpose span{font-size:9px;letter-spacing:1px;color:#aeb9c8}.sax-transpose b{font-size:23px;color:#f6c544}.sax-transpose i{font-style:normal;color:#e85d1a;font-size:21px}
+.listening-mode[hidden]{display:none}
+@media(max-width:740px){.strings.sax-guide{grid-template-columns:50px 1fr;padding:14px}.sax-mark{width:50px;height:50px;font-size:31px}.sax-copy strong{font-size:17px}}
+.instruments{grid-template-columns:repeat(6,1fr)}
+.needle{transition:left .24s cubic-bezier(.22,.75,.24,1),opacity .12s ease}
+@media(max-width:740px){.instruments{grid-template-columns:repeat(3,1fr)}.instruments button{min-height:44px}}
