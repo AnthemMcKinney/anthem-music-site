@@ -20,12 +20,16 @@ export class PitchTrail{
    const width=Math.round(rect.width*ratio),height=Math.round(rect.height*ratio);
    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
    const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.globalAlpha=1;
-   const w=rect.width,h=rect.height,head=76,range=h-head,x=c=>w*(.5+Math.max(-100,Math.min(100,c))*.0043);
+   const w=rect.width,h=rect.height,head=Math.min(76,Math.max(58,h*.48)),range=Math.max(1,h-head),x=c=>w*(.5+Math.max(-100,Math.min(100,c))*.0043);
    ctx.clearRect(0,0,w,h);const live=this.last&&now-this.last.time<220;const completed=this.gauge?.zero&&this.last&&now-this.last.time<1200;
+   // The grid fills the whole display. Its moving first and last rows fade at
+   // the edges so time appears to flow into and out of the trail naturally.
+   const gridFade=ctx.createLinearGradient(0,0,0,h);gridFade.addColorStop(0,'rgba(225,228,227,0)');gridFade.addColorStop(.12,'rgba(225,228,227,.9)');gridFade.addColorStop(.88,'rgba(225,228,227,.9)');gridFade.addColorStop(1,'rgba(225,228,227,0)');
+   ctx.strokeStyle=gridFade;ctx.lineWidth=.7;
+   for(let c=-100;c<=100;c+=10){ctx.beginPath();ctx.moveTo(x(c),0);ctx.lineTo(x(c),h);ctx.stroke();}
+   const offset=(now/this.history.duration*h)%24;for(let y=offset;y<h;y+=24){ctx.globalAlpha=Math.max(0,Math.min(1,y/24,(h-y)/24));ctx.strokeStyle='#e1e4e3';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.globalAlpha=1;
    // Time scrolls downward; pitch displacement is horizontal. No artificial waveform.
-   ctx.save();ctx.beginPath();ctx.rect(0,head,w,range);ctx.clip();ctx.strokeStyle='#e1e4e3';ctx.lineWidth=.7;
-   for(let c=-100;c<=100;c+=10){ctx.beginPath();ctx.moveTo(x(c),head);ctx.lineTo(x(c),h);ctx.stroke();}
-   const offset=(now/this.history.duration*range)%24;for(let y=head+offset;y<h;y+=24){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+   ctx.save();ctx.beginPath();ctx.rect(0,head,w,range);ctx.clip();
    if(this.gauge){const fill=(live||completed)?this.gauge.fill:Math.min(.94,this.gauge.fill),top=h-fill*range;
     ctx.globalAlpha=.16;ctx.fillStyle=(live||completed)?mix(this.gauge.green):'#888f94';ctx.fillRect(w/2-9,top,18,h-top);ctx.globalAlpha=1;
    }
@@ -38,7 +42,7 @@ export class PitchTrail{
    // Keep even a single accepted sample visible until a connected trace forms.
    if(points.length){const p=points[points.length-1];ctx.globalAlpha=live?1:.5;ctx.fillStyle=live?mix(p.green):'#737b81';ctx.beginPath();ctx.arc(x(p.cents),head+(traceTime-p.time)/this.history.duration*range,1.5,0,Math.PI*2);ctx.fill();}
    ctx.restore();ctx.globalAlpha=1;
-   if(this.last){const px=x(this.last.cents),cy=43,r=25;
+   if(this.last){const px=x(this.last.cents),r=Math.min(25,(head-10)/2),cy=head-r-7;
     ctx.fillStyle=(live||completed)?mix(this.gauge?.green||0):'#737b81';ctx.beginPath();ctx.arc(px,cy,r,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(px-7,cy+r-2);ctx.lineTo(px,head);ctx.lineTo(px+7,cy+r-2);ctx.closePath();ctx.fill();
     ctx.fillStyle='white';ctx.font='600 13px Arial';ctx.textAlign='center';ctx.textBaseline='middle';const c=this.last.cents;ctx.fillText((c>0?'+':'')+c.toFixed(1),px,cy-3);ctx.font='9px Arial';ctx.fillText('CENTS',px,cy+11);
     if(!live){ctx.fillStyle='#5c6470';ctx.font='10px Arial';ctx.fillText('LAST',px,9);}

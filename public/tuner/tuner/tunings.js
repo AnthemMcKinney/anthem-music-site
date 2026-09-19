@@ -1,6 +1,6 @@
 export const instruments=[
  {id:'guitar',name:'Guitar',tunings:[['Standard','E2 A2 D3 G3 B3 E4'],['Drop D','D2 A2 D3 G3 B3 E4'],['Half-step down','Eb2 Ab2 Db3 Gb3 Bb3 Eb4'],['Whole-step down','D2 G2 C3 F3 A3 D4'],['Open G','D2 G2 D3 G3 B3 D4'],['Open D','D2 A2 D3 F#3 A3 D4'],['DADGAD','D2 A2 D3 G3 A3 D4']]},
- {id:'ukulele',name:'Ukulele',tunings:[['High G standard','G4 C4 E4 A4'],['Low G standard','G3 C4 E4 A4'],['Baritone','D3 G3 B3 E4']]},
+ {id:'ukulele',name:'Ukulele',tunings:[['High G standard','G4 C4 E4 A4'],['Low G standard','G3 C4 E4 A4'],['Baritone','D3 G3 B3 E4'],['Guitalele','A2 D3 G3 C4 E4 A4']]},
  {id:'bass',name:'Bass',tunings:[['4-string standard','E1 A1 D2 G2']]},
  {id:'violin',name:'Violin',tunings:[['Standard','G3 D4 A4 E5']]},
  {id:'banjo',name:'Banjo',tunings:[['Open G','G4 D3 G3 B3 D4'],['Double C','G4 C3 G3 C4 D4'],['G modal / Sawmill','G4 D3 G3 C4 D4']]},
@@ -8,6 +8,13 @@ export const instruments=[
 const semitones={C:0,'C#':1,Db:1,D:2,'D#':3,Eb:3,E:4,F:5,'F#':6,Gb:6,G:7,'G#':8,Ab:8,A:9,'A#':10,Bb:10,B:11};
 export function frequency(note){const [,name,oct]=note.match(/^([A-G][#b]?)(\d)$/);return 440*2**(((Number(oct)+1)*12+semitones[name]-69)/12);}
 export const centsBetween=(a,b)=>1200*Math.log2(a/b);
+const subscript=note=>note.replace(/(\d)$/,(digit)=>'₀₁₂₃₄₅₆₇₈₉'[Number(digit)]);
+export function tuningLabel(instrument,[name,pitches]){
+ const notes=pitches.split(' ');
+ if(instrument.id==='alto-sax')return name;
+ if(instrument.id==='guitar')return `${name} (${notes.map((note,index)=>{const pitch=note.replace(/\d$/,'').replace('b','♭').replace('#','♯');return index===notes.length-1&&pitch==='E'?'e':pitch;}).join('')})`;
+ return `${name} (${notes.map(subscript).join(' ')})`;
+}
 export function nearestNote(hz){const midi=Math.round(69+12*Math.log2(hz/440));return ['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'][((midi%12)+12)%12]+(Math.floor(midi/12)-1);}
 export function transposeNote(note,amount){
  const [,name,oct]=note.replace('♭','b').replace('♯','#').match(/^([A-G][#b]?)(\d)$/);

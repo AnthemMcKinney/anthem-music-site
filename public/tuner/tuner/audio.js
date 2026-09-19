@@ -15,7 +15,7 @@ export class TunerAudio{
   }).catch(()=>null);
   return this.successPromise;
  }
- async context(){const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();await this.prepareSuccess(ctx);return ctx;}
+ async context(){const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();void this.prepareSuccess(ctx);return ctx;}
  async start(){
   const generation=++this.generation;
   if(!isSecureContext||!navigator.mediaDevices?.getUserMedia)throw new Error('Microphone access needs HTTPS on phones, or localhost on this computer.');
@@ -98,7 +98,7 @@ export class TunerAudio{
   this.mutedUntil=performance.now()+holdMs;this.tracker.reset();
   return holdMs;
  }
- prepareReference(instrument){return this.reference.prepare(this.getContext(),instrument);}
+ prepareReference(instrument){return this.reference.prepare(instrument);}
  stopReference(){this.referenceRequest++;this.reference.stop();this.mutedUntil=0;}
  async play(hz,instrument='guitar'){
   const request=++this.referenceRequest,ctx=await this.context();
