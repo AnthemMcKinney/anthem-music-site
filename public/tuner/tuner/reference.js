@@ -5,7 +5,7 @@ export function referenceSample(instrument,hz){
  return Object.entries(samplePitches).filter(([file])=>file.startsWith(family+'-')).map(([file,sourceHz])=>({file,sourceHz,distance:Math.abs(Math.log2(hz/sourceHz))})).sort((a,b)=>a.distance-b.distance)[0];
 }
 export class ReferencePlayer{
- constructor(){this.bytes=new Map();this.buffers=new Map();this.request=0;this.voice=null;}
+ constructor(){this.bytes=new Map();this.buffers=new Map();this.media=new Map();this.request=0;this.voice=null;this.nativeVoice=null;}
  fetchBytes(file){
   if(!this.bytes.has(file))this.bytes.set(file,fetch(new URL('../samples/'+file,import.meta.url)).then(r=>{if(!r.ok)throw Error('Reference recording unavailable');return r.arrayBuffer();}).catch(error=>{this.bytes.delete(file);throw error;}));
   return this.bytes.get(file);
@@ -17,8 +17,21 @@ export class ReferencePlayer{
   }
   return this.buffers.get(file);
  }
- prepare(instrument){return Promise.all(Object.keys(samplePitches).filter(file=>file.startsWith(sampleFamily(instrument)+'-')).map(file=>this.fetchBytes(file)));}
- stop(){this.request++;this.voice?.stop();this.voice=null;}
+ mediaFor(file){
+  if(typeof Audio==='undefined')return null;
+  if(!this.media.has(file)){const audio=new Audio(new URL('../samples/'+file,import.meta.url));audio.preload='auto';audio.playsInline=true;audio.load();this.media.set(file,audio);}
+  return this.media.get(file);
+ }
+ prepare(instrument){const files=Object.keys(samplePitches).filter(file=>file.startsWith(sampleFamily(instrument)+'-'));for(const file of files)this.mediaFor(file);return Promise.all(files.map(file=>this.fetchBytes(file)));}
+ stop(){this.request++;this.voice?.stop();this.voice=null;if(this.nativeVoice){this.nativeVoice.pause();this.nativeVoice.currentTime=0;this.nativeVoice=null;}}
+ async playNative(instrument,hz){
+  const request=++this.request,sample=referenceSample(instrument,hz),audio=this.mediaFor(sample.file);if(!audio)return null;
+  if(this.nativeVoice&&this.nativeVoice!==audio){this.nativeVoice.pause();this.nativeVoice.currentTime=0;}
+  audio.pause();audio.currentTime=0;audio.volume=1;audio.playbackRate=hz/sample.sourceHz;audio.preservesPitch=false;audio.webkitPreservesPitch=false;this.nativeVoice=audio;
+  await audio.play();if(request!==this.request){audio.pause();audio.currentTime=0;return null;}
+  const seconds=Number.isFinite(audio.duration)&&audio.duration>0?Math.min(2.4,audio.duration/audio.playbackRate):2.4;
+  return seconds*1000+200;
+ }
  async play(ctx,instrument,hz){
   const request=++this.request;
   const sample=referenceSample(instrument,hz),buffer=await this.load(ctx,sample.file);

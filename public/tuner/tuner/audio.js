@@ -101,11 +101,14 @@ export class TunerAudio{
  prepareReference(instrument){return this.reference.prepare(instrument);}
  stopReference(){this.referenceRequest++;this.reference.stop();this.mutedUntil=0;}
  async play(hz,instrument='guitar'){
-  const request=++this.referenceRequest,ctx=this.getContext();
-  // This runs directly inside the string tap. iOS requires playback to be
-  // unlocked by that gesture, especially after returning from another app.
-  if(ctx.state!=='running')await ctx.resume();
-  if(ctx.state!=='running')throw new Error('Audio playback is paused');
+  const request=++this.referenceRequest;
+  // Native media playback starts inside the tap itself and remains reliable
+  // when iOS suspends the separate microphone AudioContext in the background.
+  if(typeof Audio!=='undefined'){
+   const duration=await this.reference.playNative(instrument,hz);
+   if(duration!==null&&request===this.referenceRequest){this.mutedUntil=performance.now()+duration;this.tracker.reset();this.onPitch(null);return duration;}
+  }
+  const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();if(ctx.state!=='running')throw new Error('Audio playback is paused');
   if(request!==this.referenceRequest)return null;
   const duration=await this.reference.play(ctx,instrument,hz);
   if(duration===null||request!==this.referenceRequest)return null;
