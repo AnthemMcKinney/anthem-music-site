@@ -17,7 +17,7 @@ export class ReferencePlayer{
   }
   return this.buffers.get(file);
  }
- prepare(ctx,instrument){return Promise.all(Object.keys(samplePitches).filter(file=>file.startsWith(sampleFamily(instrument)+'-')).map(file=>this.load(ctx,file)));}
+ prepare(instrument){return Promise.all(Object.keys(samplePitches).filter(file=>file.startsWith(sampleFamily(instrument)+'-')).map(file=>this.fetchBytes(file)));}
  stop(){this.request++;this.voice?.stop();this.voice=null;}
  async play(ctx,instrument,hz){
   const request=++this.request;

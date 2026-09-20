@@ -98,12 +98,14 @@ export class TunerAudio{
   this.mutedUntil=performance.now()+holdMs;this.tracker.reset();
   return holdMs;
  }
- prepareReference(instrument){const ctx=this.getContext();return this.reference.prepare(ctx,instrument);}
+ prepareReference(instrument){return this.reference.prepare(instrument);}
  stopReference(){this.referenceRequest++;this.reference.stop();this.mutedUntil=0;}
  async play(hz,instrument='guitar'){
   const request=++this.referenceRequest,ctx=this.getContext();
-  if(ctx.state!=='running'){const oscillator=ctx.createOscillator(),silent=ctx.createGain();silent.gain.value=0;oscillator.connect(silent);silent.connect(ctx.destination);oscillator.start();oscillator.stop(ctx.currentTime+.03);oscillator.onended=()=>{oscillator.disconnect();silent.disconnect();};}
-  await this.context();
+  // This runs directly inside the string tap. iOS requires playback to be
+  // unlocked by that gesture, especially after returning from another app.
+  if(ctx.state!=='running')await ctx.resume();
+  if(ctx.state!=='running')throw new Error('Audio playback is paused');
   if(request!==this.referenceRequest)return null;
   const duration=await this.reference.play(ctx,instrument,hz);
   if(duration===null||request!==this.referenceRequest)return null;
