@@ -140,7 +140,7 @@ if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(ur
 document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note. Tuning-success sound: <a href="https://pixabay.com/sound-effects/new-notification-013-363676/" target="_blank" rel="noopener">“New Notification 013” by Universfield on Pixabay</a>, used under the Pixabay Content License.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.textContent='More';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back to tuner':'More';});
-document.querySelectorAll('main > .help, main > details').forEach(item=>moreBody.append(item));document.querySelector('main').append(more);
+document.querySelectorAll('main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';moreBody.append(copyright);document.querySelector('main').append(more);
 renderInstrument();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
