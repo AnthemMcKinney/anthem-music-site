@@ -16,6 +16,13 @@ export class TunerAudio{
   return this.successPromise;
  }
  async context(){const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();void this.prepareSuccess(ctx);return ctx;}
+ async resumeInput(){
+  const track=this.stream?.getAudioTracks?.()[0];
+  if(!track||track.readyState!=='live')return false;
+  const ctx=this.ctx;if(!ctx)return false;
+  if(ctx.state!=='running'){try{await ctx.resume();}catch{return false;}}
+  return track.readyState==='live'&&!track.muted&&ctx.state==='running';
+ }
  async start(){
   const generation=++this.generation;
   if(!isSecureContext||!navigator.mediaDevices?.getUserMedia)throw new Error('Microphone access needs HTTPS on phones, or localhost on this computer.');

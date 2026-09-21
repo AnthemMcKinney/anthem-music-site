@@ -115,7 +115,7 @@ function renderInstrument(){
 $('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument-choice').value)];tuningIndex=0;auto=false;renderInstrument();};
 $('auto-mode').onclick=()=>{if(listening||starting){auto=false;stopListening();renderMode();return;}auto=true;selector.reset();trend=null;renderMode();void startListening();};
 $('tuning').onchange=()=>{tuningIndex=Number($('tuning').value);selectString(0);};
-let requestId=0;
+let requestId=0,resumeWanted=false,resuming=false;
 function stopListening(){trail.clear();requestId++;starting=false;engine.stop();}
 async function startListening(){
  if(listening||starting){stopListening();return;}
@@ -125,6 +125,17 @@ async function startListening(){
  try{await engine.start();}
  catch(error){if(request!==requestId)return;engine.stop();$('error').hidden=false;$('error').textContent=error.name==='NotAllowedError'?'Microphone access was blocked. Allow it in your browser’s site settings, then try again.':error.name==='NotFoundError'?'No microphone found. Connect one and try again.':error.name==='NotReadableError'?'The microphone is busy or unavailable. Close other audio apps and try again.':error.message;}
  finally{if(request===requestId)starting=false;}
+}
+async function restoreMicrophone(){
+ if(resuming||document.hidden)return;
+ const wanted=resumeWanted||listening||starting||auto;if(!wanted)return;
+ resuming=true;resumeWanted=false;
+ try{
+  if(listening&&await engine.resumeInput())return;
+  if(listening||starting)stopListening();
+  auto=true;selector.reset();trend=null;renderMode();await startListening();
+  if(!listening){auto=false;renderMode();message('Tap Auto Detect to reconnect','Your phone paused the microphone while the tuner was idle.');}
+ }finally{resuming=false;}
 }
 async function playTargetReference(){
  const request=++referenceRequest;clearTimeout(referenceTimer);trail.clear();
@@ -136,13 +147,16 @@ async function playTargetReference(){
  }catch{if(request!==referenceRequest)return;$('error').hidden=false;$('error').textContent='The string recording could not load. Reload the page and try again.';}
  finally{if(request===referenceRequest)updateTarget();}
 }
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopListening();referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;}});
-window.addEventListener('pagehide',stopListening);
+function suspendForBackground(){resumeWanted=resumeWanted||auto||listening||starting;if(listening||starting)stopListening();referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)suspendForBackground();else setTimeout(()=>void restoreMicrophone(),180);});
+window.addEventListener('pagehide',suspendForBackground);
+window.addEventListener('pageshow',()=>setTimeout(()=>void restoreMicrophone(),180));
+window.addEventListener('focus',()=>setTimeout(()=>void restoreMicrophone(),180));
 if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(url.protocol==='https:'){$('portal').href=url.href;$('portal').hidden=false;}}
 document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note. Tuning-success sound: <a href="https://pixabay.com/sound-effects/new-notification-013-363676/" target="_blank" rel="noopener">“New Notification 013” by Universfield on Pixabay</a>, used under the Pixabay Content License.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.textContent='☰ More';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back to tuner':'☰ More';});
-document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 41';moreBody.append(copyright,version);document.querySelector('main').append(more);
+document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 42';moreBody.append(copyright,version);document.querySelector('main').append(more);
 renderInstrument();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
