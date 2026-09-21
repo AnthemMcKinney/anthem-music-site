@@ -116,7 +116,7 @@ $('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument
 $('auto-mode').onclick=()=>{if(listening||starting){auto=false;stopListening();renderMode();return;}auto=true;selector.reset();trend=null;renderMode();void startListening();};
 $('tuning').onchange=()=>{tuningIndex=Number($('tuning').value);selectString(0);};
 let requestId=0,resumeWanted=false,resuming=false;
-function stopListening(){trail.clear();requestId++;starting=false;engine.stop();}
+function stopListening(){trail.clear();requestId++;starting=false;engine.stop();engine.resetContext();}
 async function startListening(){
  if(listening||starting){stopListening();return;}
  const request=++requestId;starting=true;$('error').hidden=true;
@@ -156,7 +156,7 @@ if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(ur
 document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note. Tuning-success sound: <a href="https://pixabay.com/sound-effects/new-notification-013-363676/" target="_blank" rel="noopener">“New Notification 013” by Universfield on Pixabay</a>, used under the Pixabay Content License.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.textContent='☰ More';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back to tuner':'☰ More';});
-document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 42';moreBody.append(copyright,version);document.querySelector('main').append(more);
+document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 43';moreBody.append(copyright,version);document.querySelector('main').append(more);
 renderInstrument();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 

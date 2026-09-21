@@ -70,6 +70,10 @@ export class TunerAudio{
   this.diagnostic.frame(frame,sampledAt);
  }
  stop(){void this.diagnostic?.stop('microphone_stopped');this.generation++;clearInterval(this.timer);this.source?.disconnect();this.stream?.getTracks().forEach(t=>{t.onended=null;t.stop();});this.stream=null;this.tracker.reset();this.onPitch(null);this.onState('stopped');this.onLevel(0);}
+ resetContext(){
+  const ctx=this.ctx;this.ctx=null;this.source=null;this.analyser=null;this.buffer=null;
+  if(ctx&&ctx.state!=='closed'&&ctx.close)void ctx.close().catch(()=>{});
+ }
  confirm(){
   const ctx=this.ctx;if(!ctx||ctx.state!=='running')return 0;
   const now=ctx.currentTime;
