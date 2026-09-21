@@ -128,13 +128,14 @@ async function startListening(){
 }
 async function restoreMicrophone(){
  if(resuming||document.hidden)return;
- const wanted=resumeWanted||listening||starting||auto;if(!wanted)return;
+ const returning=resumeWanted;if(!returning&&!listening&&!starting&&!auto)return;
  resuming=true;resumeWanted=false;
  try{
+  // Installed iOS web apps can report a live microphone while delivering no
+  // samples after suspension. An honest OFF state is safer than a false ON.
+  if(returning){if(listening||starting)stopListening();auto=false;renderMode();clear();message('Tap Auto Detect to reconnect','Your phone paused the microphone while the tuner was idle.');return;}
   if(listening&&await engine.resumeInput())return;
-  if(listening||starting)stopListening();
-  auto=true;selector.reset();trend=null;renderMode();await startListening();
-  if(!listening){auto=false;renderMode();message('Tap Auto Detect to reconnect','Your phone paused the microphone while the tuner was idle.');}
+  if(listening||starting)stopListening();auto=false;renderMode();clear();message('Tap Auto Detect to reconnect','The microphone needs a fresh connection.');
  }finally{resuming=false;}
 }
 async function playTargetReference(){
@@ -156,7 +157,7 @@ if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(ur
 document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note. Tuning-success sound: <a href="https://pixabay.com/sound-effects/new-notification-013-363676/" target="_blank" rel="noopener">“New Notification 013” by Universfield on Pixabay</a>, used under the Pixabay Content License.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.textContent='☰ More';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back to tuner':'☰ More';});
-document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 43';moreBody.append(copyright,version);document.querySelector('main').append(more);
+document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 44';moreBody.append(copyright,version);document.querySelector('main').append(more);
 renderInstrument();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
