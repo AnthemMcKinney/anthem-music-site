@@ -8,18 +8,13 @@ class Clock{
   const ctx=this.context();
   if(ctx.state==='running')return Promise.resolve(ctx);
   if(this.unlocking)return this.unlocking;
-  // iOS requires every audio-start call to happen synchronously inside the
-  // original touch. Do not await native media before resuming Web Audio.
+  // iOS requires resume() and a real source start to happen synchronously
+  // inside the original touch. Keep this path entirely in Web Audio so a
+  // native sample cannot steal the output route or make an audible transient.
   const resume=ctx.resume();
-  let media=Promise.resolve();
-  if(typeof Audio!=='undefined'){
-   this.primer??=Object.assign(new Audio(new URL('../samples/guitar-acoustic-E4.wav',import.meta.url)),{playsInline:true,preload:'auto',volume:.01});
-   this.primer.currentTime=0;
-   media=this.primer.play().then(()=>new Promise(resolve=>setTimeout(()=>{this.primer.pause();this.primer.currentTime=0;resolve();},35))).catch(()=>{});
-  }
   const oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;
   oscillator.frequency.value=880;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);
-  this.unlocking=Promise.allSettled([resume,media]).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});
+  this.unlocking=Promise.resolve(resume).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});
   return this.unlocking;
  }
  click(at,accent,sub){
@@ -30,7 +25,7 @@ class Clock{
  schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
  async start(){await this.unlock();this.stop(false);this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
  stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(reset){this.step=0;this.onPulse(-1,0);}}
- release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(this.primer){this.primer.pause();this.primer.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
+ release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
  resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
  setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
  phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
@@ -47,7 +42,7 @@ export function initMetronome(){
  function renderAccentCopy(){const divided=subdivision>1;$('accent-title').textContent=divided?'Accent each beat':'Accent beat one';$('accent-help').textContent=divided?'Emphasize every numbered beat over the notes between.':'Make the start of every measure unmistakable.';}
  document.querySelectorAll('[data-meter]').forEach(button=>button.addEventListener('click',()=>{beats=Number(button.dataset.meter);unit=Number(button.dataset.unit);document.querySelectorAll('[data-meter]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderDots();}));document.querySelectorAll('[data-subdivision]').forEach(button=>button.addEventListener('click',()=>{subdivision=Number(button.dataset.subdivision);clock.setSubdivision(subdivision);document.querySelectorAll('[data-subdivision]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderAccentCopy();clock.onPulse(-1,0);}));
  document.querySelectorAll('[data-sound]').forEach(button=>button.addEventListener('click',()=>{clock.sound=button.dataset.sound;document.querySelectorAll('[data-sound]').forEach(item=>item.setAttribute('aria-pressed',item===button));void clock.unlock().then(()=>clock.click(clock.context().currentTime+.01,true,false));}));$('accent-one').addEventListener('change',event=>clock.accent=event.target.checked);settings.addEventListener('click',()=>toggleOptions(options.hidden));$('metronome-options-close').addEventListener('click',()=>toggleOptions(false));
- start.addEventListener('pointerdown',()=>void clock.unlock());start.addEventListener('click',async()=>{if(clock.running){clock.stop();clock.release();start.textContent='Start';start.classList.remove('running');return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();status.textContent='Tap Start again to allow sound.';}});
+ start.addEventListener('pointerdown',()=>void clock.unlock());start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();status.textContent='Tap Start again to allow sound.';}});
  function draw(){
   const rect=canvas.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),width=Math.max(1,rect.width),height=Math.max(1,rect.height);
   if(canvas.width!==Math.round(width*ratio)||canvas.height!==Math.round(height*ratio)){canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);}
