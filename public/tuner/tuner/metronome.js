@@ -4,13 +4,23 @@ const tempoName=bpm=>bpm<60?'Largo':bpm<76?'Adagio':bpm<108?'Andante':bpm<120?'M
 class Clock{
  constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set()});}
  context(){if(this.ctx)return this.ctx;const AudioContext=window.AudioContext||window.webkitAudioContext;this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=.96;this.compressor=this.ctx.createDynamicsCompressor();this.compressor.threshold.value=-16;this.compressor.ratio.value=10;this.compressor.attack.value=.001;this.compressor.release.value=.09;this.master.connect(this.compressor).connect(this.ctx.destination);return this.ctx;}
- async unlock(){
+ unlock(){
+  const ctx=this.context();
+  if(ctx.state==='running')return Promise.resolve(ctx);
+  if(this.unlocking)return this.unlocking;
+  // iOS requires every audio-start call to happen synchronously inside the
+  // original touch. Do not await native media before resuming Web Audio.
+  const resume=ctx.resume();
+  let media=Promise.resolve();
   if(typeof Audio!=='undefined'){
-   this.primer??=Object.assign(new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAACAgICA'),{playsInline:true,volume:.01});
-   try{this.primer.currentTime=0;await this.primer.play();}catch{}
+   this.primer??=Object.assign(new Audio(new URL('../samples/guitar-acoustic-E4.wav',import.meta.url)),{playsInline:true,preload:'auto',volume:.01});
+   this.primer.currentTime=0;
+   media=this.primer.play().then(()=>new Promise(resolve=>setTimeout(()=>{this.primer.pause();this.primer.currentTime=0;resolve();},35))).catch(()=>{});
   }
-  const ctx=this.context();if(ctx.state!=='running')await ctx.resume();
-  const buffer=ctx.createBuffer(1,1,ctx.sampleRate),source=ctx.createBufferSource();source.buffer=buffer;source.connect(ctx.destination);source.start();
+  const oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;
+  oscillator.frequency.value=880;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);
+  this.unlocking=Promise.allSettled([resume,media]).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});
+  return this.unlocking;
  }
  click(at,accent,sub){
   const ctx=this.context(),gain=ctx.createGain(),osc=ctx.createOscillator(),snap=ctx.createOscillator(),level=sub?.35:accent?.92:.68;
@@ -20,7 +30,7 @@ class Clock{
  schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
  async start(){await this.unlock();this.stop(false);this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
  stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(reset){this.step=0;this.onPulse(-1,0);}}
- release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;if(this.primer){this.primer.pause();this.primer.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
+ release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(this.primer){this.primer.pause();this.primer.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
  resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
  setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
  phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
