@@ -2,15 +2,20 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 const tempoName=bpm=>bpm<60?'Largo':bpm<76?'Adagio':bpm<108?'Andante':bpm<120?'Moderato':bpm<156?'Allegro':bpm<176?'Vivace':'Presto';
 
 class Clock{
- constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set()});}
+ constructor(onPulse){const nativeMode=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||new URLSearchParams(location.search).has('nativeMetronome');Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set(),nativeMode,nativeIndex:0});}
  context(){if(this.ctx)return this.ctx;const AudioContext=window.AudioContext||window.webkitAudioContext;this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=.96;this.compressor=this.ctx.createDynamicsCompressor();this.compressor.threshold.value=-16;this.compressor.ratio.value=10;this.compressor.attack.value=.001;this.compressor.release.value=.09;this.master.connect(this.compressor).connect(this.ctx.destination);return this.ctx;}
- nativeBeat(){
+ nativeBeat(accent=true,sub=false,primePool=false){
   if(typeof Audio==='undefined')return Promise.resolve(false);
   this.nativeClicks??={};
   const sound=this.sound;
-  this.nativeClicks[sound]??=Object.assign(new Audio(new URL(`../samples/metronome-${sound}.wav`,import.meta.url)),{playsInline:true,preload:'auto',volume:1});
-  const audio=this.nativeClicks[sound];audio.currentTime=0;
-  return audio.play().then(()=>true);
+  if(!this.nativeClicks[sound])this.nativeClicks[sound]=Array.from({length:8},()=>{const audio=new Audio(new URL(`../samples/metronome-${sound}.wav`,import.meta.url));audio.preload='auto';audio.playsInline=true;audio.load();return audio;});
+  const pool=this.nativeClicks[sound],level=sub?.35:accent?1:.72;
+  if(primePool){
+   const [first,...rest]=pool;first.pause();first.currentTime=0;first.volume=level;
+   const starters=rest.map(audio=>{audio.pause();audio.currentTime=0;audio.volume=0;return audio.play().then(()=>{audio.pause();audio.currentTime=0;audio.volume=1;}).catch(()=>{});});
+   return Promise.all([first.play(),...starters]).then(()=>true);
+  }
+  const audio=pool[this.nativeIndex++%pool.length];audio.pause();audio.currentTime=0;audio.volume=level;return audio.play().then(()=>true).catch(()=>false);
  }
  unlock(audible=false){
   const ctx=this.context();
@@ -31,11 +36,11 @@ class Clock{
   if(this.sound==='wood'){osc.type='triangle';osc.frequency.value=accent?1280:920;snap.frequency.value=accent?390:310;}else if(this.sound==='beep'){osc.type='sine';osc.frequency.value=accent?1320:880;snap.frequency.value=accent?660:440;}else{osc.type='square';osc.frequency.value=accent?1760:1180;snap.frequency.value=accent?880:590;}
   const duration=this.sound==='beep'?.095:this.sound==='wood'?.045:.055;gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(level,at+.002);gain.gain.exponentialRampToValueAtTime(.0001,at+duration);osc.connect(gain);snap.connect(gain);gain.connect(this.master);osc.start(at);snap.start(at);osc.stop(at+duration+.02);snap.stop(at+duration+.02);
  }
- schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
- async start(){await this.unlock(true);this.stop(false);this.running=true;const total=this.beats*this.subdivision;this.step=1%total;this.nextAt=this.context().currentTime+60/this.bpm/this.subdivision;this.startedAt=performance.now();this.onPulse(0,0);this.schedule();}
+ schedule(){if(!this.running)return;const total=this.beats*this.subdivision;if(this.nativeMode){const now=performance.now();while(this.nextAtMs<now+120){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,this.nextAtMs-now);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running){void this.nativeBeat(isAccent,!isBeat);this.onPulse(beat,sub);}},delay);this.visualTimers.add(timer);this.nextAtMs+=60000/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);return;}const ctx=this.context();while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
+ async start(){this.stop(false);const total=this.beats*this.subdivision;if(this.nativeMode){await this.nativeBeat(this.accent,false,true);this.running=true;this.step=1%total;this.nextAtMs=performance.now()+60000/this.bpm/this.subdivision;this.startedAt=performance.now();this.onPulse(0,0);this.schedule();return;}await this.unlock();this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
  stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(reset){this.step=0;this.onPulse(-1,0);}}
- release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;for(const audio of Object.values(this.nativeClicks||{})){audio.pause();audio.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
- resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
+ release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;for(const pool of Object.values(this.nativeClicks||{}))for(const audio of pool){audio.pause();audio.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
+ resetSchedule(){this.step=0;if(this.running){if(this.nativeMode)this.nextAtMs=performance.now()+40;else this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
  setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
  phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
 }
