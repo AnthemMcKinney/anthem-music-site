@@ -7,6 +7,25 @@
 @media(max-width:390px){.pulse-stage{height:205px}.beat-dot{width:22px;height:22px}.tempo-value{font-size:52px}.metronome-heading{gap:8px}.metronome-settings{font-size:12px}.subdivision-options span{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.beat-dot,.accent-option i:after{transition:none}}
 
+@media(min-width:1100px) and (min-height:620px){
+ body[data-view=metronome] main{height:calc(100% - 70px);overflow:hidden}
+ .metronome-view{display:grid;place-items:center;height:100%;min-height:0;padding:9px 0}
+ .metronome-card{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(350px,.75fr);column-gap:28px;width:min(1040px,100%);max-width:1040px;max-height:100%;padding:18px 28px 20px;border-radius:14px;overflow:hidden}
+ .metronome-heading,.pulse-stage,.beat-dots,.metronome-status,.tempo-controls,.tempo-presets,.metronome-actions,.metronome-volume{grid-column:1}
+ .metronome-card h1{font-size:31px}.metronome-heading{min-height:51px}
+ .metronome-settings{display:none}
+ .pulse-stage{height:205px;margin-top:8px}
+ .tempo-value{font-size:64px}.pulse-readout{top:14px}
+ .beat-dots{min-height:36px;margin-top:5px}.metronome-status{margin-bottom:5px}
+ .tempo-controls{grid-template-columns:46px minmax(0,1fr) 46px}.tempo-step{width:46px;height:44px}
+ .tempo-presets{margin-top:7px}.tempo-presets button{min-height:38px}
+ .metronome-actions{margin-top:8px}.tap-tempo,.metronome-start{min-height:44px}
+ .metronome-volume{margin-top:6px}
+ .metronome-options,.metronome-options[hidden]{position:static;display:block!important;grid-column:2;grid-row:1/10;min-height:0;padding:0 0 0 22px;border-left:1px solid #d0c8ba;border-radius:0;background:transparent;overflow:auto}
+ .metronome-options .option-heading{padding-bottom:10px}.metronome-options .option-heading button{display:none}.metronome-options fieldset{margin-top:14px}
+ .metronome-options .accent-option{margin-top:15px;padding:12px}
+}
+
 /* Version 48 notation and counting refinements. */
 .tap-tempo span,.tap-tempo small{display:block}.tap-tempo small{margin-top:2px;font-size:9px;font-weight:650;letter-spacing:.25px}
 .subdivision-options b,.subdivision-options span,.subdivision-options .note-symbol{display:block}.subdivision-options b{font-size:16px}.subdivision-options .note-symbol{height:28px;margin:0;font-family:'Segoe UI Symbol','Noto Music',serif;font-size:25px;font-weight:400;font-style:normal;line-height:27px;white-space:nowrap}.subdivision-options .note-pair{font-size:20px;letter-spacing:-5px;padding-right:5px}.subdivision-options .note-triplet{position:relative;font-size:16px;letter-spacing:-4px;padding-right:4px}.subdivision-options .note-triplet em{position:absolute;left:50%;top:-8px;transform:translateX(-50%);font-family:Inter,sans-serif;font-size:9px;font-weight:900;font-style:normal;letter-spacing:0}.subdivision-options .note-sixteenths{font-size:20px;letter-spacing:-4px;padding-right:4px}

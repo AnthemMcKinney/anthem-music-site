@@ -1,4 +1,4 @@
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=49';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=50';
 import {TunerAudio} from './tuner/audio.js';
 import {GaugeState} from './tuner/gauge.js';
 import {DisplayPitch} from './tuner/display.js';
@@ -6,7 +6,7 @@ import {PitchTrail} from './tuner/trail.js';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=49c';
+import {initMetronome} from './tuner/metronome.js?v=50d';
 const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
@@ -74,7 +74,7 @@ function renderStrings(){
  container.dataset.instrument=instrument.id;
  container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());
  container.style.setProperty('--string-count',notes().length);
- document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap a string/note to hear it';
+ document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap to hear the note';
  if(chromatic()){
   const eb=saxTranspose()===9;
   container.innerHTML=`<div class="sax-mark" aria-hidden="true">🎷</div><div class="sax-copy"><strong>${eb?'E♭ sax':'B♭ sax'} translation</strong><span>Play it. We translate it.</span><small>The big note matches the note you finger and read.</small></div><div class="sax-transpose"><span>YOU PLAY</span><b>${eb?'F♯':'C'}</b><i>→</i><span>IT SOUNDS</span><b>${eb?'A':'B♭'}</b></div>`;
@@ -177,7 +177,7 @@ const more=document.createElement('details'),moreSummary=document.createElement(
 more.className='more-menu';moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);
 const tuningTitle=document.createElement('h2');tuningTitle.className='more-section-title';tuningTitle.textContent='Tuning';moreBody.append(tuningTitle);document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));
 const rhythmTitle=document.createElement('h2');rhythmTitle.className='more-section-title';rhythmTitle.textContent='Metronome';const rhythmCopy=document.createElement('p');rhythmCopy.className='metronome-more';rhythmCopy.innerHTML='<strong>Rhythm holds the music together.</strong> We do not make up the timing as we go—we learn to lock in with a steady pulse. Practice with a metronome, another musician, or a recording until staying with the beat feels natural.';moreBody.append(rhythmTitle,rhythmCopy);
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 49';moreBody.append(copyright,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 50';moreBody.append(copyright,version);
 const metronome=initMetronome(),bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/><path d="M6 18h12"/></svg></span><span>Tuner</span>';
@@ -195,6 +195,8 @@ more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back'
 renderInstrument();
 showView(location.hash==='#metronome'?'metronome':'tuner');
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+
 
 
 

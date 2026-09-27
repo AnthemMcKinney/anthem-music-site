@@ -58,10 +58,16 @@ export function initMetronome(){
   ctx.globalAlpha=1;ctx.setLineDash([]);
   const bottom=height-18,top=22,y=bottom-Math.sin(Math.PI*phase)*(bottom-top);
   ctx.strokeStyle='#e85d1a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(playX,0);ctx.lineTo(playX,height);ctx.stroke();ctx.fillStyle='#e85d1a';ctx.beginPath();ctx.arc(playX,y,10,0,Math.PI*2);ctx.fill();
-  const words=['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve'],beatAlpha=phase<.32?1:phase<.44?1-(phase-.32)/.12:0,andAlpha=phase<.38?0:phase<.5?(phase-.38)/.12:phase<.82?1:clamp((1-phase)/.18,0,1);
-  ctx.fillStyle='#f4eee2';ctx.textAlign='left';
-  if(clock.running&&andAlpha>0){ctx.globalAlpha=andAlpha;ctx.font='750 12px Inter, sans-serif';ctx.fillText('And',playX+17,top+5);}
-  if(clock.running&&beatAlpha>0){ctx.globalAlpha=beatAlpha;ctx.font='900 16px Inter, sans-serif';ctx.fillText(clock.accent?words[currentBeat]:'Beat',playX+17,bottom+5);}
+   const beatAlpha=phase<.32?1:phase<.44?1-(phase-.32)/.12:0;
+   const visualSubdivision=subdivision===1?2:subdivision,subdivisionWords=subdivision===3?['and','a']:subdivision===4?['e','and','a']:['and'];
+   let subdivisionWord='',subdivisionAlpha=0;
+   for(let sub=1;sub<visualSubdivision;sub++){
+    const start=sub/visualSubdivision,age=phase-start;
+    if(age>=0&&age<.24){subdivisionWord=subdivisionWords[sub-1]||'and';subdivisionAlpha=age<.14?1:1-(age-.14)/.1;break;}
+   }
+   ctx.fillStyle='#f4eee2';ctx.textAlign='left';
+   if(clock.running&&subdivisionAlpha>0){ctx.globalAlpha=subdivisionAlpha;ctx.font='italic 650 13px Inter, sans-serif';ctx.fillText(subdivisionWord,playX+17,top+5);}
+   if(clock.running&&beatAlpha>0){ctx.globalAlpha=beatAlpha;ctx.font=clock.accent?'900 32px Inter, sans-serif':'900 18px Inter, sans-serif';ctx.fillText(clock.accent?String(currentBeat+1):'Beat',playX+17,bottom+5);}
   ctx.globalAlpha=1;
   animation=requestAnimationFrame(draw);
  }

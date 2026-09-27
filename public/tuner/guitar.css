@@ -46,9 +46,9 @@
  .more-menu{position:fixed;z-index:50;left:0;right:0;bottom:0;height:max(44px,6dvh);margin:0;border:0;background:#0d1f3c}.more-menu>summary{display:grid;place-items:center;width:100%;height:100%;padding:0;border-radius:0;background:transparent;color:#f2eadb;text-align:center;font-size:16px;letter-spacing:.3px}.more-menu-body{padding:0 8px 28px}.more-menu[open]{height:100dvh;background:#f3eee4;padding-bottom:env(safe-area-inset-bottom)}.more-menu[open]>summary{height:48px;margin:0 0 16px;background:#0d1f3c;color:#f2eadb;border-radius:0}footer{display:none}
 }
 @media(max-width:740px){
- .tuning-panel[data-instrument="alto-sax"] .panel-top{align-items:flex-start;gap:8px}
- .tuning-panel[data-instrument="alto-sax"] #target-label{max-width:88px;text-align:left;line-height:1.15;white-space:normal}
- .tuning-panel[data-instrument="alto-sax"] .mic-toggle{flex:0 0 auto}
+ .tuning-panel[data-instrument="saxophone"] .panel-top{align-items:flex-start;gap:8px}
+ .tuning-panel[data-instrument="saxophone"] #target-label{max-width:88px;text-align:left;line-height:1.15;white-space:normal}
+ .tuning-panel[data-instrument="saxophone"] .mic-toggle{flex:0 0 auto}
 }
 
 /* The app footer and secondary screen are the same at every width. */
@@ -107,3 +107,37 @@ footer{display:none}
  #pitch-trail{height:140px!important}.status-strip{min-height:46px;padding-block:3px;margin-block:2px}
  aside{padding-block:4px}.string-heading{margin-block:1px 3px}.guitar-neck .string{height:27px;min-height:27px}
 }
+
+/* Three deliberate layouts: phone <=740, tablet 741-1099, desktop >=1100. */
+@media(min-width:741px) and (max-width:1099px){
+ aside .string-heading{grid-template-columns:minmax(0,1fr) auto;min-height:34px;align-items:center}
+ aside .string-heading h2{font-size:14px;line-height:1.1;white-space:nowrap}
+}
+
+/* Wide desktop: keep the complete working surface above the fixed tool bar. */
+@media(min-width:1100px) and (min-height:620px){
+ html,body{height:100%;overflow:hidden}
+ .app-shell{height:calc(100dvh - max(58px,7dvh));max-width:1240px;padding:0 24px;overflow:hidden}
+ header{height:70px;min-height:70px}
+ .brand img{width:37px;height:41px}.brand{font-size:23px}
+ main{height:calc(100% - 70px);overflow:hidden}
+ .intro{display:none}
+ #tuner{display:flex;flex-direction:column;height:100%;min-height:0}
+ .instruments{flex:0 0 57px;padding:7px 12px;border-radius:12px 12px 0 0}
+ .instruments select{height:35px}
+ .workspace{flex:1;min-height:0;grid-template-columns:minmax(300px,.82fr) minmax(500px,1.45fr);grid-template-rows:36px 18px 66px 19px 31px 24px 7px 31px minmax(135px,1fr) 19px 24px 43px 0 27px 18px;border-radius:0 0 14px 14px}
+ .panel-top{padding:8px 22px 0}
+ .live-caption{margin:1px 0 0}
+ .note-display{margin:0;line-height:.9}.note-display #target-note{font-size:70px}.note-display #target-octave{font-size:20px}
+ .target-frequency{margin:0;font-size:12px}.guidance{font-size:21px;min-height:25px}.hint{min-height:18px;margin:2px auto;font-size:12px}.motion{min-height:7px;padding:0 22px 5px}
+ aside{padding:0 20px 8px;overflow:hidden}
+ aside .string-heading{min-height:22px;margin:6px 0 3px;align-items:center}
+ aside .string-heading h2{font-size:14px;line-height:1.1;white-space:nowrap}
+ .guitar-neck .string{height:34px;min-height:34px}.guitar-neck .string-name{padding-block:2px}.guitar-neck .string strong{font-size:18px}
+ .string-tip.guitar-tip,.neck-caption{display:none}
+ .strings.sax-guide{padding:10px;gap:7px}.sax-copy small{display:none}.sax-transpose{padding-top:6px}
+ .trail-heading{margin:6px 22px 3px}
+ #pitch-trail{width:calc(100% - 44px);height:100%;min-height:135px;margin:0 22px}
+ .meter-labels{margin:2px 22px 0}.status-strip{margin:0 22px;padding:4px 0}.privacy{margin:0 0 3px}
+}
+
