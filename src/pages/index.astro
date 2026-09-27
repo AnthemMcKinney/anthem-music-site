@@ -78,6 +78,18 @@ const instructors = [
     </div>
   </section>
 
+  {/* Free browser tuner + metronome - promoted high on the page, linked from footer too. */}
+  <section class="tuner-strip">
+    <div class="container tuner-strip-inner">
+      <div class="tuner-strip-text">
+        <span class="ts-eyebrow">Free · No app · No sign-up</span>
+        <h2>Tune up in seconds with the Anthem Tuner</h2>
+        <p>A free instrument tuner and metronome, right in your browser - guitar, bass, violin, ukulele, banjo, and more.</p>
+      </div>
+      <a href="/tuner/" class="btn btn-primary ts-cta">Open the Tuner →</a>
+    </div>
+  </section>
+
   <section class="section" id="lessons">
     <div class="container">
       <div class="section-head">
@@ -207,6 +219,15 @@ const instructors = [
   .hero-badge { position: absolute; bottom: -18px; left: -18px; background: var(--white); border-radius: 12px; padding: 0.85rem 1.15rem; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 12px 30px rgba(13,31,60,.15); }
   .hero-badge strong { display: block; font-family: var(--font-display); color: var(--navy); font-size: 1.05rem; }
   .hero-badge span { font-size: 0.78rem; color: var(--gray); }
+
+  /* Free tuner callout band, between hero and What We Teach */
+  .tuner-strip { background: var(--navy); }
+  .tuner-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.4rem 2.5rem; flex-wrap: wrap; padding: clamp(1.6rem, 3.5vw, 2.6rem) 0; }
+  .ts-eyebrow { color: var(--orange); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tuner-strip h2 { color: var(--cream); font-size: clamp(1.35rem, 2.6vw, 1.9rem); margin: 0.35rem 0 0.4rem; }
+  .tuner-strip p { color: var(--gray-light); font-size: 0.98rem; max-width: 62ch; margin: 0; }
+  .ts-cta { white-space: nowrap; flex: none; }
+  @media (max-width: 640px) { .tuner-strip-inner { flex-direction: column; align-items: flex-start; } }
 
   .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
   .section-head .eyebrow { justify-content: center; }
