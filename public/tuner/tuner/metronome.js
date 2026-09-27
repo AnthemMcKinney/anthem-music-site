@@ -2,26 +2,12 @@ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 const tempoName=bpm=>bpm<60?'Largo':bpm<76?'Adagio':bpm<108?'Andante':bpm<120?'Moderato':bpm<156?'Allegro':bpm<176?'Vivace':'Presto';
 
 class Clock{
- constructor(onPulse){const nativeMode=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||new URLSearchParams(location.search).has('nativeMetronome');Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set(),nativeMode,nativeIndex:0});}
+ constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set()});}
  context(){if(this.ctx)return this.ctx;const AudioContext=window.AudioContext||window.webkitAudioContext;this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=.96;this.compressor=this.ctx.createDynamicsCompressor();this.compressor.threshold.value=-16;this.compressor.ratio.value=10;this.compressor.attack.value=.001;this.compressor.release.value=.09;this.master.connect(this.compressor).connect(this.ctx.destination);return this.ctx;}
- nativeBeat(accent=true,sub=false,primePool=false){
-  if(typeof Audio==='undefined')return Promise.resolve(false);
-  this.nativeClicks??={};
-  const sound=this.sound;
-  if(!this.nativeClicks[sound])this.nativeClicks[sound]=Array.from({length:8},()=>{const audio=new Audio(new URL(`../samples/metronome-${sound}.wav`,import.meta.url));audio.preload='auto';audio.playsInline=true;audio.load();return audio;});
-  const pool=this.nativeClicks[sound],level=sub?.35:accent?1:.72;
-  if(primePool){
-   const [first,...rest]=pool;first.pause();first.currentTime=0;first.volume=level;
-   const starters=rest.map(audio=>{audio.pause();audio.currentTime=0;audio.volume=0;return audio.play().then(()=>{audio.pause();audio.currentTime=0;audio.volume=1;}).catch(()=>{});});
-   return Promise.all([first.play(),...starters]).then(()=>true);
-  }
-  const audio=pool[this.nativeIndex++%pool.length];audio.pause();audio.currentTime=0;audio.volume=level;return audio.play().then(()=>true).catch(()=>false);
- }
- unlock(audible=false){
+ unlock(){
   const ctx=this.context();
-  const media=audible?this.nativeBeat():Promise.resolve(false);
-  if(ctx.state==='running')return media.then(()=>ctx);
-  if(this.unlocking)return audible?Promise.all([this.unlocking,media]).then(()=>ctx):this.unlocking;
+  if(ctx.state==='running')return Promise.resolve(ctx);
+  if(this.unlocking)return this.unlocking;
   // iOS requires resume() and a real source start to happen synchronously
   // inside the original touch. Keep this path entirely in Web Audio so a
   // native sample cannot steal the output route or make an audible transient.
@@ -29,18 +15,18 @@ class Clock{
   const oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;
   oscillator.frequency.value=880;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);
   this.unlocking=Promise.resolve(resume).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});
-  return audible?Promise.all([this.unlocking,media]).then(()=>ctx):this.unlocking;
+  return this.unlocking;
  }
  click(at,accent,sub){
   const ctx=this.context(),gain=ctx.createGain(),osc=ctx.createOscillator(),snap=ctx.createOscillator(),level=sub?.35:accent?.92:.68;
   if(this.sound==='wood'){osc.type='triangle';osc.frequency.value=accent?1280:920;snap.frequency.value=accent?390:310;}else if(this.sound==='beep'){osc.type='sine';osc.frequency.value=accent?1320:880;snap.frequency.value=accent?660:440;}else{osc.type='square';osc.frequency.value=accent?1760:1180;snap.frequency.value=accent?880:590;}
   const duration=this.sound==='beep'?.095:this.sound==='wood'?.045:.055;gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(level,at+.002);gain.gain.exponentialRampToValueAtTime(.0001,at+duration);osc.connect(gain);snap.connect(gain);gain.connect(this.master);osc.start(at);snap.start(at);osc.stop(at+duration+.02);snap.stop(at+duration+.02);
  }
- schedule(){if(!this.running)return;const total=this.beats*this.subdivision;if(this.nativeMode){const now=performance.now();while(this.nextAtMs<now+120){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,this.nextAtMs-now);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running){void this.nativeBeat(isAccent,!isBeat);this.onPulse(beat,sub);}},delay);this.visualTimers.add(timer);this.nextAtMs+=60000/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);return;}const ctx=this.context();while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
- async start(){this.stop(false);const total=this.beats*this.subdivision;if(this.nativeMode){await this.nativeBeat(this.accent,false,true);this.running=true;this.step=1%total;this.nextAtMs=performance.now()+60000/this.bpm/this.subdivision;this.startedAt=performance.now();this.onPulse(0,0);this.schedule();return;}await this.unlock();this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
+ schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
+ async start(){await this.unlock();this.stop(false);this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
  stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(reset){this.step=0;this.onPulse(-1,0);}}
- release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;for(const pool of Object.values(this.nativeClicks||{}))for(const audio of pool){audio.pause();audio.currentTime=0;}if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
- resetSchedule(){this.step=0;if(this.running){if(this.nativeMode)this.nextAtMs=performance.now()+40;else this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
+ release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});}
+ resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
  setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
  phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
 }
@@ -56,7 +42,7 @@ export function initMetronome(){
  function renderAccentCopy(){const divided=subdivision>1;$('accent-title').textContent=divided?'Accent each beat':'Accent beat one';$('accent-help').textContent=divided?'Emphasize every numbered beat over the notes between.':'Make the start of every measure unmistakable.';}
  document.querySelectorAll('[data-meter]').forEach(button=>button.addEventListener('click',()=>{beats=Number(button.dataset.meter);unit=Number(button.dataset.unit);document.querySelectorAll('[data-meter]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderDots();}));document.querySelectorAll('[data-subdivision]').forEach(button=>button.addEventListener('click',()=>{subdivision=Number(button.dataset.subdivision);clock.setSubdivision(subdivision);document.querySelectorAll('[data-subdivision]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderAccentCopy();clock.onPulse(-1,0);}));
  document.querySelectorAll('[data-sound]').forEach(button=>button.addEventListener('click',()=>{clock.sound=button.dataset.sound;document.querySelectorAll('[data-sound]').forEach(item=>item.setAttribute('aria-pressed',item===button));void clock.unlock().then(()=>clock.click(clock.context().currentTime+.01,true,false));}));$('accent-one').addEventListener('change',event=>clock.accent=event.target.checked);settings.addEventListener('click',()=>toggleOptions(options.hidden));$('metronome-options-close').addEventListener('click',()=>toggleOptions(false));
- start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();status.textContent='Tap Start again to allow sound.';}});
+ start.addEventListener('pointerdown',()=>{if(!clock.running)void clock.unlock();});start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();status.textContent='Tap Start again to allow sound.';}});
  function draw(){
   const rect=canvas.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),width=Math.max(1,rect.width),height=Math.max(1,rect.height);
   if(canvas.width!==Math.round(width*ratio)||canvas.height!==Math.round(height*ratio)){canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);}
