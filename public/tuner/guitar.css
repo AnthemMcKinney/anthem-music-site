@@ -45,6 +45,11 @@
  .string-heading{justify-content:center;position:relative;margin:3px 0 5px;padding-inline:8px}.string-heading h2{font-size:15px;text-align:center}.string-heading span{position:absolute;right:8px;font-size:10px}.neck-caption{display:none!important}.strings.guitar-neck{padding:3px 0;border-radius:7px;background:linear-gradient(90deg,#d7c9ad 0 56px,transparent 56px)}.guitar-neck .string{height:30px;min-height:30px}.guitar-neck .string-name{position:relative;z-index:3;width:50px;padding:2px 0}.guitar-neck .string strong{font-size:17px}.guitar-neck .string small{font-size:10px}.guitar-neck:before{left:56px;border-left-width:10px}.guitar-neck:after{width:18px;height:18px;left:calc(66px + (100% - 66px)*.625);top:calc(50% - 9px);background:#aa9a77;border:0}.string-tip.guitar-tip{display:none}.strings.sax-guide{padding:9px;gap:6px}.sax-mark{width:42px;height:42px;font-size:26px}.sax-copy small{display:none}.sax-transpose{padding-top:6px}
  .more-menu{position:fixed;z-index:50;left:0;right:0;bottom:0;height:max(44px,6dvh);margin:0;border:0;background:#0d1f3c}.more-menu>summary{display:grid;place-items:center;width:100%;height:100%;padding:0;border-radius:0;background:transparent;color:#f2eadb;text-align:center;font-size:16px;letter-spacing:.3px}.more-menu-body{padding:0 8px 28px}.more-menu[open]{height:100dvh;background:#f3eee4;padding-bottom:env(safe-area-inset-bottom)}.more-menu[open]>summary{height:48px;margin:0 0 16px;background:#0d1f3c;color:#f2eadb;border-radius:0}footer{display:none}
 }
+@media(max-width:740px){
+ .tuning-panel[data-instrument="alto-sax"] .panel-top{align-items:flex-start;gap:8px}
+ .tuning-panel[data-instrument="alto-sax"] #target-label{max-width:88px;text-align:left;line-height:1.15;white-space:normal}
+ .tuning-panel[data-instrument="alto-sax"] .mic-toggle{flex:0 0 auto}
+}
 
 /* The app footer and secondary screen are the same at every width. */
 body{padding-bottom:max(44px,6dvh)}
@@ -64,7 +69,9 @@ footer{display:none}
  .hint{grid-column:1/-1;grid-row:6;margin:6px auto 8px}
  .motion{grid-column:1/-1;grid-row:7;width:100%;min-height:15px;margin:0;padding:0 28px 14px;border-bottom:2px solid #d8dde0}
  aside{grid-column:1;grid-row:8/15;border-right:2px solid #d8dde0;border-top:0;padding:0 24px 18px}
- aside .string-heading{height:18px;margin:18px 0 8px}
+ aside .string-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;height:auto;min-height:22px;margin:18px 0 8px;align-items:start}
+ aside .string-heading h2{line-height:1.15}
+ aside .string-heading span{white-space:nowrap}
  aside #neck-top{display:none}
  .trail-heading{grid-column:2;grid-row:8;align-self:end;margin:18px 28px 8px}
  #pitch-trail{grid-column:2;grid-row:9;width:calc(100% - 56px);height:264px;margin:0 28px}
@@ -74,6 +81,9 @@ footer{display:none}
  .error{grid-column:2;grid-row:13;margin-inline:28px}
  .input-level{grid-column:2;grid-row:14;margin:7px 28px 0}
  .privacy{grid-column:2;grid-row:15;margin-bottom:12px}
+}
+@media(min-width:741px) and (max-width:900px){
+ aside .string-heading h2{font-size:14px;letter-spacing:-.15px}
 }
 
 .more-copyright{margin:28px 0 10px;padding-top:18px;border-top:1px solid #d6d1c7;text-align:center;color:#53645b;font-size:12px;letter-spacing:.2px}
