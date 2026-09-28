@@ -1,8 +1,8 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=50';
-import {TunerAudio} from './tuner/audio.js';
+import {TunerAudio} from './tuner/audio.js?v=69';
 import {GaugeState} from './tuner/gauge.js';
 import {DisplayPitch} from './tuner/display.js';
-import {PitchTrail} from './tuner/trail.js';
+import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
@@ -11,6 +11,12 @@ const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
 let auto=false;const selector=new StringSelector();let trend=null;
+class FivePluckConfirmation{
+ constructor(onChange){this.onChange=onChange;this.reset();}
+ reset(){this.count=0;this.started=0;this.lastOnset=-Infinity;this.lastRms=0;this.peak=.001;this.armed=true;this.active=false;this.qualified=false;this.onChange?.(0);}
+ level(rms,now){rms=Number(rms)||0;const priorPeak=this.peak;this.peak=Math.max(rms,this.peak*.97);if(!this.armed&&(rms<Math.max(.002,this.peak*.42)||now-this.lastOnset>700))this.armed=true;const onset=this.armed&&now-this.lastOnset>350&&rms>.003&&rms>Math.max(this.lastRms*1.5,priorPeak*.68);if(onset){if(this.started&&now-this.started>12000)this.reset();if(this.active&&!this.qualified){this.count=0;this.started=0;this.onChange?.(0);}this.active=true;this.qualified=false;this.armed=false;this.lastOnset=now;this.peak=rms;if(!this.started)this.started=now;}if(this.active&&!this.qualified&&now-this.lastOnset>1100){this.count=0;this.started=0;this.active=false;this.onChange?.(0);}this.lastRms=rms;}
+ accept(reading,now){if(!this.active||this.qualified||now-this.lastOnset>1100||!reading.zero)return false;this.qualified=true;this.count=Math.min(5,this.count+1);this.onChange?.(this.count);return true;}
+}
 const panel=document.querySelector('.tuning-panel');
 const notes=()=>instrument.tunings[tuningIndex][1].split(' ');
 const target=()=>notes()[stringIndex];
@@ -18,11 +24,11 @@ const chromatic=()=>instrument.mode==='chromatic';
 const saxTranspose=()=>instrument.tunings[tuningIndex][2]||0;
 const shownNote=note=>chromatic()?transposeNote(note,saxTranspose()):note;
 const pretty=note=>note.replace('b','♭').replace('#','♯');
-const trail=new PitchTrail($('pitch-trail'));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
+const trail=new PitchTrail($('pitch-trail'));const confirmation=new FivePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
 function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;}
 function displayNote(note){note=shownNote(note);$('target-note').textContent=pretty(note.slice(0,-1));$('target-octave').textContent=note.at(-1);}
-function clear(){gauge.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=chromatic()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play a long tone':'Pluck a string'):'Ready when you are',listening?(chromatic()?'Hold any note steadily. The tuner handles the transposition.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
-function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();trail.clear();trailTarget=key;}if(chromatic()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
+function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=chromatic()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play a long tone':'Pluck a string'):'Ready when you are',listening?(chromatic()?'Hold any note steadily. The tuner handles the transposition.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
+function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(chromatic()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
 const engine=new TunerAudio((result,diagnostic)=>{
  const now=performance.now();
@@ -46,20 +52,23 @@ const engine=new TunerAudio((result,diagnostic)=>{
  if(auto){const guitalele=instrument.id==='ukulele'&&instrument.tunings[tuningIndex][0]==='Guitalele';const next=selector.update(result.hz,notes(),stringIndex,guitalele?false:result.confirmedChange,guitalele?{dwell:3,margin:55}:undefined);if(guitalele&&next===stringIndex&&selector.pending>=0){if(diagnostic)diagnostic.uiRejectionReason='confirming_guitalele_string';return;}if(next!==stringIndex){stringIndex=next;inTuneSince=0;trend=null;renderStrings();updateTarget();}}
  const cents=centsBetween(result.hz,frequency(target()));
  const reading=gauge.update(cents,now),abs=Math.abs(reading.average);
+ if(!chromatic())confirmation.accept(reading,now);
  if(diagnostic)Object.assign(diagnostic,{uiAccepted:true,uiRejectionReason:null,displayHz:result.hz,displayNote:result.displayNote,centsError:cents,gaugeCents:reading.average,confirmationTone:reading.ding});
  // The trace, note, and gauge share the same accepted, smoothed pitch.
  trail.add(cents,now,{...reading,rms:result.rms});
- if(reading.ding){confirmedUntil=now+engine.confirm();}
+ // Keep microphone analysis continuous in the browser. Native packages can
+ // restore an audible confirmation with a full-duplex audio session.
 
  displayNote(result.displayNote);$('live-caption').textContent=chromatic()?'WRITTEN NOTE YOU’RE PLAYING':'NOTE YOU’RE PLAYING';
  $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz)));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
  if(!trend)trend={cents,time:now};
  if(now-trend.time>=350){const delta=cents-trend.cents;const closer=abs<Math.abs(trend.cents);$('motion').textContent=Math.abs(delta)>=2?(delta>0?'Pitch rising':'Pitch falling')+' · '+(closer?'getting closer':'moving away'):'';trend={cents,time:now};}
- if(reading.zero)message('✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':'Now check five plucks across the center line.','tuned');
+ if(reading.zero)message(confirmation.count>=5?'✓ Tuned — 5 steady plucks':'✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':confirmation.count?`${confirmation.count} of 5 good plucks. Keep going.`:'Pluck again to begin the five-pluck check.','tuned');
  else if(abs<=5)message('Almost there','Hold that pitch for a moment.');
  else message(reading.average<0?'↑ Tune higher':'↓ Tune lower',abs>150?(chromatic()?'Center the pitch and hold the note steadily.':'Check the string. Tap its button to lock the target.'):(reading.average<0?'Too low':'Too high')+' for '+pretty(shownNote(target()))+'. Follow the fine line and cents pointer.',abs>150?'far':'');
 
 },state=>{listening=state==='listening';if(!listening){starting=false;auto=false;}renderMode();clear();if(state==='ended'){$('error').hidden=false;$('error').textContent='The microphone disconnected. Tap Auto to reconnect.';}},(rms,diagnostic={})=>{
+ if(!chromatic())confirmation.level(rms,performance.now());
  $('mic-source').textContent=diagnostic.microphone||'Microphone not active';
  $('pitch-stage').textContent=diagnostic.state||(diagnostic.rawHz?diagnostic.rawHz.toFixed(2)+' Hz · '+Math.round(diagnostic.confidence*100)+'% '+(diagnostic.confidenceMetric==='spectral_peak_clarity'?'spectral clarity':'periodicity')+(diagnostic.trackedHz?' · tracking':' · confirming'):'Sound level only · no clear pitch');
 $('input-level').value=Math.max(0,Math.min(1,(20*Math.log10(Math.max(rms,1e-6))+70)/55));$('input-status').textContent=!listening?'Microphone off':rms<.0007?(chromatic()?'Quiet · play a long tone or move closer':'Quiet · pluck a string or move closer'):rms>.5?'Very loud · move a little farther away':'Sound reaching the microphone';});
@@ -113,10 +122,10 @@ function renderStrings(){
  $('neck-bottom').textContent=instrument.id==='banjo'?'Short 5th string · high G':reentrant?'String 4 · high G (higher than C and E)':instrument.id==='ukulele'?'String 4 · '+notes()[0]:'Thickest string · lower sound';
  document.querySelector('.string-tip').textContent=instrument.id==='violin'?'Tap a string, then play it open — no fingers on the fingerboard.':'Tap a string, then play it open — no fingers on the frets.';
  const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>One string at a time.</strong> Let it ring. Keep the others quiet.';help[1].innerHTML='<strong>Small turns.</strong> Keep plucking about once a second while you adjust the peg.';
- $('pitch-expectation').textContent='The ding means close. Finish with five steady plucks crossing the center line.';
+ $('pitch-expectation').textContent='Green means close. Finish with five steady plucks crossing the center line.';
  $('tune-reminder').innerHTML='<strong>Tune before you play.</strong> String instruments drift while you play. Check your tuning every time you sit down, and check it again as you play.';
  $('mic-help-action').textContent='Turn on Auto Detect and pluck a string. If the sound bar moves, the app can hear you.';
- $('tuning-help-first').innerHTML='<strong>Find the note:</strong> pluck about once each second and make small turns until you hear the ding. The ding means you are close, not finished.';
+ $('tuning-help-first').innerHTML='<strong>Find the note:</strong> pluck about once each second and make small turns until the reading reaches green. Green means you are close, not finished.';
  $('tuning-help-check').innerHTML='<strong>Do the five-pluck check:</strong> pluck five more times and watch the trail. If most readings drift to one side, make one tiny adjustment and count five again. Move on when the five plucks average around the center line.';
  $('tuning-help-reference').innerHTML='<strong>If you are not sure where to start:</strong> tap the string to hear its note. Match it by ear, then turn Auto Detect back on to finish.';
  $('tuning-help-safety').textContent='Stop tightening if a string feels unusually tight. Check the selected instrument, tuning, and string before continuing.';
@@ -172,12 +181,12 @@ window.addEventListener('pagehide',suspendForBackground);
 window.addEventListener('pageshow',()=>setTimeout(()=>void restoreMicrophone(),180));
 window.addEventListener('focus',()=>setTimeout(()=>void restoreMicrophone(),180));
 if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(url.protocol==='https:'){$('portal').href=url.href;$('portal').hidden=false;}}
-document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note. Tuning-success sound: “Smooth Completed Notify Starting Alert” from <a href="https://pixabay.com/sound-effects/search/completed/" target="_blank" rel="noopener">Pixabay</a>, used under the Pixabay Content License.');
+document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);
 const tuningTitle=document.createElement('h2');tuningTitle.className='more-section-title';tuningTitle.textContent='Tuning';moreBody.append(tuningTitle);document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));
 const rhythmTitle=document.createElement('h2');rhythmTitle.className='more-section-title';rhythmTitle.textContent='Metronome';const rhythmCopy=document.createElement('p');rhythmCopy.className='metronome-more';rhythmCopy.innerHTML='<strong>Rhythm holds the music together.</strong> We do not make up the timing as we go—we learn to lock in with a steady pulse. Practice with a metronome, another musician, or a recording until staying with the beat feels natural.';moreBody.append(rhythmTitle,rhythmCopy);
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 67';moreBody.append(copyright,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 70';moreBody.append(copyright,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');

@@ -10,12 +10,14 @@ export class TunerAudio{
    for(let channel=0;channel<buffer.numberOfChannels;channel++){const data=buffer.getChannelData(channel);for(const value of data)peak=Math.max(peak,Math.abs(value));}
    const threshold=peak*.01;
    for(let channel=0;channel<buffer.numberOfChannels;channel++){const data=buffer.getChannelData(channel);let start=0,end=data.length-1;while(start<data.length&&Math.abs(data[start])<threshold)start++;while(end>start&&Math.abs(data[end])<threshold)end--;first=Math.min(first,start);last=Math.max(last,end);}
-   const offset=Math.max(0,first/buffer.sampleRate-.004),duration=Math.min(1.2,last/buffer.sampleRate-offset+.08);
+   // The confirmation is feedback, not a second musical event. Keep only its
+   // attack so microphone analysis does not appear to freeze near the center.
+   const offset=Math.max(0,first/buffer.sampleRate-.004),duration=Math.min(.24,last/buffer.sampleRate-offset+.03);
    return this.successSound={buffer,offset,duration,gain:Math.min(2.2,.92/Math.max(peak,.001))};
   }).catch(()=>null);
   return this.successPromise;
  }
- async context(){const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();void this.prepareSuccess(ctx);return ctx;}
+ async context(){const ctx=this.getContext();if(ctx.state!=='running')await ctx.resume();return ctx;}
  async resumeInput(){
   const track=this.stream?.getAudioTracks?.()[0];
   if(!track||track.readyState!=='live')return false;
@@ -83,7 +85,7 @@ export class TunerAudio{
    gain.gain.setValueAtTime(level,now);gain.gain.setValueAtTime(level,now+Math.max(.01,duration-.06));gain.gain.linearRampToValueAtTime(0,now+duration);
    source.buffer=buffer;source.connect(gain);gain.connect(output);output.connect(ctx.destination);source.start(now,offset,duration);source.stop(now+duration+.01);
    source.onended=()=>{source.disconnect();gain.disconnect();output.disconnect();};
-   const holdMs=Math.ceil(duration*1000)+180;this.mutedUntil=performance.now()+holdMs;this.tracker.reset();return holdMs;
+   const holdMs=Math.ceil(duration*1000)+35;this.mutedUntil=performance.now()+holdMs;return holdMs;
   }
   // A modern completion notification: one quick cue and a bright octave/fifth
   // arrival. A compressor keeps it present without clipping small speakers.
@@ -105,8 +107,8 @@ export class TunerAudio{
    }
   }
   setTimeout(()=>output.disconnect(),750);
-  const holdMs=750;
-  this.mutedUntil=performance.now()+holdMs;this.tracker.reset();
+  const holdMs=280;
+  this.mutedUntil=performance.now()+holdMs;
   return holdMs;
  }
  prepareReference(instrument){return this.reference.prepare(instrument);}
