@@ -6,7 +6,7 @@ import {PitchTrail} from './tuner/trail.js';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=66c';
+import {initMetronome} from './tuner/metronome.js?v=67';
 const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
@@ -177,7 +177,7 @@ const more=document.createElement('details'),moreSummary=document.createElement(
 more.className='more-menu';moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);
 const tuningTitle=document.createElement('h2');tuningTitle.className='more-section-title';tuningTitle.textContent='Tuning';moreBody.append(tuningTitle);document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));
 const rhythmTitle=document.createElement('h2');rhythmTitle.className='more-section-title';rhythmTitle.textContent='Metronome';const rhythmCopy=document.createElement('p');rhythmCopy.className='metronome-more';rhythmCopy.innerHTML='<strong>Rhythm holds the music together.</strong> We do not make up the timing as we go—we learn to lock in with a steady pulse. Practice with a metronome, another musician, or a recording until staying with the beat feels natural.';moreBody.append(rhythmTitle,rhythmCopy);
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 66';moreBody.append(copyright,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 67';moreBody.append(copyright,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
