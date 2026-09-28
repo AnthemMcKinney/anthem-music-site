@@ -4,7 +4,7 @@ const tempoName=bpm=>bpm<60?'Largo':bpm<76?'Adagio':bpm<108?'Andante':bpm<120?'M
 class Clock{
  constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set(),nativeSounds:new Map()});}
  nativeSound(){let audio=this.nativeSounds.get(this.sound);if(!audio){audio=new Audio(new URL(`../samples/metronome-${this.sound}.wav`,import.meta.url));audio.preload='auto';audio.playsInline=true;this.nativeSounds.set(this.sound,audio);}return audio;}
- soundCheck(){if(!this.soundCheckAudio){this.soundCheckAudio=new Audio(new URL('../samples/sound-check.mp3',import.meta.url));this.soundCheckAudio.preload='auto';this.soundCheckAudio.playsInline=true;this.soundCheckAudio.load();}return this.soundCheckAudio;}
+ soundCheck(){if(!this.soundCheckAudio){this.soundCheckAudio=new Audio(new URL('../samples/sound-check.mp3?v=62',import.meta.url));this.soundCheckAudio.preload='auto';this.soundCheckAudio.playsInline=true;this.soundCheckAudio.load();}return this.soundCheckAudio;}
  async enableNativeSound(){const audio=this.soundCheck();audio.pause();audio.currentTime=0;audio.volume=1;await audio.play();return audio;}
  context(){if(this.ctx)return this.ctx;const AudioContext=window.AudioContext||window.webkitAudioContext;this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=.96;this.compressor=this.ctx.createDynamicsCompressor();this.compressor.threshold.value=-16;this.compressor.ratio.value=10;this.compressor.attack.value=.001;this.compressor.release.value=.09;this.master.connect(this.compressor).connect(this.ctx.destination);return this.ctx;}
  unlock(){
