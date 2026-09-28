@@ -1,11 +1,12 @@
+import {ReferencePlayer} from './reference.js';
+
 const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
 const tempoName=bpm=>bpm<60?'Largo':bpm<76?'Adagio':bpm<108?'Andante':bpm<120?'Moderato':bpm<156?'Allegro':bpm<176?'Vivace':'Presto';
 
 class Clock{
- constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set(),nativeSounds:new Map()});}
+ constructor(onPulse){Object.assign(this,{onPulse,bpm:100,beats:4,subdivision:1,sound:'click',accent:true,step:0,running:false,visualTimers:new Set(),nativeSounds:new Map(),iosPrimer:new ReferencePlayer()});}
  nativeSound(){let audio=this.nativeSounds.get(this.sound);if(!audio){audio=new Audio(new URL(`../samples/metronome-${this.sound}.wav`,import.meta.url));audio.preload='auto';audio.playsInline=true;this.nativeSounds.set(this.sound,audio);}return audio;}
- soundCheck(){if(!this.soundCheckAudio){this.soundCheckAudio=new Audio(new URL('../samples/sound-check.mp3?v=62',import.meta.url));this.soundCheckAudio.preload='auto';this.soundCheckAudio.playsInline=true;this.soundCheckAudio.load();}return this.soundCheckAudio;}
- async enableNativeSound(){const audio=this.soundCheck();audio.pause();audio.currentTime=0;audio.volume=1;await audio.play();return audio;}
+ enableNativeSound(){return this.iosPrimer.playNative('guitar',329.63);}
  context(){if(this.ctx)return this.ctx;const AudioContext=window.AudioContext||window.webkitAudioContext;this.ctx=new AudioContext({latencyHint:'interactive'});this.master=this.ctx.createGain();this.master.gain.value=.96;this.compressor=this.ctx.createDynamicsCompressor();this.compressor.threshold.value=-16;this.compressor.ratio.value=10;this.compressor.attack.value=.001;this.compressor.release.value=.09;this.master.connect(this.compressor).connect(this.ctx.destination);return this.ctx;}
  unlock(){
   const ctx=this.context();
@@ -28,7 +29,7 @@ class Clock{
  schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
  async start(){await this.unlock();this.stop(false);this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
  stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(reset){this.step=0;this.onPulse(-1,0);}}
- release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});for(const audio of this.nativeSounds.values())audio.pause();if(this.soundCheckAudio){this.soundCheckAudio.pause();this.soundCheckAudio.currentTime=0;}}
+ release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});for(const audio of this.nativeSounds.values())audio.pause();this.iosPrimer.stop();}
  resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
  setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
  phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
@@ -46,7 +47,7 @@ export function initMetronome(){
  function renderAccentCopy(){const divided=subdivision>1;$('accent-title').textContent=divided?'Accent each beat':'Accent beat one';$('accent-help').textContent=divided?'Emphasize every numbered beat over the notes between.':'Make the start of every measure unmistakable.';}
  document.querySelectorAll('[data-meter]').forEach(button=>button.addEventListener('click',()=>{beats=Number(button.dataset.meter);unit=Number(button.dataset.unit);document.querySelectorAll('[data-meter]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderDots();}));document.querySelectorAll('[data-subdivision]').forEach(button=>button.addEventListener('click',()=>{subdivision=Number(button.dataset.subdivision);clock.setSubdivision(subdivision);document.querySelectorAll('[data-subdivision]').forEach(item=>item.setAttribute('aria-pressed',item===button));renderAccentCopy();clock.onPulse(-1,0);}));
  document.querySelectorAll('[data-sound]').forEach(button=>button.addEventListener('click',async()=>{clock.sound=button.dataset.sound;document.querySelectorAll('[data-sound]').forEach(item=>item.setAttribute('aria-pressed',item===button));try{if(isiOS){const audio=clock.nativeSound();audio.pause();audio.currentTime=0;await audio.play();}else{await clock.unlock();clock.click(clock.context().currentTime+.01,true,false);}}catch{if(isiOS)status.textContent=iosPrimed?'Tap the sound choice again to preview it.':'Tap Start once to connect sound.';}}));$('accent-one').addEventListener('change',event=>clock.accent=event.target.checked);settings.addEventListener('click',()=>toggleOptions(options.hidden));$('metronome-options-close').addEventListener('click',()=>toggleOptions(false));
- start.addEventListener('pointerdown',()=>{if(!isiOS&&!clock.running)void clock.unlock();});start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}try{if(isiOS&&!iosPrimed){status.textContent='Connecting sound…';await clock.enableNativeSound();iosPrimed=true;}await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();if(isiOS)iosPrimed=false;start.textContent='Start';status.textContent='Sound was blocked. Tap Start again.';}});
+ start.addEventListener('pointerdown',()=>{if(!isiOS&&!clock.running)void clock.unlock();});start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}if(isiOS&&!iosPrimed){try{await clock.enableNativeSound();iosPrimed=true;start.textContent='Start';status.textContent='Sound ready. Tap Start.';}catch{status.textContent='Sound was blocked. Tap Sound Check again.';}return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();if(isiOS){iosPrimed=false;start.textContent='Sound Check';status.textContent='Tap Sound Check, then tap Start.';}else status.textContent='Tap Start again to allow sound.';}});
  function draw(){
   const rect=canvas.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),width=Math.max(1,rect.width),height=Math.max(1,rect.height);
   if(canvas.width!==Math.round(width*ratio)||canvas.height!==Math.round(height*ratio)){canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);}
@@ -80,7 +81,7 @@ export function initMetronome(){
   ctx.globalAlpha=1;
   animation=requestAnimationFrame(draw);
  }
- function resetAfterSuspend(){clock.stop();clock.release();start.classList.remove('running');start.textContent='Start';if(isiOS){iosPrimed=false;status.textContent='Audio paused while the app was away. Tap Start to reconnect.';}else status.textContent='Paused while the app was away. Tap Start to reconnect sound.';}
+ function resetAfterSuspend(){clock.stop();clock.release();start.classList.remove('running');if(isiOS){iosPrimed=false;start.textContent='Sound Check';status.textContent='Audio paused while the app was away. Tap Sound Check.';}else{start.textContent='Start';status.textContent='Paused while the app was away. Tap Start to reconnect sound.';}}
  document.addEventListener('visibilitychange',()=>{if(document.hidden)resetAfterSuspend();});
- renderTempo();renderDots();renderAccentCopy();if(isiOS)status.textContent='Tap Start to connect sound and begin.';draw();return{stop(){resetAfterSuspend();},destroy(){cancelAnimationFrame(animation);clock.release();},get running(){return clock.running;}};
+ renderTempo();renderDots();renderAccentCopy();if(isiOS){start.textContent='Sound Check';status.textContent='Tap Sound Check once, then tap Start.';}draw();return{stop(){resetAfterSuspend();},destroy(){cancelAnimationFrame(animation);clock.release();},get running(){return clock.running;}};
 }
