@@ -1,0 +1,82 @@
+const chords=[
+ {id:'g',name:'G',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
+ {id:'cadd9',name:'Cadd9',frets:['x',3,2,0,3,3],fingers:[0,2,1,0,3,4],anchors:[4],tip:'Leave finger 3 exactly where it was in G. Move the other fingers around it.'},
+ {id:'d',name:'D',frets:['x','x',0,2,3,2],fingers:[0,0,0,1,3,2],anchors:[4],tip:'Finger 3 still does not move. Build the D triangle around it.'},
+ {id:'em',name:'Em',frets:[0,2,2,0,0,0],fingers:[0,2,3,0,0,0],anchors:[],tip:'Use two fingers together and let all six strings ring.'},
+ {id:'e',name:'E',frets:[0,2,2,1,0,0],fingers:[0,2,3,1,0,0],anchors:[],tip:'Start from Em, then add finger 1 on the G string.'},
+ {id:'am',name:'Am',frets:['x',0,2,2,1,0],fingers:[0,0,2,3,1,0],anchors:[],tip:'Keep the three fingers grouped together. Start the strum on A.'},
+ {id:'c',name:'C',frets:['x',3,2,0,1,0],fingers:[0,3,2,0,1,0],anchors:[],tip:'Lead with finger 1, then place fingers 2 and 3.'},
+ {id:'a',name:'A',frets:['x',0,2,2,2,0],fingers:[0,0,1,2,3,0],anchors:[],variants:['a-barre'],tip:'Learn this three-finger A first. Keep fingers 1, 2, and 3 close together on fret 2.'},
+ {id:'a-barre',name:'A · barred',measureName:'A barre',variantOf:'a',frets:['x',0,2,2,2,'x'],fingers:[0,0,1,1,1,0],bar:{fret:2,from:2,to:4},anchors:[],tip:'Bar fret 2 with finger 1. Mute both E strings. This shape makes the move from Bm to A much easier.'},
+ {id:'dm',name:'Dm',frets:['x','x',0,2,3,1],fingers:[0,0,0,2,3,1],anchors:[],tip:'Lead with finger 3, then build the shape around it.'},
+ {id:'f',name:'F',frets:['x','x',3,2,1,1],fingers:[0,0,4,3,1,2],anchors:[],variants:['f-full'],tip:'The practical “cheater F”: play only D through high e. This is the F shape we teach first.'},
+ {id:'f-full',name:'F · full barre',variantOf:'f',frets:[1,3,3,2,1,1],fingers:[1,3,4,2,1,1],bar:{fret:1,from:0,to:5},anchors:[],tip:'The full barre variation adds the two low strings. Save it until the smaller F is clean and comfortable.'},
+ {id:'bm',name:'Bm',frets:['x',2,4,4,3,2],fingers:[0,1,3,4,2,1],bar:{fret:2,from:1,to:5},anchors:[],tip:'A later shape: finger 1 presses across fret 2. Start the strum on A.'}
+];
+const byId=Object.fromEntries(chords.map(c=>[c.id,c]));
+const strings=['e','B','G','D','A','E'];
+const counts=['1','&','2','&','3','&','4','&'];
+
+function diagram(chord){
+ const rows=strings.map((label,index)=>{const si=5-index,y=24+index*19,fret=chord.frets[si],finger=chord.fingers[si],muted=fret==='x',weight=(1.15+index*.38).toFixed(2);let marker='';
+  if(muted)marker=`<text x="48" y="${y+5}" class="mute">×</text>`;
+  else if(fret===0)marker=`<circle cx="48" cy="${y}" r="6" class="open"/>`;
+  else if(!(chord.bar&&fret===chord.bar.fret&&si>=chord.bar.from&&si<=chord.bar.to)){const x=70+(fret-.5)*58,anchor=chord.anchors.includes(si)?' anchor':'';marker=`<circle cx="${x}" cy="${y}" r="8.5" class="finger${anchor}"/><text x="${x}" y="${y+4}" class="finger-number">${finger}</text>`;}
+  return `<text x="14" y="${y+5}" class="string-name${muted?' muted-label':''}">${label}</text><line x1="58" y1="${y}" x2="303" y2="${y}" class="string-line${muted?' muted-string':''}" style="stroke-width:${weight}"/>${marker}`;
+ }).join('');
+ const frets=[126,185,244,303].map(x=>`<line x1="${x}" y1="24" x2="${x}" y2="119" class="fret"/>`).join('');
+ let barre='';if(chord.bar){const x=70+(chord.bar.fret-.5)*58,y1=24+(5-chord.bar.to)*19,y2=24+(5-chord.bar.from)*19,mid=(y1+y2)/2;barre=`<rect x="${x-8.5}" y="${y1-8.5}" width="17" height="${y2-y1+17}" rx="8.5" class="barre"/><text x="${x}" y="${mid+4}" class="finger-number barre-number">1</text>`;}
+ return `<svg class="chord-diagram" viewBox="0 0 315 136" role="img" aria-label="${chord.name} chord diagram, thin high e at the top and thick low E at the bottom"><rect x="74" y="17" width="229" height="109" rx="2" class="fretboard"/><rect x="59" y="17" width="16" height="109" rx="1.5" class="nut"/>${frets}${rows}${barre}</svg>`;
+}
+function variationLinks(c){return c.variants?.length?`<div class="variation-links"><span>IMPORTANT VARIATION</span>${c.variants.map(id=>`<button data-preview-chord="${id}">${byId[id].name}</button>`).join('')}</div>`:'';}
+function chordCard(c){return `<article class="chord-card"><div class="chord-card-heading"><div><span>CHORD SHAPE</span><h2>${c.name}</h2></div>${c.anchors.length?'<b>FINGER 3 ANCHOR</b>':''}</div>${diagram(c)}<p>${c.tip}</p>${variationLinks(c)}</article>`;}
+const cards=ids=>ids.map(id=>chordCard(byId[id])).join('');
+const chordButton=id=>`<button class="preview-chord" data-preview-chord="${id}" aria-label="Show ${byId[id].name} chord">${byId[id].measureName||byId[id].name}</button>`;
+function measure(id,pattern='d.d.d.d.'){
+ const slots=[...pattern.padEnd(8,'.').slice(0,8)];
+ return `<div class="music-measure"><div class="measure-heading">${chordButton(id)}</div><div class="measure-grid count-row">${counts.map(x=>`<b>${x}</b>`).join('')}</div><div class="measure-grid stroke-row">${slots.map((s,i)=>`<i class="${s==='d'?'down':s==='u'?'up':'rest'}" title="${s==='d'?'Down':s==='u'?'Up':'No strum'} on ${counts[i]}">${s==='d'?'↓':s==='u'?'↑':'·'}</i>`).join('')}</div></div>`;
+}
+function exercise(number,progression,copy,{primary=true,pattern='d.d.d.d.',repeat='REPEAT'}={}){return `<article class="change-card ${primary?'essential':'extra'}"><div class="change-top"><div class="change-number">${number}</div><p class="change-label">${primary?'ESSENTIAL PRACTICE':'EXTRA PRACTICE'}</p><em>${repeat}</em></div><div class="measure-row" style="--bar-count:${progression.length}">${progression.map(id=>measure(id,pattern)).join('')}</div><p class="exercise-copy">${copy}</p></article>`;}
+function techniqueCallout(type){
+ if(type==='down')return `<aside class="strum-callout"><div class="callout-mark">↓</div><div><p>STRUMMING FOUNDATION</p><h3>Hand, count, and foot all synced together.</h3><ul><li><strong>Finger numbers matter.</strong> Build the chord with the same finger first each time, weakest to strongest: <strong>4 pinky, 3 ring, 2 middle, 1 pointer.</strong> Finger 3 is the anchor through G, Cadd9, and D—keep the ring finger planted.</li><li><strong>Skip the pick for now.</strong> It adds an additional challenging layer. Chord shapes and strumming first—pick later.</li><li>Lightly rake the strings with the nail of your index finger. Keep the wrist relaxed and guide the motion mostly from the elbow—like tapping in a tiny nail with a tiny hammer.</li><li>Count <strong>1 · 2 · 3 · 4</strong>. When you say the number, your strum and your tapping foot both go down.</li></ul></div></aside>`;
+ if(type==='up')return `<aside class="strum-callout"><div class="callout-mark up-mark">↑</div><div><p>ADD THE UP-STRUM</p><h3>The numbers go down. The “ands” come up.</h3><ul><li>Keep the steady down-strum and foot tap on <strong>1 · 2 · 3 · 4</strong>.</li><li>Between those beats, lightly flick the top three or four strings with the nail side of your thumb.</li><li>Count aloud: <strong>1 & 2 & 3 & 4 &</strong>. The up-strum belongs exactly on the <strong>&</strong>.</li></ul></div></aside>`;
+ return `<aside class="strum-callout compact-callout"><div class="callout-mark">↕</div><div><p>STRUMMING REMINDER</p><h3>Keep the hand moving with the count.</h3><ul><li>Numbers are down-strums with the index fingernail; <strong>&</strong> is an up-strum with the thumb.</li><li>Even when you skip a string hit, keep counting, tapping your foot, and moving the hand through its path.</li></ul></div></aside>`;
+}
+export function initChords(){
+ const section=document.createElement('section');section.id='chords-view';section.className='chords-view';section.setAttribute('aria-labelledby','chords-title');
+ section.innerHTML=`<div class="chords-hero"><h1 id="chords-title">First chords</h1><span>Learn the shapes. Practice the movement. Keep the beat.</span></div>
+ <nav class="objective-tabs" aria-label="Chord objectives"><button data-objective-tab="one" aria-pressed="true">Objective 1</button><button data-objective-tab="two" aria-pressed="false">Objective 2</button><button data-objective-tab="three" aria-pressed="false">Objective 3</button><button data-objective-tab="practice" aria-pressed="false"><span>Additional</span><span>Practice</span></button></nav><div class="chords-content">
+ <section class="objective-panel" data-objective="one"><div class="chords-intro single"><div><p class="chords-kicker">OBJECTIVE 1 · KEY OF G</p><h2>The first four shapes</h2></div></div>${techniqueCallout('down')}<div class="chord-grid">${cards(['g','cadd9','d','em'])}</div><section class="practice-section"><div class="section-heading"><div><p>EXERCISES 1–3</p><h2>One box = one measure</h2></div><span>Each box holds four beats</span></div><div class="exercise-grid">
+ ${exercise(1,['g','cadd9'],'Finger 3 is the anchor. Do not move it. Move fingers 1 and 2 around it.')}
+ ${exercise(2,['g','d'],'Keep the D triangle in mind, but place finger 3 first. Your ring finger is the anchor—DO NOT MOVE IT!')}
+ ${exercise(3,['em','d'],'Lead with finger 3: put it in the D spot first, then add fingers 1 and 2. Now it becomes the G → D move you already know.')}
+ </div></section></section>
+ <section class="objective-panel" data-objective="two" hidden><div class="chords-intro"><div><p class="chords-kicker">OBJECTIVE 2 · E, Am, C</p><h2>Add three essential shapes</h2></div><p>Use one lead finger instead of moving the whole hand at once. Then add a light up-strum after beat 4.</p></div>${techniqueCallout('up')}<div class="chord-grid three-up">${cards(['e','am','c'])}</div><section class="practice-section"><div class="section-heading"><div><p>OBJECTIVE 2 EXERCISES</p><h2>See exactly when you strum</h2></div><span>Counts and arrows stay aligned</span></div><div class="exercise-grid">
+ ${exercise(1,['em','e'],'Start with Em. Add finger 1 to make E. Remove it to return to Em.')}
+ ${exercise(2,['e','am'],'Move the three-finger group together. Add a gentle up-strum on the final “and.”',{pattern:'d.d.d.du'})}
+ ${exercise(3,['am','c'],'Lead with finger 1. Then move fingers 2 and 3 into the C shape.',{pattern:'d.d.dudu'})}
+ </div></section></section>
+ <section class="objective-panel" data-objective="three" hidden><div class="chords-intro"><div><p class="chords-kicker">OBJECTIVE 3 · EXPAND THE LIBRARY</p><h2>Add A, Dm, F, and Bm</h2></div><p>A and Dm come first. F and Bm are harder shapes to use when a song finally makes them unavoidable.</p></div>${techniqueCallout('both')}<div class="chord-grid">${cards(['a','dm','f','bm'])}</div><section class="practice-section"><div class="section-heading"><div><p>OBJECTIVE 3 EXERCISES</p><h2>Useful connections</h2></div><span>Slow and clean before fast</span></div><div class="exercise-grid">
+ ${exercise(1,['a','d'],'Keep the fingers compact and move as one group.')}
+ ${exercise(2,['c','f'],'Use the smaller cheater F here. Keep the hand close and move one finger at a time.')}
+ ${exercise(3,['bm','a-barre'],'Keep finger 1 flat: release the Bm shape into the barred A while muting both E strings.')}
+ </div></section></section>
+ <section class="objective-panel" data-objective="practice" hidden><div class="chords-intro"><div><p class="chords-kicker">ADDITIONAL PRACTICE</p><h2>Progression patterns</h2></div><p>Each box is one measure. Four boxes create one repeating progression pattern.</p></div><aside class="strum-callout compact-callout"><div class="callout-mark">↕</div><div><p>POPULAR SONG PATTERNS</p><h3>Keep the hand moving with the count.</h3><ul><li>These are the same kinds of repeating chord patterns used in popular songs. Learning the pattern prepares you to recognize and play the music.</li><li>Each progression folds in its strumming rhythm instead of separating it into another drill.</li><li>Numbers are down-strums; <strong>&</strong> is an up-strum. On a skipped stroke, keep counting, tapping, and moving the hand.</li></ul></div></aside>
+ <div class="song-example"><p>PROGRESSION PATTERN 1</p><h3>D · Cadd9 · G · G</h3>${exercise(1,['d','cadd9','g','g'],'Keep the downbeat moving and add the up-strums exactly on the marked “ands.”',{pattern:'d.dud.du'})}</div>
+ <div class="song-example"><p>PROGRESSION PATTERN 2</p><h3>G · D · Em · C</h3>${exercise(2,['g','d','em','c'],'Down, down-up, skip-up, down-up. Keep the skipped down motion silent but moving.',{pattern:'d.du.udu'})}</div>
+ <div class="song-example"><p>PROGRESSION PATTERN 3</p><h3>Em · Em · C · D</h3>${exercise(3,['em','em','c','d'],'Down on 1 and 2, skip the down-strum on 3, then play up on the “and” and down-up on 4.',{pattern:'d.d..udu'})}</div>
+ <div class="song-example"><p>PROGRESSION PATTERN 4</p><h3>C · G · Am · F</h3>${exercise(4,['c','g','am','f'],'Down on 1, 3, and 4, with the final up-strum on the “and.” Use the smaller F shape.',{pattern:'d...d.du'})}</div>
+ <div class="song-example"><p>PROGRESSION PATTERN 5</p><h3>Bm · A · D · G</h3>${exercise(5,['bm','a-barre','d','g'],'Use the barred A after Bm. Play down, down-up, skip-up, down-up while the hand keeps moving.',{pattern:'d.du.udu'})}</div>
+ </section></div><div class="chord-preview-backdrop" hidden></div><aside class="chord-preview" role="dialog" aria-modal="false" aria-label="Chord preview" hidden><button class="preview-close" aria-label="Close chord preview">×</button><div data-preview-content></div></aside>`;
+ document.querySelector('main').append(section);
+ const preview=section.querySelector('.chord-preview'),backdrop=section.querySelector('.chord-preview-backdrop'),content=section.querySelector('[data-preview-content]'),fine=matchMedia('(hover:hover) and (pointer:fine)');let locked=false,timer;
+ const show=(id,lock=false)=>{const c=byId[id];if(!c)return;clearTimeout(timer);locked=lock;content.innerHTML=`<p>${c.variantOf?'CHORD VARIATION':'CHORD PREVIEW'}</p><h2>${c.name}</h2>${diagram(c)}<span>${c.tip}</span>${variationLinks(c)}`;preview.hidden=false;backdrop.hidden=!lock;preview.classList.toggle('locked',lock);preview.setAttribute('aria-modal',String(lock));};
+ const close=(force=false)=>{if(locked&&!force)return;locked=false;preview.hidden=true;backdrop.hidden=true;preview.classList.remove('locked');};
+ const showObjective=name=>{section.querySelectorAll('[data-objective]').forEach(p=>p.hidden=p.dataset.objective!==name);section.querySelectorAll('[data-objective-tab]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.objectiveTab===name));close(true);window.scrollTo(0,0);};
+ section.addEventListener('pointerover',e=>{const b=e.target.closest('[data-preview-chord]');if(b&&fine.matches&&!locked)show(b.dataset.previewChord);});
+ section.addEventListener('pointerout',e=>{const b=e.target.closest('[data-preview-chord]');if(b&&fine.matches&&!locked)timer=setTimeout(()=>close(),120);});
+ preview.addEventListener('pointerenter',()=>clearTimeout(timer));preview.addEventListener('pointerleave',()=>{if(!locked)timer=setTimeout(()=>close(),120);});
+ section.addEventListener('focusin',e=>{const b=e.target.closest('[data-preview-chord]');if(b&&fine.matches&&!locked)show(b.dataset.previewChord);});
+ section.addEventListener('click',e=>{const tab=e.target.closest('[data-objective-tab]');if(tab)return showObjective(tab.dataset.objectiveTab);const b=e.target.closest('[data-preview-chord]');if(b)return show(b.dataset.previewChord,true);if(e.target.closest('.preview-close')||e.target===backdrop)close(true);});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close(true);});return{section};
+}

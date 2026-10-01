@@ -7,6 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=67';
+import {initChords} from './tuner/chords.js?v=87';
 const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
@@ -186,29 +187,31 @@ const more=document.createElement('details'),moreSummary=document.createElement(
 more.className='more-menu';moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);
 const tuningTitle=document.createElement('h2');tuningTitle.className='more-section-title';tuningTitle.textContent='Tuning';moreBody.append(tuningTitle);document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));
 const rhythmTitle=document.createElement('h2');rhythmTitle.className='more-section-title';rhythmTitle.textContent='Metronome';const rhythmCopy=document.createElement('p');rhythmCopy.className='metronome-more';rhythmCopy.innerHTML='<strong>Rhythm holds the music together.</strong> We do not make up the timing as we go—we learn to lock in with a steady pulse. Practice with a metronome, another musician, or a recording until staying with the beat feels natural.';moreBody.append(rhythmTitle,rhythmCopy);
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const version=document.createElement('p');version.className='app-version';version.textContent='Version 70';moreBody.append(copyright,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta Version 87';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
  if(request!==referenceRequest||duration===null)throw Error('Sound check interrupted');
  playUntil=performance.now()+duration;referenceTimer=setTimeout(()=>{if(request===referenceRequest)playUntil=0;},duration);return duration;
 }
-const metronome=initMetronome({enableSound:metronomeSoundCheck}),bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button');
+const metronome=initMetronome({enableSound:metronomeSoundCheck});initChords();
+const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/><path d="M6 18h12"/></svg></span><span>Tuner</span>';
 metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3h8l3 18H5L8 3Z"/><path d="M12 7v9"/><path d="m12 16 3-4"/></svg></span><span>Metronome</span>';
-bottomNav.append(tunerNav,metronomeNav,more);document.body.append(bottomNav);
+chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 5v14M12 5v14M16 5v14M4 9h16M4 15h16"/><circle cx="10" cy="12" r="1.5"/></svg></span><span>Chords</span>';
+bottomNav.append(tunerNav,metronomeNav,chordsNav,more);document.body.append(bottomNav);
 function showView(view){
- const metro=view==='metronome';document.body.dataset.view=metro?'metronome':'tuner';
- tunerNav.classList.toggle('active',!metro);metronomeNav.classList.toggle('active',metro);tunerNav.setAttribute('aria-current',metro?'false':'page');metronomeNav.setAttribute('aria-current',metro?'page':'false');
- document.querySelector('.edition').textContent=metro?'THE METRONOME':'THE TUNER';
- if(metro){if(listening||starting)stopListening();location.hash='metronome';}else{metronome.stop();history.replaceState(null,'',location.pathname+location.search);}
+ const metro=view==='metronome',chords=view==='chords',tuner=!metro&&!chords;document.body.dataset.view=view;document.documentElement.dataset.view=view;
+ tunerNav.classList.toggle('active',tuner);metronomeNav.classList.toggle('active',metro);chordsNav.classList.toggle('active',chords);tunerNav.setAttribute('aria-current',tuner?'page':'false');metronomeNav.setAttribute('aria-current',metro?'page':'false');chordsNav.setAttribute('aria-current',chords?'page':'false');
+ document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':'THE TUNER';
+ if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();if(metro)location.hash='metronome';else if(chords)location.hash='chords';else history.replaceState(null,'',location.pathname+location.search);
  window.scrollTo(0,0);
 }
-tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');
+tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');
 more.addEventListener('toggle',()=>{moreSummary.textContent=more.open?'← Back': '';if(!more.open)moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';else metronome.stop();});
 renderInstrument();
-showView(location.hash==='#metronome'?'metronome':'tuner');
+showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':'tuner');
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
 
