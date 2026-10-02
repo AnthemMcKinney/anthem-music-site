@@ -117,3 +117,20 @@ html[data-theme^=dark]{--theme-on-accent:#102330}
 
 /* Navigation step labels share one semantic style across every tier. */
 .instrument-tabs .nav-tier-label,.uke-path-tabs .nav-tier-label,.objective-tabs .nav-tier-label{color:var(--theme-accent-deep)!important;opacity:1;font-weight:900;letter-spacing:1.2px}
+
+/* Beta 3.7: finish palette coverage across rhythm and progression modules. */
+.pulse-stage{background:linear-gradient(var(--theme-nav-active),var(--theme-nav));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--theme-ink) 15%,transparent)}
+.pulse-stage:after{background:linear-gradient(90deg,transparent 0,transparent 78%,color-mix(in srgb,var(--theme-nav) 72%,transparent))}
+.tempo-step,.metronome-settings.open,.metronome-start.running,.option-heading button{background:var(--theme-nav);color:#fff}
+.tap-tempo,.sound-check,.metronome-settings{border-color:var(--theme-border);background:var(--theme-surface);color:var(--theme-ink)}
+.sound-check.ready{border-color:var(--theme-accent);background:var(--theme-soft-2);color:var(--theme-ink)}
+.tempo-presets button,.meter-option,.subdivision-options button,.sound-options button{background:var(--theme-soft-2);color:var(--theme-text);border-color:var(--theme-border)}
+.meter-option[aria-pressed=true],.subdivision-options button[aria-pressed=true],.sound-options button[aria-pressed=true],.tempo-presets button[aria-pressed=true]{background:var(--theme-nav);color:#fff}
+.metronome-options,.accent-option{background:var(--theme-surface);color:var(--theme-text);border-color:var(--theme-border)}
+.accent-option small,.metronome-status,.metronome-volume{color:var(--theme-muted)}
+.progression-details,.progression-details>summary,.practice-exercise-tab{background:var(--theme-nav);color:#fff}
+.progression-body,.song-example{background:var(--theme-soft);color:var(--theme-text)}
+.progression-details>summary:before{color:var(--theme-nav)}
+.progression-summary p{color:color-mix(in srgb,var(--theme-accent) 58%,white)}
+.variant-swipe-cue{margin:1px 0 6px;color:var(--theme-muted);font-size:9px;font-weight:750;text-align:center}
+.variant-swipe-cue[hidden]{display:none}

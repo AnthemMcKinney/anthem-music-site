@@ -187,3 +187,47 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 /* Stable exercise tabs and one shared result panel. */
 .practice-exercise-tab{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;margin-top:5px;padding:5px 8px;border:1px solid var(--theme-border);border-radius:7px;background:var(--theme-nav);color:#fff;text-align:left;font:inherit;cursor:pointer}.practice-exercise-tab small{display:block;color:#c6d0d9;font-size:7px;font-weight:900;letter-spacing:.7px}.practice-exercise-tab strong{display:block;margin-top:1px;color:#fff;font:700 12px/1.05 Lora,Georgia,serif}.exercise-tab-number{display:grid;place-items:center;width:19px;height:19px;flex:0 0 19px;border-radius:50%;background:#fff;color:var(--theme-nav);font-size:10px;font-weight:900}.practice-exercise-tab[aria-pressed=true]{border-color:var(--theme-accent);background:var(--theme-accent)}.practice-exercise-panel{margin-top:5px;padding:7px;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-surface)}.practice-exercise-panel[hidden]{display:none}.practice-exercise-panel .change-card{padding:0;border:0;background:transparent}.practice-exercise-panel .change-top{display:none}
 @media(max-width:740px){body[data-view=chords] .practice-exercise-tab{order:2;min-width:0;height:38px;min-height:38px;margin-top:0;padding:3px 5px;gap:5px;overflow:hidden}body[data-view=chords] .practice-exercise-tab small{font-size:5.5px;letter-spacing:.4px}body[data-view=chords] .practice-exercise-tab strong{overflow:hidden;font-size:10px;text-overflow:ellipsis;white-space:nowrap}body[data-view=chords] .practice-exercise-panel{grid-column:1/-1;order:3;margin-top:0}.progression-exercise-tab{grid-column:1/-1!important;order:4!important;margin-top:1px!important}.progression-exercise-panel{order:5!important}}
+
+/* Beta 3.7: alternate voicings live inside the swipeable chord stage. */
+@media(max-width:740px){
+ body[data-view=chords] .chords-content{padding:11px 10px 15px}
+ body[data-view=chords] .lesson-details{padding:8px 10px;margin-bottom:8px}
+ body[data-view=chords] .lesson-summary h3{font-size:15px;line-height:1.12}
+ body[data-view=chords] .chord-selector button{padding:7px 2px;font-size:10px}
+ body[data-view=chords] .chord-grid .chord-card{padding:10px 12px 11px}
+ body[data-view=chords] .chord-card-heading h2{font-size:25px}
+ body[data-view=chords] .chord-diagram{max-height:124px}
+ body[data-view=chords] .chord-card>p{font-size:10.5px;line-height:1.34}
+ body[data-view=chords] .practice-drawers{padding:7px 8px 9px}
+ body[data-view=chords] .practice-transition h2{font-size:19px}
+ body[data-view=chords] .practice-exercise-tab{height:38px;min-height:38px;padding:4px 7px}
+}
+@media(min-width:741px){.chord-grid [data-variant-card=true],.variant-swipe-cue{display:none}}
+
+/* Alternate voicings use the existing chord header rather than another row. */
+.chord-variant-nav{display:none;align-items:center;gap:5px;margin-left:auto}
+.chord-variant-nav button{display:grid;place-items:center;width:25px;height:25px;padding:0;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-surface);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
+.chord-variant-nav span{min-width:23px;color:var(--theme-muted);font-size:9px;font-weight:900;text-align:center}
+@media(max-width:740px){.chord-variant-nav{display:flex}.variant-swipe-cue{display:none!important}.lesson-summary div:has(>p:only-child){display:flex;align-items:center}.lesson-summary div:has(>p:only-child) p{font-size:10px}}
+
+/* Objective-note navigation uses one predictable collapsed label everywhere. */
+.lesson-expanded>h3{margin:0 0 7px;color:var(--theme-ink);font:700 16px/1.2 Lora,Georgia,serif}
+@media(max-width:740px){.lesson-summary>div{display:flex;align-items:center}.lesson-summary p{font-size:10px}.lesson-expanded>h3{font-size:15px}}
+
+/* The chord stage is diagram-first; all teaching copy lives in Objective Notes. */
+@media(max-width:740px){
+ body[data-view=chords] .chord-grid .chord-card{box-sizing:border-box;height:190px;padding:12px 14px}
+ body[data-view=chords] .chord-card-heading{min-height:29px;align-items:center}
+ body[data-view=chords] .chord-card-heading>div{min-width:0;flex:1}
+ body[data-view=chords] .chord-card-heading h2{max-width:100%;font-size:27px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body[data-view=chords] .chord-diagram{height:145px;max-height:145px;margin:1px auto 0}
+ body[data-view=chords] .chord-card>p{display:none}
+ .chord-variant-nav{flex:0 0 auto;gap:6px}
+ .chord-variant-nav button{width:27px;height:27px;font-size:21px}
+ .chord-variant-nav span{min-width:25px;font-size:10px}
+}
+
+/* Optical centering for glyph-based circular controls. */
+.drawer-toggle:before,.lesson-summary:before,.progression-details>summary:before{position:relative;top:-.5px;line-height:1}
+.practice-instructions[open] .drawer-toggle:before,.practice-exercise[open] .drawer-toggle:before,.lesson-details[open]>.lesson-summary:before,.progression-details[open]>summary:before{top:-1.5px}
+.chord-variant-nav button{align-items:center;justify-content:center;padding:0 0 2px;text-indent:0;line-height:1}
