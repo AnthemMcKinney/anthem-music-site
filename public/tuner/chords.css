@@ -102,3 +102,31 @@ body[data-view=chords] .chords-content{padding-bottom:calc(18px + max(58px,7dvh)
 
 /* Chord changes that happen inside a single four-beat measure. */
 .beat-chord-grid,.beat-count-grid,.beat-stroke-grid{display:grid;grid-template-columns:repeat(4,1fr);align-items:center;text-align:center}.beat-chord-grid{border-bottom:1px solid #d8d0c1}.beat-chord-grid .preview-chord{padding:6px 1px;color:#0d1f3c;font-size:16px}.beat-count-grid{padding-top:4px}.beat-count-grid b{color:#c54a12;font-size:10px}.beat-stroke-grid{padding-bottom:5px}.beat-stroke-grid i{color:#0d1f3c;font-size:20px;font-style:normal;font-weight:900}
+
+/* Readability pass: larger chords and one shared collapsed-row scale. */
+@media(max-width:740px){
+ html[data-view=chords],body[data-view=chords],body[data-view=chords]:not(.chords-unlocked){height:auto;min-height:100dvh;overflow-y:auto!important}
+ body[data-view=chords] .app-shell,body[data-view=chords]:not(.chords-unlocked) .app-shell{height:auto;padding-bottom:0!important;overflow:visible!important}
+ body[data-view=chords] .chords-content{padding:8px 9px 12px}
+ body[data-view=chords] .chords-intro{margin-bottom:5px}
+ body[data-view=chords] .lesson-details{margin-bottom:5px;padding:5px 8px}
+ body[data-view=chords] .lesson-summary{min-height:28px}
+ body[data-view=chords] .lesson-summary h3{font-size:13px}
+ body[data-view=chords] .chord-selector{margin-bottom:4px}
+ body[data-view=chords] .chord-selector button{padding:6px 2px;font-size:9px}
+ body[data-view=chords] .chord-grid .chord-card{padding:7px 10px 8px}
+ body[data-view=chords] .chord-card-heading h2{font-size:22px}
+ body[data-view=chords] .chord-diagram{max-height:118px}
+ body[data-view=chords] .chord-card>p{margin-top:3px;font-size:10px;line-height:1.3}
+ body[data-view=chords] .practice-drawers{margin-top:5px;padding:7px 8px;border-top-width:4px}
+ body[data-view=chords] .practice-transition{padding-bottom:4px}
+ body[data-view=chords] .practice-transition h2{font-size:17px}
+ body[data-view=chords] .practice-instructions,body[data-view=chords] .practice-exercise{margin-top:4px}
+ body[data-view=chords] .practice-instructions>summary,body[data-view=chords] .practice-exercise>summary,body[data-view=chords] .progression-details>summary{box-sizing:border-box;height:34px;min-height:34px;padding:3px 8px;gap:8px;overflow:hidden}
+ body[data-view=chords] .practice-instructions summary strong,body[data-view=chords] .practice-exercise summary strong,body[data-view=chords] .progression-summary h3{font-size:12px;line-height:1}
+ body[data-view=chords] .progression-summary p{font-size:6px;line-height:1}
+ body[data-view=chords] .drawer-toggle,body[data-view=chords] .progression-details>summary:before{width:19px;height:19px;flex-basis:19px}
+ body[data-view=chords] .progression-details:not([open])>summary{padding-block:4px}
+ body[data-view=chords] .practice-next-step{margin-top:4px;padding-top:4px}
+ body[data-view=chords] .practice-next-step strong{font-size:12px}
+}
