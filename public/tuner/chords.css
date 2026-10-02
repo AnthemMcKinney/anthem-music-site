@@ -100,6 +100,26 @@ body[data-view=chords] .chords-content{padding-bottom:calc(18px + max(58px,7dvh)
  body[data-view=chords] .practice-next-step strong{font-size:10px}
 }
 
+/* Beta 3.4: compact exercise menu and consistent expandable teaching notes. */
+.lesson-summary{grid-template-columns:22px 1fr;align-items:center;gap:9px;padding-right:4px}
+.lesson-summary .callout-mark{display:none}
+.lesson-summary:before{content:'+';display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#fff;color:#0d1f3c;font:900 14px/1 Arial;box-shadow:0 1px 3px #07132935}
+.lesson-details[open]>.lesson-summary:before{content:'−'}
+.lesson-summary:after{display:none}
+.lesson-expanded{margin-left:30px}
+.mobile-reading-cue{display:none}
+@media(max-width:740px){
+ body[data-view=chords] .practice-drawers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ body[data-view=chords] .practice-transition,body[data-view=chords] .practice-instructions{grid-column:1/-1}
+ body[data-view=chords] .practice-instructions,body[data-view=chords] .practice-exercise{margin-top:0}
+ body[data-view=chords] .practice-exercise{min-width:0}
+ body[data-view=chords] .practice-exercise>summary{height:41px;min-height:41px}
+ body[data-view=chords] .practice-exercise summary strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ body[data-view=chords] .practice-exercise[open],body[data-view=chords] .progression-exercise,body[data-view=chords] .practice-count-1 .practice-exercise{grid-column:1/-1}
+ body[data-view=chords] .practice-exercise[open]>summary{height:36px;min-height:36px}
+ .desktop-reading-cue{display:none}.mobile-reading-cue{display:inline}
+}
+
 /* Chord changes that happen inside a single four-beat measure. */
 .beat-chord-grid,.beat-count-grid,.beat-stroke-grid{display:grid;grid-template-columns:repeat(4,1fr);align-items:center;text-align:center}.beat-chord-grid{border-bottom:1px solid #d8d0c1}.beat-chord-grid .preview-chord{padding:6px 1px;color:#0d1f3c;font-size:16px}.beat-count-grid{padding-top:4px}.beat-count-grid b{color:#c54a12;font-size:10px}.beat-stroke-grid{padding-bottom:5px}.beat-stroke-grid i{color:#0d1f3c;font-size:20px;font-style:normal;font-weight:900}
 
@@ -130,3 +150,40 @@ body[data-view=chords] .chords-content{padding-bottom:calc(18px + max(58px,7dvh)
  body[data-view=chords] .practice-next-step{margin-top:4px;padding-top:4px}
  body[data-view=chords] .practice-next-step strong{font-size:12px}
 }
+
+/* Beta 3.4 final layout overrides */
+.more-view[hidden]{display:none}.more-view{position:fixed;z-index:45;inset:0 0 max(58px,7dvh);background:#f3eee4;overflow-y:auto;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 28px max(12px,env(safe-area-inset-left))}.more-view .more-menu-body{max-width:760px;margin:auto;padding:0 6px 28px}.more-view .app-version{display:block;margin:18px 0 0;text-align:center;color:#7a857f;font-size:10px}.more-view .more-feedback{margin-bottom:8px}body[data-view=more] .app-shell{display:none}
+@media(max-width:740px){body[data-view=chords] .practice-drawers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}body[data-view=chords] .practice-transition,body[data-view=chords] .practice-instructions{grid-column:1/-1}body[data-view=chords] .practice-instructions,body[data-view=chords] .practice-exercise{margin-top:0}body[data-view=chords] .practice-exercise{min-width:0}body[data-view=chords] .practice-exercise>summary{height:41px;min-height:41px}body[data-view=chords] .practice-exercise summary strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}body[data-view=chords] .practice-exercise[open],body[data-view=chords] .progression-exercise,body[data-view=chords] .practice-count-1 .practice-exercise{grid-column:1/-1}body[data-view=chords] .practice-exercise[open]>summary{height:36px;min-height:36px}.desktop-reading-cue{display:none}.mobile-reading-cue{display:inline}}
+
+/* Keep the lesson frame fixed when an expanded exercise creates vertical overflow. */
+html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
+
+/* Beta 3.5 refinement: three chord-pair exercises share one compact row. */
+@media(max-width:740px){
+ body[data-view=chords] .practice-count-3,body[data-view=chords] .practice-count-4{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body[data-view=chords] .practice-count-3 .practice-exercise,body[data-view=chords] .practice-count-4 .practice-exercise:not(.progression-exercise){grid-column:auto}
+ body[data-view=chords] .practice-count-3 .practice-exercise>summary,body[data-view=chords] .practice-count-4 .practice-exercise:not(.progression-exercise)>summary{height:38px;min-height:38px;padding:3px 5px;gap:5px}
+ body[data-view=chords] .practice-count-3 .drawer-toggle,body[data-view=chords] .practice-count-4 .practice-exercise:not(.progression-exercise) .drawer-toggle{width:17px;height:17px;flex-basis:17px}
+ body[data-view=chords] .practice-count-3 .practice-exercise summary small,body[data-view=chords] .practice-count-4 .practice-exercise:not(.progression-exercise) summary small{font-size:5.5px;letter-spacing:.45px}
+ body[data-view=chords] .practice-count-3 .practice-exercise summary strong,body[data-view=chords] .practice-count-4 .practice-exercise:not(.progression-exercise) summary strong{font-size:10px}
+ body[data-view=chords] .practice-count-3 .practice-exercise[open],body[data-view=chords] .practice-count-4 .practice-exercise[open]{grid-column:1/-1}
+}
+
+/* Exercise selectors behave like stable tabs; the selected exercise opens below. */
+@media(max-width:740px){
+ body[data-view=chords] .practice-exercise{display:contents}
+ body[data-view=chords] .practice-exercise>summary{order:2;min-width:0;border:1px solid var(--theme-border);border-radius:7px}
+ body[data-view=chords] .practice-exercise>.practice-exercise-body{grid-column:1/-1;order:3;margin-top:1px;border:1px solid var(--theme-border);border-radius:8px}
+ body[data-view=chords] .practice-exercise[open]>summary{height:38px;min-height:38px;background:var(--theme-accent);border-color:var(--theme-accent)}
+ body[data-view=chords] .practice-exercise[open] .drawer-toggle:before{content:'−'}
+ body[data-view=chords] .progression-exercise>summary{grid-column:1/-1;order:4;margin-top:1px}
+ body[data-view=chords] .progression-exercise>.practice-exercise-body{order:5}
+}
+
+@media(max-width:740px){body[data-view=chords] .practice-exercise:not([open])>.practice-exercise-body{display:none}}
+
+@media(max-width:740px){body[data-view=chords] .practice-exercise,body[data-view=chords] .practice-exercise[open],body[data-view=chords] .progression-exercise{grid-column:auto!important}}
+
+/* Stable exercise tabs and one shared result panel. */
+.practice-exercise-tab{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;margin-top:5px;padding:5px 8px;border:1px solid var(--theme-border);border-radius:7px;background:var(--theme-nav);color:#fff;text-align:left;font:inherit;cursor:pointer}.practice-exercise-tab small{display:block;color:#c6d0d9;font-size:7px;font-weight:900;letter-spacing:.7px}.practice-exercise-tab strong{display:block;margin-top:1px;color:#fff;font:700 12px/1.05 Lora,Georgia,serif}.exercise-tab-number{display:grid;place-items:center;width:19px;height:19px;flex:0 0 19px;border-radius:50%;background:#fff;color:var(--theme-nav);font-size:10px;font-weight:900}.practice-exercise-tab[aria-pressed=true]{border-color:var(--theme-accent);background:var(--theme-accent)}.practice-exercise-panel{margin-top:5px;padding:7px;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-surface)}.practice-exercise-panel[hidden]{display:none}.practice-exercise-panel .change-card{padding:0;border:0;background:transparent}.practice-exercise-panel .change-top{display:none}
+@media(max-width:740px){body[data-view=chords] .practice-exercise-tab{order:2;min-width:0;height:38px;min-height:38px;margin-top:0;padding:3px 5px;gap:5px;overflow:hidden}body[data-view=chords] .practice-exercise-tab small{font-size:5.5px;letter-spacing:.4px}body[data-view=chords] .practice-exercise-tab strong{overflow:hidden;font-size:10px;text-overflow:ellipsis;white-space:nowrap}body[data-view=chords] .practice-exercise-panel{grid-column:1/-1;order:3;margin-top:0}.progression-exercise-tab{grid-column:1/-1!important;order:4!important;margin-top:1px!important}.progression-exercise-panel{order:5!important}}
