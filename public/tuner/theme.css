@@ -106,3 +106,14 @@ html[data-theme^=dark] .chord-card{box-shadow:0 5px 13px #0004,inset 0 1px #ffff
 .chord-preview span{color:var(--theme-text)}
 .chord-preview .preview-close{background:var(--theme-nav);color:#fff}
 .chord-preview-backdrop{background:#07132977}
+
+/* Theme-aware contrast for light accent colors and clearer navigation tiers. */
+:root{--theme-on-accent:#fff}
+html[data-theme=soft]{--theme-on-accent:#fff}
+html[data-theme^=dark]{--theme-on-accent:#102330}
+.instrument-tabs button[aria-pressed=true],.chord-selector button[aria-selected=true],.practice-instructions>summary,.practice-exercise-tab[aria-pressed=true]{color:var(--theme-on-accent)}
+.instrument-tabs button[aria-pressed=true] strong,.practice-instructions>summary strong,.practice-instructions>summary small,.practice-exercise-tab[aria-pressed=true] strong,.practice-exercise-tab[aria-pressed=true] small{color:var(--theme-on-accent)}
+.instrument-tabs .nav-tier-label,.objective-tabs .nav-tier-label,.uke-path-tabs .nav-tier-label{padding-bottom:2px;line-height:1.2}
+
+/* Navigation step labels share one semantic style across every tier. */
+.instrument-tabs .nav-tier-label,.uke-path-tabs .nav-tier-label,.objective-tabs .nav-tier-label{color:var(--theme-accent-deep)!important;opacity:1;font-weight:900;letter-spacing:1.2px}
