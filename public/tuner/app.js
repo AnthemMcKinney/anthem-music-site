@@ -7,7 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=67';
-import {initChords} from './tuner/chords.js?v=93';
+import {initChords} from './tuner/chords.js?v=3.2';
 const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
@@ -185,9 +185,14 @@ if(branding.studentPortalUrl){const url=new URL(branding.studentPortalUrl);if(ur
 document.querySelector('.sample-credits p')?.insertAdjacentHTML('beforeend',' Alto-sax recordings come from the same collection (Karoryfer source) and are pitch-adjusted for the selected written note.');
 const more=document.createElement('details'),moreSummary=document.createElement('summary'),moreBody=document.createElement('div');
 more.className='more-menu';moreSummary.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';moreBody.className='more-menu-body';more.append(moreSummary,moreBody);
-const tuningTitle=document.createElement('h2');tuningTitle.className='more-section-title';tuningTitle.textContent='Tuning';moreBody.append(tuningTitle);document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>moreBody.append(item));
-const rhythmTitle=document.createElement('h2');rhythmTitle.className='more-section-title';rhythmTitle.textContent='Metronome';const rhythmCopy=document.createElement('p');rhythmCopy.className='metronome-more';rhythmCopy.innerHTML='<strong>Rhythm holds the music together.</strong> We do not make up the timing as we go—we learn to lock in with a steady pulse. Practice with a metronome, another musician, or a recording until staying with the beat feels natural.';moreBody.append(rhythmTitle,rhythmCopy);
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta Version 93';moreBody.append(copyright,feedback,version);
+const moreIntro=document.createElement('section');moreIntro.className='more-overview';moreIntro.innerHTML='<p>ANTHEM MUSIC</p><h2>Tools for better practice.</h2><span>Tune your instrument, build steady rhythm, and learn the first chords in a clear lesson sequence.</span>';moreBody.append(moreIntro);
+const moreSection=(title,html)=>{const details=document.createElement('details');details.className='more-card';details.innerHTML=`<summary>${title}</summary><div>${html}</div>`;moreBody.append(details);return details;};
+moreSection('About this app','<p>These tools turn the same ideas used in Anthem Music lessons into something students and families can use between sessions.</p><p>The approach comes from teaching hundreds of students, designing practical curriculum over many years, collaborating with professional musicians and music programs, and refining lessons through student and user feedback.</p>');
+const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>tuningHelp.lastElementChild.append(item));
+moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
+moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
+moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.2';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');

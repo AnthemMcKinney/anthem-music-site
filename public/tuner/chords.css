@@ -8,6 +8,7 @@
 
 /* Guided strumming instruction */
 .objective-tabs button{font-weight:900}.strum-callout{display:grid;grid-template-columns:56px 1fr;gap:14px;margin:0 0 18px;padding:15px 18px;border:1px solid #d7cdbd;border-left:5px solid #e85d1a;border-radius:10px;background:#f7f1e5}.callout-mark{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#0d1f3c;color:#fff;font-size:31px;font-weight:900}.callout-mark.up-mark{background:#e85d1a}.strum-callout p{margin:0;color:#c54a12;font-size:9px;font-weight:900;letter-spacing:1.2px}.strum-callout h3{margin:3px 0 7px;font:700 18px/1.15 Lora,Georgia,serif}.strum-callout ul{display:grid;gap:4px;margin:0;padding-left:18px;color:#45575f;font-size:12px;line-height:1.42}.compact-callout{padding-top:12px;padding-bottom:12px}.pattern-section{margin-top:18px}.pattern-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.pattern-card{display:grid;grid-template-columns:34px minmax(0,1fr);gap:9px;padding:11px;border:1px solid #d8d0c1;border-radius:10px;background:#fff}.pattern-number{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#0d1f3c;color:#fff;font-weight:900}.pattern-card>div>p{margin:1px 0 6px;color:#c54a12;font-size:9px;font-weight:900;letter-spacing:1px}.pattern-card .music-measure{min-width:0}.pattern-card>div>span{display:block;margin-top:6px;color:#52626a;font-size:10px;line-height:1.35}.song-example{margin-top:18px}
+.instrument-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;padding:1px;background:#0d1f3c}.instrument-tabs button{min-height:39px;border:0;background:#f3eee4;color:#314451;font-size:12px;font-weight:900}.instrument-tabs button[aria-pressed=true]{background:#0d1f3c;color:#fff;box-shadow:inset 0 -3px #e85d1a}.uke-path-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:8px 12px;background:#f1ebdf}.uke-path-tabs[hidden]{display:none}.uke-path-tabs button{min-height:34px;border:1px solid #bdb3a4;border-radius:6px;background:#fff;color:#314451;font-size:11px;font-weight:900}.uke-path-tabs button[aria-pressed=true]{border-color:#e85d1a;background:#fff1e9;color:#c54a12}
 @media(max-width:740px){.objective-tabs button{min-height:47px;font-size:9px;font-weight:900}.strum-callout{grid-template-columns:42px 1fr;padding:13px 11px;gap:9px}.callout-mark{width:38px;height:38px;font-size:25px}.strum-callout h3{font-size:16px}.strum-callout ul{font-size:11px;padding-left:16px}.pattern-grid{grid-template-columns:1fr}}
 
 /* Chord variations and fixed-navigation clearance */
@@ -42,3 +43,62 @@ body[data-view=chords] .chords-content{padding-bottom:calc(18px + max(58px,7dvh)
 
 /* One consistent mobile expand control */
 @media(max-width:740px){.lesson-summary{grid-template-columns:19px 1fr;align-items:center;gap:9px;padding-right:4px}.lesson-summary .callout-mark{display:none}.lesson-summary:before{content:'+';display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#fff;color:#0d1f3c;font:900 14px/1 Arial;box-shadow:0 1px 3px #07132935}.lesson-details[open]>.lesson-summary:before{content:'−'}.lesson-summary:after{display:none}.lesson-summary h3{padding-right:0}.lesson-expanded{margin-left:28px}}
+@media(max-width:740px){.instrument-tabs button{min-height:36px;padding:4px 2px;font-size:9px;line-height:1.1}.uke-path-tabs{padding:5px 8px}.uke-path-tabs button{min-height:29px;font-size:9px}.progression-details{margin-top:5px;margin-bottom:0;border:0;background:#0d1f3c}.progression-details>summary{display:grid;grid-template-columns:19px 1fr;column-gap:9px;width:100%;padding:5px 8px;background:#0d1f3c;color:#fff}.progression-details>summary:before{content:'+';grid-row:1/3;display:grid;place-items:center;width:19px;height:19px;align-self:center;border-radius:50%;background:#fff;color:#0d1f3c;font:900 14px/1 Arial}.progression-details[open]>summary:before{content:'−'}.progression-details>summary:after{display:none}.progression-summary p,.progression-summary h3{grid-column:2;color:#fff}.progression-summary p{color:#c6d0d9}.progression-summary h3{font-size:14px}.progression-body{background:#f7f1e5}}
+
+/* Navigation hierarchy: instrument > path > objective > chord */
+.nav-tier-label{grid-column:1/-1;display:block;font-size:8px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}.instrument-tabs{gap:4px;padding:7px 8px 8px;background:#0d1f3c}.instrument-tabs .nav-tier-label{color:#aebdca}.instrument-tabs button{border:1px solid #506681;border-radius:6px;background:#1a3150;color:#fff}.instrument-tabs button[aria-pressed=true]{border-color:#e85d1a;background:#e85d1a;color:#fff;box-shadow:none}.uke-path-tabs{gap:5px;padding:6px 8px 8px;border-bottom:1px solid #d4cab9;background:#f1ebdf}.uke-path-tabs .nav-tier-label{color:#7a675a}.uke-path-tabs button[aria-pressed=true]{border-color:#0d1f3c;background:#fff;color:#0d1f3c;box-shadow:inset 0 -3px #e85d1a}.objective-tabs{gap:4px;padding:6px 8px 8px;background:#fff}.objective-tabs .nav-tier-label{color:#7a675a}.objective-tabs button{min-height:37px;border:1px solid #d0c7b9;border-radius:5px;background:#e8e2d8}.objective-tabs button[aria-pressed=true]{background:#0d1f3c;color:#fff;box-shadow:inset 0 -3px #e85d1a}.chord-selector button[aria-selected=true]{border-color:#e85d1a;background:#e85d1a;color:#fff;box-shadow:none}
+@media(max-width:740px){.instrument-tabs,.objective-tabs{gap:3px;padding:4px 5px 5px}.instrument-tabs button{min-height:31px}.uke-path-tabs{padding:4px 5px 5px}.objective-tabs button{min-height:32px;font-size:9px}.nav-tier-label{font-size:7px;line-height:1.1}}
+.practice-next-step{margin:9px 2px 2px;padding-top:7px;border-top:1px solid #c9bfaf}.practice-next-step small{display:block;color:#c54a12;font-size:7px;font-weight:900;letter-spacing:1px}.practice-next-step strong{display:block;margin-top:1px;color:#0d1f3c;font:700 14px/1.1 Lora,Georgia,serif}.progression-exercise>summary{background:#203b5d}
+
+/* Consistent chord alternatives and related chord variations */
+.variation-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.variation-links span{grid-column:1/-1;padding-bottom:1px}.variation-links button{box-sizing:border-box;width:100%;height:36px;min-width:0;margin:0;padding:5px 6px;font-family:inherit;font-size:9px;font-weight:800;line-height:1.1;white-space:normal}
+.variation-links+.variation-links{margin-top:6px}
+@media(max-width:740px){.variation-links{gap:4px;margin-top:4px;padding-top:5px}.variation-links button{height:32px;padding:4px 3px;font-size:8px}.variation-links span{font-size:7px}}
+
+/* The collapsed mobile lesson is one locked screen; opening a drawer unlocks scrolling. */
+@media(max-width:740px){
+ html[data-view=chords]:not(:has(body.chords-unlocked)),body[data-view=chords]:not(.chords-unlocked){height:100dvh;overflow:hidden!important}
+ body[data-view=chords]:not(.chords-unlocked) .app-shell{height:calc(100dvh - max(58px,7dvh));padding-bottom:0!important;overflow:hidden!important}
+ body[data-view=chords].chords-unlocked{height:auto;min-height:100dvh;overflow-y:auto!important}
+ body[data-view=chords].chords-unlocked .app-shell{height:auto;overflow:visible!important}
+ body[data-view=chords] .chords-view{padding-bottom:0}
+ body[data-view=chords] .chords-content{padding:6px 7px 8px}
+ body[data-view=chords] .chords-hero{padding:9px 11px 10px}
+ body[data-view=chords] .chords-hero h1{font-size:24px}
+ body[data-view=chords] .chords-hero span{margin-top:3px;font-size:9px}
+ body[data-view=chords] .instrument-tabs,body[data-view=chords] .objective-tabs{padding:3px 5px 4px}
+ body[data-view=chords] .uke-path-tabs{padding:3px 5px 4px}
+ body[data-view=chords] .instrument-tabs button,body[data-view=chords] .objective-tabs button{min-height:27px}
+ body[data-view=chords] .uke-path-tabs button{min-height:25px}
+ body[data-view=chords] .chords-intro{margin-bottom:2px}
+ body[data-view=chords] .chords-intro h2{font-size:17px}
+ body[data-view=chords] .lesson-details{margin-bottom:1px;padding:2px 7px}
+ body[data-view=chords] .lesson-summary{min-height:22px}
+ body[data-view=chords] .lesson-summary h3{font-size:12px}
+ body[data-view=chords] .chord-selector{margin-bottom:1px}
+ body[data-view=chords] .chord-selector button{padding:4px 2px;font-size:9px}
+ body[data-view=chords] .chord-grid .chord-card{padding:4px 8px}
+ body[data-view=chords] .chord-card-heading h2{font-size:19px}
+ body[data-view=chords] .chord-diagram{max-height:84px}
+ body[data-view=chords] .chord-card>p{font-size:9px;line-height:1.18}
+ body[data-view=chords] .variation-links{margin-top:3px;padding-top:3px}
+ body[data-view=chords] .variation-links button{height:20px;padding:1px 2px;font-size:7px}
+ body[data-view=chords] .variation-links span{font-size:6px}
+ body[data-view=chords] .variation-links+.variation-links{margin-top:3px}
+ body[data-view=chords] .practice-drawers{margin-top:1px;padding:4px 6px;border-top-width:3px}
+ body[data-view=chords] .practice-transition{padding-bottom:2px}
+ body[data-view=chords] .practice-transition p{font-size:7px}
+ body[data-view=chords] .practice-transition h2{font-size:14px}
+ body[data-view=chords] .practice-transition span{display:none}
+ body[data-view=chords] .practice-instructions,body[data-view=chords] .practice-exercise{margin-top:2px}
+ body[data-view=chords] .practice-instructions>summary,body[data-view=chords] .practice-exercise>summary{min-height:20px;padding:1px 5px;gap:5px}
+ body[data-view=chords] .drawer-toggle{width:15px;height:15px;flex-basis:15px}
+ body[data-view=chords] .practice-instructions summary small,body[data-view=chords] .practice-exercise summary small{font-size:6px}
+ body[data-view=chords] .practice-instructions summary strong,body[data-view=chords] .practice-exercise summary strong{font-size:11px}
+ body[data-view=chords] .practice-next-step{margin-top:2px;padding-top:2px}
+ body[data-view=chords] .practice-next-step small{font-size:6px}
+ body[data-view=chords] .practice-next-step strong{font-size:10px}
+}
+
+/* Chord changes that happen inside a single four-beat measure. */
+.beat-chord-grid,.beat-count-grid,.beat-stroke-grid{display:grid;grid-template-columns:repeat(4,1fr);align-items:center;text-align:center}.beat-chord-grid{border-bottom:1px solid #d8d0c1}.beat-chord-grid .preview-chord{padding:6px 1px;color:#0d1f3c;font-size:16px}.beat-count-grid{padding-top:4px}.beat-count-grid b{color:#c54a12;font-size:10px}.beat-stroke-grid{padding-bottom:5px}.beat-stroke-grid i{color:#0d1f3c;font-size:20px;font-style:normal;font-weight:900}
