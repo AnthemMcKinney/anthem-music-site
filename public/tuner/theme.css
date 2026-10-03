@@ -209,3 +209,45 @@ html[data-theme=soft] .instrument-tabs .nav-tier-label{color:#f5efe4!important}
  body[data-view=chords] .chord-card-heading h2{font-size:23px;line-height:1}
  body[data-view=chords] .practice-transition h2{font-size:17px;line-height:1.08}
 }
+
+/* Chord playback and a single, legible icon scale for the bottom navigation. */
+.play-chord{display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;margin-left:auto;padding:0;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-surface);color:var(--theme-ink)}
+.play-chord svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.play-chord .play-fill{fill:currentColor;stroke:none}
+.play-chord.playing{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent);transform:scale(.96)}
+.chord-card-heading{position:relative;padding-right:38px}
+.chord-card-heading .play-chord{position:absolute;top:0;right:0;margin:0}
+.chord-card-heading .chord-variant-nav{margin-left:auto;margin-right:0}
+@media(max-width:740px){.chord-card-heading:has(.chord-variant-nav){padding-right:38px}.chord-card-heading:has(.chord-variant-nav)>div{padding-right:92px}.chord-card-heading .chord-variant-nav{position:absolute;top:2px;right:38px}}
+.preview-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-right:34px}
+.preview-heading p,.preview-heading h2{margin-right:0}
+.preview-heading .play-chord{margin-top:2px}
+.play-exercise{display:flex;align-items:center;gap:6px;width:max-content;margin:0 0 7px auto;padding:4px 8px 4px 5px;border:1px solid var(--theme-border);border-radius:999px;background:var(--theme-surface);color:var(--theme-ink);font:800 10px/1 inherit}
+.play-exercise svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
+.play-exercise .play-fill{fill:currentColor;stroke:none}
+.play-exercise.playing{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
+.play-exercise.playing span:after{content:'…'}
+.bottom-nav .nav-icon{width:26px;height:26px}
+.bottom-nav .nav-icon svg{width:24px;height:24px;stroke-width:1.9}
+.bottom-nav .nav-icon circle{fill:currentColor;stroke:none}
+
+/* Tuning feedback should tint the selected theme, never replace it. */
+.tuning-panel[data-status=tuned]{background:color-mix(in srgb,var(--theme-accent) 7%,var(--theme-surface))}
+html[data-theme^=dark] .tuning-panel[data-status=tuned]{background:color-mix(in srgb,var(--theme-accent) 8%,var(--theme-surface))}
+.guitar-neck .string[aria-pressed=true],html[data-theme^=dark] .guitar-neck .string[aria-pressed=true]{border-color:transparent;background:color-mix(in srgb,var(--theme-accent) 4%,transparent);color:var(--theme-ink);box-shadow:none}
+.guitar-neck .string[aria-pressed=true] .string-name,html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-name{background:color-mix(in srgb,var(--theme-accent) 12%,transparent);color:var(--theme-ink)}
+.guitar-neck .string[aria-pressed=true] .string-wire,html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{background:#e5dcc7;box-shadow:0 1px 2px #0008,0 0 3px color-mix(in srgb,var(--theme-accent) 10%,transparent)}
+
+/* Tablet safety pass: keep controls flexible and stack the tuner before it becomes cramped. */
+.instrument-tabs button,.uke-path-tabs button,.objective-tabs button,.chord-selector button,.practice-exercise-tab,.tempo-presets button,.meter-option,.subdivision-options button,.sound-options button{min-width:0;overflow-wrap:anywhere}
+@media(min-width:741px) and (max-width:900px){
+ .app-shell{padding-inline:20px}
+ .workspace{grid-template-columns:1fr}
+ .workspace aside{padding:20px;border-right:0;border-bottom:1px solid var(--theme-border)}
+ .workspace .strings{grid-template-columns:repeat(var(--string-count,6),minmax(0,1fr))}
+ .tuning-panel{padding-inline:24px}
+ body[data-view=chords] .chords-content{padding-inline:18px}
+ body[data-view=chords] .chords-intro h2{font-size:23px}
+ body[data-view=chords] .chord-card-heading h2{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .more-view .more-menu-body{max-width:720px}
+}

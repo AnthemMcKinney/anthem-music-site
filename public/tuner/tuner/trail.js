@@ -9,7 +9,7 @@ const mix=t=>{const a=[232,93,26],b=[18,109,80];return 'rgb('+a.map((n,i)=>Math.
 export class PitchTrail{
  constructor(canvas){this.canvas=canvas;this.history=new PitchHistory(3500);this.gauge=null;this.last=null;this.peak=.001;this.confirmation=0;this.frame=0;this.draw=this.draw.bind(this);this.draw();}
  clear(){this.history.clear();this.last=null;this.gauge=null;this.peak=.001;this.confirmation=0;}
- setConfirmation(count){this.confirmation=Math.max(0,Math.min(5,count||0));}
+ setConfirmation(count){this.confirmation=Math.max(0,Math.min(3,count||0));}
  add(cents,time,meta={}){
   this.peak=Math.max(meta.rms||.001,this.peak*.995);
   this.history.add(cents,time,{strength:Math.min(1,Math.sqrt((meta.rms||this.peak)/this.peak)),green:meta.green||0});
@@ -34,7 +34,7 @@ export class PitchTrail{
    // The shaded lane is the actual acceptable range: five cents either side.
    ctx.globalAlpha=.1;ctx.fillStyle='#126d50';ctx.fillRect(x(-5),head,x(5)-x(-5),range);ctx.globalAlpha=1;
    ctx.strokeStyle='#737b81';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w/2,head);ctx.lineTo(w/2,h);ctx.stroke();
-   if(this.confirmation){const progress=this.confirmation/5,top=h-progress*range;ctx.save();ctx.strokeStyle='#126d50';ctx.lineWidth=this.confirmation===5?5:4;if(this.confirmation===5){ctx.shadowColor='rgba(18,109,80,.55)';ctx.shadowBlur=8;}ctx.beginPath();ctx.moveTo(w/2,h);ctx.lineTo(w/2,top);ctx.stroke();ctx.restore();}
+   if(this.confirmation){const progress=this.confirmation/3,top=h-progress*range;ctx.save();ctx.strokeStyle='#126d50';ctx.lineWidth=this.confirmation===3?5:4;if(this.confirmation===3){ctx.shadowColor='rgba(18,109,80,.55)';ctx.shadowBlur=8;}ctx.beginPath();ctx.moveTo(w/2,h);ctx.lineTo(w/2,top);ctx.stroke();ctx.restore();}
    const traceTime=this.history.clock(now),points=this.history.points;ctx.lineWidth=1;ctx.lineCap='round';
    for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];if(b.time-a.time>250)continue;
     ctx.globalAlpha=Math.max(.32,Math.max(0,1-(traceTime-b.time)/this.history.duration)**1.5*(.25+.75*b.strength));

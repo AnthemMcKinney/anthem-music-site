@@ -7,7 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=3.7';
-import {initChords} from './tuner/chords.js?v=3.7n';
+import {initChords} from './tuner/chords.js?v=3.7s';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -18,8 +18,8 @@ let auto=false;const selector=new StringSelector();let trend=null;
 class FivePluckConfirmation{
  constructor(onChange){this.onChange=onChange;this.reset();}
  reset(){this.count=0;this.started=0;this.lastOnset=-Infinity;this.lastRms=0;this.peak=.001;this.armed=true;this.active=false;this.qualified=false;this.onChange?.(0);}
- level(rms,now){rms=Number(rms)||0;const priorPeak=this.peak;this.peak=Math.max(rms,this.peak*.97);if(!this.armed&&(rms<Math.max(.002,this.peak*.42)||now-this.lastOnset>700))this.armed=true;const onset=this.armed&&now-this.lastOnset>350&&rms>.003&&rms>Math.max(this.lastRms*1.5,priorPeak*.68);if(onset){if(this.started&&now-this.started>12000)this.reset();if(this.active&&!this.qualified){this.count=0;this.started=0;this.onChange?.(0);}this.active=true;this.qualified=false;this.armed=false;this.lastOnset=now;this.peak=rms;if(!this.started)this.started=now;}if(this.active&&!this.qualified&&now-this.lastOnset>1100){this.count=0;this.started=0;this.active=false;this.onChange?.(0);}this.lastRms=rms;}
- accept(reading,now){if(!this.active||this.qualified||now-this.lastOnset>1100||!reading.zero)return false;this.qualified=true;this.count=Math.min(5,this.count+1);this.onChange?.(this.count);return true;}
+ level(rms,now){rms=Number(rms)||0;const priorPeak=this.peak;this.peak=Math.max(rms,this.peak*.97);if(!this.armed&&(rms<Math.max(.002,this.peak*.42)||now-this.lastOnset>850))this.armed=true;const onset=this.armed&&now-this.lastOnset>300&&rms>.003&&rms>Math.max(this.lastRms*1.42,priorPeak*.62);if(onset){if(this.started&&now-this.started>18000)this.reset();this.active=true;this.qualified=false;this.armed=false;this.lastOnset=now;this.peak=rms;if(!this.started)this.started=now;}if(this.active&&!this.qualified&&now-this.lastOnset>1500)this.active=false;this.lastRms=rms;}
+ accept(reading,now){if(!this.active||this.qualified||now-this.lastOnset>1500||!reading.zero)return false;this.qualified=true;this.count=Math.min(3,this.count+1);this.onChange?.(this.count);return true;}
 }
 const panel=document.querySelector('.tuning-panel');
 const notes=()=>instrument.tunings[tuningIndex][1].split(' ');
@@ -47,7 +47,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
   inTuneSince=0;
   if(displayPitch.note){
    panel.dataset.stale='true';$('live-caption').textContent='LAST NOTE · PLUCK AGAIN';$('motion').textContent='';
-   if(gauge.value?.zero&&now-lastGood<1200)message('✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':'Now check five plucks across the center line.','tuned');
+   if(gauge.value?.zero&&now-lastGood<1200)message('✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':'Now check three steady plucks across the center line.','tuned');
    else message('Pluck your string','Listening for a clear note. The gray trace is your last reading.');
   }else clear();
   return;
@@ -67,7 +67,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
  $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz)));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
  if(!trend)trend={cents,time:now};
  if(now-trend.time>=350){const delta=cents-trend.cents;const closer=abs<Math.abs(trend.cents);$('motion').textContent=Math.abs(delta)>=2?(delta>0?'Pitch rising':'Pitch falling')+' · '+(closer?'getting closer':'moving away'):'';trend={cents,time:now};}
- if(reading.zero)message(confirmation.count>=5?'✓ Tuned — 5 steady plucks':'✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':confirmation.count?`${confirmation.count} of 5 good plucks. Keep going.`:'Pluck again to begin the five-pluck check.','tuned');
+ if(reading.zero)message(confirmation.count>=3?'✓ Tuned — 3 steady plucks':'✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':confirmation.count?`${confirmation.count} of 3 good plucks. Keep going.`:'Pluck again to begin the three-pluck check.','tuned');
  else if(abs<=5)message('Almost there','Hold that pitch for a moment.');
  else message(reading.average<0?'↑ Tune higher':'↓ Tune lower',abs>150?(chromatic()?'Center the pitch and hold the note steadily.':'Check the string. Tap its button to lock the target.'):(reading.average<0?'Too low':'Too high')+' for '+pretty(shownNote(target()))+'. Follow the fine line and cents pointer.',abs>150?'far':'');
 
@@ -126,11 +126,11 @@ function renderStrings(){
  $('neck-bottom').textContent=instrument.id==='banjo'?'Short 5th string · high G':reentrant?'String 4 · high G (higher than C and E)':instrument.id==='ukulele'?'String 4 · '+notes()[0]:'Thickest string · lower sound';
  document.querySelector('.string-tip').textContent=instrument.id==='violin'?'Tap a string, then play it open — no fingers on the fingerboard.':'Tap a string, then play it open — no fingers on the frets.';
  const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>One string at a time.</strong> Let it ring. Keep the others quiet.';help[1].innerHTML='<strong>Small turns.</strong> Keep plucking about once a second while you adjust the peg.';
- $('pitch-expectation').textContent='Green means close. Finish with five steady plucks crossing the center line.';
+ $('pitch-expectation').textContent='Green means close. Finish with three steady plucks crossing the center line.';
  $('tune-reminder').innerHTML='<strong>Tune before you play.</strong> String instruments drift while you play. Check your tuning every time you sit down, and check it again as you play.';
  $('mic-help-action').textContent='Turn on Auto Detect and pluck a string. If the sound bar moves, the app can hear you.';
  $('tuning-help-first').innerHTML='<strong>Find the note:</strong> pluck about once each second and make small turns until the reading reaches green. Green means you are close, not finished.';
- $('tuning-help-check').innerHTML='<strong>Do the five-pluck check:</strong> pluck five more times and watch the trail. If most readings drift to one side, make one tiny adjustment and count five again. Move on when the five plucks average around the center line.';
+ $('tuning-help-check').innerHTML='<strong>Do the three-pluck check:</strong> pluck three more times and watch the trail. If most readings drift to one side, make one tiny adjustment and count three again. Move on when the three plucks average around the center line.';
  $('tuning-help-reference').innerHTML='<strong>If you are not sure where to start:</strong> tap the string to hear its note. Match it by ear, then turn Auto Detect back on to finish.';
  $('tuning-help-safety').textContent='Stop tightening if a string feels unusually tight. Check the selected instrument, tuning, and string before continuing.';
  document.querySelector('.string-tip').classList.add('guitar-tip');
@@ -198,7 +198,7 @@ const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAl
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.1';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.6';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
@@ -208,10 +208,10 @@ async function metronomeSoundCheck(){
 const metronome=initMetronome({enableSound:metronomeSoundCheck});initChords();
 const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
-tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/><path d="M6 18h12"/></svg></span><span>Tuner</span>';
-metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3h8l3 18H5L8 3Z"/><path d="M12 7v9"/><path d="m12 16 3-4"/></svg></span><span>Metronome</span>';
-chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 5v14M12 5v14M16 5v14M4 9h16M4 15h16"/><circle cx="10" cy="12" r="1.5"/></svg></span><span>Chords</span>';
-moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true">☰</span><span>More</span>';
+tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v6a3 3 0 0 0 6 0V3"/><path d="M7 3v6a5 5 0 0 0 4 4.9V21M17 3v6a5 5 0 0 1-4 4.9V21M8 21h8"/></svg></span><span>Tuner</span>';
+metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6h8l3 15H5L8 6Z"/><path d="M12 17 17.5 2.5"/><path d="m16.3 5.5 3.1 1.2 1.2-3.1-3.1-1.2Z"/><path d="M7 18h10"/></svg></span><span>Metronome</span>';
+chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 3v18M13 3v18M17 3v18M5 8h14M5 14h14"/><circle cx="9" cy="11" r="1.5"/><circle cx="13" cy="17" r="1.5"/><circle cx="17" cy="6" r="1.5"/></svg></span><span>Chords</span>';
+moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
 bottomNav.append(tunerNav,metronomeNav,chordsNav,moreNav);document.body.append(bottomNav);
 function showView(view){
  const metro=view==='metronome',chords=view==='chords',more=view==='more',tuner=!metro&&!chords&&!more;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
