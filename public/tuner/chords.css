@@ -231,3 +231,14 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 .drawer-toggle:before,.lesson-summary:before,.progression-details>summary:before{position:relative;top:-.5px;line-height:1}
 .practice-instructions[open] .drawer-toggle:before,.practice-exercise[open] .drawer-toggle:before,.lesson-details[open]>.lesson-summary:before,.progression-details[open]>summary:before{top:-1.5px}
 .chord-variant-nav button{align-items:center;justify-content:center;padding:0 0 2px;text-indent:0;line-height:1}
+
+/* Android/WebView: use one document scroller and keep expanded lessons above the fixed nav. */
+@media(max-width:740px){
+ html[data-view=chords]{height:100%!important;min-height:0!important;overflow:hidden!important;scrollbar-gutter:auto}
+ body[data-view=chords],body[data-view=chords]:not(.chords-unlocked),body[data-view=chords].chords-unlocked{height:100%!important;min-height:0!important;padding-bottom:0!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior-y:auto}
+ body[data-view=chords] .app-shell,body[data-view=chords]:not(.chords-unlocked) .app-shell,body[data-view=chords].chords-unlocked .app-shell{height:auto!important;min-height:0!important;padding-bottom:0!important;overflow:visible!important}
+ body[data-view=chords] .chords-view{min-height:0!important;padding-bottom:calc(max(58px,7dvh) + env(safe-area-inset-bottom) + 28px)!important}
+ body[data-view=chords] .chords-content{padding-bottom:18px!important}
+ body[data-view=chords] .objective-panel:not([hidden]){display:block;min-height:0}
+ body[data-view=chords] .practice-drawers{align-self:start;margin-bottom:0}
+}

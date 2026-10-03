@@ -134,3 +134,78 @@ html[data-theme^=dark]{--theme-on-accent:#102330}
 .progression-summary p{color:color-mix(in srgb,var(--theme-accent) 58%,white)}
 .variant-swipe-cue{margin:1px 0 6px;color:var(--theme-muted);font-size:9px;font-weight:750;text-align:center}
 .variant-swipe-cue[hidden]{display:none}
+
+/* SVG-native string depth renders consistently in WebKit, Chromium, and Android WebView. */
+.chord-diagram .string-shadow{stroke:#0d1f3c;opacity:.24;pointer-events:none}
+.chord-diagram .muted-string-shadow{opacity:.1}
+html[data-theme^=dark] .chord-diagram .string-shadow{stroke:#000;opacity:.72}
+html[data-theme^=dark] .chord-diagram .muted-string-shadow{opacity:.22}
+html[data-theme^=dark] .chord-diagram .string-line{filter:none}
+
+/* Exercise chord labels keep explicit contrast in every palette and measure layout. */
+.measure-heading .preview-chord{color:#fff}
+.beat-chord-grid .preview-chord{color:var(--theme-ink)}
+.practice-exercise-tab strong{color:#fff}
+.practice-exercise-tab small{color:color-mix(in srgb,#fff 72%,var(--theme-muted))}
+.practice-exercise-tab[aria-pressed=true] strong,.practice-exercise-tab[aria-pressed=true] small{color:var(--theme-on-accent)}
+html[data-theme^=dark] .practice-exercise-panel .music-measure{border-color:var(--theme-border);background:var(--theme-surface)}
+html[data-theme^=dark] .beat-chord-grid{border-color:var(--theme-border)}
+html[data-theme^=dark] .beat-chord-grid .preview-chord{color:var(--theme-ink)}
+
+/* More-page accordions use flex alignment instead of the inline text baseline. */
+.more-card>summary{display:flex;align-items:center;gap:9px;min-height:45px;padding:10px 13px;line-height:1.2}
+.more-card>summary:before{display:grid;place-items:center;flex:0 0 20px;width:20px;height:20px;margin:0;line-height:1;transform:none}
+.more-card>summary:not([aria-disabled=true]):before{padding-bottom:1px}
+.more-card[open]>summary:before{padding-bottom:2px}
+
+/* Dark-palette audit: remove Classic navy from controls, borders, and depth effects. */
+html[data-theme^=dark]{--theme-nav-active:#303638}
+html[data-theme^=dark] button:focus-visible,html[data-theme^=dark] a:focus-visible,html[data-theme^=dark] select:focus-visible,html[data-theme^=dark] summary:focus-visible{outline-color:var(--theme-accent)}
+html[data-theme^=dark] .instrument-tabs button,html[data-theme^=dark] .objective-tabs button,html[data-theme^=dark] .uke-path-tabs button,html[data-theme^=dark] .chord-selector button{border-color:var(--theme-border);background:var(--theme-soft);color:var(--theme-ink)}
+html[data-theme^=dark] .instrument-tabs button[aria-pressed=true],html[data-theme^=dark] .objective-tabs button[aria-pressed=true],html[data-theme^=dark] .uke-path-tabs button[aria-pressed=true],html[data-theme^=dark] .chord-selector button[aria-selected=true]{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:none}
+html[data-theme^=dark] .practice-drawers{border-top-color:var(--theme-border)}
+html[data-theme^=dark] .progression-exercise-tab,html[data-theme^=dark] .progression-details,html[data-theme^=dark] .progression-details>summary,html[data-theme^=dark] .practice-exercise-tab{background:var(--theme-nav);border-color:var(--theme-border)}
+html[data-theme^=dark] .practice-exercise-tab[aria-pressed=true]{background:var(--theme-accent);border-color:var(--theme-accent)}
+html[data-theme^=dark] .music-measure,html[data-theme^=dark] .practice-exercise-panel,html[data-theme^=dark] .chord-variant-nav button{border-color:var(--theme-border)}
+html[data-theme^=dark] .drawer-toggle,html[data-theme^=dark] .lesson-summary:before,html[data-theme^=dark] .progression-details>summary:before{box-shadow:0 1px 3px #0008}
+html[data-theme^=dark] .chord-preview{box-shadow:0 18px 55px #000b}
+html[data-theme^=dark] .chord-preview-backdrop{background:#0009}
+html[data-theme^=dark] .more-card>summary:before{background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 1px 3px #0008}
+html[data-theme^=dark] .callout-mark,html[data-theme^=dark] .change-number,html[data-theme^=dark] .pattern-number{background:var(--theme-accent);color:var(--theme-on-accent)}
+html[data-theme^=dark] .listening-mode{background:var(--theme-soft-2)}
+html[data-theme^=dark] .listening-mode button{color:var(--theme-text)}
+html[data-theme^=dark] .listening-mode button[aria-pressed=true]{background:var(--theme-accent);color:var(--theme-on-accent)}
+html[data-theme^=dark] .instruments{background:var(--theme-soft-2)}
+html[data-theme^=dark] .instruments button{color:var(--theme-text)}
+html[data-theme^=dark] .instruments button[aria-pressed=true],html[data-theme^=dark] .start{background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:none}
+html[data-theme^=dark] .string,html[data-theme^=dark] .reference,html[data-theme^=dark] select{border-color:var(--theme-border);background:var(--theme-soft);color:var(--theme-ink)}
+html[data-theme^=dark] .string[aria-pressed=true]{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 0 0 1px var(--theme-accent)}
+html[data-theme^=dark] .mic-toggle i{background:var(--theme-border)}
+html[data-theme^=dark] .mic-toggle[aria-pressed=true] i{background:var(--theme-accent)}
+
+/* Instrument tier sits on a dark band; keep its label light in every palette. */
+.instrument-tabs .nav-tier-label{color:#f3eee4!important;opacity:1}
+html[data-theme=soft] .instrument-tabs .nav-tier-label{color:#f5efe4!important}
+
+/* Shared visual grammar: left = guidance, top = a new section, fill = current selection. */
+.lesson-details,.strum-callout,.tune-reminder,.more-overview,.metronome-more{border-left-color:var(--theme-accent)}
+.practice-drawers,.song-example,.chord-preview{border-top-color:var(--theme-accent)}
+.chord-card,.pattern-card,.change-card{border-color:var(--theme-border)}
+.change-card.essential{border-left-width:1px;border-left-color:var(--theme-border)}
+@media(max-width:740px){body[data-view=chords] .practice-drawers{margin-top:12px}}
+
+/* More-page accordions stay neutral; their expansion control carries the theme accent. */
+.more-card>summary:before{background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 1px 3px color-mix(in srgb,var(--theme-ink) 28%,transparent)}
+
+/* One expandable-control language: accent icon; guidance also receives a left rail. */
+.lesson-details,.practice-instructions{border:1px solid var(--theme-border);border-left:5px solid var(--theme-accent);background:var(--theme-soft);color:var(--theme-ink)}
+.lesson-summary:before,.practice-instructions .drawer-toggle{background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 1px 3px color-mix(in srgb,var(--theme-ink) 28%,transparent)}
+.practice-instructions>summary{background:transparent;color:var(--theme-ink)}
+.practice-instructions summary small{color:var(--theme-accent-deep)}
+.practice-instructions summary strong{color:var(--theme-ink)}
+.practice-instructions-body{border:0;border-top:1px solid var(--theme-border);background:var(--theme-surface)}
+@media(max-width:740px){
+ body[data-view=chords] .chords-intro h2{font-size:19px;line-height:1.08}
+ body[data-view=chords] .chord-card-heading h2{font-size:23px;line-height:1}
+ body[data-view=chords] .practice-transition h2{font-size:17px;line-height:1.08}
+}
