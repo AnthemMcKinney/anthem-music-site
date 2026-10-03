@@ -226,7 +226,6 @@ html[data-theme=soft] .instrument-tabs .nav-tier-label{color:#f5efe4!important}
 .play-exercise svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
 .play-exercise .play-fill{fill:currentColor;stroke:none}
 .play-exercise.playing{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
-.play-exercise.playing span:after{content:'…'}
 .bottom-nav .nav-icon{width:26px;height:26px}
 .bottom-nav .nav-icon svg{width:24px;height:24px;stroke-width:1.9}
 .bottom-nav .nav-icon circle{fill:currentColor;stroke:none}
