@@ -226,6 +226,11 @@ html[data-theme=soft] .instrument-tabs .nav-tier-label{color:#f5efe4!important}
 .play-exercise svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
 .play-exercise .play-fill{fill:currentColor;stroke:none}
 .play-exercise.playing{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
+.chords-hero{position:relative}
+.chords-sound-check{position:absolute;top:10px;right:11px;max-width:142px;padding:6px 9px;border:1px solid color-mix(in srgb,var(--theme-accent) 55%,#fff);border-radius:999px;background:var(--theme-surface);color:var(--theme-ink);font:900 9px/1.1 inherit}
+.chords-sound-check.ready{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
+.chords-sound-check.attention{box-shadow:0 0 0 2px color-mix(in srgb,var(--theme-accent) 38%,transparent)}
+@media(max-width:740px){.chords-view.ios-audio .chords-hero>div{padding-right:138px}.chords-sound-check{top:8px;right:9px;max-width:130px;font-size:8px}}
 .bottom-nav .nav-icon{width:26px;height:26px}
 .bottom-nav .nav-icon svg{width:24px;height:24px;stroke-width:1.9}
 .bottom-nav .nav-icon circle{fill:currentColor;stroke:none}
