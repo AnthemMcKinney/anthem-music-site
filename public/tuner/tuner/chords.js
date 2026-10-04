@@ -117,7 +117,7 @@ export function initChords({enableSound}={}){
  ${exercise(2,['e','am'],'Move the three-finger group together. Add a gentle up-strum on the final “and.”',{pattern:'d.d.d.du'})}
  ${exercise(3,['am','c'],'Lead with finger 1. Then move fingers 2 and 3 into the C shape.',{pattern:'d.d.dudu'})}
  ${exercise(4,['g','em','c','g'],'A familiar, satisfying progression using the chords you already know.',{pattern:'d.d.d.du'})}
- ${exercise('4B',['am','g','em','d'],'Connect the Am → G movement to Em → D and keep the progression flowing without pausing.',{pattern:'d.du.udu'})}
+ ${exercise('4B',['am','g','em','d'],'Connect the Am → G movement to Em → D and keep the progression flowing without pausing.',{pattern:'d.d.dudu'})}
  </div></section></section>
 <section class="objective-panel" data-course="guitar" data-objective="three" hidden><div class="chords-intro single"><div><p class="chords-kicker">OBJECTIVE 3 · COMPLETE THE FOUNDATION</p><h2>Common C and D family chords and barre chords</h2></div></div>${techniqueCallout('guitar-three')}<div class="chord-grid">${cards(['a','dm','f','bm','b7'])}</div><section class="practice-section"><div class="section-heading"><div><p>OBJECTIVE 3 EXERCISES</p><h2>Useful connections</h2></div><span>Slow and clean before fast</span></div><div class="exercise-grid">
  ${exercise(1,['a','d'],'Keep the fingers compact and move as one group.',{pattern:'d.dud.du'})}
