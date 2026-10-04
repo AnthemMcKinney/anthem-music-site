@@ -8,7 +8,7 @@ const tunings={
 };
 
 export class ChordPlayer{
- constructor(){this.ctx=null;this.buffers=new Map();this.voices=[];this.loopTimer=0;this.loopToken=0;this.unlocking=null;}
+ constructor(){this.ctx=null;this.buffers=new Map();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueTimers=new Set();this.onCue=null;this.unlocking=null;}
  context(){
   if(this.ctx)return this.ctx;
   const AudioContext=window.AudioContext||window.webkitAudioContext;
@@ -24,7 +24,7 @@ export class ChordPlayer{
   return this.buffers.get(file);
  }
  unlock(){const ctx=this.context();if(ctx.state==='running')return Promise.resolve(ctx);if(this.unlocking)return this.unlocking;const resume=ctx.resume(),oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);this.unlocking=Promise.resolve(resume).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});return this.unlocking;}
- stop(){clearTimeout(this.loopTimer);this.loopTimer=0;this.loopToken++;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];}
+ stop(){clearTimeout(this.loopTimer);this.loopTimer=0;this.loopToken++;for(const timer of this.cueTimers)clearTimeout(timer);this.cueTimers.clear();if(this.onCue)this.onCue(null);this.onCue=null;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];}
  pitches(chord){
   const family=chord.id.startsWith('bar-')?'baritone':chord.id.startsWith('uke-')?'ukulele':'guitar',open=tunings[family];
   return chord.frets.map((fret,index)=>fret==='x'?null:midiHz(open[index]+Number(fret))).filter(Boolean);
@@ -51,9 +51,9 @@ export class ChordPlayer{
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
- async playExercise(progression,pattern='d.d.d.d.',bpm=84){
+ async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null){
   this.stop();const token=this.loopToken,ctx=await this.unlock(),chords=progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),beat=60/bpm,eighth=beat/2,measure=beat*4,cycle=progression.length*measure;
-  if(token!==this.loopToken)return false;const slots=[...pattern.padEnd(8,'.').slice(0,8)],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0),scheduleCycle=start=>progression.forEach((entry,measureIndex)=>{const measureStart=start+measureIndex*measure;for(let beatIndex=0;beatIndex<4;beatIndex++)this.click(ctx,hat,measureStart+beatIndex*beat,beatIndex===0);if(Array.isArray(entry)){entry.slice(0,4).forEach((chord,index)=>this.stroke(chord,kits.get(chord.id),measureStart+index*beat,'d',Math.min(2.15,beat*1.45)));return;}strokeIndexes.forEach((index,position)=>{const next=strokeIndexes[position+1]??8,gap=(next-index)*eighth,duration=Math.min(2.3,Math.max(.82,gap+.38));this.stroke(entry,kits.get(entry.id),measureStart+index*eighth,slots[index],duration);});});let nextCycleAt=ctx.currentTime+.065;const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}this.loopTimer=setTimeout(pump,60);};pump();return true;
+  if(token!==this.loopToken)return false;this.onCue=onCue;const queueCue=(at,data)=>{if(!onCue)return;const timer=setTimeout(()=>{this.cueTimers.delete(timer);if(token===this.loopToken)onCue(data);},Math.max(0,(at-ctx.currentTime)*1000));this.cueTimers.add(timer);},slots=[...pattern.padEnd(8,'.').slice(0,8)],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0),scheduleCycle=start=>progression.forEach((entry,measureIndex)=>{const measureStart=start+measureIndex*measure;for(let beatIndex=0;beatIndex<4;beatIndex++)this.click(ctx,hat,measureStart+beatIndex*beat,beatIndex===0);if(Array.isArray(entry)){entry.slice(0,4).forEach((chord,index)=>{this.stroke(chord,kits.get(chord.id),measureStart+index*beat,'d',Math.min(2.15,beat*1.45));queueCue(measureStart+index*beat,{measureIndex,slotIndex:index,beatChords:true});});return;}for(let index=0;index<8;index++)queueCue(measureStart+index*eighth,{measureIndex,slotIndex:index,beatChords:false});strokeIndexes.forEach((index,position)=>{const next=strokeIndexes[position+1]??8,gap=(next-index)*eighth,duration=Math.min(2.3,Math.max(.82,gap+.38));this.stroke(entry,kits.get(entry.id),measureStart+index*eighth,slots[index],duration);});});let nextCycleAt=ctx.currentTime+.065;const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}this.loopTimer=setTimeout(pump,60);};pump();return true;
  }
 }
 

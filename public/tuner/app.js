@@ -6,8 +6,8 @@ import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7x';
-import {initChords} from './tuner/chords.js?v=3.7x';
+import {initMetronome} from './tuner/metronome.js?v=3.7y';
+import {initChords} from './tuner/chords.js?v=3.7y';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -198,7 +198,7 @@ const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAl
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.11';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.12';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
