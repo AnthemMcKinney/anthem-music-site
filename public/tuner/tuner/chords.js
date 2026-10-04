@@ -124,6 +124,7 @@ export function initChords({enableSound}={}){
  ${exercise(2,['c','f'],'Use the F-Alternative here. Keep the hand close and move one finger at a time.',{pattern:'d.du.udu'})}
  ${exercise(3,['bm','a-barre'],'Keep finger 1 flat: release the Bm shape into the barred A while muting both E strings.',{pattern:'d.d..udu'})}
  ${exercise(4,['f','c','e','am'],'Use the F → C and E → Am connections inside one complete progression.',{pattern:'d...d.du'})}
+ ${exercise('4B',['em','em','c','b7'],'Hold the repeated Em steady, then move through C and let B7 pull the progression back toward Em.',{pattern:'d.du.udu'})}
  </div></section></section>
  <section class="objective-panel" data-course="guitar" data-objective="practice" hidden><div class="chords-intro single"><div><p class="chords-kicker">ADDITIONAL PRACTICE</p><h2>Progression patterns</h2></div></div>${techniqueCallout('practice')}
  <div class="song-example"><p>PROGRESSION PATTERN 1</p><h3>D · Cadd9 · G · G</h3>${exercise(1,['d','cadd9','g','g'],'Keep the downbeat moving and add the up-strums exactly on the marked “ands.”',{pattern:'d.dud.du',groove:'rock'})}</div>
