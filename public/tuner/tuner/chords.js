@@ -113,7 +113,7 @@ export function initChords({enableSound}={}){
  ${exercise(4,['g','cadd9','g','d'],'Your first four-chord progression: keep four steady beats in every box and repeat without stopping.')}
  </div></section></section>
  <section class="objective-panel" data-course="guitar" data-objective="two" hidden><div class="chords-intro single"><div><p class="chords-kicker">OBJECTIVE 2 · KEY OF C</p><h2>Build the C-family foundation</h2></div></div>${techniqueCallout('guitar-two')}<div class="chord-grid three-up">${cards(['e','am','c'])}</div><section class="practice-section"><div class="section-heading"><div><p>OBJECTIVE 2 EXERCISES</p><h2>See exactly when you strum</h2></div><span>Counts and arrows stay aligned</span></div><div class="exercise-grid">
- ${exercise(1,['em','e'],'Start with Em. Add finger 1 to make E. Remove it to return to Em.',{pattern:'d.d.dudu'})}
+ ${exercise(1,['am','g'],'Keep the hand relaxed as the fingers move from the compact Am shape into the G triangle.',{pattern:'d.d.dudu'})}
  ${exercise(2,['e','am'],'Move the three-finger group together. Add a gentle up-strum on the final “and.”',{pattern:'d.d.d.du'})}
  ${exercise(3,['am','c'],'Lead with finger 1. Then move fingers 2 and 3 into the C shape.',{pattern:'d.d.dudu'})}
  ${exercise(4,['g','em','c','g'],'A familiar, satisfying progression using the chords you already know.',{pattern:'d.d.d.du'})}
