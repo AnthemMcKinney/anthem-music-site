@@ -6,8 +6,8 @@ import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7ar';
-import {initChords} from './tuner/chords.js?v=3.7ar';
+import {initMetronome} from './tuner/metronome.js?v=3.7as';
+import {initChords} from './tuner/chords.js?v=3.7as';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -198,14 +198,14 @@ const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAl
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.18';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.19';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
  if(request!==referenceRequest||duration===null)throw Error('Sound check interrupted');
  playUntil=performance.now()+duration;referenceTimer=setTimeout(()=>{if(request===referenceRequest)playUntil=0;},duration);return duration;
 }
-const metronome=initMetronome({enableSound:metronomeSoundCheck});initChords({enableSound:metronomeSoundCheck});
+const metronome=initMetronome({enableSound:metronomeSoundCheck}),chordsModule=initChords({enableSound:metronomeSoundCheck});
 const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v6a3 3 0 0 0 6 0V3"/><path d="M7 3v6a5 5 0 0 0 4 4.9V21M17 3v6a5 5 0 0 1-4 4.9V21M8 21h8"/></svg></span><span>Tuner</span>';
@@ -217,7 +217,7 @@ function showView(view){
  const metro=view==='metronome',chords=view==='chords',more=view==='more',tuner=!metro&&!chords&&!more;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
  [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
  document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':more?'MORE':'THE TUNER';
- if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();if(metro)location.hash='metronome';else if(chords)location.hash='chords';else if(more)location.hash='more';else history.replaceState(null,'',location.pathname+location.search);
+ if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();if(!chords)chordsModule.stopPlayback();if(metro)location.hash='metronome';else if(chords)location.hash='chords';else if(more)location.hash='more';else history.replaceState(null,'',location.pathname+location.search);
  window.scrollTo(0,0);
 }
 tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');moreNav.onclick=()=>showView('more');
