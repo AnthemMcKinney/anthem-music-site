@@ -352,3 +352,6 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
  .workspace #strings.guitar-neck .string{height:100%;min-height:0}
 }
 @media(max-width:740px){body[data-view=chords] .requested-practice .progression-details>summary{height:auto;min-height:50px;padding:8px 38px 8px 46px;overflow:visible}body[data-view=chords] .requested-practice .progression-summary p{font-size:9px;line-height:1.15}body[data-view=chords] .requested-practice .progression-summary h3{font-size:16px;line-height:1.15}}
+
+/* Extended requested exercises wrap into readable four-measure rows on wide screens. */
+@media(min-width:901px){.song-example .measure-row.long-progression{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
