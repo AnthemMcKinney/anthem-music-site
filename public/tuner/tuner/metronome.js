@@ -34,16 +34,16 @@ class Clock{
   if(beat===0||(this.beats===4&&beat===2)){const kick=ctx.createOscillator(),gain=ctx.createGain();kick.type='sine';kick.frequency.setValueAtTime(155,at);kick.frequency.exponentialRampToValueAtTime(48,at+.14);gain.gain.setValueAtTime(beat===0?(this.accent?.95:.82):.74,at);gain.gain.exponentialRampToValueAtTime(.0001,at+.18);kick.connect(gain).connect(this.master);kick.start(at);kick.stop(at+.2);}
   else{const noise=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*.12),ctx.sampleRate),data=noise.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();source.buffer=noise;filter.type='bandpass';filter.frequency.value=1850;filter.Q.value=.75;gain.gain.setValueAtTime(.55,at);gain.gain.exponentialRampToValueAtTime(.0001,at+.11);source.connect(filter).connect(gain).connect(this.master);source.start(at);source.stop(at+.12);}
  }
- schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),delay=Math.max(0,(this.nextAt-ctx.currentTime)*1000);this.scheduledBeat=beat;this.click(this.nextAt,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running)this.onPulse(beat,sub);},delay);this.visualTimers.add(timer);this.nextAt+=60/this.bpm/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
- async start(){await this.unlock();if(this.sound==='drums')await this.prepareDrums();this.stop(false);this.running=true;this.step=0;this.nextAt=this.context().currentTime+.045;this.startedAt=performance.now()+45;this.schedule();}
- stop(reset=true){this.running=false;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(this.openHatVoice){this.chokeOpenHat(this.context().currentTime);this.openHatVoice=null;}if(reset){this.step=0;this.onPulse(-1,0);}}
+ schedule(){if(!this.running)return;const ctx=this.context(),total=this.beats*this.subdivision;while(this.nextAt<ctx.currentTime+.12){const step=this.step,beat=Math.floor(step/this.subdivision),sub=step%this.subdivision,isBeat=sub===0,isAccent=isBeat&&this.accent&&(this.subdivision>1||beat===0),at=this.nextAt,beatDuration=60/this.bpm,delay=Math.max(0,(at-ctx.currentTime)*1000);this.scheduledBeat=beat;this.click(at,isAccent,!isBeat);const timer=setTimeout(()=>{this.visualTimers.delete(timer);if(this.running){if(isBeat){this.visualBeatAt=at;this.visualBeatDuration=beatDuration;}this.onPulse(beat,sub);}},delay);this.visualTimers.add(timer);this.nextAt+=beatDuration/this.subdivision;this.step=(this.step+1)%total;}this.timer=setTimeout(()=>this.schedule(),25);}
+ async start(){await this.unlock();if(this.sound==='drums')await this.prepareDrums();this.stop(false);this.running=true;this.step=0;this.visualBeatAt=null;this.visualBeatDuration=null;this.nextAt=this.context().currentTime+.045;this.schedule();}
+ stop(reset=true){this.running=false;this.visualBeatAt=null;this.visualBeatDuration=null;clearTimeout(this.timer);for(const timer of this.visualTimers)clearTimeout(timer);this.visualTimers.clear();if(this.openHatVoice){this.chokeOpenHat(this.context().currentTime);this.openHatVoice=null;}if(reset){this.step=0;this.onPulse(-1,0);}}
  release(){const ctx=this.ctx;this.ctx=null;this.master=null;this.compressor=null;this.unlocking=null;if(ctx&&ctx.state!=='closed')void ctx.close().catch(()=>{});for(const audio of this.nativeSounds.values())audio.pause();}
- resetSchedule(){this.step=0;if(this.running){this.nextAt=this.context().currentTime+.04;this.startedAt=performance.now()+40;}}
- setTempo(value){this.bpm=clamp(Math.round(value),40,240);this.resetSchedule();}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
- phase(){if(!this.running||!this.startedAt)return 0;return((performance.now()-this.startedAt)/(60000/this.bpm)%1+1)%1;}
+ resetSchedule(){this.step=0;this.visualBeatAt=null;this.visualBeatDuration=null;if(this.running)this.nextAt=this.context().currentTime+.04;}
+ setTempo(value){this.bpm=clamp(Math.round(value),40,240);}setMeter(value){this.beats=value;this.resetSchedule();}setSubdivision(value){this.subdivision=value;this.resetSchedule();}
+ phase(){if(!this.running||this.visualBeatAt==null)return 0;return clamp((this.context().currentTime-this.visualBeatAt)/(this.visualBeatDuration||60/this.bpm),0,.999);}
 }
 
-export function initMetronome({enableSound}={}){
+export function initMetronome({enableSound,soundSession}={}){
  const $=id=>document.getElementById(id),tempo=$('tempo-value'),name=$('tempo-name'),slider=$('tempo-slider'),dots=$('beat-dots'),start=$('metronome-start'),soundCheck=$('metronome-sound-check'),status=$('metronome-status'),canvas=$('pulse-canvas'),options=$('metronome-options'),settings=$('metronome-settings');let bpm=100,beats=4,unit=4,subdivision=1,taps=[],animation=0,currentBeat=0;
  const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||new URLSearchParams(location.search).has('iosAudioTest');let iosPrimed=!isiOS;
  const clock=new Clock((beat,sub)=>{if(beat>=0)currentBeat=beat;[...dots.children].forEach((dot,index)=>dot.classList.toggle('current',index===beat));if(beat===0&&sub===0){const first=dots.firstElementChild;first?.classList.remove('beat-one-hit');void first?.offsetWidth;first?.classList.add('beat-one-hit');}if(beat>=0){const syllables=subdivision===2?['and']:subdivision===3?['trip','let']:['e','and','a'];status.textContent=sub?`Beat ${beat+1} · ${syllables[sub-1]}`:`Beat ${beat+1}`;dots.setAttribute('aria-label',`Beat ${beat+1} of ${beats}`);}else{currentBeat=0;status.textContent='Ready';dots.setAttribute('aria-label',`${beats}/${unit} · ${subdivision} note${subdivision>1?'s':''} per beat`);}});
@@ -59,6 +59,7 @@ export function initMetronome({enableSound}={}){
   soundCheck.addEventListener('click',async()=>{try{if(!enableSound)throw Error('Sound check unavailable');await enableSound();iosPrimed=true;soundCheck.classList.remove('attention');soundCheck.classList.add('ready');status.textContent='Sound ready. Tap Start.';}catch{iosPrimed=false;soundCheck.classList.remove('ready');requestSound();}});
   start.addEventListener('pointerdown',()=>{if(!isiOS&&!clock.running)void clock.unlock();});start.addEventListener('click',async()=>{if(clock.running){clock.stop();start.textContent='Start';start.classList.remove('running');return;}if(isiOS&&!iosPrimed){requestSound();return;}try{await clock.start();start.textContent='Stop';start.classList.add('running');}catch{clock.release();if(isiOS){iosPrimed=false;soundCheck.classList.remove('ready');requestSound();}else status.textContent='Tap Start again to allow sound.';}});
  function draw(){
+  if(document.hidden||document.body.dataset.view!=='metronome'){animation=0;return;}
   const rect=canvas.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2),width=Math.max(1,rect.width),height=Math.max(1,rect.height);
   if(canvas.width!==Math.round(width*ratio)||canvas.height!==Math.round(height*ratio)){canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);}
   const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,width,height);
@@ -69,7 +70,8 @@ export function initMetronome({enableSound}={}){
   const phase=clock.phase(),beatWidth=Math.max(70,width/Math.min(beats,4)),playX=width*.22;
   for(let i=-2;i<Math.ceil((width-playX)/beatWidth)+2;i++){
    const x=playX+(i-phase)*beatWidth,beatFade=x>=playX?1:clamp((x-(playX-beatWidth*.24))/(beatWidth*.24),0,1),beatApproach=x>=playX?1-clamp((x-playX)/(beatWidth*.3),0,1):beatFade;
-   ctx.strokeStyle=muted;ctx.lineWidth=2+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
+   const isOne=clock.running&&((currentBeat+i+beats)%beats===0);
+   ctx.strokeStyle=isOne?accent:muted;ctx.lineWidth=(isOne?3.7:2)+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
    const andX=x+beatWidth/2,andFade=andX>=playX?1:clamp((andX-(playX-beatWidth*.45))/(beatWidth*.45),0,1);ctx.save();ctx.strokeStyle=border;ctx.lineWidth=1;ctx.globalAlpha=.76*andFade;ctx.setLineDash([1.5,2]);ctx.beginPath();ctx.moveTo(andX,0);ctx.lineTo(andX,height);ctx.stroke();ctx.restore();
    for(let sub=1;sub<subdivision;sub++){
     if(subdivision%2===0&&sub===subdivision/2)continue;
@@ -92,7 +94,9 @@ export function initMetronome({enableSound}={}){
   ctx.globalAlpha=1;
   animation=requestAnimationFrame(draw);
  }
+ const pauseVisual=()=>{if(animation)cancelAnimationFrame(animation);animation=0;};
+ const resumeVisual=()=>{if(isiOS&&soundSession?.ready){iosPrimed=true;soundCheck.classList.add('ready');status.textContent='Sound ready. Tap Start.';}if(!animation&&!document.hidden&&document.body.dataset.view==='metronome')animation=requestAnimationFrame(draw);};
  function resetAfterSuspend(){clock.stop();clock.release();start.textContent='Start';start.classList.remove('running');if(isiOS){iosPrimed=false;soundCheck.classList.remove('ready');status.textContent='Audio paused while the app was away. Tap Sound Check.';}else status.textContent='Paused while the app was away. Tap Start to reconnect sound.';}
- document.addEventListener('visibilitychange',()=>{if(document.hidden)resetAfterSuspend();});
- renderTempo();renderDots();renderAccentCopy();soundCheck.hidden=!isiOS;soundCheck.parentElement.classList.toggle('has-sound-check',isiOS);if(isiOS)status.textContent='Tap Sound Check once, then tap Start.';draw();return{stop(){resetAfterSuspend();},destroy(){cancelAnimationFrame(animation);clock.release();},get running(){return clock.running;}};
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){resetAfterSuspend();pauseVisual();}else resumeVisual();});
+ renderTempo();renderDots();renderAccentCopy();soundCheck.hidden=!isiOS;soundCheck.parentElement.classList.toggle('has-sound-check',isiOS);if(isiOS)status.textContent='Tap Sound Check once, then tap Start.';return{stop(){resetAfterSuspend();pauseVisual();},resumeVisual,destroy(){pauseVisual();clock.release();},get running(){return clock.running;}};
 }

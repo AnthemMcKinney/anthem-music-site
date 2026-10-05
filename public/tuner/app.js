@@ -1,13 +1,13 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=50';
 import {TunerAudio} from './tuner/audio.js?v=69';
-import {GaugeState} from './tuner/gauge.js?v=3.7ax';
+import {GaugeState} from './tuner/gauge.js?v=3.7ay';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7ax';
-import {initChords} from './tuner/chords.js?v=3.7ax';
+import {initMetronome} from './tuner/metronome.js?v=3.7ay';
+import {initChords} from './tuner/chords.js?v=3.7ay';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -192,21 +192,23 @@ moreView.className='more-view';moreView.hidden=true;moreBody.className='more-men
 const moreIntro=document.createElement('section');moreIntro.className='more-overview';moreIntro.innerHTML='<p>ANTHEM MUSIC</p><h2>Tools for better practice.</h2><span>Tune your instrument, build steady rhythm, and learn the first chords in a clear lesson sequence.</span>';moreBody.append(moreIntro);
 const moreSection=(title,html)=>{const details=document.createElement('details');details.className='more-card';details.innerHTML=`<summary>${title}</summary><div>${html}</div>`;moreBody.append(details);return details;};
 const appearance=moreSection('Appearance','<p>Choose a color palette that feels comfortable for longer practice sessions.</p><div class="theme-picker" role="group" aria-label="Color scheme"><button data-theme-choice="classic"><i></i><span>Anthem Classic</span></button><button data-theme-choice="soft"><i></i><span>Soft Neutral</span></button><button data-theme-choice="dark"><i></i><span>Dark Studio</span></button><button data-theme-choice="dark-rose"><i></i><span>Dark Rose</span></button><button data-theme-choice="dark-sage"><i></i><span>Dark Sage</span></button></div>');
-const applyTheme=theme=>{document.documentElement.dataset.theme=theme;appearance.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===theme)));try{localStorage.setItem(THEME_KEY,theme);}catch{}};
+const applyTheme=theme=>{document.documentElement.dataset.theme=theme;document.querySelector('meta[name="theme-color"]')?.setAttribute('content',getComputedStyle(document.documentElement).getPropertyValue('--theme-nav').trim());appearance.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===theme)));try{localStorage.setItem(THEME_KEY,theme);}catch{}};
 appearance.addEventListener('click',event=>{const button=event.target.closest('[data-theme-choice]');if(button)applyTheme(button.dataset.themeChoice);});applyTheme(document.documentElement.dataset.theme);
 moreSection('About this app','<p>These tools turn the same ideas used in Anthem Music lessons into something students and families can use between sessions.</p><p>The approach comes from teaching hundreds of students, designing practical curriculum over many years, collaborating with professional musicians and music programs, and refining lessons through student and user feedback.</p>');
 const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>tuningHelp.lastElementChild.append(item));
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.24';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.25';moreBody.append(copyright,feedback,version);
+const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');
  if(request!==referenceRequest||duration===null)throw Error('Sound check interrupted');
- playUntil=performance.now()+duration;referenceTimer=setTimeout(()=>{if(request===referenceRequest)playUntil=0;},duration);return duration;
+ soundSession.ready=true;playUntil=performance.now()+duration;referenceTimer=setTimeout(()=>{if(request===referenceRequest)playUntil=0;},duration);return duration;
 }
-const metronome=initMetronome({enableSound:metronomeSoundCheck}),chordsModule=initChords({enableSound:metronomeSoundCheck});
+const metronome=initMetronome({enableSound:metronomeSoundCheck,soundSession}),chordsModule=initChords({enableSound:metronomeSoundCheck,soundSession});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)soundSession.ready=false;});
 const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v6a3 3 0 0 0 6 0V3"/><path d="M7 3v6a5 5 0 0 0 4 4.9V21M17 3v6a5 5 0 0 1-4 4.9V21M8 21h8"/></svg></span><span>Tuner</span>';
@@ -214,14 +216,15 @@ metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon"
 chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 3v18M13 3v18M17 3v18M5 8h14M5 14h14"/><circle cx="9" cy="11" r="1.5"/><circle cx="13" cy="17" r="1.5"/><circle cx="17" cy="6" r="1.5"/></svg></span><span>Chords</span>';
 moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
 bottomNav.append(tunerNav,metronomeNav,chordsNav,moreNav);document.body.append(bottomNav);
-function showView(view){
+function showView(view,{updateHash=true}={}){
  const metro=view==='metronome',chords=view==='chords',more=view==='more',tuner=!metro&&!chords&&!more;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
  [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
  document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':more?'MORE':'THE TUNER';
- if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();if(!chords)chordsModule.stopPlayback();if(metro)location.hash='metronome';else if(chords)location.hash='chords';else if(more)location.hash='more';else history.replaceState(null,'',location.pathname+location.search);
+ if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
  window.scrollTo(0,0);
 }
 tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');moreNav.onclick=()=>showView('more');
+window.addEventListener('hashchange',()=>{const view=['metronome','chords','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});});
 renderInstrument();
-showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':location.hash==='#more'?'more':'tuner');
+showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':location.hash==='#more'?'more':'tuner',{updateHash:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
