@@ -1,13 +1,13 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=50';
 import {TunerAudio} from './tuner/audio.js?v=69';
-import {GaugeState} from './tuner/gauge.js';
+import {GaugeState} from './tuner/gauge.js?v=3.7ax';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7aw';
-import {initChords} from './tuner/chords.js?v=3.7aw';
+import {initMetronome} from './tuner/metronome.js?v=3.7ax';
+import {initChords} from './tuner/chords.js?v=3.7ax';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -15,11 +15,11 @@ const $=id=>document.getElementById(id);
 let instrument=instruments[0],tuningIndex=0,stringIndex=0,listening=false,starting=false,lastGood=0,inTuneSince=0,playUntil=0;
 let referenceTimer;let referenceRequest=0;
 let auto=false;const selector=new StringSelector();let trend=null;
-class FivePluckConfirmation{
+class ThreePluckConfirmation{
  constructor(onChange){this.onChange=onChange;this.reset();}
  reset(){this.count=0;this.started=0;this.lastOnset=-Infinity;this.lastRms=0;this.peak=.001;this.armed=true;this.active=false;this.qualified=false;this.onChange?.(0);}
- level(rms,now){rms=Number(rms)||0;const priorPeak=this.peak;this.peak=Math.max(rms,this.peak*.97);if(!this.armed&&(rms<Math.max(.002,this.peak*.42)||now-this.lastOnset>850))this.armed=true;const onset=this.armed&&now-this.lastOnset>300&&rms>.003&&rms>Math.max(this.lastRms*1.42,priorPeak*.62);if(onset){if(this.started&&now-this.started>18000)this.reset();this.active=true;this.qualified=false;this.armed=false;this.lastOnset=now;this.peak=rms;if(!this.started)this.started=now;}if(this.active&&!this.qualified&&now-this.lastOnset>1500)this.active=false;this.lastRms=rms;}
- accept(reading,now){if(!this.active||this.qualified||now-this.lastOnset>1500||!reading.zero)return false;this.qualified=true;this.count=Math.min(3,this.count+1);this.onChange?.(this.count);return true;}
+ level(rms,now){rms=Number(rms)||0;const priorPeak=this.peak;this.peak=Math.max(rms,this.peak*.965);if(!this.armed&&(rms<Math.max(.0015,this.peak*.62)||now-this.lastOnset>700))this.armed=true;const onset=this.armed&&now-this.lastOnset>280&&rms>.002&&rms>Math.max(this.lastRms*1.22,priorPeak*.48);if(onset){if(this.started&&now-this.started>18000)this.reset();this.active=true;this.qualified=false;this.armed=false;this.lastOnset=now;this.peak=rms;if(!this.started)this.started=now;}if(this.active&&!this.qualified&&now-this.lastOnset>1600)this.active=false;this.lastRms=rms;}
+ accept(reading,now){if(!this.active||this.qualified||now-this.lastOnset>1600||!reading.inZone)return false;this.qualified=true;this.count=Math.min(3,this.count+1);this.onChange?.(this.count);return true;}
 }
 const panel=document.querySelector('.tuning-panel');
 const notes=()=>instrument.tunings[tuningIndex][1].split(' ');
@@ -28,7 +28,7 @@ const chromatic=()=>instrument.mode==='chromatic';
 const saxTranspose=()=>instrument.tunings[tuningIndex][2]||0;
 const shownNote=note=>chromatic()?transposeNote(note,saxTranspose()):note;
 const pretty=note=>note.replace('b','♭').replace('#','♯');
-const trail=new PitchTrail($('pitch-trail'));const confirmation=new FivePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
+const trail=new PitchTrail($('pitch-trail'));const confirmation=new ThreePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
 function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;}
 function displayNote(note){note=shownNote(note);$('target-note').textContent=pretty(note.slice(0,-1));$('target-octave').textContent=note.at(-1);}
 function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=chromatic()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play a long tone':'Pluck a string'):'Ready when you are',listening?(chromatic()?'Hold any note steadily. The tuner handles the transposition.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
@@ -67,8 +67,9 @@ const engine=new TunerAudio((result,diagnostic)=>{
  $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz)));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
  if(!trend)trend={cents,time:now};
  if(now-trend.time>=350){const delta=cents-trend.cents;const closer=abs<Math.abs(trend.cents);$('motion').textContent=Math.abs(delta)>=2?(delta>0?'Pitch rising':'Pitch falling')+' · '+(closer?'getting closer':'moving away'):'';trend={cents,time:now};}
- if(reading.zero)message(confirmation.count>=3?'✓ Tuned — 3 steady plucks':'✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':confirmation.count?`${confirmation.count} of 3 good plucks. Keep going.`:'Pluck again to begin the three-pluck check.','tuned');
- else if(abs<=5)message('Almost there','Hold that pitch for a moment.');
+ if(reading.inZone&&!chromatic())message(confirmation.count>=3?'✓ Tuned — 3 steady plucks':'✓ Close enough',confirmation.count?`${confirmation.count} of 3 good plucks. Keep going.`:'Pluck again to begin the three-pluck check.','tuned');
+ else if(reading.zero)message('✓ Close enough','Repeat a few steady long tones in the green.','tuned');
+ else if(abs<=8)message('Almost there','Hold that pitch for a moment.');
  else message(reading.average<0?'↑ Tune higher':'↓ Tune lower',abs>150?(chromatic()?'Center the pitch and hold the note steadily.':'Check the string. Tap its button to lock the target.'):(reading.average<0?'Too low':'Too high')+' for '+pretty(shownNote(target()))+'. Follow the fine line and cents pointer.',abs>150?'far':'');
 
 },state=>{listening=state==='listening';if(!listening){starting=false;auto=false;}renderMode();clear();if(state==='ended'){$('error').hidden=false;$('error').textContent='The microphone disconnected. Tap Auto to reconnect.';}},(rms,diagnostic={})=>{
@@ -198,7 +199,7 @@ const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAl
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.23';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.24';moreBody.append(copyright,feedback,version);
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
  const duration=await engine.play(frequency('E4'),'guitar');

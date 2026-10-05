@@ -250,6 +250,63 @@ html[data-theme^=dark] .guitar-neck .string-pick{background:var(--theme-soft-2);
 html[data-theme^=dark] .guitar-neck .string,html[data-theme^=dark] .guitar-neck .string[aria-pressed=true]{background:transparent}
 html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-name{background:color-mix(in srgb,var(--theme-accent) 9%,transparent);color:var(--theme-accent-deep);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--theme-accent) 62%,transparent)}
 html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{background:#e5dcc7;box-shadow:0 1px 2px #0008}
+
+/* The measure starts with the theme accent, and a quick expanding glow marks beat one. */
+.beat-dot:first-child{border:2px solid var(--theme-accent);color:var(--theme-accent-deep);background:var(--theme-surface)}
+.beat-dot:first-child.current{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
+.beat-dot.beat-one-hit{animation:beat-one-glow .38s ease-out both}
+@keyframes beat-one-glow{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--theme-accent) 80%,transparent);filter:brightness(1)}38%{box-shadow:0 0 0 7px color-mix(in srgb,var(--theme-accent) 48%,transparent),0 0 17px 7px color-mix(in srgb,var(--theme-accent) 55%,transparent);filter:brightness(1.25)}100%{box-shadow:0 0 0 13px transparent,0 0 21px transparent;filter:brightness(1)}}
+.sound-check.attention{border-color:#2f9f63!important;background:#45b978!important;color:#071b11!important;box-shadow:0 0 0 3px #45b97855,0 0 12px #45b978aa;animation:sound-attention .24s ease-in-out 4 alternate}
+@media(prefers-reduced-motion:reduce){.beat-dot.beat-one-hit,.sound-check.attention{animation:none;box-shadow:0 0 0 3px var(--theme-accent)}}
+
+/* A playing arrow changes weight and glow, never its box or font size. */
+.stroke-row{--stroke-size:22px}.beat-stroke-grid{--stroke-size:20px}
+.stroke-row .cue-active,.beat-stroke-grid .cue-active{transform:none!important;-webkit-transform:none!important;font-size:var(--stroke-size)!important;font-weight:1000!important;-webkit-text-stroke:1.4px currentColor;text-shadow:0 0 5px var(--theme-surface),0 0 9px var(--theme-accent);filter:drop-shadow(0 0 4px var(--theme-accent))}
+.stroke-row .cue-rest{transform:none!important;-webkit-transform:none!important;font-size:19px!important;-webkit-text-stroke:.6px currentColor}
+.stroke-row i,.beat-stroke-grid i{display:grid;place-items:center;min-width:0}
+.requested-practice{margin:18px 0 0;border:1px solid var(--theme-border);border-left:5px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);color:var(--theme-ink);overflow:hidden}
+.requested-practice>summary{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:9px 12px;list-style:none;color:var(--theme-ink);cursor:pointer}
+.requested-practice>summary::-webkit-details-marker{display:none}
+.requested-practice summary small{display:block;color:var(--theme-accent-deep);font-size:10px;font-weight:900;letter-spacing:.8px}
+.requested-practice summary strong{display:block;font:700 18px/1.2 Lora,Georgia,serif}
+.requested-practice .drawer-toggle{border:0;background:var(--theme-accent);color:var(--theme-on-accent)}
+.requested-practice[open] .drawer-toggle:before{content:'−'}
+.requested-practice-body{padding:0 12px 14px;border-top:1px solid var(--theme-border)}
+.requested-practice-body>p{margin:10px 0;color:var(--theme-text);font-size:14px;line-height:1.45}
+.requested-practice .song-example{margin-top:10px}
+@media(max-width:740px){.stroke-row{--stroke-size:18px}.stroke-row .cue-rest{font-size:18px!important}.requested-practice>summary{min-height:46px;padding:8px 10px}.requested-practice summary strong{font-size:17px}.requested-practice-body{padding:0 9px 11px}.requested-practice-body>p{font-size:13px}}
+
+/* Four measures remain visible without horizontal scrolling at tablet widths. */
+@media(min-width:741px) and (max-width:900px){.measure-row,.change-card .measure-row,.song-example .measure-row{grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow-x:visible!important}.music-measure,.change-card .music-measure,.song-example .music-measure{min-width:0!important}}
+@media(min-width:901px){.song-example .measure-row{grid-template-columns:repeat(var(--bar-count),minmax(0,1fr))!important;overflow-x:visible!important}.song-example .music-measure{min-width:0!important}}
+
+/* Landscape gives the tuner and lesson drawers room to grow and scroll normally. */
+@media(orientation:landscape) and (max-height:700px) and (max-width:1099px){
+ html,body{height:auto!important;min-height:100%!important;overflow-x:hidden!important;overflow-y:auto!important}
+ .app-shell,main,#tuner{height:auto!important;min-height:0!important;overflow:visible!important}
+ .workspace{display:flex!important;flex-direction:column!important;overflow:visible!important}
+ .tuning-panel{display:block!important;order:1;padding:14px 20px!important}
+ .workspace aside{order:2;width:100%;padding:14px 20px!important;overflow:visible!important;border-right:0}
+ #pitch-trail{display:block;width:100%!important;height:170px!important;margin:5px 0!important}
+ .strings.guitar-neck{grid-template-columns:1fr!important}
+ .guitar-neck .string{height:34px!important;min-height:34px!important}
+ .status-strip{display:grid;grid-template-columns:1fr;gap:5px;margin:8px 0;padding:8px}
+ .tuning-panel .readings{margin:0}
+ .chords-view{padding-bottom:calc(max(58px,7dvh) + 24px)}
+ .lesson-expanded ul,.practice-instructions-body,.requested-practice-body>p,.more-card>div{font-size:15px!important;line-height:1.5}
+ .practice-drawers,.requested-practice,.song-example{overflow:visible}
+}
+@media(min-width:1100px) and (max-width:1400px) and (pointer:coarse){
+ html,body{height:auto!important;overflow-x:hidden!important;overflow-y:auto!important}
+ .app-shell,main,#tuner{height:auto!important;overflow:visible!important}
+ .workspace{display:flex!important;flex-direction:column!important;overflow:visible!important}
+ .tuning-panel{display:block!important;order:1;padding:18px 28px!important}
+ .workspace aside{order:2;width:100%;padding:18px 28px!important;overflow:visible!important;border-right:0}
+ #pitch-trail{display:block;width:100%!important;height:220px!important;margin:6px 0!important}
+ .strings.guitar-neck{grid-template-columns:1fr!important}
+ .guitar-neck .string{height:38px!important;min-height:38px!important}
+ .lesson-expanded ul,.practice-instructions-body,.requested-practice-body>p,.more-card>div{font-size:16px!important;line-height:1.5}
+}
 .count-row b,.beat-count-grid b{height:18px;align-self:center;place-items:center;line-height:18px}.count-row b:nth-child(odd),.beat-count-grid b{font-size:12px!important;font-style:normal;font-weight:1000}.count-row b:nth-child(even){font-size:8px!important;font-style:normal;font-weight:800;opacity:.78!important}
 
 /* Tablet safety pass: keep controls flexible and stack the tuner before it becomes cramped. */
@@ -265,3 +322,15 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
  body[data-view=chords] .chord-card-heading h2{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
  .more-view .more-menu-body{max-width:720px}
 }
+
+/* Requested lesson rows use one compact treatment in every orientation. */
+.requested-practice .progression-details{box-sizing:border-box;margin:8px 0 0;padding:0;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-nav);overflow:hidden}
+.requested-practice .progression-details>summary{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:2px;position:relative;width:100%;height:auto;min-height:50px;margin:0;padding:8px 38px 8px 46px;background:var(--theme-nav);color:#fff;overflow:visible}
+.requested-practice .progression-details>summary:before{content:'+';position:absolute;left:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--theme-accent);color:var(--theme-on-accent);font:900 18px/1 Arial;box-shadow:none}
+.requested-practice .progression-details[open]>summary:before{content:'−'}
+.requested-practice .progression-details>summary:after{display:none}
+.requested-practice .progression-summary p,.requested-practice .progression-summary h3{display:block;width:100%;margin:0;color:#fff;line-height:1.15}
+.requested-practice .progression-summary p{font-size:10px;font-weight:900;letter-spacing:.7px;opacity:.8}
+.requested-practice .progression-summary h3{font:700 17px/1.15 Lora,Georgia,serif}
+.requested-practice .progression-body{padding:8px;background:var(--theme-soft);color:var(--theme-text)}
+@media(max-width:740px){body[data-view=chords] .requested-practice .progression-details>summary{height:auto;min-height:50px;padding:8px 38px 8px 46px;overflow:visible}body[data-view=chords] .requested-practice .progression-summary p{font-size:9px;line-height:1.15}body[data-view=chords] .requested-practice .progression-summary h3{font-size:16px;line-height:1.15}}

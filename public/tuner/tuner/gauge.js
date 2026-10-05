@@ -8,11 +8,13 @@ export class GaugeState{
   const average=this.samples.reduce((sum,p)=>sum+p.cents,0)/this.samples.length;
   const variance=this.samples.reduce((sum,p)=>sum+(p.cents-average)**2,0)/this.samples.length;
   const duration=time-this.samples[0].time;
-  const zero=Math.abs(average)<=5&&Math.abs(cents)<=7&&Math.sqrt(variance)<=4&&duration>=130&&this.samples.length>=3;
+  const spread=Math.sqrt(variance);
+  const inZone=Math.abs(average)<=8&&Math.abs(cents)<=12&&spread<=7&&duration>=100&&this.samples.length>=2;
+  const zero=Math.abs(average)<=5&&Math.abs(cents)<=7&&spread<=4&&duration>=130&&this.samples.length>=3;
   if(Math.abs(average)>7){this.outSince??=time;if(time-this.outSince>=700)this.latched=false;}else this.outSince=null;
   const ding=zero&&!this.latched;if(ding)this.latched=true;
   const green=zero?1:Math.min(.85,Math.max(0,(10-Math.abs(average))/10)*.85);
   const fill=zero?1:Math.min(.94,Math.max(0,1-Math.abs(average)/30));
-  this.value={average,zero,green,fill,ding};return this.value;
+  this.value={average,inZone,zero,green,fill,ding};return this.value;
  }
 }
