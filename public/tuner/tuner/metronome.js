@@ -71,7 +71,7 @@ export function initMetronome({enableSound,soundSession}={}){
   for(let i=-2;i<Math.ceil((width-playX)/beatWidth)+2;i++){
    const x=playX+(i-phase)*beatWidth,beatFade=x>=playX?1:clamp((x-(playX-beatWidth*.24))/(beatWidth*.24),0,1),beatApproach=x>=playX?1-clamp((x-playX)/(beatWidth*.3),0,1):beatFade;
    const isOne=clock.running&&((currentBeat+i+beats)%beats===0);
-   ctx.strokeStyle=isOne?accent:muted;ctx.lineWidth=isOne?7+3*beatApproach:2+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
+   ctx.strokeStyle=muted;ctx.lineWidth=isOne?7+3*beatApproach:2+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
    const andX=x+beatWidth/2,andFade=andX>=playX?1:clamp((andX-(playX-beatWidth*.45))/(beatWidth*.45),0,1);ctx.save();ctx.strokeStyle=border;ctx.lineWidth=1;ctx.globalAlpha=.76*andFade;ctx.setLineDash([1.5,2]);ctx.beginPath();ctx.moveTo(andX,0);ctx.lineTo(andX,height);ctx.stroke();ctx.restore();
    for(let sub=1;sub<subdivision;sub++){
     if(subdivision%2===0&&sub===subdivision/2)continue;
@@ -80,7 +80,7 @@ export function initMetronome({enableSound,soundSession}={}){
   }
   ctx.globalAlpha=1;ctx.setLineDash([]);
   const bottom=height-18,top=22,y=bottom-Math.sin(Math.PI*phase)*(bottom-top);
-  ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(playX,0);ctx.lineTo(playX,height);ctx.stroke();ctx.fillStyle=accent;ctx.beginPath();ctx.arc(playX,y,10,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle=muted;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(playX,0);ctx.lineTo(playX,height);ctx.stroke();ctx.fillStyle=accent;ctx.beginPath();ctx.arc(playX,y,10,0,Math.PI*2);ctx.fill();
    const beatAlpha=phase<.32?1:phase<.44?1-(phase-.32)/.12:0;
    const visualSubdivision=subdivision===1?2:subdivision,subdivisionWords=subdivision===3?['and','a']:subdivision===4?['e','and','a']:['and'];
    let subdivisionWord='',subdivisionAlpha=0;
