@@ -339,5 +339,16 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 .measure-heading.beat-chord-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;padding:3px 5px;gap:0}
 .measure-heading.beat-chord-grid .preview-chord{min-width:0;padding:3px 0;color:#fff;font-size:clamp(11px,2.5vw,16px);overflow:hidden;text-overflow:ellipsis}
 .measure-heading.beat-chord-grid .preview-chord.cue-active{color:var(--theme-accent-deep);text-shadow:0 0 7px var(--theme-accent)}
-@media(max-width:740px){.measure-row.has-split-measure{grid-template-columns:1fr!important}.measure-heading.beat-chord-grid .preview-chord{font-size:16px}}
+@media(max-width:740px){.measure-heading.beat-chord-grid .preview-chord{font-size:clamp(11px,3vw,13px)}}
+
+/* The string neck and live tuning grid share the same vertical bounds on wide layouts. */
+@media(min-width:901px) and (max-width:1099px){
+ .workspace aside .string-heading{min-height:15px;height:15px}
+ .workspace #strings.guitar-neck{height:264px;grid-template-rows:repeat(var(--string-count),minmax(0,1fr))}
+ .workspace #strings.guitar-neck .string{height:100%;min-height:0}
+}
+@media(min-width:1100px) and (min-height:620px){
+ .workspace #strings.guitar-neck{height:calc(100% - 136px);grid-template-rows:repeat(var(--string-count),minmax(0,1fr))}
+ .workspace #strings.guitar-neck .string{height:100%;min-height:0}
+}
 @media(max-width:740px){body[data-view=chords] .requested-practice .progression-details>summary{height:auto;min-height:50px;padding:8px 38px 8px 46px;overflow:visible}body[data-view=chords] .requested-practice .progression-summary p{font-size:9px;line-height:1.15}body[data-view=chords] .requested-practice .progression-summary h3{font-size:16px;line-height:1.15}}

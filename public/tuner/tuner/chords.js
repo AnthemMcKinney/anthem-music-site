@@ -36,8 +36,8 @@ const chords=[
  {id:'bar-g7',name:'G7',strings:['D','G','B','E'],frets:[0,0,0,1],fingers:[0,0,0,1],anchors:[],tip:'One finger on the high E string—an easy move from G.'},
  {id:'bar-fm',name:'Fm',strings:['D','G','B','E'],frets:[3,1,1,1],fingers:[3,1,1,1],bar:{fret:1,from:1,to:3},anchors:[],variants:['bar-fm-short'],tip:'Bar the top three strings at fret 1, then add finger 3 on D.'},
  {id:'bar-fm-short',name:'Fm · 3-string',measureName:'Fm',variantOf:'bar-fm',strings:['D','G','B','E'],frets:['x',1,1,1],fingers:[0,1,1,1],bar:{fret:1,from:1,to:3},anchors:[],tip:'A smaller Fm: mute D and bar the G, B, and E strings at fret 1 (x111).'},
- {id:'bar-bb',name:'B♭',strings:['D','G','B','E'],frets:[3,3,3,1],fingers:[2,3,4,1],anchors:[],variants:['bar-bb-short'],tip:'Keep the three fingers together on fret 3 and place finger 1 on high E.'},
- {id:'bar-bb-short',name:'B♭ · 3-string',measureName:'B♭',variantOf:'bar-bb',strings:['D','G','B','E'],frets:[3,3,3,'x'],fingers:[1,1,1,0],bar:{fret:3,from:0,to:2},anchors:[],tip:'Bar D, G, and B at fret 3. Mute high E for an easier three-string B♭.'},
+ {id:'bar-bb',name:'A♯',strings:['D','G','B','E'],frets:[3,3,3,1],fingers:[2,3,4,1],anchors:[],variants:['bar-bb-short'],tip:'Keep the three fingers together on fret 3 and place finger 1 on high E.'},
+ {id:'bar-bb-short',name:'A♯ · 3-string',measureName:'A♯',variantOf:'bar-bb',strings:['D','G','B','E'],frets:[3,3,3,'x'],fingers:[1,1,1,0],bar:{fret:3,from:0,to:2},anchors:[],tip:'Bar D, G, and B at fret 3. Mute high E for an easier three-string A♯.'},
  {id:'bar-c7',name:'C7',strings:['D','G','B','E'],frets:[2,3,1,0],fingers:[2,3,1,0],anchors:[],tip:'Lead with finger 1 on B, add fingers 2 and 3, and let high E ring.'},
  {id:'bar-e7',name:'E7',strings:['D','G','B','E'],frets:[0,1,0,0],fingers:[0,1,0,0],anchors:[],tip:'Let D ring open and place finger 1 on the G string.'},
  {id:'uke-g',name:'G',strings:['G','C','E','A'],frets:[0,2,3,2],fingers:[0,1,3,2],anchors:[],tip:'A compact triangle. Place finger 3 first on the E string.'},
@@ -110,7 +110,7 @@ const requestedByFamily={
  ],
  bar:[
   {title:'Remember Me · phrase 1',progression:['bar-c','bar-fm-short'],copy:'C for four beats, then Fm for four beats. Keep the D D D-up D-up pattern moving.',pattern:'d.d.dudu',bpm:72},
-  {title:'Remember Me · phrase 2',progression:['bar-c',['bar-bb-short','bar-bb-short','bar-e7','bar-e7']],copy:'C for four beats, then B♭ on beats 1–2 and E7 on beats 3–4. Keep the same D D D-up D-up strum.',pattern:'d.d.dudu',bpm:72},
+  {title:'Remember Me · phrase 2',progression:['bar-c',['bar-bb-short','bar-bb-short','bar-e7','bar-e7']],copy:'C for four beats, then A♯ on beats 1–2 and E7 on beats 3–4. Keep the same D D D-up D-up strum.',pattern:'d.d.dudu',bpm:72},
   {title:'Remember Me · phrase 3',progression:['bar-am','bar-c7'],copy:'Am for four beats, then C7 for four beats. Keep the D D D-up D-up pattern moving.',pattern:'d.d.dudu',bpm:72},
   {title:'Remember Me · phrase 4',progression:['bar-f',['bar-fm-short','bar-fm-short','bar-g7','bar-g7']],copy:'F for four beats, then Fm on beats 1–2 and G7 on beats 3–4. Keep the D D D-up D-up strum and return to C.',pattern:'d.d.dudu',bpm:72}
  ],

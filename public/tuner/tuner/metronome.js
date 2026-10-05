@@ -71,7 +71,7 @@ export function initMetronome({enableSound,soundSession}={}){
   for(let i=-2;i<Math.ceil((width-playX)/beatWidth)+2;i++){
    const x=playX+(i-phase)*beatWidth,beatFade=x>=playX?1:clamp((x-(playX-beatWidth*.24))/(beatWidth*.24),0,1),beatApproach=x>=playX?1-clamp((x-playX)/(beatWidth*.3),0,1):beatFade;
    const isOne=clock.running&&((currentBeat+i+beats)%beats===0);
-   ctx.strokeStyle=isOne?accent:muted;ctx.lineWidth=(isOne?3.7:2)+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
+   ctx.strokeStyle=isOne?accent:muted;ctx.lineWidth=isOne?7+3*beatApproach:2+2.05*beatApproach;ctx.setLineDash([]);ctx.globalAlpha=x>=playX?.74+.26*beatApproach:beatFade;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,height);ctx.stroke();
    const andX=x+beatWidth/2,andFade=andX>=playX?1:clamp((andX-(playX-beatWidth*.45))/(beatWidth*.45),0,1);ctx.save();ctx.strokeStyle=border;ctx.lineWidth=1;ctx.globalAlpha=.76*andFade;ctx.setLineDash([1.5,2]);ctx.beginPath();ctx.moveTo(andX,0);ctx.lineTo(andX,height);ctx.stroke();ctx.restore();
    for(let sub=1;sub<subdivision;sub++){
     if(subdivision%2===0&&sub===subdivision/2)continue;
