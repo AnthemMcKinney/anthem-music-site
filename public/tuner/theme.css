@@ -357,3 +357,15 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 
 /* Extended requested exercises wrap into readable four-measure rows on wide screens. */
 @media(min-width:901px){.song-example .measure-row.long-progression{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+
+/* Requested songs stay compact until a student chooses one. */
+.requested-song{margin-top:8px;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-surface);overflow:hidden}
+.requested-song>summary{display:flex;align-items:center;gap:12px;min-height:50px;padding:8px 12px;list-style:none;cursor:pointer;color:var(--theme-ink)}
+.requested-song>summary::-webkit-details-marker{display:none}
+.requested-song>summary:before{content:'›';display:grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border-radius:50%;background:var(--theme-soft-2);color:var(--theme-accent-deep);font:900 24px/1 Arial}
+.requested-song[open]>summary:before{transform:rotate(90deg)}
+.requested-song>summary strong{font:700 17px/1.2 Lora,Georgia,serif}
+.requested-song>summary span{margin-left:auto;color:var(--theme-muted);font-size:11px;font-weight:800;white-space:nowrap}
+.requested-song-body{padding:2px 9px 10px;border-top:1px solid var(--theme-border);background:var(--theme-soft)}
+.requested-song-body .progression-details{margin-top:8px}
+@media(max-width:740px){.requested-song>summary{min-height:48px;padding:7px 10px}.requested-song>summary strong{font-size:16px}.requested-song-body{padding:1px 6px 8px}}
