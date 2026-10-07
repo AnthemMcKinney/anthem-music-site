@@ -242,3 +242,65 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
  body[data-view=chords] .objective-panel:not([hidden]){display:block;min-height:0}
  body[data-view=chords] .practice-drawers{align-self:start;margin-bottom:0}
 }
+
+/* Keep the selected lesson path beside the First chords title. */
+.chords-hero{position:relative;overflow:visible}
+.chords-hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chords-hero-top h1{min-width:0;flex:0 1 auto}
+.chords-hero .chords-hero-subtitle{margin:6px 0 0;color:#f4f6f5;font-size:12px;font-weight:650;letter-spacing:0}
+.chords-hero .instrument-path-picker{position:relative;z-index:5;min-width:0;max-width:55%;margin:0;color:#fff}
+.instrument-path-picker[open]{z-index:30}
+.instrument-path-picker>summary{box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-height:0;padding:0;list-style:none;cursor:pointer}
+.instrument-path-picker>summary::-webkit-details-marker{display:none}
+.chords-hero .instrument-path-caption{display:block;margin:0;color:#d5dee3;font-size:8px;font-weight:900;letter-spacing:1px;white-space:nowrap}
+.chords-hero .instrument-path-bubble{display:flex;align-items:center;justify-content:space-between;gap:7px;max-width:100%;min-height:32px;margin:0;padding:5px 9px;border:1px solid var(--theme-accent);border-radius:999px;background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 2px 6px #0002}
+.chords-hero .instrument-path-current{display:block;min-width:0;margin:0;color:var(--theme-on-accent);font-size:12px;font-weight:900;line-height:1.12;text-align:center;overflow-wrap:anywhere}
+.chords-hero .instrument-path-chevron{display:block;flex:0 0 auto;margin:0;color:var(--theme-on-accent);font-size:18px;line-height:1;transition:transform .15s}
+html[data-theme^=dark] .chords-hero .instrument-path-chevron{color:var(--theme-on-accent)}
+.instrument-path-picker[open] .instrument-path-chevron{transform:rotate(180deg)}
+.instrument-path-menu{position:absolute;top:calc(100% + 8px);right:0;width:min(292px,calc(100vw - 24px));padding:8px;border:1px solid var(--theme-border);border-radius:10px;background:var(--theme-surface);box-shadow:0 10px 28px #0005;color:var(--theme-ink)}
+.chords-hero .instrument-path-picker .instrument-tabs{display:grid;grid-template-columns:1fr;gap:5px;padding:0;background:transparent}
+.chords-hero .instrument-path-picker .instrument-tabs button{min-height:39px;padding:7px 10px;text-align:left;font-size:12px}
+.chords-hero .instrument-path-picker .uke-path-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:8px;padding:8px 0 0;border:0;border-top:1px solid var(--theme-border);background:transparent}
+.chords-hero .instrument-path-picker .uke-path-tabs[hidden]{display:none}
+.chords-hero .instrument-path-picker .uke-path-tabs .nav-tier-label{color:var(--theme-muted);font-size:9px}
+.chords-hero .instrument-path-picker .uke-path-tabs button{min-height:36px;font-size:11px}
+.objective-tabs{padding-top:5px}
+.chord-card-heading>div>span{display:none}
+.play-chord{width:36px;height:36px;flex-basis:36px;cursor:pointer}
+.play-chord svg{width:23px;height:23px;stroke-width:4}
+.play-chord svg path:first-child{fill:currentColor;stroke:none}
+.play-chord svg path:last-child{fill:none;stroke:currentColor}
+.chord-card-heading{padding-right:42px}
+.chord-card-heading .chord-variant-nav{margin-right:0}
+.practice-drawers{display:block}
+.practice-exercise-tabs{display:grid;grid-template-columns:repeat(var(--exercise-count),minmax(0,1fr));gap:5px;margin-top:5px}
+.practice-exercise-tabs[hidden]{display:none}
+.practice-exercise-tabs .practice-exercise-tab{min-width:0;height:43px;min-height:43px;margin:0;padding:4px 6px;overflow:hidden}
+.practice-exercise-tabs .practice-exercise-tab .drawer-copy{min-width:0;overflow:hidden}
+.practice-exercise-tabs .practice-exercise-tab strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.practice-exercise-panels:empty{display:none}
+.practice-exercise-panels .practice-exercise-panel{margin-top:5px}
+@media(max-width:740px){
+ body[data-view=chords] .chords-hero-top{gap:6px}
+ body[data-view=chords] .chords-hero-top h1{font-size:clamp(20px,6.6vw,26px);white-space:nowrap}
+ body[data-view=chords] .chords-hero .chords-hero-subtitle{margin-top:5px;font-size:9px}
+ body[data-view=chords] .instrument-path-picker{max-width:56%}
+ body[data-view=chords] .chords-hero .instrument-path-caption{font-size:7px}
+ body[data-view=chords] .instrument-path-bubble{min-height:27px;padding:4px 7px;gap:4px}
+ body[data-view=chords] .chords-hero .instrument-path-current{font-size:10px}
+ body[data-view=chords] .chords-hero .instrument-path-chevron{font-size:15px}
+ body[data-view=chords] .chords-hero .instrument-path-picker .instrument-tabs button{min-height:39px;font-size:12px}
+ body[data-view=chords] .practice-drawers{display:block}
+ body[data-view=chords] .practice-exercise-tabs{display:grid;grid-template-columns:repeat(var(--exercise-count),minmax(0,1fr))}
+ body[data-view=chords] .practice-exercise-tabs[hidden]{display:none}
+ body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab{grid-column:auto!important;order:initial!important;height:40px;min-height:40px;margin:0!important;padding:3px 5px;gap:4px}
+ body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab small{font-size:7px}
+ body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab strong{font-size:10px}
+ body[data-view=chords] .practice-exercise-tabs .exercise-tab-number{width:19px;height:19px;flex-basis:19px}
+ body[data-view=chords] .practice-exercise-panels .practice-exercise-panel{margin-top:5px}
+ body[data-view=chords] .chord-card-heading{padding-right:42px}
+ body[data-view=chords] .chord-card-heading .play-chord{right:0}
+ body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{padding-right:92px}
+ body[data-view=chords] .chord-card-heading .chord-variant-nav{right:42px}
+}
