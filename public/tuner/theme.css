@@ -271,7 +271,7 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 .requested-practice>summary{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:9px 12px;list-style:none;color:var(--theme-ink);cursor:pointer}
 .requested-practice>summary::-webkit-details-marker{display:none}
 .requested-practice summary small{display:block;color:var(--theme-accent-deep);font-size:10px;font-weight:900;letter-spacing:.8px}
-.requested-practice summary strong{display:block;font:700 18px/1.2 Lora,Georgia,serif}
+.requested-practice summary strong{display:block;font:700 18px/1.2 var(--app-font)}
 .requested-practice .drawer-toggle{border:0;background:var(--theme-accent);color:var(--theme-on-accent)}
 .requested-practice[open] .drawer-toggle:before{content:'−'}
 .requested-practice-body{padding:0 12px 14px;border-top:1px solid var(--theme-border)}
@@ -334,7 +334,7 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 .requested-practice .progression-details>summary:after{display:none}
 .requested-practice .progression-summary p,.requested-practice .progression-summary h3{display:block;width:100%;margin:0;color:#fff;line-height:1.15}
 .requested-practice .progression-summary p{font-size:10px;font-weight:900;letter-spacing:.7px;opacity:.8}
-.requested-practice .progression-summary h3{font:700 17px/1.15 Lora,Georgia,serif}
+.requested-practice .progression-summary h3{font:700 17px/1.15 var(--app-font)}
 .requested-practice .progression-body{padding:8px;background:var(--theme-soft);color:var(--theme-text)}
 .measure-heading.beat-chord-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;padding:3px 5px;gap:0}
 .measure-heading.beat-chord-grid .preview-chord{min-width:0;padding:3px 0;color:#fff;font-size:clamp(11px,2.5vw,16px);overflow:hidden;text-overflow:ellipsis}
@@ -364,7 +364,7 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 .requested-song>summary::-webkit-details-marker{display:none}
 .requested-song>summary:before{content:'›';display:grid;place-items:center;width:25px;height:25px;flex:0 0 25px;border-radius:50%;background:var(--theme-soft-2);color:var(--theme-accent-deep);font:900 24px/1 Arial}
 .requested-song[open]>summary:before{transform:rotate(90deg)}
-.requested-song>summary strong{font:700 17px/1.2 Lora,Georgia,serif}
+.requested-song>summary strong{font:700 17px/1.2 var(--app-font)}
 .requested-song>summary span{margin-left:auto;color:var(--theme-muted);font-size:11px;font-weight:800;white-space:nowrap}
 .requested-song-body{padding:2px 9px 10px;border-top:1px solid var(--theme-border);background:var(--theme-soft)}
 .requested-song-body .progression-details{margin-top:8px}
@@ -382,3 +382,10 @@ html[data-theme^=dark] .measure-heading .preview-chord.cue-active{color:var(--th
 @media(max-width:390px){.country-rhythm{align-items:stretch;flex-direction:column;gap:7px}.country-rhythm-options button{flex:1}}
 .sixteenth-count,.sixteenth-strokes{grid-template-columns:repeat(16,minmax(0,1fr));gap:0;padding-inline:2px}.count-row.sixteenth-count b{color:var(--theme-muted)!important;font-size:7px!important;letter-spacing:-.3px}.sixteenth-count b:nth-child(4n+3){font-size:9px!important;color:var(--theme-text)!important}.sixteenth-count b:nth-child(4n+1){color:var(--theme-accent-deep)!important;font-size:11px!important}.sixteenth-strokes i{height:20px;line-height:20px;font-size:13px}.sixteenth-strokes .rest{font-size:9px}.sixteenth-strokes .cue-active{font-size:14px!important;-webkit-text-stroke:.8px currentColor}
 @media(max-width:390px){.count-row.sixteenth-count b{font-size:6px!important}.sixteenth-count b:nth-child(4n+3){font-size:8px!important}.sixteenth-count b:nth-child(4n+1){font-size:10px!important}.sixteenth-strokes i{font-size:11px}.sixteenth-strokes .cue-active{font-size:12px!important}}
+body[data-view=chords] .progression-details>summary{box-sizing:border-box;height:auto;min-height:48px;padding:7px 10px 12px;overflow:visible}
+body[data-view=chords] .progression-details:not([open])>summary{padding:7px 10px 12px}
+body[data-view=chords] .progression-summary h3{margin-top:3px;font:900 17px/1.16 var(--app-font)}
+body[data-view=chords] .progression-summary p{font:800 8px/1.15 var(--app-font);letter-spacing:.5px}
+body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab{height:48px;min-height:48px;padding:6px 7px 10px}
+body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab strong{font:900 clamp(10px,2.8vw,13px)/1.15 var(--app-font)}
+body[data-view=chords] .practice-exercise-tabs .practice-exercise-tab small{font:800 8px/1.1 var(--app-font);letter-spacing:.3px}
