@@ -53,22 +53,22 @@ export class ChordPlayer{
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
- async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0){
+  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth'){
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),chords=progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=groove==='rock'?await this.load(ctx,'drums/kick.wav'):null,snare=groove==='rock'?await this.load(ctx,'drums/snare.wav'):null,beat=60/bpm,eighth=beat/2,measure=beat*4,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),selectedProgression=progression.slice(startIndex),cycle=selectedProgression.length*measure;
   if(token!==this.loopToken)return false;
   this.onCue=onCue;
-   const strumLead=.032,patternBars=String(pattern).match(/.{1,8}/g)||['d.d.d.d.'];
+   const strumLead=.032,slotsPerMeasure=subdivision==='sixteenth'?16:8,slotsPerBeat=slotsPerMeasure/4,slotDuration=beat/slotsPerBeat,patternBars=String(pattern).match(new RegExp(`.{1,${slotsPerMeasure}}`,'g'))||['d.d.d.d.'];
   const queueCue=(at,data)=>{if(onCue)this.cueQueue.push({at,data});};
   const cueTick=()=>{if(token!==this.loopToken)return;let cue=null;while(this.cueQueue[0]?.at<=ctx.currentTime+.025)cue=this.cueQueue.shift();if(cue)onCue(cue.data);this.cueFrame=requestAnimationFrame(cueTick);};
   const scheduleCycle=start=>selectedProgression.forEach((entry,offset)=>{
-    const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry),slots=[...patternBars[measureIndex%patternBars.length].padEnd(8,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
-   for(let index=0;index<8;index++){
+    const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry),slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
+    for(let index=0;index<slotsPerMeasure;index++){
     const activeStrokeIndex=strokeIndexes.filter(strokeIndex=>strokeIndex<=index).at(-1)??strokeIndexes.at(-1)??0;
-    queueCue(measureStart+index*eighth,{measureIndex,slotIndex:index,activeStrokeIndex,isRest:slots[index]==='.',isDownbeat:index%2===0,beatChords});
+     queueCue(measureStart+index*slotDuration,{measureIndex,slotIndex:index,activeStrokeIndex,isRest:slots[index]==='.',isDownbeat:index%slotsPerBeat===0,beatChords,slotsPerBeat});
    }
    strokeIndexes.forEach((index,position)=>{
-    const next=strokeIndexes[position+1]??8,gap=(next-index)*eighth,duration=Math.min(2.3,Math.max(.82,gap+.38)),chord=beatChords?entry[Math.floor(index/2)]:entry;
-    if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*eighth-strumLead,slots[index],duration);
+     const next=strokeIndexes[position+1]??slotsPerMeasure,gap=(next-index)*slotDuration,duration=Math.min(2.3,Math.max(.82,gap+.38)),chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry;
+     if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration);
    });
   });
   let nextCycleAt=ctx.currentTime+.065,nextBeatAt=nextCycleAt,rhythmBeat=0;
