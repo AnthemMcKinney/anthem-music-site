@@ -57,11 +57,11 @@ export class ChordPlayer{
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),chords=progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=groove==='rock'?await this.load(ctx,'drums/kick.wav'):null,snare=groove==='rock'?await this.load(ctx,'drums/snare.wav'):null,beat=60/bpm,eighth=beat/2,measure=beat*4,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),selectedProgression=progression.slice(startIndex),cycle=selectedProgression.length*measure;
   if(token!==this.loopToken)return false;
   this.onCue=onCue;
-  const strumLead=.032,slots=[...pattern.padEnd(8,'.').slice(0,8)],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
+   const strumLead=.032,patternBars=String(pattern).match(/.{1,8}/g)||['d.d.d.d.'];
   const queueCue=(at,data)=>{if(onCue)this.cueQueue.push({at,data});};
   const cueTick=()=>{if(token!==this.loopToken)return;let cue=null;while(this.cueQueue[0]?.at<=ctx.currentTime+.025)cue=this.cueQueue.shift();if(cue)onCue(cue.data);this.cueFrame=requestAnimationFrame(cueTick);};
   const scheduleCycle=start=>selectedProgression.forEach((entry,offset)=>{
-   const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry);
+    const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry),slots=[...patternBars[measureIndex%patternBars.length].padEnd(8,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
    for(let index=0;index<8;index++){
     const activeStrokeIndex=strokeIndexes.filter(strokeIndex=>strokeIndex<=index).at(-1)??strokeIndexes.at(-1)??0;
     queueCue(measureStart+index*eighth,{measureIndex,slotIndex:index,activeStrokeIndex,isRest:slots[index]==='.',isDownbeat:index%2===0,beatChords});

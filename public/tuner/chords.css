@@ -99,6 +99,13 @@ body[data-view=chords] .chords-content{padding-bottom:calc(18px + max(58px,7dvh)
  body[data-view=chords] .practice-next-step small{font-size:6px}
  body[data-view=chords] .practice-next-step strong{font-size:10px}
 }
+.objective-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
+.strumming-intro{margin:0 0 14px;color:var(--ink,#314451);font-size:13px;line-height:1.45}
+.strumming-panel .song-example{margin-top:10px}
+.strumming-panel .measure-row{grid-template-columns:repeat(var(--bar-count),minmax(0,1fr));overflow:visible}
+.strumming-panel .music-measure{min-width:0}
+@media(max-width:740px){.strumming-panel .measure-row{grid-template-columns:1fr}}
+@media(max-width:390px){.objective-tabs button{font-size:8px;letter-spacing:-.1px}}
 
 /* Beta 3.4: compact exercise menu and consistent expandable teaching notes. */
 .lesson-summary{grid-template-columns:22px 1fr;align-items:center;gap:9px;padding-right:4px}
@@ -304,3 +311,5 @@ html[data-theme^=dark] .chords-hero .instrument-path-chevron{color:var(--theme-o
  body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{padding-right:92px}
  body[data-view=chords] .chord-card-heading .chord-variant-nav{right:42px}
 }
+
+@media(max-width:740px){body[data-view=chords] .strumming-panel .song-example .change-card .measure-row{grid-template-columns:1fr;overflow:visible}}
