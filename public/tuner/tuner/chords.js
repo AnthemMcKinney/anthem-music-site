@@ -1,4 +1,4 @@
-import {ChordPlayer} from './chord-audio.js?v=3.7bn';
+import {ChordPlayer} from './chord-audio.js?v=3.7bo';
 
 const chords=[
  {id:'g',name:'G',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
@@ -159,7 +159,7 @@ const commonStrums=[
  {label:'Two bars · simpler',pattern:'d...d.du.ud.d...',copy:'Worksheet two-measure pattern 4: leave beat 2 open in bar 1; in bar 2, enter on the and after 1 and finish on beat 3.'},
  {label:'Two bars · fuller',pattern:'d.d.d.du.ud.d.du',copy:'Worksheet two-measure pattern 2: keep all four downbeats in bar 1; in bar 2, enter on the and after 1 and finish down-up on beat 4.'}
 ];
-function strummingPanel(course){const chord=course==='guitar'?'g':course.startsWith('bar-')?'bar-g':'uke-c';return `<section class="objective-panel strumming-panel" data-course="${course}" data-objective="strumming" hidden><div class="chords-intro single"><div><p class="chords-kicker">RHYTHM LIBRARY</p><h2>Strumming patterns</h2></div></div><p class="strumming-intro">Follow Along repeats each pattern on one easy chord. Set a comfortable tempo and keep counting through the dots: a dot means the strumming hand moves, but does not touch the strings.</p>${commonStrums.map((item,index)=>`<div class="song-example"><p>${index<7?`BASIC PATTERN ${index+1}`:`TWO-MEASURE PATTERN ${index===7?'4 · SIMPLER':'2 · FULLER'}`}</p><h3>${item.label}</h3>${exercise(index+1,item.pattern.length>8?[chord,chord]:[chord],item.copy,{pattern:item.pattern,bpm:80,groove:'click'})}</div>`).join('')}</section>`;}
+function strummingPanel(course){const chord=course==='guitar'?'g':course.startsWith('bar-')?'bar-g':'uke-c';return `<section class="objective-panel strumming-panel" data-course="${course}" data-objective="strumming" hidden><div class="chords-intro single"><div><p class="chords-kicker">RHYTHM LIBRARY</p><h2>Strumming patterns</h2></div></div><p class="strumming-intro">Follow Along repeats each pattern on one easy chord. Set a comfortable tempo and keep counting through the dots: a dot means the strumming hand moves, but does not touch the strings.</p>${commonStrums.map((item,index)=>`<div class="song-example"><p>${index<7?`BASIC PATTERN ${index+1}`:`TWO-MEASURE PATTERN ${index===7?'4 · SIMPLER':'2 · FULLER'}`}</p><h3>${item.label}</h3>${exercise(index+1,item.pattern.length>8?[chord,chord]:[chord],item.copy,{pattern:item.pattern,bpm:index===4||index===5?108:80,groove:'click'})}</div>`).join('')}</section>`;}
 export function initChords({enableSound,soundSession}={}){
  const chordPlayer=new ChordPlayer();
  const section=document.createElement('section');section.id='chords-view';section.className='chords-view';section.setAttribute('aria-labelledby','chords-title');
