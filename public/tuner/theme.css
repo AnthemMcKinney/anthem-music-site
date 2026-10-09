@@ -509,3 +509,70 @@ body[data-view=chords] .objective-panel[data-objective=practice] .objective-libr
  body[data-view=chords] .objective-library-card{padding:9px}
  body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]):not(:first-child){border-left:0}
 }
+
+/* Tablet layouts: keep strings in rows and use the landscape width for both tuner tools. */
+@media (min-width:741px) and (max-width:1400px) and (pointer:coarse){
+ .workspace #strings.guitar-neck{display:grid;grid-template-columns:1fr!important;grid-template-rows:repeat(var(--string-count,6),minmax(34px,1fr));height:auto}
+ .workspace #strings.guitar-neck .string{height:38px!important;min-height:38px!important}
+ .more-card>summary{min-height:56px;font-size:18px}
+ body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .objective-library-card>.progression-details>summary{min-height:66px;padding:10px 12px}
+ body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .objective-library-card>.progression-details:not([open])>summary,
+ html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.progression-details:not([open])>summary{min-height:66px;padding:10px 12px}
+ body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .objective-library-card>.progression-details .progression-summary p{font-size:12px}
+ body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .objective-library-card>.progression-details .progression-summary h3{font-size:21px}
+ body[data-view=chords] .progression-details>summary:before,body[data-view=chords] .requested-practice .progression-details>summary:before{grid-row:1/3;align-self:center;width:26px;height:26px;font-size:19px}
+ body[data-view=chords] .progression-details>summary,body[data-view=chords] .requested-practice .progression-details>summary{grid-template-columns:28px minmax(0,1fr);column-gap:12px}
+}
+@media (min-width:741px) and (max-width:1400px) and (pointer:coarse) and (orientation:portrait){
+ .workspace{display:flex!important;flex-direction:column!important;overflow:visible!important}
+ .tuning-panel{display:block!important;order:1}
+ .workspace aside{order:2;width:100%;border-right:0;border-top:1px solid var(--theme-border)}
+ #pitch-trail{display:block;width:100%!important;max-width:100%;margin:6px 0!important}
+}
+@media (min-width:741px) and (max-width:1400px) and (pointer:coarse) and (orientation:landscape){
+ html,body{height:auto!important;overflow-x:hidden!important;overflow-y:auto!important}
+ .app-shell,main,#tuner{height:auto!important;overflow:visible!important}
+ .workspace{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:repeat(8,auto) minmax(250px,auto) repeat(6,auto)!important;overflow:hidden!important}
+ .tuning-panel{display:contents!important}
+ .workspace aside{grid-column:1;grid-row:8/15;order:initial;width:auto;padding:0 20px 18px!important;border-right:1px solid var(--theme-border)}
+ .trail-heading{grid-column:2;grid-row:8;margin:18px 22px 8px}
+ #pitch-trail{display:block;grid-column:2;grid-row:9;width:calc(100% - 44px)!important;height:100%!important;min-height:250px;margin:0 22px!important}
+ .meter-labels{grid-column:2;grid-row:11}
+ .status-strip{grid-column:2;grid-row:12;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:0 22px}
+ .privacy{grid-column:2;grid-row:15}
+}
+
+.chord-diagram-with-key{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;width:100%;--top-string:17.65%;--bottom-string:12.5%}
+.chord-diagram-with-key.four-string{--top-string:22.8%;--bottom-string:17.65%}
+.chord-orientation{position:absolute;z-index:2;left:0;right:0;pointer-events:none;color:var(--theme-accent-deep);font:800 9px/1 var(--app-font);text-transform:uppercase;letter-spacing:.25px}
+.chord-orientation span:first-child{display:block;width:67px;text-align:right}
+.chord-orientation span:last-child{position:absolute;left:calc(100% - 50px);top:0;text-align:left}
+.chord-orientation-top{top:calc(var(--top-string) - 4.5px)}
+.chord-orientation-bottom{bottom:calc(var(--bottom-string) - 4.5px)}
+.chord-diagram-slot{grid-column:2;grid-row:1;min-width:0;width:100%}
+.chord-diagram-slot .chord-diagram{width:100%;height:auto;margin:0 auto}
+.chord-guide-notes{display:contents;color:var(--theme-ink);font:800 9px/1.25 var(--app-font);letter-spacing:.1px}
+.chord-mark-key,.finger-list{display:flex;flex-direction:column;gap:4px}
+.chord-mark-key{grid-column:1;grid-row:1;position:relative;z-index:1;width:72px;white-space:nowrap}
+.finger-list{grid-column:3;grid-row:1;text-align:left}
+body[data-view=chords] .objective-panel[data-objective=one] .chord-grid .chord-card{height:auto;min-height:190px}
+
+/* Requested exercises follow the same section-row language as Practice and Strumming. */
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details,
+html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details{margin:0;border:0;border-bottom:1px solid var(--theme-border);border-radius:0;background:transparent;overflow:visible}
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details:last-child{border-bottom:0}
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details>summary,
+html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details>summary,
+html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details:not([open])>summary{min-height:48px;padding:7px 6px;background:transparent}
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details>summary:before,
+html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-details>summary:before{border:0;background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:none}
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-summary h3{color:var(--theme-ink);font-style:italic;font-weight:750}
+body[data-view=chords] .objective-panel[data-objective=practice] .requested-practice-body .progression-body{background:transparent}
+body[data-view=chords] .requested-song{margin:0;border:0;border-bottom:1px solid var(--theme-border);border-radius:0;background:transparent;overflow:visible}
+body[data-view=chords] .requested-song:last-child{border-bottom:0}
+body[data-view=chords] .requested-song>summary{min-height:48px;padding:7px 6px;gap:10px;background:transparent}
+body[data-view=chords] .requested-song>summary:before{content:'+';width:19px;height:19px;flex-basis:19px;background:var(--theme-accent);color:var(--theme-on-accent);font:900 15px/1 var(--app-font)}
+body[data-view=chords] .requested-song[open]>summary:before{content:'−';transform:none}
+body[data-view=chords] .requested-song>summary strong{color:var(--theme-ink);font:italic 750 16px/1.2 var(--app-font)}
+body[data-view=chords] .requested-song-body{padding:0 8px 8px 29px;border-top:1px solid var(--theme-border);background:transparent}
+html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice>summary{padding-left:4px}
