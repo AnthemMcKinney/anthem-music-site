@@ -492,6 +492,7 @@ body[data-view=chords] .objective-practice-card .practice-instructions-body{back
   body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .objective-library-card>.progression-details .progression-body{border-top:1px solid var(--theme-border);background:transparent}
   body[data-view=chords] .objective-panel[data-objective=strumming] .objective-library-card>.progression-details:has(+ .first-sixteenth){border-bottom:0}
 body[data-view=chords] .objective-panel[data-objective=strumming] .objective-library-card>.progression-details.first-sixteenth{margin-top:9px;padding-top:8px;border-top:2px solid var(--theme-accent)}
+body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice{margin-top:9px;padding-top:8px;border-top:2px solid var(--theme-accent)}
 .strumming-panel .measure-heading{gap:8px}
 .strumming-chord-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
 .strumming-panel .strumming-chord-select{width:68px;min-width:68px;max-width:68px;min-height:29px;padding:3px 22px 3px 8px;border:1px solid var(--theme-accent);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:700 12px var(--app-font);cursor:pointer}
