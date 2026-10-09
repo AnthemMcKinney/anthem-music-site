@@ -1,4 +1,4 @@
-import {ChordPlayer} from './chord-audio.js?v=3.7e5';
+import {ChordPlayer} from './chord-audio.js?v=3.7e6';
 
 const chords=[
  {id:'g',name:'G',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
