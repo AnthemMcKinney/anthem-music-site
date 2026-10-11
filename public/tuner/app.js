@@ -1,13 +1,13 @@
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=50';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=51';
 import {TunerAudio} from './tuner/audio.js?v=69';
-import {GaugeState} from './tuner/gauge.js?v=3.7e7';
+import {GaugeState} from './tuner/gauge.js?v=3.7e9';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7e7';
-import {initChords} from './tuner/chords.js?v=3.7e7';
+import {initMetronome} from './tuner/metronome.js?v=3.7e9';
+import {initChords} from './tuner/chords.js?v=3.7e9';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -25,14 +25,15 @@ const panel=document.querySelector('.tuning-panel');
 const notes=()=>instrument.tunings[tuningIndex][1].split(' ');
 const target=()=>notes()[stringIndex];
 const chromatic=()=>instrument.mode==='chromatic';
+const saxophone=()=>instrument.id==='saxophone';
 const saxTranspose=()=>instrument.tunings[tuningIndex][2]||0;
-const shownNote=note=>chromatic()?transposeNote(note,saxTranspose()):note;
+const shownNote=note=>saxophone()?transposeNote(note,saxTranspose()):note;
 const pretty=note=>note.replace('b','♭').replace('#','♯');
 const trail=new PitchTrail($('pitch-trail'));const confirmation=new ThreePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
 function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;}
 function displayNote(note){note=shownNote(note);$('target-note').textContent=pretty(note.slice(0,-1));$('target-octave').textContent=note.at(-1);}
-function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=chromatic()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play a long tone':'Pluck a string'):'Ready when you are',listening?(chromatic()?'Hold any note steadily. The tuner handles the transposition.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
-function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(chromatic()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
+function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=saxophone()?'WRITTEN SAX NOTE':chromatic()?'WAITING FOR YOUR NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play one clear note':'Pluck a string'):'Ready when you are',listening?(saxophone()?'Hold any note steadily. The tuner handles the transposition.':chromatic()?'Let the note ring steadily.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
+function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
 const engine=new TunerAudio((result,diagnostic)=>{
  const now=performance.now();
@@ -63,7 +64,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
  // Keep microphone analysis continuous in the browser. Native packages can
  // restore an audible confirmation with a full-duplex audio session.
 
- displayNote(result.displayNote);$('live-caption').textContent=chromatic()?'WRITTEN NOTE YOU’RE PLAYING':'NOTE YOU’RE PLAYING';
+ displayNote(result.displayNote);$('live-caption').textContent=saxophone()?'WRITTEN NOTE YOU’RE PLAYING':chromatic()?'NEAREST NOTE':'NOTE YOU’RE PLAYING';
  $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz)));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
  if(!trend)trend={cents,time:now};
  if(now-trend.time>=350){const delta=cents-trend.cents;const closer=abs<Math.abs(trend.cents);$('motion').textContent=Math.abs(delta)>=2?(delta>0?'Pitch rising':'Pitch falling')+' · '+(closer?'getting closer':'moving away'):'';trend={cents,time:now};}
@@ -86,10 +87,24 @@ function renderStrings(){
  const guitar=instrument.id==='guitar', container=$('strings');
  panel.dataset.instrument=instrument.id;
  container.dataset.instrument=instrument.id;
- container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());
+ container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());container.classList.toggle('chromatic-guide',instrument.id==='chromatic');
  container.style.setProperty('--string-count',notes().length);
  document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap to hear the note';
  if(chromatic()){
+  if(instrument.id==='chromatic'){
+   container.innerHTML='<div class="sax-mark" aria-hidden="true">♪</div><div class="sax-copy"><strong>Chromatic tuning</strong><span>Play any single note.</span><small>The tuner follows the nearest concert-pitch note automatically.</small></div><div class="sax-transpose"><span>PLAY</span><b>Any note</b><i>→</i><span>READ</span><b>Pitch</b></div>';
+   $('string-order').textContent='CONCERT PITCH';$('neck-top').hidden=$('neck-bottom').hidden=true;
+   document.querySelector('.string-tip').textContent='Use one clear note at a time. The large note and cents display update automatically.';
+   const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>One note at a time.</strong> Let it ring clearly and keep other strings or notes quiet.';help[1].innerHTML='<strong>Watch the center.</strong> Adjust until the cents reading and pitch trail settle in the green.';
+   $('pitch-expectation').textContent='The tuner follows the nearest note automatically. Aim for a steady average in the green.';
+   $('tune-reminder').innerHTML='<strong>Check one note at a time.</strong> Background sound and overlapping notes can make a chromatic tuner choose the wrong pitch.';
+   $('mic-help-action').textContent='Turn on Auto Detect and play one clear note. If the sound bar moves, the app can hear you.';
+   $('tuning-help-first').innerHTML='<strong>Find the note:</strong> play one clear note and let it ring. The large letter shows the nearest concert-pitch note.';
+   $('tuning-help-check').innerHTML='<strong>Center the pitch:</strong> adjust higher or lower until the cents reading and pitch trail settle around the center line.';
+   $('tuning-help-reference').innerHTML='<strong>Reduce interference:</strong> mute unused strings, avoid playing chords, and move closer to the microphone when the displayed note jumps.';
+   $('tuning-help-safety').textContent='Make small adjustments. Stop tightening a string if it feels unusually tight and confirm that you are aiming for the intended note.';
+   document.querySelector('.string-tip').classList.add('guitar-tip');return;
+  }
   const eb=saxTranspose()===9;
   container.innerHTML=`<div class="sax-mark" aria-hidden="true">🎷</div><div class="sax-copy"><strong>${eb?'E♭ sax':'B♭ sax'} translation</strong><span>Play it. We translate it.</span><small>The big note matches the note you finger and read.</small></div><div class="sax-transpose"><span>YOU PLAY</span><b>${eb?'F♯':'C'}</b><i>→</i><span>IT SOUNDS</span><b>${eb?'A':'B♭'}</b></div>`;
   $('string-order').textContent=eb?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO';$('neck-top').hidden=$('neck-bottom').hidden=true;
@@ -200,7 +215,7 @@ moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.<
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.96';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.98';moreBody.append(copyright,feedback,version);
 const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();

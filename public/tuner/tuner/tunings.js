@@ -1,9 +1,13 @@
+const chromaticNames=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const chromaticRange=Array.from({length:60},(_,index)=>`${chromaticNames[index%12]}${Math.floor((index+24)/12)-1}`).join(' ');
+
 export const instruments=[
  {id:'guitar',name:'Guitar',tunings:[['Standard','E2 A2 D3 G3 B3 E4'],['Drop D','D2 A2 D3 G3 B3 E4'],['Half-step down','Eb2 Ab2 Db3 Gb3 Bb3 Eb4'],['Whole-step down','D2 G2 C3 F3 A3 D4'],['Open G','D2 G2 D3 G3 B3 D4'],['Open D','D2 A2 D3 F#3 A3 D4'],['DADGAD','D2 A2 D3 G3 A3 D4']]},
  {id:'ukulele',name:'Ukulele',tunings:[['High G standard','G4 C4 E4 A4'],['Low G standard','G3 C4 E4 A4'],['Baritone','D3 G3 B3 E4'],['Guitalele','A2 D3 G3 C4 E4 A4']]},
  {id:'bass',name:'Bass',tunings:[['4-string standard','E1 A1 D2 G2']]},
  {id:'violin',name:'Violin',tunings:[['Standard','G3 D4 A4 E5']]},
  {id:'banjo',name:'Banjo',tunings:[['Open G','G4 D3 G3 B3 D4'],['Double C','G4 C3 G3 C4 D4'],['G modal / Sawmill','G4 D3 G3 C4 D4']]},
+ {id:'chromatic',name:'Chromatic Tuner',mode:'chromatic',tunings:[['Concert pitch',chromaticRange,0]]},
  {id:'saxophone',name:'Saxophone',mode:'chromatic',tunings:[
   ['E♭ Alto / Baritone','Db3 D3 Eb3 E3 F3 Gb3 G3 Ab3 A3 Bb3 B3 C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4 Bb4 B4 C5 Db5 D5 Eb5 E5 F5 Gb5 G5 Ab5 A5',9],
   ['B♭ Tenor / Soprano','Db3 D3 Eb3 E3 F3 Gb3 G3 Ab3 A3 Bb3 B3 C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4 Bb4 B4 C5 Db5 D5 Eb5 E5 F5 Gb5 G5 Ab5 A5',2]
@@ -14,7 +18,7 @@ export const centsBetween=(a,b)=>1200*Math.log2(a/b);
 const subscript=note=>note.replace(/(\d)$/,(digit)=>'₀₁₂₃₄₅₆₇₈₉'[Number(digit)]);
 export function tuningLabel(instrument,[name,pitches]){
  const notes=pitches.split(' ');
- if(instrument.id==='saxophone')return name;
+ if(instrument.mode==='chromatic')return name;
  if(instrument.id==='guitar')return `${name} (${notes.map((note,index)=>{const pitch=note.replace(/\d$/,'').replace('b','♭').replace('#','♯');return index===notes.length-1&&pitch==='E'?'e':pitch;}).join('')})`;
  return `${name} (${notes.map(subscript).join(' ')})`;
 }
