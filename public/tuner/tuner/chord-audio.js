@@ -8,10 +8,16 @@ const tunings={
 };
 
 // Keep the same string group for each direction; accents change weight only.
-export function exerciseStrokeVoicing(pattern,subdivision,position,slotIndex,slotsPerBeat,direction){
+export function strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat){
+ const fastStep=slotsPerBeat/2;
+ return strokeIndexes.some(other=>other!==slotIndex&&Math.abs(other-slotIndex)<=fastStep);
+}
+
+export function exerciseStrokeVoicing(pattern,subdivision,position,slotIndex,slotsPerBeat,direction,clustered=false){
  const accent=pattern==='d.d.d.du.ud.d.du'&&(position%10===2||position%10===7)
   ||pattern==='d...d.du.ud.d...'&&(position%7===2||position%7===6);
- return {range:direction==='u'?'high':'low',strength:accent?.88:slotIndex%slotsPerBeat===0?.76:.64};
+ const range=accent||direction==='d'&&!clustered?'full':direction==='u'?'high':'low';
+ return {range,strength:accent?.88:slotIndex%slotsPerBeat===0?.76:.64};
 }
 
 export function strumStringIndexes(pitches,direction,range,stringCount){
@@ -52,7 +58,11 @@ export class ChordPlayer{
   return {ctx,pitches,samples,buffers};
  }
  stroke(chord,kit,when,direction='d',duration=.72,range='full',strength=1,stringCount){
-  const {ctx,pitches,samples,buffers}=kit,order=strumStringIndexes(pitches,direction,range,chord.id==='d'&&direction==='u'?3:stringCount),spacing=direction==='u'?.008:.017;
+  // Keep the fretted D on the B string audible in the anchored 320033 G shape.
+  // Four-string low-range playback otherwise stops at the G string and makes
+  // the exercise sound like the open-B 320003 voicing that we do not teach.
+  const exerciseStringCount=chord.id==='g'&&direction==='d'&&range==='low'?5:chord.id==='d'&&direction==='u'?3:stringCount;
+  const {ctx,pitches,samples,buffers}=kit,order=strumStringIndexes(pitches,direction,range,exerciseStringCount),spacing=direction==='u'?.008:.017;
   order.forEach((sampleIndex,strokeIndex)=>{const buffer=buffers[sampleIndex],sample=samples[sampleIndex],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),start=when+strokeIndex*spacing,rate=sample.hz/sample.sourceHz,voiceDuration=Math.min(duration,buffer.duration/rate);source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;const level=({low:.4,mid:.42,high:.35,full:.64}[range]||.42)*strength;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+.006);gain.gain.exponentialRampToValueAtTime(level*.64,start+Math.min(.28,voiceDuration*.25));gain.gain.setValueAtTime(level*.64,start+Math.max(.3,voiceDuration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+voiceDuration);source.connect(tone).connect(gain).connect(this.master);source.start(start);source.stop(start+voiceDuration+.01);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};});
  }
  click(ctx,buffer,when,accent=false,level=accent?.38:.27){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type='highpass';tone.frequency.value=accent?3600:4200;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+.11);source.connect(tone).connect(gain).connect(this.master);source.start(when);source.stop(when+.125);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
@@ -85,7 +95,7 @@ export class ChordPlayer{
    }
    const priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(stroke=>stroke==='d'||stroke==='u').length,0);
    strokeIndexes.forEach((index,position)=>{
-     const duration=subdivision==='sixteenth'?1.65:2.2,chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index]);
+     const duration=subdivision==='sixteenth'?1.65:2.2,chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,clustered=strokeIsClustered(index,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index],clustered);
      if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration,voicing.range,voicing.strength,voicing.count);
    });
   });
