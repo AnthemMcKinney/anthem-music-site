@@ -209,13 +209,13 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
  body[data-view=chords] .practice-transition h2{font-size:19px}
  body[data-view=chords] .practice-exercise-tab{height:38px;min-height:38px;padding:4px 7px}
 }
-@media(min-width:741px){.chord-grid [data-variant-card=true],.variant-swipe-cue{display:none}}
+@media(min-width:741px){.chord-grid [data-variant-card=true],.variant-swipe-cue{display:none}.chord-grid .desktop-variant-hidden{display:none!important}.chord-grid [data-variant-card=true].desktop-variant-active{display:block!important}}
 
 /* Alternate voicings use the existing chord header rather than another row. */
-.chord-variant-nav{display:none;align-items:center;gap:5px;margin-left:auto}
+.chord-variant-nav{display:flex;align-items:center;gap:5px;margin-left:auto}
 .chord-variant-nav button{display:grid;place-items:center;width:25px;height:25px;padding:0;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-surface);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
 .chord-variant-nav span{min-width:23px;color:var(--theme-muted);font-size:9px;font-weight:900;text-align:center}
-@media(max-width:740px){.chord-variant-nav{display:flex}.variant-swipe-cue{display:none!important}.lesson-summary div:has(>p:only-child){display:flex;align-items:center}.lesson-summary div:has(>p:only-child) p{font-size:10px}}
+@media(max-width:740px){.variant-swipe-cue{display:none!important}.lesson-summary div:has(>p:only-child){display:flex;align-items:center}.lesson-summary div:has(>p:only-child) p{font-size:10px}}
 
 /* Objective-note navigation uses one predictable collapsed label everywhere. */
 .lesson-expanded>h3{margin:0 0 7px;color:var(--theme-ink);font:700 16px/1.2 var(--app-font)}
