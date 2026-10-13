@@ -599,9 +599,61 @@ html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=
 }
 @media (min-width:1350px) and (pointer:fine){
  body[data-view=chords] .objective-chords-card .chord-grid,
- body[data-view=chords] .objective-chords-card .chord-grid.three-up{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ body[data-view=chords] .objective-chords-card .chord-grid.three-up{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  body[data-view=chords] .objective-panel[data-objective=one] .chord-grid .chord-card{min-height:210px}
- body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]){border-top:0}
- body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]):not(:first-child){border-left:1px solid var(--theme-border)}
+ body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]):nth-child(n+3){border-top:1px solid var(--theme-border)}
+ body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]):nth-child(odd){border-left:0}
+ body[data-view=chords] .objective-chords-card .chord-card:not([data-variant-card]):nth-child(even){border-left:1px solid var(--theme-border)}
  body[data-view=chords] .chord-diagram{max-height:138px}
+}
+
+/* Keep the shared header compact and safely inset at every chord-module width. */
+body[data-view=chords] header{box-sizing:border-box;height:72px;padding-inline:18px}
+@media(max-width:740px){body[data-view=chords] header{height:65px;padding-inline:12px}}
+body[data-view=chords] .brand img{flex:0 0 35px;width:35px;height:39px;max-width:35px;max-height:39px}
+
+/* At portrait-tablet widths, move the whole chord card into the roomy single-card view. */
+@media(min-width:741px) and (max-width:960px){
+ body[data-view=chords] .objective-chords-card .chord-selector{display:flex;gap:5px;margin:0 0 7px;overflow:hidden}
+ body[data-view=chords] .objective-chords-card .chord-selector button{flex:1 1 0;min-width:0;padding:8px 3px;border:1px solid var(--theme-border);border-radius:6px;background:var(--theme-soft);color:var(--theme-ink);font-size:11px;font-weight:900}
+ body[data-view=chords] .objective-chords-card .chord-selector button[aria-selected=true]{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
+ body[data-view=chords] .objective-chords-card .chord-grid,
+ body[data-view=chords] .objective-chords-card .chord-grid.three-up{display:block;overflow:hidden;touch-action:pan-y}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card{display:none!important;box-sizing:border-box;width:100%;min-height:235px;padding:12px 16px}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card.active-chord{display:block!important}
+ body[data-view=chords] .objective-chords-card .chord-diagram{width:100%;height:170px;max-height:170px;margin:1px auto 0}
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key{grid-template-columns:64px minmax(0,1fr) 64px}
+ body[data-view=chords] .objective-chords-card .chord-guide-notes,
+ body[data-view=chords] .objective-chords-card .chord-orientation{font-size:11px}
+ body[data-view=chords] .objective-chords-card .chord-mark-key{width:88px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:first-child{width:83px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:last-child{left:calc(100% - 66px)}
+}
+
+/* Use the spare card height when two-column cards are too narrow for side keys. */
+@media(min-width:961px) and (max-width:1200px){
+ body[data-view=chords] .objective-chords-card .chord-card{padding-inline:16px}
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key{grid-template-columns:1fr 1fr;grid-template-rows:minmax(112px,1fr) auto;align-items:center;column-gap:18px;row-gap:8px}
+ body[data-view=chords] .objective-chords-card .chord-diagram-slot{grid-column:1/-1;grid-row:1;padding-inline:22px}
+ body[data-view=chords] .objective-chords-card .chord-diagram{max-height:142px}
+ body[data-view=chords] .objective-chords-card .chord-mark-key{grid-column:1;grid-row:2;position:static;width:auto;align-items:flex-start;padding-left:22px}
+ body[data-view=chords] .objective-chords-card .finger-list{grid-column:2;grid-row:2;align-items:flex-start;padding-left:22px;text-align:left}
+ body[data-view=chords] .objective-chords-card .chord-mark-key,
+ body[data-view=chords] .objective-chords-card .finger-list{display:grid;grid-template-columns:1fr 1fr;gap:5px 12px}
+ body[data-view=chords] .objective-chords-card .chord-guide-notes{font-size:11px;line-height:1.2}
+ body[data-view=chords] .objective-chords-card .chord-orientation{font-size:10px}
+ body[data-view=chords] .objective-chords-card .chord-orientation-top{top:22px}
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key.four-string .chord-orientation-top{top:29px}
+ body[data-view=chords] .objective-chords-card .chord-orientation-bottom{top:110px;bottom:auto}
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key.four-string .chord-orientation-bottom{top:106px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:first-child{width:62px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:last-child{left:calc(100% - 48px)}
+}
+@media(min-width:1201px){
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key{grid-template-columns:62px minmax(0,1fr) 62px}
+ body[data-view=chords] .objective-chords-card .chord-guide-notes{font-size:11px;line-height:1.3}
+ body[data-view=chords] .objective-chords-card .chord-orientation{font-size:11px}
+ body[data-view=chords] .objective-chords-card .chord-mark-key{width:86px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:first-child{width:81px}
+ body[data-view=chords] .objective-chords-card .chord-orientation span:last-child{left:calc(100% - 64px)}
 }

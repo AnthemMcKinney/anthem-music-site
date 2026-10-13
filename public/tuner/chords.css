@@ -209,7 +209,7 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
  body[data-view=chords] .practice-transition h2{font-size:19px}
  body[data-view=chords] .practice-exercise-tab{height:38px;min-height:38px;padding:4px 7px}
 }
-@media(min-width:741px){.chord-grid [data-variant-card=true],.variant-swipe-cue{display:none}.chord-grid .desktop-variant-hidden{display:none!important}.chord-grid [data-variant-card=true].desktop-variant-active{display:block!important}}
+@media(min-width:961px){.chord-grid [data-variant-card=true],.variant-swipe-cue{display:none}.chord-grid .desktop-variant-hidden{display:none!important}.chord-grid [data-variant-card=true].desktop-variant-active{display:block!important}}
 
 /* Alternate voicings use the existing chord header rather than another row. */
 .chord-variant-nav{display:flex;align-items:center;gap:5px;margin-left:auto}
