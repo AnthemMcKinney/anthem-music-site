@@ -5,7 +5,9 @@ export class PitchHistory{
  clock(time){return this.points.length?Math.min(time,this.points[this.points.length-1].time+180):time;}
  prune(time){this.points=this.points.filter(p=>time-p.time<=this.duration);return this.points;}
 }
-const mix=t=>{const a=[232,93,26],b=[18,109,80];return 'rgb('+a.map((n,i)=>Math.round(n+(b[i]-n)*t)).join(',')+')';};
+const rgb=value=>{const hex=value.trim().match(/^#([\da-f]{6})$/i),parts=value.match(/[\d.]+/g);if(hex)return[0,2,4].map(i=>parseInt(hex[1].slice(i,i+2),16));return parts?.slice(0,3).map(Number)||[115,123,129];};
+const mix=(a,b,t)=>'rgb('+a.map((n,i)=>Math.round(n+(b[i]-n)*t)).join(',')+')';
+const rgba=(color,alpha)=>`rgba(${color.join(',')},${alpha})`;
 export class PitchTrail{
  constructor(canvas){this.canvas=canvas;this.history=new PitchHistory(3500);this.gauge=null;this.last=null;this.peak=.001;this.confirmation=0;this.frame=0;this.draw=this.draw.bind(this);this.draw();}
  clear(){this.history.clear();this.last=null;this.gauge=null;this.peak=.001;this.confirmation=0;}
@@ -21,32 +23,32 @@ export class PitchTrail{
    const width=Math.round(rect.width*ratio),height=Math.round(rect.height*ratio);
    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
    const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.globalAlpha=1;
-   const w=rect.width,h=rect.height,head=Math.min(76,Math.max(58,h*.48)),range=Math.max(1,h-head),x=c=>w*(.5+Math.max(-100,Math.min(100,c))*.0043);
+   const styles=getComputedStyle(document.documentElement),accent=rgb(styles.getPropertyValue('--theme-accent')),muted=rgb(styles.getPropertyValue('--theme-muted')),border=rgb(styles.getPropertyValue('--theme-border')),green=[18,109,80],w=rect.width,h=rect.height,head=Math.min(76,Math.max(58,h*.48)),range=Math.max(1,h-head),x=c=>w*(.5+Math.max(-100,Math.min(100,c))*.0043),signal=t=>mix(accent,green,t);
    ctx.clearRect(0,0,w,h);const live=this.last&&now-this.last.time<220;const completed=this.gauge?.zero&&this.last&&now-this.last.time<1200;
    // The grid fills the whole display. Its moving first and last rows fade at
    // the edges so time appears to flow into and out of the trail naturally.
-   const gridFade=ctx.createLinearGradient(0,0,0,h);gridFade.addColorStop(0,'rgba(225,228,227,0)');gridFade.addColorStop(.12,'rgba(225,228,227,.9)');gridFade.addColorStop(.88,'rgba(225,228,227,.9)');gridFade.addColorStop(1,'rgba(225,228,227,0)');
+   const gridFade=ctx.createLinearGradient(0,0,0,h);gridFade.addColorStop(0,rgba(border,0));gridFade.addColorStop(.12,rgba(border,.72));gridFade.addColorStop(.88,rgba(border,.72));gridFade.addColorStop(1,rgba(border,0));
    ctx.strokeStyle=gridFade;ctx.lineWidth=.7;
    for(let c=-100;c<=100;c+=10){ctx.beginPath();ctx.moveTo(x(c),0);ctx.lineTo(x(c),h);ctx.stroke();}
-   const offset=(now/this.history.duration*h)%24;for(let y=offset;y<h;y+=24){ctx.globalAlpha=Math.max(0,Math.min(1,y/24,(h-y)/24));ctx.strokeStyle='#e1e4e3';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.globalAlpha=1;
+   const offset=(now/this.history.duration*h)%24;for(let y=offset;y<h;y+=24){ctx.globalAlpha=Math.max(0,Math.min(1,y/24,(h-y)/24));ctx.strokeStyle=rgba(border,.72);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}ctx.globalAlpha=1;
    // Time scrolls downward; pitch displacement is horizontal. No artificial waveform.
    ctx.save();ctx.beginPath();ctx.rect(0,head,w,range);ctx.clip();
    // The shaded lane is the actual acceptable range: five cents either side.
    ctx.globalAlpha=.1;ctx.fillStyle='#126d50';ctx.fillRect(x(-5),head,x(5)-x(-5),range);ctx.globalAlpha=1;
-   ctx.strokeStyle='#737b81';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w/2,head);ctx.lineTo(w/2,h);ctx.stroke();
+   ctx.strokeStyle=rgba(muted,.9);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w/2,head);ctx.lineTo(w/2,h);ctx.stroke();
    if(this.confirmation){const progress=this.confirmation/3,top=h-progress*range;ctx.save();ctx.strokeStyle='#126d50';ctx.lineWidth=this.confirmation===3?5:4;if(this.confirmation===3){ctx.shadowColor='rgba(18,109,80,.55)';ctx.shadowBlur=8;}ctx.beginPath();ctx.moveTo(w/2,h);ctx.lineTo(w/2,top);ctx.stroke();ctx.restore();}
    const traceTime=this.history.clock(now),points=this.history.points;ctx.lineWidth=1;ctx.lineCap='round';
    for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];if(b.time-a.time>250)continue;
     ctx.globalAlpha=Math.max(.32,Math.max(0,1-(traceTime-b.time)/this.history.duration)**1.5*(.25+.75*b.strength));
-    ctx.strokeStyle=live?mix(b.green):'#737b81';ctx.beginPath();ctx.moveTo(x(a.cents),head+(traceTime-a.time)/this.history.duration*range);ctx.lineTo(x(b.cents),head+(traceTime-b.time)/this.history.duration*range);ctx.stroke();
+    ctx.strokeStyle=live?signal(b.green):rgba(muted,.9);ctx.beginPath();ctx.moveTo(x(a.cents),head+(traceTime-a.time)/this.history.duration*range);ctx.lineTo(x(b.cents),head+(traceTime-b.time)/this.history.duration*range);ctx.stroke();
    }
    // Keep even a single accepted sample visible until a connected trace forms.
-   if(points.length){const p=points[points.length-1];ctx.globalAlpha=live?1:.5;ctx.fillStyle=live?mix(p.green):'#737b81';ctx.beginPath();ctx.arc(x(p.cents),head+(traceTime-p.time)/this.history.duration*range,1.5,0,Math.PI*2);ctx.fill();}
+   if(points.length){const p=points[points.length-1];ctx.globalAlpha=live?1:.5;ctx.fillStyle=live?signal(p.green):rgba(muted,.9);ctx.beginPath();ctx.arc(x(p.cents),head+(traceTime-p.time)/this.history.duration*range,1.5,0,Math.PI*2);ctx.fill();}
    ctx.restore();ctx.globalAlpha=1;
    if(this.last){const px=x(this.last.cents),r=Math.min(25,(head-10)/2),cy=head-r-7;
-    ctx.fillStyle=(live||completed)?mix(this.gauge?.green||0):'#737b81';ctx.beginPath();ctx.arc(px,cy,r,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(px-7,cy+r-2);ctx.lineTo(px,head);ctx.lineTo(px+7,cy+r-2);ctx.closePath();ctx.fill();
+    ctx.fillStyle=(live||completed)?signal(this.gauge?.green||0):rgba(muted,.9);ctx.beginPath();ctx.arc(px,cy,r,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(px-7,cy+r-2);ctx.lineTo(px,head);ctx.lineTo(px+7,cy+r-2);ctx.closePath();ctx.fill();
     ctx.fillStyle='white';ctx.font='600 13px Arial';ctx.textAlign='center';ctx.textBaseline='middle';const c=this.last.cents;ctx.fillText((c>0?'+':'')+c.toFixed(1),px,cy-3);ctx.font='9px Arial';ctx.fillText('CENTS',px,cy+11);
-    if(!live){ctx.fillStyle='#5c6470';ctx.font='10px Arial';ctx.fillText('LAST',px,9);}
+    if(!live){ctx.fillStyle=rgba(muted,1);ctx.font='10px Arial';ctx.fillText('LAST',px,9);}
    }
   }
   this.frame=requestAnimationFrame(this.draw);

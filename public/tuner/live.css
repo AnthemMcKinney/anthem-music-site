@@ -4,8 +4,8 @@
 
 .input-level{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;font-size:12px;color:#5c6470}.input-level meter{width:70px;height:12px;accent-color:#126d50}
 
-#pitch-trail{display:block;width:100%;height:150px;border:1px solid #dce1df;border-radius:10px;background:#fafcf9}.trail-heading{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#5c6470;margin:8px 0}.trail-heading span:first-child{font-weight:700;letter-spacing:1px}.meter{display:none}.meter-labels{margin-top:7px}@media(max-width:740px){#pitch-trail{height:125px}.trail-heading{font-size:10px}}
+#pitch-trail{display:block;width:100%;height:150px;border:1px solid #dce1df;border-radius:10px}.trail-heading{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#5c6470;margin:8px 0}.trail-heading span:first-child{font-weight:700;letter-spacing:1px}.meter{display:none}.meter-labels{margin-top:7px}@media(max-width:740px){#pitch-trail{height:125px}.trail-heading{font-size:10px}}
 
-#pitch-trail{height:255px;background:#fafcf9}.mic-check p{margin:5px 0;font-size:13px}.tuning-panel[data-status=tuned]{background:white}@media(max-width:740px){#pitch-trail{height:235px}}
+#pitch-trail{height:255px}.mic-check p{margin:5px 0;font-size:13px}.tuning-panel[data-status=tuned]{background:white}@media(max-width:740px){#pitch-trail{height:235px}}
 
 .meter-labels .pitch-symbol{font-size:22px;line-height:1;vertical-align:middle;font-weight:500;margin:0 3px}

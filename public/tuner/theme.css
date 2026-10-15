@@ -20,6 +20,7 @@ html[data-theme=dark-rose]{--theme-accent:#c9828d;--theme-accent-deep:#e0a1aa}
 html[data-theme=dark-sage]{--theme-accent:#91b89a;--theme-accent-deep:#b6d3bc}
 body,.app-shell,.more-view{background:var(--theme-page);color:var(--theme-text)}
 .brand .brand-sub{color:var(--theme-accent)}
+.header-right #portal{background:var(--theme-accent);color:var(--theme-on-accent)}
 header,.chords-content,.objective-tabs,.more-card,.chord-card,.practice-exercise-body,.music-measure,.tuning-panel,.workspace aside{background:var(--theme-surface)}
 .chords-hero,.bottom-nav,.practice-exercise>summary,.measure-heading,.more-overview{background:var(--theme-nav);color:#fff}
 .bottom-nav .nav-item.active{background:var(--theme-nav-active)}
@@ -39,7 +40,8 @@ html[data-theme^=dark] .chords-hero h1,html[data-theme^=dark] .chords-hero span,
 html[data-theme^=dark] .objective-tabs button,html[data-theme^=dark] .uke-path-tabs button,html[data-theme^=dark] .chord-selector button{background:#30383c;color:#e7eceb}
 html[data-theme^=dark] .objective-tabs button[aria-pressed=true]{background:var(--theme-nav);color:#fff}
 html[data-theme^=dark] .practice-instructions .drawer-toggle,html[data-theme^=dark] .practice-exercise .drawer-toggle,html[data-theme^=dark] .lesson-summary:before{background:#eef2f1;color:#172126}
-html[data-theme^=dark] .meter,html[data-theme^=dark] #pitch-trail{filter:brightness(.82) saturate(.75)}
+html[data-theme^=dark] .meter{filter:brightness(.82) saturate(.75)}
+#pitch-trail{border-color:var(--theme-border);background:linear-gradient(to bottom,color-mix(in srgb,var(--theme-border) 54%,var(--theme-soft)) 0%,var(--theme-soft-2) 16%,var(--theme-surface) 32%,var(--theme-surface) 68%,var(--theme-soft-2) 84%,color-mix(in srgb,var(--theme-border) 54%,var(--theme-soft)) 100%)}
 .theme-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}.theme-picker button{display:grid;justify-items:center;gap:6px;min-height:72px;padding:9px 5px;border:2px solid var(--theme-border);border-radius:8px;background:var(--theme-soft);color:var(--theme-ink);font:800 11px/1.15 inherit}.theme-picker button[aria-pressed=true]{border-color:var(--theme-accent);box-shadow:inset 0 -3px var(--theme-accent)}.theme-picker i{display:block;width:34px;height:22px;border-radius:5px;background:linear-gradient(135deg,#0d1f3c 0 48%,#f3eee4 48% 73%,#e85d1a 73%)}.theme-picker [data-theme-choice=soft] i{background:linear-gradient(135deg,#263f4a 0 48%,#edf0ee 48% 73%,#527a88 73%)}.theme-picker [data-theme-choice=dark] i{background:linear-gradient(135deg,#0d1418 0 48%,#282f33 48% 73%,#67b8b0 73%)}.theme-picker [data-theme-choice=dark-rose] i{background:linear-gradient(135deg,#0d1418 0 48%,#282f33 48% 73%,#c9828d 73%)}.theme-picker [data-theme-choice=dark-sage] i{background:linear-gradient(135deg,#0d1418 0 48%,#282f33 48% 73%,#91b89a 73%)}
 @media(max-width:420px){.theme-picker{grid-template-columns:1fr}.theme-picker button{grid-template-columns:38px 1fr;align-items:center;justify-items:start;min-height:44px;text-align:left}}
 .chord-diagram .string-name{fill:var(--theme-ink)}
@@ -201,6 +203,9 @@ html[data-theme=soft] .instrument-tabs .nav-tier-label{color:#f5efe4!important}
 /* One expandable-control language: accent icon; guidance also receives a left rail. */
 .lesson-details,.practice-instructions{border:1px solid var(--theme-border);border-left:5px solid var(--theme-accent);background:var(--theme-soft);color:var(--theme-ink)}
 .lesson-summary:before,.practice-instructions .drawer-toggle{background:var(--theme-accent);color:var(--theme-on-accent);box-shadow:0 1px 3px color-mix(in srgb,var(--theme-ink) 28%,transparent)}
+html[data-theme^=dark] .lesson-summary:before{background:var(--theme-accent);color:var(--theme-on-accent)}
+.lesson-summary .callout-mark{background:var(--theme-accent);color:var(--theme-on-accent)}
+.drawer-toggle{border-color:var(--theme-accent);background:var(--theme-accent);color:var(--theme-on-accent)}
 .practice-instructions>summary{background:transparent;color:var(--theme-ink)}
 .practice-instructions summary small{color:var(--theme-accent-deep)}
 .practice-instructions summary strong{color:var(--theme-ink)}
@@ -316,10 +321,11 @@ html[data-theme^=dark] .guitar-neck .string[aria-pressed=true] .string-wire{back
 .instrument-tabs button,.uke-path-tabs button,.objective-tabs button,.chord-selector button,.practice-exercise-tab,.tempo-presets button,.meter-option,.subdivision-options button,.sound-options button{min-width:0;overflow-wrap:anywhere}
 @media(min-width:741px) and (max-width:900px){
  .app-shell{padding-inline:20px}
- .workspace{grid-template-columns:1fr}
- .workspace aside{padding:20px;border-right:0;border-bottom:1px solid var(--theme-border)}
+ .workspace{display:flex!important;flex-direction:column!important;overflow:visible!important}
+ .tuning-panel{display:block!important;order:1;padding:18px 24px!important}
+ .workspace aside{order:2;width:100%;padding:18px 20px;border-right:0;border-top:1px solid var(--theme-border);border-bottom:0}
  .workspace .strings{grid-template-columns:repeat(var(--string-count,6),minmax(0,1fr))}
- .tuning-panel{padding-inline:24px}
+ #pitch-trail{display:block;width:100%!important;height:220px!important;margin:6px 0!important}
  body[data-view=chords] .chords-content{padding-inline:18px}
  body[data-view=chords] .chords-intro h2{font-size:23px}
  body[data-view=chords] .chord-card-heading h2{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -421,6 +427,7 @@ html[data-theme=classic] body[data-view=chords] .objective-panel[data-objective=
 
 /* The objective overview stays on white; chord shapes and exercises have their own cards. */
 body[data-view=chords] .chords-frame{border:1px solid var(--theme-accent);border-radius:14px;background:var(--theme-surface)}
+body[data-view=chords] .chords-view,body[data-view=chords] .chords-frame,body[data-view=chords] .chords-content,body[data-view=chords] .objective-panel,body[data-view=chords] .objective-heading-area,body[data-view=chords] .chords-intro,body[data-view=chords] .objective-chords-card{color:var(--theme-text)}
 body[data-view=chords] .chords-frame>.chords-hero{border-bottom:1px solid var(--theme-accent);border-radius:12px 12px 0 0}
 body[data-view=chords] .chords-frame>.objective-tabs,
 body[data-view=chords] .chords-frame>.sound-enable-row{background:var(--theme-surface)}
@@ -432,7 +439,7 @@ body[data-view=chords] .objective-heading-area .chords-kicker{font-size:11px;lin
 body[data-view=chords] .objective-heading-area .lesson-details{margin:7px 0 0;padding:8px 0;border:0;border-top:1px solid var(--theme-border);border-radius:0;background:transparent}
 body[data-view=chords] .objective-chords-card,
 body[data-view=chords] .practice-drawers.objective-practice-card,
-body[data-view=chords] .objective-library-card{box-sizing:border-box;border:1px solid var(--theme-accent-deep);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);padding:11px 12px}
+body[data-view=chords] .objective-library-card{box-sizing:border-box;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);padding:11px 12px}
 body[data-view=chords] .objective-chords-card{margin-bottom:10px}
  body[data-view=chords] .practice-drawers.objective-practice-card{margin-top:0;margin-inline:0;overflow:visible}
 body[data-view=chords] .objective-practice-disclosure{margin:0;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);overflow:hidden}
@@ -575,6 +582,9 @@ body[data-view=chords] .objective-panel[data-objective=practice] .objective-libr
 .chord-mark-key{grid-template-columns:repeat(2,max-content);gap:clamp(14px,4cqi,30px)}
 .chord-mark-key span{display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;min-height:16px;white-space:nowrap;line-height:16px}
 .open-string-symbol{box-sizing:border-box;display:block;width:13px;height:13px;flex:0 0 13px;border:2px solid var(--theme-ink);border-radius:50%;background:#fff}
+.chord-diagram .open{fill:#fff}
+html[data-theme^=dark] .open-string-symbol{background:var(--theme-nav)}
+html[data-theme^=dark] .chord-diagram .open{fill:var(--theme-nav)}
 .muted-string-symbol{display:inline-grid;place-items:center;width:13px;height:13px;flex:0 0 13px;color:var(--theme-accent);font:900 18px/13px Arial;font-style:normal}
 body[data-view=chords] .objective-panel[data-objective=one] .chord-grid .chord-card{height:auto;min-height:190px}
 
