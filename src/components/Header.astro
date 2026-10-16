@@ -8,6 +8,11 @@ const nav = [
   { label: "Contact", href: "/contact" },
 ];
 const portalUrl = "/student-login";
+const bookLinks = [
+  { label: "Private Lessons", href: "/schedule", sub: "Free consultation" },
+  { label: "Group Classes", href: "/book-a-class", sub: "First class free" },
+  { label: "Live Music for Events", href: "/book-a-performer", sub: "Parties & weddings" },
+];
 ---
 <header class="site-header">
   <div class="container header-inner">
@@ -19,7 +24,18 @@ const portalUrl = "/student-login";
     <nav class="nav-desktop" aria-label="Main navigation">
       {nav.map((item) => <a href={item.href}>{item.label}</a>)}
       <a href={portalUrl} class="btn parent-login">Student Login</a>
-      <a href="/schedule" class="btn btn-primary nav-cta">Book a Consultation</a>
+
+      <div class="nav-book" id="navBook">
+        <button class="btn btn-primary nav-cta" id="bookToggle" aria-haspopup="true" aria-expanded="false" aria-controls="bookMenu">
+          Book <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="book-menu" id="bookMenu" role="menu" aria-label="Booking options">
+          {bookLinks.map((b) => (
+            <a href={b.href} role="menuitem"><strong>{b.label}</strong><span>{b.sub}</span></a>
+          ))}
+          <a href="/get-started" role="menuitem" class="book-menu-all">See all options →</a>
+        </div>
+      </div>
     </nav>
 
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" id="navToggle">
@@ -30,7 +46,9 @@ const portalUrl = "/student-login";
   <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
     {nav.map((item) => <a href={item.href}>{item.label}</a>)}
     <a href={portalUrl} class="btn parent-login">Student Login</a>
-    <a href="/schedule" class="btn btn-primary">Book a Consultation</a>
+    <span class="mobile-book-label">Book</span>
+    {bookLinks.map((b) => <a href={b.href} class="mobile-book-link">{b.label}</a>)}
+    <a href="/get-started" class="btn btn-primary">Get Started</a>
   </nav>
 </header>
 
@@ -53,12 +71,13 @@ const portalUrl = "/student-login";
   }
   .brand-sub { color: var(--orange); margin-left: 0.3rem; }
   .nav-desktop { display: flex; align-items: center; gap: 1.4rem; }
-  .nav-desktop > a:not(.nav-cta):not(.parent-login) {
+  .nav-desktop > a:not(.parent-login) {
     color: var(--navy); font-weight: 500; font-size: 0.98rem;
     position: relative;
   }
-  .nav-desktop > a:not(.nav-cta):not(.parent-login):hover { color: var(--orange); }
+  .nav-desktop > a:not(.parent-login):hover { color: var(--orange); }
   .nav-cta { padding: 0.6rem 1.3rem; font-size: 0.95rem; }
+  .nav-cta .caret { font-size: 0.8em; margin-left: 0.15rem; }
 
   /* Parent Login - deliberately yellow, outside the navy/orange brand palette,
      so it reads as a utility/portal element without diluting the brand. */
@@ -76,11 +95,34 @@ const portalUrl = "/student-login";
     transform: translateY(-2px);
   }
 
+  /* Book dropdown */
+  .nav-book { position: relative; }
+  .book-menu {
+    position: absolute; top: calc(100% + 10px); right: 0; min-width: 248px;
+    display: none; flex-direction: column;
+    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(13,31,60,.16); padding: 0.5rem; z-index: 200;
+  }
+  .book-menu::before {
+    content: ""; position: absolute; top: -16px; right: 0; left: 0; height: 16px;
+  }
+  .nav-book:hover .book-menu,
+  .nav-book:focus-within .book-menu,
+  .book-menu.open { display: flex; }
+  .book-menu a { display: block; padding: 0.6rem 0.8rem; border-radius: 8px; color: var(--navy); }
+  .book-menu a strong { display: block; font-size: 0.95rem; font-weight: 600; }
+  .book-menu a span { display: block; font-size: 0.78rem; color: var(--gray); }
+  .book-menu a:hover, .book-menu a:focus-visible { background: var(--cream-soft); outline: none; }
+  .book-menu a:hover strong { color: var(--orange-dark); }
+  .book-menu-all { margin-top: 0.3rem; border-top: 1px solid var(--line); color: var(--orange) !important; font-weight: 600; font-size: 0.9rem; padding-top: 0.7rem !important; }
+
   .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
   .nav-toggle span { width: 26px; height: 2px; background: var(--navy); transition: .3s; }
   .nav-mobile { display: none; flex-direction: column; padding: 1rem var(--pad) 1.5rem; gap: 0.5rem; border-top: 1px solid var(--line); background: var(--white); }
   .nav-mobile a:not(.btn) { color: var(--navy); font-weight: 500; padding: 0.6rem 0; }
   .nav-mobile.open { display: flex; }
+  .mobile-book-label { margin-top: 0.4rem; padding-top: 0.6rem; border-top: 1px solid var(--line); color: var(--gray); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-mobile a.mobile-book-link { padding-left: 0.6rem; }
 
   @media (max-width: 1220px) {
     .nav-desktop { display: none; }
@@ -94,5 +136,25 @@ const portalUrl = "/student-login";
   toggle?.addEventListener('click', () => {
     const open = mobile?.classList.toggle('open');
     toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Book dropdown: click/keyboard toggle (hover handled by CSS for mouse users).
+  const bookToggle = document.getElementById('bookToggle');
+  const bookMenu = document.getElementById('bookMenu');
+  const navBook = document.getElementById('navBook');
+  function closeBook() {
+    bookMenu?.classList.remove('open');
+    bookToggle?.setAttribute('aria-expanded', 'false');
+  }
+  bookToggle?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const open = bookMenu?.classList.toggle('open');
+    bookToggle.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', (e) => {
+    if (navBook && !navBook.contains(e.target as Node)) closeBook();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeBook();
   });
 </script>

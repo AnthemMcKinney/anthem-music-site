@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+
+const doors = [
+  {
+    kicker: "Private Lessons",
+    title: "One student, one instructor",
+    body: "Weekly one-on-one lessons for all ages and instruments - guitar, piano, violin, drums, voice, and more. Every new student starts with a free, no-pressure consultation to find the right instructor, instrument, and plan.",
+    cta: "Book a Consultation",
+    href: "/schedule",
+    note: "Free consultation · all ages & instruments",
+  },
+  {
+    kicker: "Group Classes",
+    title: "Learn together",
+    body: "PreK Music, Youth Group, and our semester-based Homeschool Music classes. Pick a class to see its day, time, and open seats - and your first class is always free.",
+    cta: "See Class Times",
+    href: "/book-a-class",
+    note: "First class free · seats fill fast",
+  },
+  {
+    kicker: "Live Music for Events",
+    title: "Music for your occasion",
+    body: "Hire a pianist, violinist, or guitarist - or a full ensemble - for private parties, wedding ceremonies, and special occasions. Tell us about your event and we'll check availability and send a quote.",
+    cta: "Request Live Music",
+    href: "/book-a-performer",
+    note: "Private parties · weddings · events",
+  },
+];
+---
+<Base
+  path="/get-started"
+  title="Get Started | Anthem Music McKinney"
+  description="Three ways to make music with Anthem Music in downtown McKinney: private lessons, group classes, and live music for your events. Pick what fits and get started.">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Get Started</span>
+      <h1 class="center">How can we help you make music?</h1>
+      <p class="lead mx-auto center">Three ways to get going at Anthem - pick the one that fits. Not sure? Start with a consultation and we'll help you find the right path.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1.5rem;">
+    <div class="container">
+      <div class="doors-grid">
+        {doors.map((d, i) => (
+          <a href={d.href} class="door-card">
+            <span class="door-num" aria-hidden="true">{i + 1}</span>
+            <span class="door-kicker">{d.kicker}</span>
+            <h2>{d.title}</h2>
+            <p>{d.body}</p>
+            <span class="door-note">{d.note}</span>
+            <span class="door-cta">{d.cta} <span aria-hidden="true">→</span></span>
+          </a>
+        ))}
+      </div>
+
+      <p class="doors-help center">Still not sure which fits? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a> - we're happy to help you choose.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+
+  .doors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-items: stretch; }
+  .door-card {
+    display: flex; flex-direction: column; position: relative;
+    background: var(--white); border: 1px solid var(--line); border-radius: 16px;
+    padding: 2rem 1.7rem 1.7rem; color: var(--navy);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .door-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(13,31,60,.14);
+    border-color: var(--orange);
+  }
+  .door-num {
+    position: absolute; top: 1.4rem; right: 1.5rem;
+    font-family: var(--font-display); font-size: 1.6rem; color: var(--line); font-weight: 700;
+  }
+  .door-kicker { color: var(--orange); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .door-card h2 { color: var(--navy); font-size: 1.4rem; margin: 0.4rem 0 0.7rem; }
+  .door-card p { color: var(--gray); font-size: 0.96rem; line-height: 1.6; margin: 0 0 1.2rem; }
+  .door-note { color: var(--gray-light); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em; margin-bottom: 1.3rem; }
+  .door-cta { margin-top: auto; align-self: flex-start; background: var(--orange); color: #fff; font-weight: 600; font-size: 0.95rem; padding: 0.65rem 1.2rem; border-radius: 10px; }
+  .door-card:hover .door-cta { background: var(--orange-dark); }
+
+  .doors-help { margin-top: 2.2rem; color: var(--gray); font-size: 0.95rem; }
+  .doors-help a { color: var(--orange); font-weight: 500; }
+
+  @media (max-width: 860px) {
+    .doors-grid { grid-template-columns: 1fr; gap: 1.1rem; }
+    .door-card { padding: 1.5rem 1.4rem; }
+  }
+</style>

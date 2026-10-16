@@ -12,6 +12,12 @@ import Base from '../layouts/Base.astro';
 
   <section class="section" style="padding-top:1rem;">
     <div class="container widget-wrap">
+      <div class="other-doors">
+        <span class="other-doors-label">Here for something else?</span>
+        <a href="/book-a-class">Group Classes <span aria-hidden="true">→</span></a>
+        <a href="/book-a-performer">Live Music for Events <span aria-hidden="true">→</span></a>
+        <a href="/get-started" class="other-doors-all">See all options</a>
+      </div>
       <div class="howto">
         <h2>How booking works</h2>
         <p>Most programs, lessons, and classes at Anthem start with a worry-free consultation.</p>
@@ -23,12 +29,6 @@ import Base from '../layouts/Base.astro';
         <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3p3MEpiSjUifQ=="></script>
       </div>
       <p class="widget-help center">Questions before booking? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>.</p>
-
-      <div class="event-crosslink">
-        <h3>Planning an event?</h3>
-        <p>Request a pianist, violinist or guitarist for a private party, wedding ceremony, or special occasion.</p>
-        <a href="/book-a-performer" class="btn btn-outline">Book a Performer</a>
-      </div>
     </div>
   </section>
 </Base>
@@ -52,7 +52,10 @@ import Base from '../layouts/Base.astro';
   .class-crosslink { margin-top: 1.4rem; }
   .class-crosslink p { color: var(--gray); font-size: 0.95rem; }
   .class-crosslink a { color: var(--orange); font-weight: 600; }
-  .event-crosslink { max-width: 760px; margin: 2.2rem auto 0; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem 1.8rem; text-align: center; }
-  .event-crosslink h3 { color: var(--navy); font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .event-crosslink p { color: var(--gray); margin: 0 auto 1.1rem; max-width: 52ch; }
+  .other-doors { max-width: 760px; margin: 0 auto 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.3rem; padding: 0.9rem 1.3rem; background: var(--navy); border-radius: 12px; }
+  .other-doors-label { color: var(--cream); font-size: 0.9rem; font-weight: 600; }
+  .other-doors a { color: var(--cream); font-size: 0.92rem; font-weight: 600; }
+  .other-doors a:hover { color: #fff; text-decoration: underline; }
+  .other-doors-all { margin-left: auto; color: #F6C544 !important; }
+  @media (max-width: 560px) { .other-doors-all { margin-left: 0; } }
 </style>
