@@ -1,13 +1,13 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=51';
 import {TunerAudio} from './tuner/audio.js?v=69';
-import {GaugeState} from './tuner/gauge.js?v=3.7ep';
+import {GaugeState} from './tuner/gauge.js?v=3.7ev';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7ep';
-import {initChords} from './tuner/chords.js?v=3.7ep';
+import {initMetronome} from './tuner/metronome.js?v=3.7ev';
+import {initChords} from './tuner/chords.js?v=3.7ev';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -83,8 +83,30 @@ attachDiagnostic(engine,()=>({instrument:instrument.id,tuning:instrument.tunings
  visibleNote:$('target-note').textContent+$('target-octave').textContent,visibleHz:$('frequency').textContent,
  visibleCents:$('cents').textContent,guidance:$('guidance').textContent,stale:panel.dataset.stale==='true'}));
 function selectString(index,lock=false){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(lock){auto=false;if(listening||starting)stopListening();}stringIndex=index;selector.reset();engine.tracker.reset();clear();renderStrings();renderMode();}
+function renderInstrumentNotes(){
+ const details=$('instrument-notes'),open=$('instrument-info-open'),title=$('instrument-notes-title'),body=$('instrument-notes-body');
+ if(!details||!open||!body)return;
+ const pitchNames=notes().map(note=>note.replace(/\d$/,'').replace('b','♭').replace('#','♯'));
+ details.hidden=open.hidden=chromatic();
+ if(details.hidden&&details.open)details.close();
+ if(details.hidden)return;
+ if(instrument.id==='guitar'){
+  title.textContent='Know your guitar';
+  body.innerHTML='<p><strong>Remember the open strings:</strong> From the lowest/thickest string to the highest/thinnest string, say “<b>E</b>ddie <b>A</b>te <b>D</b>ynamite <b>G</b>ood <b>B</b>ye <b>E</b>ddie.”</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary by manufacturer, but commonly appear at frets 3, 5, 7, 9, and 12; the pattern begins again after fret 12.</p><button type="button" class="tuner-note-image" aria-label="Enlarge guitar string and fret map"><img src="./images/objective-one/guitar-string-and-fret-map.png" alt="Guitar open-string names, fret spaces, and high and low orientation"></button>';
+  return;
+ }
+ if(instrument.id==='ukulele'){
+  const baritone=instrument.tunings[tuningIndex][0]==='Baritone',phrase=baritone?'<b>D</b>onkeys <b>G</b>row <b>B</b>ig <b>E</b>ars':'<b>G</b>ood <b>C</b>hildren <b>E</b>at <b>A</b>pples';
+  title.textContent=baritone?'Know your baritone ukulele':'Know your ukulele';
+  body.innerHTML=`<p><strong>Remember the open strings:</strong> Say “${phrase}.” Your selected tuning is ${pitchNames.join(' · ')}.</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary, but commonly appear on odd-numbered frets with a special marker at fret 12.</p>`;
+  return;
+ }
+ title.textContent=`Know your ${instrument.name.toLowerCase()}`;
+ body.innerHTML=`<p><strong>Open strings:</strong> From the lowest listed string to the highest, this tuning is ${pitchNames.join(' · ')}. Tap each string above to hear its target note before tuning.</p>`;
+}
 function renderStrings(){
  const guitar=instrument.id==='guitar', container=$('strings');
+ renderInstrumentNotes();
  panel.dataset.instrument=instrument.id;
  container.dataset.instrument=instrument.id;
  container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());container.classList.toggle('chromatic-guide',instrument.id==='chromatic');
@@ -160,6 +182,9 @@ function renderInstrument(){
  selectString(chromatic()?notes().indexOf('A4'):0);
 }
 $('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument-choice').value)];tuningIndex=0;auto=false;renderInstrument();};
+$('instrument-info-open').onclick=()=>$('instrument-notes').showModal();
+$('instrument-notes').addEventListener('click',event=>{if(event.target===$('instrument-notes')||event.target.closest('.instrument-info-close'))$('instrument-notes').close();else if(event.target.closest('.tuner-note-image'))$('tuner-note-dialog').showModal();});
+$('tuner-note-dialog').addEventListener('click',event=>{if(event.target===$('tuner-note-dialog')||event.target.closest('.tuner-note-dialog-close'))$('tuner-note-dialog').close();});
 $('auto-mode').onclick=()=>{if(listening||starting){auto=false;stopListening();renderMode();return;}auto=true;selector.reset();trend=null;renderMode();void startListening();};
 $('tuning').onchange=()=>{tuningIndex=Number($('tuning').value);selectString(chromatic()?notes().indexOf('A4'):0);};
 let requestId=0,resumeWanted=false,resuming=false;
@@ -215,7 +240,7 @@ moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.<
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.114';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.120';moreBody.append(copyright,feedback,version);
 const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();

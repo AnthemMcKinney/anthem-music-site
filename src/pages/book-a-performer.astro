@@ -1,0 +1,164 @@
+---
+import Base from '../layouts/Base.astro';
+
+// ---------------------------------------------------------------------------
+// Request delivery: MMS Sign-Up widget (Dan's decision, 2026-10-16).
+// Requests route to info@anthemmusic.net via MMS notifications.
+//
+// Paste the MMS Sign-Up widget's <script> embed (from MMS -> Website ->
+// Sign-Up / Form widget) into the #mms-performer-request container below,
+// exactly as /schedule and /book-a-class embed their widgets.
+//
+// The widget MUST be request-only: no calendar/slot booking, no weekly lesson
+// or package enrollment, no automatic portal invitation, and it must notify
+// info@anthemmusic.net. If MMS cannot provide that, the standalone form
+// fallback is preserved in OneDrive\Anthem Ops Mgt\Book-a-Performer-fallback-form.astro.txt
+//
+// WIDGET_EMBED_READY stays false until the real embed is in place; while false
+// the page shows a call/email path instead of a broken/empty widget, so nothing
+// decorative ships. Flip to true only after the embed is pasted and tested.
+// ---------------------------------------------------------------------------
+const WIDGET_EMBED_READY = true;
+---
+<Base
+  path="/book-a-performer"
+  title="Book a Performer | Live Piano, Violin & Guitar | Anthem Music McKinney"
+  description="Request a live performer from Anthem Music in McKinney - piano, violin, and guitar for private parties, wedding ceremonies, and special occasions. Tell us about your event and we'll check availability and send a quote.">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Live Music for Your Event</span>
+      <h1 class="center">Book a Performer</h1>
+      <p class="lead mx-auto center">Live piano, violin and guitar for private parties, wedding ceremonies and special occasions. Tell us about your event and we'll help you find the right performer.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1.5rem;">
+    <div class="container bp-wrap">
+
+      <!-- Pricing -->
+      <div class="bp-pricing">
+        <div class="bp-price-card">
+          <span class="bp-price-label">Private parties</span>
+          <span class="bp-price-figure">$150<span>/hour</span></span>
+          <span class="bp-price-note">Two-hour minimum ($300)</span>
+        </div>
+        <div class="bp-price-card">
+          <span class="bp-price-label">Wedding ceremonies</span>
+          <span class="bp-price-figure">from $350</span>
+          <span class="bp-price-note">Based on your ceremony details</span>
+        </div>
+        <p class="bp-price-fine">Final pricing depends on the event details and agreed requirements.</p>
+      </div>
+
+      <!-- How it works -->
+      <div class="bp-steps">
+        <h2>How it works</h2>
+        <div class="bp-steps-grid">
+          <div class="bp-step">
+            <span class="bp-step-num">1</span>
+            <div>
+              <strong>Request your event</strong>
+              <p>Share your date, venue, and what you have in mind using the form below.</p>
+            </div>
+          </div>
+          <div class="bp-step">
+            <span class="bp-step-num">2</span>
+            <div>
+              <strong>Confirm performer &amp; quote</strong>
+              <p>We check availability with the performer, confirm the scope, and send you a quote.</p>
+            </div>
+          </div>
+          <div class="bp-step">
+            <span class="bp-step-num">3</span>
+            <div>
+              <strong>Finalize your booking</strong>
+              <p>Once you approve the quote and we confirm the arrangements, your event is booked.</p>
+            </div>
+          </div>
+        </div>
+        <p class="bp-steps-note">Submitting a request doesn't book or charge anything. Your event is confirmed only after Anthem confirms the arrangements.</p>
+      </div>
+
+      <!-- Consultation note -->
+      <div class="bp-consult">
+        <h3>Meet your performer first</h3>
+        <p>We recommend a complimentary 15-minute conversation with your performer to discuss music and event details. Consultations are arranged within the performer's existing availability - just let us know in your request and we'll coordinate a time with you.</p>
+      </div>
+
+      <!-- Request (MMS Sign-Up widget) -->
+      <div class="bp-request">
+        <h2 id="request">Request availability &amp; a quote</h2>
+        <p class="bp-request-intro">Tell us about your event below. No payment is collected and nothing is booked yet - we'll review your details, check performer availability, and follow up with a quote.</p>
+
+        {WIDGET_EMBED_READY ? (
+          <div id="mms-performer-request">
+            <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3pycFBaSmMifQ=="></script>
+          </div>
+        ) : (
+          <div class="bp-held" role="note">
+            <p><strong>Online request form is coming online shortly.</strong></p>
+            <p>To request a performer for your event right now, call or text <a href="tel:+14695009863">(469) 500-9863</a> or email <a href="mailto:info@anthemmusic.net?subject=Performance%20request">info@anthemmusic.net</a> with your date, venue, instrument, and a few details. We'll check availability and follow up with a quote.</p>
+          </div>
+        )}
+      </div>
+
+      <p class="widget-help center">Prefer to talk it through first? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>.</p>
+
+      <!-- Lesson/class booking is separate from event requests. -->
+      <p class="bp-crosslink center">Looking for music <strong>lessons</strong> instead? <a href="/schedule">Book a consultation</a> or <a href="/book-a-class">see group class times</a>.</p>
+
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .bp-wrap { max-width: 920px; }
+
+  /* Pricing */
+  .bp-pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .bp-price-card { background: var(--navy); color: var(--cream); border-radius: 14px; padding: 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .bp-price-label { font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); opacity: 0.8; font-weight: 600; }
+  .bp-price-figure { font-family: var(--font-display); font-size: 2rem; color: var(--cream); line-height: 1.1; }
+  .bp-price-figure span { font-size: 1rem; opacity: 0.8; }
+  .bp-price-note { font-size: 0.9rem; color: var(--cream); opacity: 0.75; }
+  .bp-price-fine { grid-column: 1 / -1; color: var(--gray); font-size: 0.92rem; margin: 0.2rem 0 0; }
+
+  /* Steps */
+  .bp-steps { margin-bottom: 2rem; }
+  .bp-steps h2, .bp-consult h3, .bp-request h2 { color: var(--navy); }
+  .bp-steps h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+  .bp-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .bp-step { display: flex; gap: 0.8rem; align-items: flex-start; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
+  .bp-step-num { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .bp-step strong { color: var(--navy); display: block; margin-bottom: 0.25rem; }
+  .bp-step p { color: var(--gray); font-size: 0.92rem; margin: 0; }
+  .bp-steps-note { color: var(--gray); font-size: 0.92rem; margin-top: 1rem; }
+
+  /* Consultation */
+  .bp-consult { background: var(--cream-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 12px; padding: 1.3rem 1.5rem; margin-bottom: 2.2rem; }
+  .bp-consult h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .bp-consult p { color: var(--gray); margin: 0; }
+
+  /* Request */
+  .bp-request { margin-bottom: 1rem; }
+  .bp-request h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .bp-request-intro { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.4rem; max-width: 60ch; }
+  #mms-performer-request { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
+  .bp-held { background: var(--cream-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 12px; padding: 1.4rem 1.6rem; }
+  .bp-held p { color: var(--gray); margin: 0 0 0.6rem; }
+  .bp-held p:last-child { margin-bottom: 0; }
+  .bp-held strong { color: var(--navy); }
+  .bp-held a { color: var(--orange); font-weight: 500; }
+
+  .widget-help { margin-top: 1.8rem; color: var(--gray); font-size: 0.95rem; }
+  .widget-help a, .bp-crosslink a { color: var(--orange); font-weight: 500; }
+  .bp-crosslink { margin-top: 0.8rem; color: var(--gray); font-size: 0.95rem; }
+
+  @media (max-width: 720px) {
+    .bp-pricing { grid-template-columns: 1fr; }
+    .bp-steps-grid { grid-template-columns: 1fr; }
+  }
+</style>

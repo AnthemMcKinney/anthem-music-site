@@ -5,6 +5,7 @@
  --theme-accent:#e85d1a;--theme-accent-deep:#c54a12;--theme-nav:#0d1f3c;--theme-nav-active:#1a3150;
  color-scheme:light;
 }
+
 html[data-theme=soft]{
  --theme-page:#edf0ee;--theme-surface:#fbfcfb;--theme-soft:#f1f4f2;--theme-soft-2:#e4e9e6;
  --theme-ink:#263f4a;--theme-text:#40545b;--theme-muted:#68777b;--theme-border:#c9d1ce;
@@ -586,6 +587,27 @@ body[data-view=chords] .objective-panel[data-objective=practice] .objective-libr
 html[data-theme^=dark] .open-string-symbol{background:var(--theme-nav)}
 html[data-theme^=dark] .chord-diagram .open{fill:var(--theme-nav)}
 .muted-string-symbol{display:inline-grid;place-items:center;width:13px;height:13px;flex:0 0 13px;color:var(--theme-accent);font:900 18px/13px Arial;font-style:normal}
+.objective-one-visuals{margin-top:14px;padding-top:12px;border-top:1px solid var(--theme-border)}
+.objective-one-visuals>p{margin:0 0 8px;color:var(--theme-accent-deep);font-size:9px;font-weight:900;letter-spacing:1.1px}
+.objective-one-visuals>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.objective-one-visuals button{display:grid;place-items:center;min-width:0;height:92px;padding:6px;border:1px solid var(--theme-border);border-radius:7px;background:var(--theme-surface);cursor:zoom-in}
+.objective-one-visuals button:focus-visible{outline:2px solid var(--theme-accent);outline-offset:2px}
+.objective-one-visuals img{display:block;width:100%;height:100%;object-fit:contain}
+.objective-one-return button{padding:2px 7px;border:1px solid var(--theme-accent);border-radius:999px;background:transparent;color:var(--theme-accent-deep);font:800 11px var(--app-font);cursor:pointer}
+.objective-image-dialog{box-sizing:border-box;width:min(92vw,900px);max-height:88vh;padding:42px 18px 16px;border:2px solid var(--theme-accent);border-radius:12px;background:var(--theme-surface);color:var(--theme-ink);box-shadow:0 18px 60px #0008}
+.objective-image-dialog::backdrop{background:#071329cc}
+.objective-image-dialog img{display:block;width:100%;max-height:68vh;object-fit:contain}
+.objective-image-dialog p{margin:10px 0 0;text-align:center;font-size:13px;font-weight:700}
+.objective-image-close{position:absolute;top:8px;right:10px;display:grid;place-items:center;width:28px;height:28px;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-soft);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
+@media(max-width:600px){.objective-one-visuals>div{grid-template-columns:1fr 1fr}.objective-one-visuals button{height:80px}.objective-one-visuals button:first-child{grid-column:1/-1}.objective-image-dialog{padding-inline:10px}}
+.instrument-info-open{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:28px;padding:4px 9px;border:1px solid var(--theme-border);border-radius:999px;background:var(--theme-soft);color:var(--theme-ink);font:900 9px/1 var(--app-font);letter-spacing:.55px;text-transform:uppercase;white-space:nowrap}.instrument-info-open>span{display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--theme-accent);color:var(--theme-on-accent);font:900 11px/1 Georgia,serif;text-transform:none}
+.instrument-info-dialog{box-sizing:border-box;width:min(92vw,760px);max-height:88vh;padding:0;border:1px solid var(--theme-border);border-top:5px solid var(--theme-accent);border-radius:12px;background:var(--theme-soft);color:var(--theme-ink);box-shadow:0 18px 60px #0008;overflow:auto}.instrument-info-dialog::backdrop{background:#071329cc}.instrument-info-heading{padding:20px 48px 8px 22px}.instrument-info-heading small{display:block;color:var(--theme-accent-deep);font-size:9px;font-weight:900;letter-spacing:1.2px}.instrument-info-heading h2{margin:3px 0 0;color:var(--theme-ink);font-size:23px}.instrument-info-close{position:absolute;top:10px;right:12px;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-surface);color:var(--theme-ink);font:900 20px/1 Arial}.tuner-note-body{padding:2px 22px 22px}.tuner-note-body p{margin:8px 0;font-size:13px;line-height:1.55}.tuner-note-image{display:block;width:min(100%,700px);margin:14px auto 0;padding:6px;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-surface);cursor:zoom-in}.tuner-note-image img{display:block;width:100%;height:auto}.tuner-note-dialog{box-sizing:border-box;width:min(94vw,960px);padding:42px 12px 12px;border:2px solid var(--theme-accent);border-radius:12px;background:var(--theme-surface)}.tuner-note-dialog::backdrop{background:#071329cc}.tuner-note-dialog img{display:block;width:100%;height:auto}.tuner-note-dialog-close{position:absolute;top:8px;right:10px;display:grid;place-items:center;width:28px;height:28px;border:1px solid var(--theme-border);border-radius:50%;background:var(--theme-soft);color:var(--theme-ink);font:900 20px/1 Arial}
+.chords-hero .instrument-path-picker{align-self:stretch;display:grid;grid-template-rows:minmax(0,1fr) auto}.chords-hero .instrument-path-details,.chords-hero .instrument-path-details>summary,.chords-hero .instrument-path-caption{height:100%}.chords-hero .instrument-path-caption{min-height:38px}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav){display:grid;grid-template-columns:minmax(0,1fr) auto 34px;gap:6px;padding-right:0}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{min-width:0;padding-right:0}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{position:static;margin:0}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{position:static;grid-column:3}
+@media(max-width:600px){.panel-top{gap:5px}.instrument-info-open{padding-inline:6px;font-size:8px;letter-spacing:.35px}.instrument-info-open>span{width:15px;height:15px}.instrument-info-heading{padding-left:14px}.tuner-note-body{padding-left:14px;padding-right:14px}.chords-hero .instrument-path-caption{min-height:34px}}
 body[data-view=chords] .objective-panel[data-objective=one] .chord-grid .chord-card{height:auto;min-height:190px}
 
 /* Requested exercises follow the same section-row language as Practice and Strumming. */
@@ -678,3 +700,17 @@ body[data-view=chords] .objective-practice-card .practice-transition h2{margin:0
  body[data-view=chords] .objective-practice-disclosure>summary strong{font-size:16px}
  body[data-view=chords] .objective-practice-disclosure-body{padding:7px}
 }
+
+/* Final sizing safeguards for the tuner diagram, hero copy, and chord options. */
+.tuner-note-dialog{max-height:90vh;overflow:auto}
+.tuner-note-dialog img{max-height:76vh;object-fit:contain}
+.chords-hero .chords-hero-subtitle{white-space:nowrap}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{grid-column:2;grid-row:1;position:static;margin:0}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{grid-column:3;grid-row:1;position:static}
+@media(max-width:600px){.chords-hero .chords-hero-subtitle{font-size:8px!important;letter-spacing:-.1px}}
+
+/* Keep disclosure marks optically centered and make lesson numbers scannable while closed. */
+body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .progression-details>summary{position:relative;padding-right:48px}
+body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objective=strumming]) .progression-details>summary:before{display:grid;place-items:center;line-height:1!important;text-indent:0;padding:0 0 1px}
+.progression-summary-number{position:absolute;right:11px;top:50%;translate:0 -50%;display:grid;place-items:center;width:25px;height:25px;border:1.5px solid var(--theme-accent);border-radius:50%;background:var(--theme-surface);color:var(--theme-accent-deep);font:900 11px/1 var(--app-font)}
+html[data-theme^=dark] .progression-summary-number{background:var(--theme-soft)}
