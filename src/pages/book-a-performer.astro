@@ -1,24 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// ---------------------------------------------------------------------------
-// Request delivery: MMS Sign-Up widget (Dan's decision, 2026-10-16).
-// Requests route to info@anthemmusic.net via MMS notifications.
-//
-// Paste the MMS Sign-Up widget's <script> embed (from MMS -> Website ->
-// Sign-Up / Form widget) into the #mms-performer-request container below,
-// exactly as /schedule and /book-a-class embed their widgets.
-//
-// The widget MUST be request-only: no calendar/slot booking, no weekly lesson
-// or package enrollment, no automatic portal invitation, and it must notify
-// info@anthemmusic.net. If MMS cannot provide that, the standalone form
-// fallback is preserved in OneDrive\Anthem Ops Mgt\Book-a-Performer-fallback-form.astro.txt
-//
-// WIDGET_EMBED_READY stays false until the real embed is in place; while false
-// the page shows a call/email path instead of a broken/empty widget, so nothing
-// decorative ships. Flip to true only after the embed is pasted and tested.
-// ---------------------------------------------------------------------------
-const WIDGET_EMBED_READY = true;
+// Request delivery: Web3Forms -> info@anthemmusic.net (Dan's decision, 2026-10-16).
+// Each submission emails the full request to info@; Dan reviews, then creates the
+// MMS Live Performance event + purchaser attendee by hand after confirming scope.
+// The Web3Forms access key is public-safe by design (submissions route only to the
+// address tied to the key). No MMS account/enrollment is created by this form.
+const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = 'fa609d8f-6ea8-4c09-82bb-103ccc0baa08';
 ---
 <Base
   path="/book-a-performer"
@@ -36,7 +25,6 @@ const WIDGET_EMBED_READY = true;
   <section class="section" style="padding-top:1.5rem;">
     <div class="container bp-wrap">
 
-      <!-- Pricing -->
       <div class="bp-pricing">
         <div class="bp-price-card">
           <span class="bp-price-label">Private parties</span>
@@ -51,73 +39,332 @@ const WIDGET_EMBED_READY = true;
         <p class="bp-price-fine">Final pricing depends on the event details and agreed requirements.</p>
       </div>
 
-      <!-- How it works -->
       <div class="bp-steps">
         <h2>How it works</h2>
         <div class="bp-steps-grid">
-          <div class="bp-step">
-            <span class="bp-step-num">1</span>
-            <div>
-              <strong>Request your event</strong>
-              <p>Share your date, venue, and what you have in mind using the form below.</p>
-            </div>
-          </div>
-          <div class="bp-step">
-            <span class="bp-step-num">2</span>
-            <div>
-              <strong>Confirm performer &amp; quote</strong>
-              <p>We check availability with the performer, confirm the scope, and send you a quote.</p>
-            </div>
-          </div>
-          <div class="bp-step">
-            <span class="bp-step-num">3</span>
-            <div>
-              <strong>Finalize your booking</strong>
-              <p>Once you approve the quote and we confirm the arrangements, your event is booked.</p>
-            </div>
-          </div>
+          <div class="bp-step"><span class="bp-step-num">1</span><div><strong>Request your event</strong><p>Share your date, venue, and what you have in mind using the form below.</p></div></div>
+          <div class="bp-step"><span class="bp-step-num">2</span><div><strong>Confirm performer &amp; quote</strong><p>We check availability with the performer, confirm the scope, and send you a quote.</p></div></div>
+          <div class="bp-step"><span class="bp-step-num">3</span><div><strong>Finalize your booking</strong><p>Once you approve the quote and we confirm the arrangements, your event is booked.</p></div></div>
         </div>
         <p class="bp-steps-note">Submitting a request doesn't book or charge anything. Your event is confirmed only after Anthem confirms the arrangements.</p>
       </div>
 
-      <!-- Consultation note -->
       <div class="bp-consult">
         <h3>Meet your performer first</h3>
-        <p>We recommend a complimentary 15-minute conversation with your performer to discuss music and event details. Consultations are arranged within the performer's existing availability - just let us know in your request and we'll coordinate a time with you.</p>
+        <p>We recommend a complimentary 15-minute conversation with your performer to discuss music and event details. Consultations are arranged within the performer's existing availability - just let us know in the form and we'll coordinate a time with you.</p>
       </div>
 
-      <!-- Request (MMS Sign-Up widget) -->
-      <div class="bp-request">
+      <div class="bp-form-card">
         <h2 id="request">Request availability &amp; a quote</h2>
-        <p class="bp-request-intro">Tell us about your event below. No payment is collected and nothing is booked yet - we'll review your details, check performer availability, and follow up with a quote.</p>
+        <p class="bp-form-intro">Tell us about your event. Fields marked <span aria-hidden="true">*</span><span class="sr-only">(required)</span> are required; everything else helps us plan but is optional.</p>
 
-        {WIDGET_EMBED_READY ? (
-          <div id="mms-performer-request">
-            <script is:inline src="https://app.mymusicstaff.com/Widget/v4/Widget.ashx?settings=eyJTY2hvb2xJRCI6InNjaF9Qc3RKNCIsIldlYnNpdGVJRCI6Indic190SnJKRyIsIldlYnNpdGVCbG9ja0lEIjoid2JiX3pycFBaSmMifQ=="></script>
+        <form id="bp-form" novalidate>
+          <div class="bp-hp" aria-hidden="true">
+            <label>Leave this field empty<input type="text" name="botcheck" tabindex="-1" autocomplete="off" /></label>
           </div>
-        ) : (
-          <div class="bp-held" role="note">
-            <p><strong>Online request form is coming online shortly.</strong></p>
-            <p>To request a performer for your event right now, call or text <a href="tel:+14695009863">(469) 500-9863</a> or email <a href="mailto:info@anthemmusic.net?subject=Performance%20request">info@anthemmusic.net</a> with your date, venue, instrument, and a few details. We'll check availability and follow up with a quote.</p>
+
+          <fieldset>
+            <legend>Your contact details</legend>
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="name" name="Name" autocomplete="name" required />
+                <span class="bp-err" data-err-for="name"></span>
+              </p>
+              <p class="bp-field">
+                <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="Email" autocomplete="email" required />
+                <span class="bp-err" data-err-for="email"></span>
+              </p>
+              <p class="bp-field">
+                <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
+                <input type="tel" id="phone" name="Phone" autocomplete="tel" required />
+                <span class="bp-err" data-err-for="phone"></span>
+              </p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>About your event</legend>
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="eventType">Event type <span class="req" aria-hidden="true">*</span></label>
+                <select id="eventType" name="Event type" required>
+                  <option value="">Choose one…</option>
+                  <option>Private party</option>
+                  <option>Wedding ceremony</option>
+                  <option>Other</option>
+                </select>
+                <span class="bp-err" data-err-for="eventType"></span>
+              </p>
+              <p class="bp-field">
+                <label for="instrument">Instrument / line-up <span class="req" aria-hidden="true">*</span></label>
+                <select id="instrument" name="Instrument or line-up" required>
+                  <option value="">Choose one…</option>
+                  <option>Piano</option>
+                  <option>Violin</option>
+                  <option>Guitar</option>
+                  <option>Multiple performers or ensemble (band)</option>
+                  <option>Help me choose</option>
+                </select>
+                <span class="bp-err" data-err-for="instrument"></span>
+              </p>
+            </div>
+
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="eventDate">Event date <span class="req" aria-hidden="true">*</span></label>
+                <input type="date" id="eventDate" name="Event date" />
+                <label class="bp-check"><input type="checkbox" id="dateTBD" name="Timing to be confirmed" value="Yes" /> Timing to be confirmed</label>
+                <span class="bp-err" data-err-for="eventDate"></span>
+              </p>
+              <p class="bp-field">
+                <label for="startTime">Start time</label>
+                <input type="time" id="startTime" name="Start time" />
+              </p>
+              <p class="bp-field">
+                <label for="endTime">End time</label>
+                <input type="time" id="endTime" name="End time" />
+              </p>
+              <p class="bp-field">
+                <label for="timezone">Time zone</label>
+                <select id="timezone" name="Time zone">
+                  <option value="Central (CT)" selected>Central (CT)</option>
+                  <option value="Eastern (ET)">Eastern (ET)</option>
+                  <option value="Mountain (MT)">Mountain (MT)</option>
+                  <option value="Pacific (PT)">Pacific (PT)</option>
+                  <option value="Other / not sure">Other / not sure</option>
+                </select>
+              </p>
+            </div>
+
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="venueName">Venue name <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="venueName" name="Venue name" required />
+                <span class="bp-err" data-err-for="venueName"></span>
+              </p>
+              <p class="bp-field">
+                <label for="venueCity">Venue city <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="venueCity" name="Venue city" required />
+                <span class="bp-err" data-err-for="venueCity"></span>
+              </p>
+              <p class="bp-field bp-field-wide">
+                <label for="venueAddress">Venue address <span class="bp-optional">(if known - leave blank for TBD)</span></label>
+                <input type="text" id="venueAddress" name="Venue address" autocomplete="street-address" />
+              </p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Performer &amp; consultation</legend>
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="performerPref">Performer preference <span class="req" aria-hidden="true">*</span></label>
+                <select id="performerPref" name="Performer preference" required>
+                  <option value="">Choose one…</option>
+                  <option value="Anthem recommendation">No preference - recommend the best fit</option>
+                  <option value="Specific performer">I have a specific performer in mind</option>
+                </select>
+                <span class="bp-err" data-err-for="performerPref"></span>
+              </p>
+              <p class="bp-field" id="performerNameWrap" hidden>
+                <label for="performerName">Which performer?</label>
+                <input type="text" id="performerName" name="Requested performer" />
+              </p>
+            </div>
+            <fieldset class="bp-radios">
+              <legend>Would you like a complimentary 15-minute conversation with your performer? <span class="req" aria-hidden="true">*</span></legend>
+              <label class="bp-radio"><input type="radio" name="Consultation preference" value="Yes - 15-minute conversation" required /> Yes, a free 15-minute conversation</label>
+              <label class="bp-radio"><input type="radio" name="Consultation preference" value="Video review first" /> I'd rather review a video first</label>
+              <label class="bp-radio"><input type="radio" name="Consultation preference" value="No preference" /> No preference</label>
+              <span class="bp-err" data-err-for="consult"></span>
+            </fieldset>
+          </fieldset>
+
+          <fieldset>
+            <legend>Details that help us plan <span class="bp-optional">(all optional)</span></legend>
+            <div class="bp-grid">
+              <p class="bp-field">
+                <label for="guestCount">Approx. guest count</label>
+                <input type="number" id="guestCount" name="Guest count" min="0" inputmode="numeric" />
+              </p>
+              <p class="bp-field">
+                <label for="musicStyle">Music style</label>
+                <input type="text" id="musicStyle" name="Music style" placeholder="e.g. classical, pop, jazz" />
+              </p>
+              <p class="bp-field">
+                <label for="setting">Setting</label>
+                <select id="setting" name="Setting">
+                  <option value="">Choose one…</option>
+                  <option>Indoor</option>
+                  <option>Outdoor</option>
+                  <option>Both / not sure</option>
+                </select>
+              </p>
+              <p class="bp-field">
+                <label for="pianoAvail">Piano available on site?</label>
+                <select id="pianoAvail" name="Piano available on site">
+                  <option value="">Choose one…</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                  <option>Not sure</option>
+                  <option>Not applicable</option>
+                </select>
+              </p>
+              <p class="bp-field">
+                <label for="power">Amplification / power needs</label>
+                <input type="text" id="power" name="Amplification / power needs" placeholder="e.g. outlet available, need amplification" />
+              </p>
+              <p class="bp-field">
+                <label for="access">Setup, access &amp; parking notes</label>
+                <input type="text" id="access" name="Setup / access / parking" />
+              </p>
+            </div>
+            <p class="bp-field bp-field-wide">
+              <label for="notes">Special requests &amp; additional notes</label>
+              <textarea id="notes" name="Special requests / notes" rows="4"></textarea>
+            </p>
+          </fieldset>
+
+          <div class="bp-submit-row">
+            <button type="submit" class="btn btn-primary" id="bp-submit">Request Availability &amp; Quote</button>
+            <p class="bp-privacy">We'll only use these details to plan your event and follow up. No payment is collected on this form.</p>
           </div>
-        )}
+
+          <p class="bp-form-error" id="bp-form-error" role="alert" hidden></p>
+        </form>
+
+        <div class="bp-receipt" id="bp-receipt" role="status" hidden>
+          <div class="bp-receipt-mark" aria-hidden="true">✓</div>
+          <h2>Request received</h2>
+          <p>Thank you—Anthem Music has received your performance request. We'll review your event details, check performer availability, and follow up with a quote. Your event is confirmed only after Anthem confirms the arrangements. If you requested a complimentary 15-minute performer consultation, we'll coordinate an available time with you.</p>
+          <p class="bp-receipt-contact">Questions in the meantime? Call or text <a href="tel:+14695009863">(469) 500-9863</a>.</p>
+        </div>
       </div>
 
       <p class="widget-help center">Prefer to talk it through first? Call or text us at <a href="tel:+14695009863">(469) 500-9863</a>.</p>
 
-      <!-- Lesson/class booking is separate from event requests. -->
       <p class="bp-crosslink center">Looking for music <strong>lessons</strong> instead? <a href="/schedule">Book a consultation</a> or <a href="/book-a-class">see group class times</a>.</p>
 
     </div>
   </section>
 </Base>
 
+<script is:inline>
+  (function () {
+    const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+    const ACCESS_KEY = 'fa609d8f-6ea8-4c09-82bb-103ccc0baa08';
+    const form = document.getElementById('bp-form');
+    if (!form) return;
+    const submitBtn = document.getElementById('bp-submit');
+    const formError = document.getElementById('bp-form-error');
+    const receipt = document.getElementById('bp-receipt');
+
+    const pref = document.getElementById('performerPref');
+    const nameWrap = document.getElementById('performerNameWrap');
+    pref.addEventListener('change', () => {
+      nameWrap.hidden = pref.value !== 'Specific performer';
+    });
+
+    const dateInput = document.getElementById('eventDate');
+    const dateTBD = document.getElementById('dateTBD');
+    dateTBD.addEventListener('change', () => {
+      dateInput.disabled = dateTBD.checked;
+      if (dateTBD.checked) clearError('eventDate');
+    });
+
+    function setError(key, msg) {
+      const el = form.querySelector('[data-err-for="' + key + '"]');
+      if (el) el.textContent = msg;
+      const field = document.getElementById(key);
+      if (field) field.setAttribute('aria-invalid', 'true');
+    }
+    function clearError(key) {
+      const el = form.querySelector('[data-err-for="' + key + '"]');
+      if (el) el.textContent = '';
+      const field = document.getElementById(key);
+      if (field) field.removeAttribute('aria-invalid');
+    }
+
+    function validate() {
+      let ok = true, firstBad = null;
+      const required = [
+        ['name', 'Please enter your name.'],
+        ['email', 'Please enter your email.'],
+        ['phone', 'Please enter a phone number.'],
+        ['eventType', 'Please choose an event type.'],
+        ['instrument', 'Please choose an instrument.'],
+        ['venueName', 'Please enter the venue name.'],
+        ['venueCity', 'Please enter the venue city.'],
+        ['performerPref', 'Please choose a performer preference.'],
+      ];
+      required.forEach(([key, msg]) => {
+        const field = document.getElementById(key);
+        if (!field.value.trim()) { setError(key, msg); ok = false; firstBad = firstBad || field; }
+        else clearError(key);
+      });
+      const email = document.getElementById('email');
+      if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+        setError('email', 'Please enter a valid email address.'); ok = false; firstBad = firstBad || email;
+      }
+      if (!dateTBD.checked && !dateInput.value) {
+        setError('eventDate', 'Choose a date, or check "timing to be confirmed."'); ok = false; firstBad = firstBad || dateInput;
+      } else clearError('eventDate');
+      const consult = form.querySelector('input[name="Consultation preference"]:checked');
+      if (!consult) {
+        const el = form.querySelector('[data-err-for="consult"]');
+        if (el) el.textContent = 'Please choose a consultation preference.';
+        ok = false; firstBad = firstBad || form.querySelector('input[name="Consultation preference"]');
+      } else {
+        const el = form.querySelector('[data-err-for="consult"]');
+        if (el) el.textContent = '';
+      }
+      if (firstBad) firstBad.focus();
+      return ok;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError.hidden = true;
+      if (!validate()) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const data = new FormData(form);
+      data.append('access_key', ACCESS_KEY);
+      data.append('subject', 'New Book a Performer request - Anthem Music');
+      data.append('from_name', 'Anthem Book a Performer');
+
+      try {
+        const res = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: data,
+        });
+        let okResp = res.ok;
+        try { const j = await res.json(); if (typeof j.success === 'boolean') okResp = j.success; } catch (_) {}
+        if (!okResp) throw new Error('bad response');
+        form.hidden = true;
+        receipt.hidden = false;
+        receipt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request Availability & Quote';
+        formError.hidden = false;
+        formError.textContent = 'Something went wrong sending your request. Please call or text (469) 500-9863 or email info@anthemmusic.net and we’ll help right away.';
+      }
+    });
+  })();
+</script>
+
 <style>
   .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2rem; }
   .page-hero h1 { margin-bottom: 1rem; }
   .bp-wrap { max-width: 920px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-  /* Pricing */
   .bp-pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
   .bp-price-card { background: var(--navy); color: var(--cream); border-radius: 14px; padding: 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.3rem; }
   .bp-price-label { font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); opacity: 0.8; font-weight: 600; }
@@ -126,9 +373,8 @@ const WIDGET_EMBED_READY = true;
   .bp-price-note { font-size: 0.9rem; color: var(--cream); opacity: 0.75; }
   .bp-price-fine { grid-column: 1 / -1; color: var(--gray); font-size: 0.92rem; margin: 0.2rem 0 0; }
 
-  /* Steps */
   .bp-steps { margin-bottom: 2rem; }
-  .bp-steps h2, .bp-consult h3, .bp-request h2 { color: var(--navy); }
+  .bp-steps h2, .bp-consult h3, .bp-form-card h2 { color: var(--navy); }
   .bp-steps h2 { font-size: 1.4rem; margin-bottom: 1rem; }
   .bp-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .bp-step { display: flex; gap: 0.8rem; align-items: flex-start; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
@@ -137,21 +383,48 @@ const WIDGET_EMBED_READY = true;
   .bp-step p { color: var(--gray); font-size: 0.92rem; margin: 0; }
   .bp-steps-note { color: var(--gray); font-size: 0.92rem; margin-top: 1rem; }
 
-  /* Consultation */
   .bp-consult { background: var(--cream-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 12px; padding: 1.3rem 1.5rem; margin-bottom: 2.2rem; }
   .bp-consult h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
   .bp-consult p { color: var(--gray); margin: 0; }
 
-  /* Request */
-  .bp-request { margin-bottom: 1rem; }
-  .bp-request h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
-  .bp-request-intro { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.4rem; max-width: 60ch; }
-  #mms-performer-request { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; min-height: 400px; }
-  .bp-held { background: var(--cream-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 12px; padding: 1.4rem 1.6rem; }
-  .bp-held p { color: var(--gray); margin: 0 0 0.6rem; }
-  .bp-held p:last-child { margin-bottom: 0; }
-  .bp-held strong { color: var(--navy); }
-  .bp-held a { color: var(--orange); font-weight: 500; }
+  .bp-form-card { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem; }
+  .bp-form-card h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .bp-form-intro { color: var(--gray); font-size: 0.95rem; margin-bottom: 1.4rem; }
+  #bp-form fieldset { border: 0; padding: 0; margin: 0 0 1.6rem; }
+  #bp-form > fieldset > legend { font-family: var(--font-display); color: var(--navy); font-size: 1.1rem; margin-bottom: 0.8rem; padding: 0; }
+  .bp-optional { color: var(--gray-light); font-weight: 400; font-size: 0.85em; }
+  .bp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.1rem; }
+  .bp-field { margin: 0 0 0.2rem; display: flex; flex-direction: column; }
+  .bp-field-wide { grid-column: 1 / -1; }
+  .bp-field label { color: var(--navy); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; }
+  .req { color: var(--orange); }
+  .bp-field input, .bp-field select, .bp-field textarea {
+    font: inherit; color: var(--navy); background: var(--white);
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem 0.7rem; width: 100%;
+  }
+  .bp-field input:focus, .bp-field select:focus, .bp-field textarea:focus {
+    outline: 2px solid var(--orange); outline-offset: 1px; border-color: var(--orange);
+  }
+  .bp-field input[aria-invalid="true"], .bp-field select[aria-invalid="true"] { border-color: #b4231a; }
+  .bp-check { flex-direction: row !important; align-items: center; gap: 0.45rem; font-weight: 400 !important; font-size: 0.88rem !important; color: var(--gray) !important; margin-top: 0.45rem; }
+  .bp-check input { width: auto; }
+  .bp-err { color: #b4231a; font-size: 0.82rem; min-height: 1em; margin-top: 0.3rem; }
+  .bp-radios { border: 1px solid var(--line) !important; border-radius: 10px; padding: 1rem 1.1rem !important; margin-top: 0.3rem; }
+  .bp-radios legend { color: var(--navy); font-weight: 600; font-size: 0.9rem; padding: 0 0.4rem; }
+  .bp-radio { display: flex; align-items: center; gap: 0.5rem; color: var(--navy); font-size: 0.95rem; padding: 0.3rem 0; }
+  .bp-radio input { width: auto; }
+  .bp-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .bp-submit-row { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  #bp-submit { font-size: 1.05rem; padding: 0.85rem 1.6rem; color: #fff; }
+  #bp-submit:disabled { opacity: 0.7; cursor: wait; }
+  .bp-privacy { color: var(--gray); font-size: 0.85rem; margin: 0; max-width: 42ch; }
+  .bp-form-error { color: #b4231a; background: #fdeceb; border: 1px solid #f3c7c3; border-radius: 8px; padding: 0.8rem 1rem; margin-top: 1.2rem; font-size: 0.95rem; }
+
+  .bp-receipt { text-align: center; padding: 1.5rem 1rem; }
+  .bp-receipt-mark { width: 3rem; height: 3rem; border-radius: 50%; background: #137a4b; color: #fff; display: grid; place-items: center; font-size: 1.6rem; margin: 0 auto 1rem; }
+  .bp-receipt h2 { color: var(--navy); margin-bottom: 0.6rem; }
+  .bp-receipt p { color: var(--gray); max-width: 54ch; margin: 0 auto 0.6rem; }
 
   .widget-help { margin-top: 1.8rem; color: var(--gray); font-size: 0.95rem; }
   .widget-help a, .bp-crosslink a { color: var(--orange); font-weight: 500; }
@@ -160,5 +433,7 @@ const WIDGET_EMBED_READY = true;
   @media (max-width: 720px) {
     .bp-pricing { grid-template-columns: 1fr; }
     .bp-steps-grid { grid-template-columns: 1fr; }
+    .bp-grid { grid-template-columns: 1fr; }
+    .bp-form-card { padding: 1.3rem 1.1rem; }
   }
 </style>
