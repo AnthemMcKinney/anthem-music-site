@@ -7,10 +7,12 @@ const {
   title = "Anthem Music | Music Lessons in Downtown McKinney, TX",
   description = "Guitar, piano, violin, drums, and brass lessons for all ages in downtown McKinney. A family-centered music studio rooted in craft, mentorship, and real musicianship.",
   path = "",
+  ogImage = "/images/og-image.jpg",
 } = Astro.props;
 
 const site = "https://anthemmusic.net";
 const canonical = site + path;
+const ogImageUrl = site + ogImage;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +29,12 @@ const canonical = site + path;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={`${site}/images/og-image.jpg`} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={ogImageUrl} />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
