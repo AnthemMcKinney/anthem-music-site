@@ -45,9 +45,11 @@ const instructors = [
 const announcement = {
   active: true,
   expires: "2026-10-24",
+  image: "/images/britton-flags.jpg",
+  imageAlt: "Britton Lowenthal, piano teacher at Anthem Music, at the Plano Flags of Honor",
   eyebrow: "A quick favor from the Anthem family",
-  heading: "Help Britton play TAPS again this year",
-  body: "Our lead piano instructor, Britton Lowenthal, is in the running to perform TAPS for the Plano Flags of Honor for a third year - and selection comes down to likes on her video. A ten-second like genuinely helps. Thank you!",
+  heading: "Help our piano teacher play TAPS again",
+  body: "Britton Lowenthal, who teaches piano here at Anthem, is in the running to perform TAPS at the Plano Flags of Honor for a third year - and selection comes down to likes on her video. A ten-second like genuinely helps. Thank you!",
   ctaLabel: "Like Britton's video →",
   ctaHref: "https://youtube.com/shorts/B92fUh75tvI",
 };
@@ -96,7 +98,8 @@ const announcement = {
   {/* Navy callout under the hero: an announcement (when active) or the free-app promo. */}
   {announcement.active && (
     <section class="tuner-strip announce-strip" id="announce-band" data-expires={announcement.expires}>
-      <div class="container tuner-strip-inner">
+      <div class="container tuner-strip-inner announce-inner">
+        {announcement.image && <img class="announce-photo" src={announcement.image} alt={announcement.imageAlt} width="320" height="400" loading="lazy" />}
         <div class="tuner-strip-text">
           <span class="ts-eyebrow">{announcement.eyebrow}</span>
           <h2>{announcement.heading}</h2>
@@ -277,6 +280,8 @@ const announcement = {
   .ts-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; flex: none; }
   .ts-link { color: var(--cream); font-weight: 600; font-size: 0.95rem; text-decoration: underline; white-space: nowrap; }
   .ts-link:hover { color: var(--orange); }
+  .announce-photo { width: 96px; height: 120px; object-fit: cover; border-radius: 10px; flex: none; box-shadow: 0 6px 16px rgba(0,0,0,.28); }
+  .announce-inner .tuner-strip-text { flex: 1 1 300px; }
   @media (max-width: 640px) { .tuner-strip-inner { flex-direction: column; align-items: flex-start; } }
 
   .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
