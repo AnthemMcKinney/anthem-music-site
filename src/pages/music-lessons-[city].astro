@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+
+// City / service-area landing pages. Real, differentiated content per city - these
+// target "music lessons [city]" and feed "near me" for North Collin County, anchored
+// by the West McKinney studio's proximity to Frisco, Prosper, Plano and Allen.
+// NB: cities lives inside getStaticPaths - Astro runs that in its own scope.
+export function getStaticPaths() {
+  const cities = [
+  {
+    slug: "frisco",
+    name: "Frisco",
+    drive: "about 10-15 minutes",
+    intro: "Frisco families - especially on the east side toward the Collin County line - are a short drive from Anthem Music. Our West McKinney studio sits right near the border, so quality lessons don't have to mean a long haul or a downtown parking hunt.",
+    local: "From Phillips Creek Ranch to the neighborhoods along Independence and Coit, families come to Anthem for instruction that takes music seriously - taught by mentors who meet each student where they are.",
+  },
+  {
+    slug: "prosper",
+    name: "Prosper",
+    drive: "about 15 minutes",
+    intro: "Prosper is growing fast, and so is the need for great music instruction close to home. Anthem Music's West McKinney studio is an easy drive south - no downtown traffic, no parking to fight.",
+    local: "From Windsong Ranch to Prosper's established neighborhoods, families choose Anthem for lessons built around the student, not a rigid curriculum - and a free first consultation to find the right fit.",
+  },
+  {
+    slug: "plano",
+    name: "Plano",
+    drive: "about 20 minutes",
+    intro: "For Plano families in the north and east, Anthem Music is a straightforward drive toward McKinney - and a refreshing change from big-box lesson mills.",
+    local: "We're a true neighborhood studio: real musicianship, instructors who mentor rather than just instruct, and a free first consultation so you can see the fit before you commit.",
+  },
+  {
+    slug: "allen",
+    name: "Allen",
+    drive: "about 10-15 minutes",
+    intro: "Allen sits right between Anthem Music's two studios - downtown McKinney and West McKinney - so whichever is more convenient, lessons stay close to home.",
+    local: "Allen families choose Anthem for one-on-one lessons and small group classes that are designed around each student's goals, pace, and the way they learn best.",
+  },
+  ];
+  return cities.map((c) => ({ params: { city: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const title = `Music Lessons in ${c.name}, TX | Anthem Music`;
+const description = `Guitar, piano, violin, drums, brass and voice lessons for ${c.name} families - private lessons and group classes at Anthem Music's nearby McKinney studios. Free first consultation, all ages.`;
+---
+<Base path={`/music-lessons-${c.slug}`} title={title} description={description}>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Serving {c.name}, TX &amp; North Collin County</span>
+      <h1 class="center">Music lessons in {c.name}</h1>
+      <p class="lead mx-auto center">{c.intro}</p>
+      <div class="city-actions">
+        <a href="/get-started" class="btn btn-primary">Get Started</a>
+        <a href="/programs" class="btn btn-outline">See Programs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1.5rem;">
+    <div class="container city-wrap">
+
+      <div class="city-near">
+        <h2>Easy to reach from {c.name}</h2>
+        <p>Anthem Music has <strong>two studios in McKinney</strong> - Downtown McKinney (Virginia &amp; N Tennessee St) and a West McKinney studio near Custer &amp; Eldorado. The West McKinney location is {c.drive} from {c.name}, so weekly lessons fit the week instead of taking it over. {c.local}</p>
+      </div>
+
+      <div class="city-grid">
+        <div class="city-card">
+          <h3>Private lessons</h3>
+          <p>Guitar, piano, violin, drums, brass, voice and more - for all ages and levels. Every new student starts with a free, no-pressure consultation. <a href="/programs">Browse instruments →</a></p>
+        </div>
+        <div class="city-card">
+          <h3>Group classes</h3>
+          <p>PreK Music, Youth Group, and semester-based Homeschool classes - and your first class is free. <a href="/book-a-class">See class times →</a></p>
+        </div>
+        <div class="city-card">
+          <h3>The Anthem approach</h3>
+          <p>We teach the <em>why</em> underneath the music, not just songs note by note - so students can eventually play by ear and write their own. <a href="/about">How we teach →</a></p>
+        </div>
+      </div>
+
+      <figure class="city-review">
+        <blockquote>"Dan meets the kids where they are and is an excellent, unassuming instructor and all-around good guy."</blockquote>
+        <figcaption>Google review · ★★★★★</figcaption>
+      </figure>
+
+      <div class="city-cta">
+        <h2>Ready to get started, {c.name}?</h2>
+        <p>Book a free consultation and we'll help you find the right instructor, instrument, and plan - no pressure, just a good first step.</p>
+        <a href="/get-started" class="btn btn-primary">Book a free consultation</a>
+        <p class="city-foot">Prefer to practice first? Try our <a href="/free-tuner">free tuner, metronome &amp; chord tools</a>.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Music lessons",
+    "name": `Music Lessons in ${c.name}, TX`,
+    "description": description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Anthem Music",
+      "url": "https://anthemmusic.net",
+      "telephone": "+1-469-500-9863"
+    },
+    "areaServed": { "@type": "City", "name": `${c.name}, TX` },
+    "url": `https://anthemmusic.net/music-lessons-${c.slug}`
+  })} />
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2.5rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .city-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
+  .city-wrap { max-width: 1000px; }
+  .city-near { max-width: 800px; margin: 0 auto 2rem; }
+  .city-near h2 { color: var(--navy); font-size: 1.5rem; margin-bottom: 0.7rem; }
+  .city-near p { color: var(--gray); line-height: 1.7; }
+  .city-near strong { color: var(--navy); }
+  .city-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-bottom: 2rem; }
+  .city-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem 1.6rem; }
+  .city-card h3 { color: var(--navy); font-size: 1.15rem; margin-bottom: 0.5rem; }
+  .city-card p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin: 0; }
+  .city-card a { color: var(--orange); font-weight: 600; }
+  .city-review { max-width: 700px; margin: 0 auto 2.2rem; text-align: center; background: var(--cream-soft); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem 1.8rem; }
+  .city-review blockquote { color: var(--navy); font-family: var(--font-display); font-size: 1.15rem; line-height: 1.5; margin: 0 0 0.6rem; }
+  .city-review figcaption { color: var(--gray); font-size: 0.85rem; }
+  .city-cta { text-align: center; background: var(--navy); color: var(--cream); border-radius: 16px; padding: 2.2rem; }
+  .city-cta h2 { color: var(--cream); margin-bottom: 0.6rem; }
+  .city-cta p { color: var(--gray-light); max-width: 56ch; margin: 0 auto 1.3rem; }
+  .city-cta .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .city-cta .btn-primary:hover { background: var(--cream); color: var(--orange-dark); }
+  .city-foot { margin-top: 1.2rem; font-size: 0.9rem; }
+  .city-cta .city-foot a { color: #F6C544; font-weight: 600; }
+  @media (max-width: 760px) { .city-grid { grid-template-columns: 1fr; } }
+</style>
