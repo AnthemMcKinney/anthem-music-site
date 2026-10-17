@@ -5,7 +5,7 @@ const year = new Date().getFullYear();
   <div class="container footer-grid">
     <div class="footer-brand">
       <span class="footer-logo">Anthem<span>Music</span></span>
-      <p>A downtown McKinney music studio - where students of all ages are trained, encouraged, and challenged to grow in real musicianship.</p>
+      <p>A McKinney music studio with two locations - where students of all ages are trained, encouraged, and challenged to grow in real musicianship.</p>
       <div class="footer-social" aria-label="Social links">
         <a href="https://www.facebook.com/anthemmusicstudios" aria-label="Facebook">Facebook</a>
         <a href="https://www.instagram.com/anthemmusicstudios/" aria-label="Instagram">Instagram</a>
@@ -41,10 +41,14 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="footer-col">
-      <h4>Visit</h4>
-      <p class="footer-contact">
-        209 N Tennessee St<br/>
-        McKinney, TX 75069<br/>
+      <h4>Locations</h4>
+      <p class="footer-contact footer-locations">
+        <span class="loc-head">Two studios in McKinney</span>
+        <span class="loc-line"><b>Downtown McKinney</b><br/>Virginia &amp; N Tennessee St</span>
+        <span class="loc-line"><b>West McKinney</b><br/>Custer &amp; Eldorado</span>
+        <span class="loc-note">We'll confirm your studio and the exact address when you book - the West McKinney studio is handy for Frisco, Prosper &amp; Plano families.</span>
+      </p>
+      <p class="footer-contact footer-reach">
         <a href="tel:+14695009863">(469) 500-9863</a><br/>
         <a href="mailto:danbrady@anthemmusic.net">danbrady@anthemmusic.net</a>
       </p>
@@ -79,6 +83,12 @@ const year = new Date().getFullYear();
   .footer-contact { color: var(--gray-light); font-size: 0.93rem; line-height: 1.9; }
   .footer-contact a { color: var(--gray-light); }
   .footer-contact a:hover { color: var(--orange); }
+  .footer-locations { line-height: 1.5; margin-bottom: 1rem; }
+  .loc-head { display: block; color: var(--cream); font-weight: 600; margin-bottom: 0.6rem; }
+  .loc-line { display: block; margin-bottom: 0.5rem; }
+  .loc-line b { color: var(--cream); font-weight: 600; }
+  .loc-note { display: block; margin-top: 0.5rem; font-size: 0.8rem; color: var(--gray-light); line-height: 1.5; }
+  .footer-reach { line-height: 1.8; }
   .footer-bottom { border-top: 1px solid var(--navy-light); padding: 1.5rem 0; }
   .footer-bottom span { color: var(--gray-light); font-size: 0.85rem; }
 
