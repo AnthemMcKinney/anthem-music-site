@@ -68,8 +68,52 @@ const ogImageUrl = site + ogImage + "?v=2";
       "postalCode": "75069",
       "addressCountry": "US"
     },
-    "areaServed": ["McKinney", "Frisco", "Allen", "Prosper", "Collin County"],
-    "priceRange": "$$"
+    "areaServed": ["McKinney", "Frisco", "Allen", "Prosper", "Plano", "Collin County"],
+    "priceRange": "$$",
+    "logo": site + "/anthem-logo.svg",
+    "image": site + "/images/og-card-v2.jpg",
+    "hasMap": "https://www.google.com/maps?q=209+N+Tennessee+St,+McKinney,+TX+75069",
+    "knowsAbout": [
+      "Guitar lessons", "Piano lessons", "Violin lessons", "Drum lessons",
+      "Bass guitar lessons", "Ukulele lessons", "Voice lessons", "Brass lessons",
+      "Music theory", "Group music classes", "Live music for events"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Anthem Music offerings",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Private Music Lessons",
+            "description": "One-on-one music lessons for all ages and instruments - guitar, piano, violin, drums, voice and more - in McKinney and across North Collin County, including a West McKinney home studio convenient to Frisco, Prosper and Plano."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Group Music Classes",
+            "description": "PreK Music, Youth Group, and semester-based Homeschool music classes. The first class is free."
+          }
+        },
+        {
+          "@type": "Offer",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "priceCurrency": "USD",
+            "price": "150",
+            "description": "Private parties $150/hour (two-hour minimum, $300); wedding ceremonies from $350."
+          },
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Live Music for Events",
+            "description": "Professional piano, violin, and guitar performers - solo or ensemble - for weddings, private parties, and special occasions."
+          }
+        }
+      ]
+    }
   })} />
 </head>
 <body>
