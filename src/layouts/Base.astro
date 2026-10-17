@@ -7,12 +7,14 @@ const {
   title = "Anthem Music | Music Lessons in Downtown McKinney, TX",
   description = "Guitar, piano, violin, drums, and brass lessons for all ages in downtown McKinney. A family-centered music studio rooted in craft, mentorship, and real musicianship.",
   path = "",
-  ogImage = "/images/og-image.jpg",
+  ogImage = "/images/og-card-v2.jpg",
 } = Astro.props;
 
 const site = "https://anthemmusic.net";
 const canonical = site + path;
-const ogImageUrl = site + ogImage;
+// Version query busts social/CDN caches when the card art changes.
+// Bump this number any time an og image is updated.
+const ogImageUrl = site + ogImage + "?v=2";
 ---
 <!DOCTYPE html>
 <html lang="en">
