@@ -36,6 +36,21 @@ const instructors = [
   { name: "Elpis Jang", role: "Flute · Piano", img: "/instructors/elpis.jpg" },
   { name: "Lucas Skidmore", role: "Guitar", img: "/instructors/lucas.jpg" },
 ];
+
+// Homepage announcement band. When active, it replaces the free-app promo in the
+// navy callout under the hero.
+//   - To post an announcement: set active to true and fill in the fields below.
+//   - To take it down early: set active to false (the app promo shows instead).
+//   - expires: "YYYY-MM-DD" auto-reverts to the app promo after that date (leave "" to keep it up until you turn it off).
+const announcement = {
+  active: true,
+  expires: "2026-10-24",
+  eyebrow: "A quick favor from the Anthem family",
+  heading: "Help Britton play TAPS again this year",
+  body: "Our lead piano instructor, Britton Lowenthal, is in the running to perform TAPS for the Plano Flags of Honor for a third year - and selection comes down to likes on her video. A ten-second like genuinely helps. Thank you!",
+  ctaLabel: "Like Britton's video →",
+  ctaHref: "https://youtube.com/shorts/B92fUh75tvI",
+};
 ---
 <Base path="/">
   <section class="hero">
@@ -78,8 +93,24 @@ const instructors = [
     </div>
   </section>
 
+  {/* Navy callout under the hero: an announcement (when active) or the free-app promo. */}
+  {announcement.active && (
+    <section class="tuner-strip announce-strip" id="announce-band" data-expires={announcement.expires}>
+      <div class="container tuner-strip-inner">
+        <div class="tuner-strip-text">
+          <span class="ts-eyebrow">{announcement.eyebrow}</span>
+          <h2>{announcement.heading}</h2>
+          <p>{announcement.body}</p>
+        </div>
+        <div class="ts-actions">
+          <a href={announcement.ctaHref} class="btn btn-primary ts-cta" target="_blank" rel="noopener">{announcement.ctaLabel}</a>
+          <a href="/tuner/" class="ts-link" target="_blank" rel="noopener">Free tuner, metronome &amp; chord tools →</a>
+        </div>
+      </div>
+    </section>
+  )}
   {/* Free browser tuner + metronome - promoted high on the page, linked from footer too. */}
-  <section class="tuner-strip">
+  <section class="tuner-strip" id="app-band" hidden={announcement.active}>
     <div class="container tuner-strip-inner">
       <div class="tuner-strip-text">
         <span class="ts-eyebrow">New · Nothing else out there like it</span>
@@ -87,11 +118,24 @@ const instructors = [
         <p>Most apps hand you a tuner. The free Anthem app actually teaches you to play. Our new strumming exercises show every down- and up-stroke in time, play the pattern back so you can follow along, and lock it to the count and a single foot tap - from basic down-strums all the way to sixteenth-note grooves. Add guided first chords, a built-in tuner, and a metronome, and it&rsquo;s the practice companion every new student wishes they had.</p>
       </div>
       <div class="ts-actions">
-        <a href="/tuner/#chords" class="btn btn-primary ts-cta">See chords &amp; strumming →</a>
-        <a href="/tuner/" class="ts-link">Open the tuner &amp; metronome →</a>
+        <a href="/tuner/#chords" class="btn btn-primary ts-cta" target="_blank" rel="noopener">See chords &amp; strumming →</a>
+        <a href="/tuner/" class="ts-link" target="_blank" rel="noopener">Open the tuner &amp; metronome →</a>
       </div>
     </div>
   </section>
+  <script is:inline>
+    // Auto-expire the announcement: after its date, hide it and reveal the app promo.
+    (function () {
+      var a = document.getElementById("announce-band");
+      if (!a) return;
+      var exp = a.getAttribute("data-expires");
+      if (exp && new Date() > new Date(exp + "T23:59:59")) {
+        a.hidden = true;
+        var app = document.getElementById("app-band");
+        if (app) app.hidden = false;
+      }
+    })();
+  </script>
 
   <section class="section" id="lessons">
     <div class="container">
