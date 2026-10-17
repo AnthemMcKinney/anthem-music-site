@@ -48,8 +48,8 @@ const announcement = {
   image: "/images/britton-flags.jpg",
   imageAlt: "Britton Lowenthal, piano teacher at Anthem Music, at the Plano Flags of Honor",
   eyebrow: "A quick favor from the Anthem family",
-  heading: "Help our piano teacher play TAPS again",
-  body: "Britton Lowenthal, who teaches piano here at Anthem, is in the running to perform TAPS at the Plano Flags of Honor for a third year - and selection comes down to likes on her video. A ten-second like genuinely helps. Thank you!",
+  heading: "Help our lead piano teacher play TAPS again",
+  body: "Britton Lowenthal, who teaches piano and trumpet here at Anthem, is in the running to perform TAPS at the Plano Flags of Honor for a third year - and selection comes down to likes on her video. A ten-second like genuinely helps. Thank you!",
   ctaLabel: "Like Britton's video →",
   ctaHref: "https://youtube.com/shorts/B92fUh75tvI",
 };
@@ -107,11 +107,21 @@ const announcement = {
         </div>
         <div class="ts-actions">
           <a href={announcement.ctaHref} class="btn btn-primary ts-cta" target="_blank" rel="noopener">{announcement.ctaLabel}</a>
-          <a href="/tuner/" class="ts-link" target="_blank" rel="noopener">Free tuner, metronome &amp; chord tools →</a>
         </div>
       </div>
     </section>
   )}
+
+  {/* While the announcement runs, keep an intentional (not floated) free-tools callout. */}
+  {announcement.active && (
+    <section class="tools-strip" id="tools-strip">
+      <div class="container tools-strip-inner">
+        <p class="tools-strip-text"><strong>Free for everyone:</strong> our tuner, metronome &amp; beginner chord trainer - no account, nothing to install.</p>
+        <a href="/free-tuner" class="btn btn-outline tools-strip-btn">Explore the free tools →</a>
+      </div>
+    </section>
+  )}
+
   {/* Free browser tuner + metronome - promoted high on the page, linked from footer too. */}
   <section class="tuner-strip" id="app-band" hidden={announcement.active}>
     <div class="container tuner-strip-inner">
@@ -134,6 +144,8 @@ const announcement = {
       var exp = a.getAttribute("data-expires");
       if (exp && new Date() > new Date(exp + "T23:59:59")) {
         a.hidden = true;
+        var ts = document.getElementById("tools-strip");
+        if (ts) ts.hidden = true;
         var app = document.getElementById("app-band");
         if (app) app.hidden = false;
       }
@@ -282,6 +294,11 @@ const announcement = {
   .ts-link:hover { color: var(--orange); }
   .announce-photo { width: 96px; height: 120px; object-fit: cover; border-radius: 10px; flex: none; box-shadow: 0 6px 16px rgba(0,0,0,.28); }
   .announce-inner .tuner-strip-text { flex: 1 1 300px; }
+  .tools-strip { background: var(--cream-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .tools-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem 2rem; flex-wrap: wrap; padding: 0.9rem 0; }
+  .tools-strip-text { margin: 0; color: var(--gray); font-size: 0.96rem; }
+  .tools-strip-text strong { color: var(--navy); }
+  .tools-strip-btn { flex: none; }
   @media (max-width: 640px) { .tuner-strip-inner { flex-direction: column; align-items: flex-start; } }
 
   .section-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
