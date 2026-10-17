@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+
+const tools = [
+  {
+    name: "Instrument tuner",
+    body: "Tune guitar, ukulele, bass, violin, and banjo by ear or with the mic. Standard and alternate tunings, with a clear in-tune indicator built for beginners.",
+  },
+  {
+    name: "Metronome",
+    body: "A clean, accurate metronome with adjustable tempo, time signatures, subdivisions, and sounds - plus a tap-tempo and a first-beat accent.",
+  },
+  {
+    name: "Chords & strumming trainer",
+    body: "A beginner chord library with real shapes finger by finger, and interactive strumming exercises that show every down- and up-stroke in time and play the pattern back so you can follow along.",
+  },
+];
+---
+<Base
+  path="/free-tuner"
+  title="Free Online Tuner, Metronome & Chord Trainer | Anthem Music"
+  description="Free tuner for guitar, ukulele, bass, violin and banjo, plus a metronome and strumming trainer. No account, nothing to subscribe to.">
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="justify-content:center;">Free · No account · Nothing to install</span>
+      <h1 class="center">A free tuner, metronome &amp; chord trainer</h1>
+      <p class="lead mx-auto center">Built by Anthem Music for our own students - and free for anyone. Tune your instrument, build steady rhythm, and learn your first chords right in your browser.</p>
+      <div class="ft-hero-actions">
+        <a href="/tuner/" class="btn btn-primary">Open the free tuner →</a>
+        <a href="/tuner/#chords" class="btn btn-outline">See the chord &amp; strumming trainer</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1.5rem;">
+    <div class="container ft-wrap">
+      <div class="ft-grid">
+        {tools.map((t) => (
+          <div class="ft-card">
+            <h2>{t.name}</h2>
+            <p>{t.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="ft-note">
+        <h3>Genuinely free - here's the catch (there isn't one)</h3>
+        <p>No account, no email, no subscription, no ads. It works on phones, tablets, and computers, and you can add it to your home screen like an app. We built it for our students; we're just happy to share it.</p>
+        <a href="/tuner/" class="btn btn-primary">Launch the app →</a>
+      </div>
+
+      <p class="ft-cross center">Learning an instrument in McKinney, Frisco, or Prosper? <a href="/get-started">See how lessons work at Anthem →</a></p>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Anthem Music Tuner, Metronome & Chord Trainer",
+    "url": "https://anthemmusic.net/tuner/",
+    "applicationCategory": "MusicApplication",
+    "operatingSystem": "Web browser",
+    "browserRequirements": "Requires a modern web browser with microphone access for tuning.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "description": "A free browser-based tuner for guitar, ukulele, bass, violin and banjo, plus a metronome and a beginner chord library with interactive strumming exercises. No account required.",
+    "publisher": { "@type": "Organization", "name": "Anthem Music", "url": "https://anthemmusic.net" }
+  })} />
+</Base>
+
+<style>
+  .page-hero { background: var(--cream-soft); padding: clamp(2.5rem,5vw,4rem) 0 2.5rem; }
+  .page-hero h1 { margin-bottom: 1rem; }
+  .ft-hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.8rem; }
+  .ft-wrap { max-width: 1040px; }
+  .ft-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
+  .ft-card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem 1.6rem; }
+  .ft-card h2 { color: var(--navy); font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .ft-card p { color: var(--gray); font-size: 0.96rem; line-height: 1.6; margin: 0; }
+  .ft-note { margin-top: 2rem; background: var(--navy); color: var(--cream); border-radius: 16px; padding: 2rem 2.2rem; text-align: center; }
+  .ft-note h3 { color: var(--cream); font-size: 1.3rem; margin-bottom: 0.6rem; }
+  .ft-note p { color: var(--gray-light); max-width: 60ch; margin: 0 auto 1.3rem; }
+  .ft-note .btn-primary { background: var(--white); color: var(--orange-dark); }
+  .ft-note .btn-primary:hover { background: var(--cream); color: var(--orange-dark); }
+  .ft-cross { margin-top: 2rem; color: var(--gray); }
+  .ft-cross a { color: var(--orange); font-weight: 600; }
+  @media (max-width: 760px) { .ft-grid { grid-template-columns: 1fr; } }
+</style>

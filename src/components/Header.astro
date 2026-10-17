@@ -1,13 +1,12 @@
 ---
-const nav = [
-  { label: "Programs", href: "/programs" },
-  { label: "Instructors", href: "/instructors" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Schedule", href: "/schedule" },
-  { label: "Contact", href: "/contact" },
-];
+// Primary nav. Instructors now lives under the About dropdown (it's part of "who we
+// are"), which frees a top-level slot for Free Tuner without crowding the bar.
 const portalUrl = "/student-login";
+const aboutLinks = [
+  { label: "About Us", href: "/about" },
+  { label: "Our Instructors", href: "/instructors" },
+  { label: "FAQ", href: "/faq" },
+];
 const bookLinks = [
   { label: "Private Lessons", href: "/schedule", sub: "Free consultation" },
   { label: "Group Classes", href: "/book-a-class", sub: "First class free" },
@@ -22,14 +21,26 @@ const bookLinks = [
     </a>
 
     <nav class="nav-desktop" aria-label="Main navigation">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href="/programs">Programs</a>
+
+      <div class="nav-dd nav-about">
+        <button class="nav-dd-trigger" aria-haspopup="true" aria-expanded="false">About <span class="caret" aria-hidden="true">▾</span></button>
+        <div class="book-menu about-menu" role="menu" aria-label="About Anthem">
+          {aboutLinks.map((a) => <a href={a.href} role="menuitem">{a.label}</a>)}
+        </div>
+      </div>
+
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
+      <a href="/free-tuner" class="nav-tuner">Free Tuner</a>
+
       <a href={portalUrl} class="btn parent-login">Student Login</a>
 
-      <div class="nav-book" id="navBook">
-        <button class="btn btn-primary nav-cta" id="bookToggle" aria-haspopup="true" aria-expanded="false" aria-controls="bookMenu">
+      <div class="nav-dd nav-book" id="navBook">
+        <button class="btn btn-primary nav-cta" aria-haspopup="true" aria-expanded="false">
           Book <span class="caret" aria-hidden="true">▾</span>
         </button>
-        <div class="book-menu" id="bookMenu" role="menu" aria-label="Booking options">
+        <div class="book-menu" role="menu" aria-label="Booking options">
           {bookLinks.map((b) => (
             <a href={b.href} role="menuitem"><strong>{b.label}</strong><span>{b.sub}</span></a>
           ))}
@@ -44,7 +55,13 @@ const bookLinks = [
   </div>
 
   <nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
-    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    <a href="/programs">Programs</a>
+    <a href="/about">About Us</a>
+    <a href="/instructors">Our Instructors</a>
+    <a href="/faq">FAQ</a>
+    <a href="/blog">Blog</a>
+    <a href="/contact">Contact</a>
+    <a href="/free-tuner">Free Tuner</a>
     <a href={portalUrl} class="btn parent-login">Student Login</a>
     <span class="mobile-book-label">Book</span>
     {bookLinks.map((b) => <a href={b.href} class="mobile-book-link">{b.label}</a>)}
@@ -70,50 +87,44 @@ const bookLinks = [
     color: var(--navy); line-height: 1; letter-spacing: -0.02em;
   }
   .brand-sub { color: var(--orange); margin-left: 0.3rem; }
-  .nav-desktop { display: flex; align-items: center; gap: 1.4rem; }
+  .nav-desktop { display: flex; align-items: center; gap: 1.25rem; }
   .nav-desktop > a:not(.parent-login) {
-    color: var(--navy); font-weight: 500; font-size: 0.98rem;
-    position: relative;
+    color: var(--navy); font-weight: 500; font-size: 0.98rem; position: relative;
   }
   .nav-desktop > a:not(.parent-login):hover { color: var(--orange); }
+  .nav-tuner { color: var(--orange-dark) !important; font-weight: 600 !important; }
   .nav-cta { padding: 0.6rem 1.3rem; font-size: 0.95rem; }
-  .nav-cta .caret { font-size: 0.8em; margin-left: 0.15rem; }
+  .nav-cta .caret, .nav-dd-trigger .caret { font-size: 0.8em; margin-left: 0.15rem; }
 
-  /* Parent Login - deliberately yellow, outside the navy/orange brand palette,
-     so it reads as a utility/portal element without diluting the brand. */
+  /* Parent Login - deliberately yellow, outside the navy/orange brand palette. */
   .parent-login {
-    background: #F6C544;
-    color: var(--navy);
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border: 2px solid transparent;
+    background: #F6C544; color: var(--navy);
+    padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600; border: 2px solid transparent;
   }
-  .parent-login:hover {
-    background: #E9B52E;
-    color: var(--navy);
-    transform: translateY(-2px);
-  }
+  .parent-login:hover { background: #E9B52E; color: var(--navy); transform: translateY(-2px); }
 
-  /* Book dropdown */
-  .nav-book { position: relative; }
+  /* Shared dropdown (About + Book) */
+  .nav-dd { position: relative; display: inline-flex; align-items: center; }
+  .nav-dd-trigger {
+    background: none; border: 0; cursor: pointer; font: inherit;
+    color: var(--navy); font-weight: 500; font-size: 0.98rem;
+    display: inline-flex; align-items: center;
+  }
+  .nav-dd-trigger:hover { color: var(--orange); }
   .book-menu {
     position: absolute; top: calc(100% + 10px); right: 0; min-width: 248px;
     display: none; flex-direction: column;
     background: var(--white); border: 1px solid var(--line); border-radius: 12px;
     box-shadow: 0 16px 40px rgba(13,31,60,.16); padding: 0.5rem; z-index: 200;
   }
-  .book-menu::before {
-    content: ""; position: absolute; top: -16px; right: 0; left: 0; height: 16px;
-  }
-  .nav-book:hover .book-menu,
-  .nav-book:focus-within .book-menu,
-  .book-menu.open { display: flex; }
-  .book-menu a { display: block; padding: 0.6rem 0.8rem; border-radius: 8px; color: var(--navy); }
+  .about-menu { left: 0; right: auto; min-width: 190px; }
+  .book-menu::before { content: ""; position: absolute; top: -16px; right: 0; left: 0; height: 16px; }
+  .nav-dd:hover .book-menu, .nav-dd:focus-within .book-menu, .book-menu.open { display: flex; }
+  .book-menu a { display: block; padding: 0.6rem 0.8rem; border-radius: 8px; color: var(--navy); font-weight: 500; }
   .book-menu a strong { display: block; font-size: 0.95rem; font-weight: 600; }
   .book-menu a span { display: block; font-size: 0.78rem; color: var(--gray); }
   .book-menu a:hover, .book-menu a:focus-visible { background: var(--cream-soft); outline: none; }
-  .book-menu a:hover strong { color: var(--orange-dark); }
+  .book-menu a:hover strong, .about-menu a:hover { color: var(--orange-dark); }
   .book-menu-all { margin-top: 0.3rem; border-top: 1px solid var(--line); color: var(--orange) !important; font-weight: 600; font-size: 0.9rem; padding-top: 0.7rem !important; }
 
   .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
@@ -138,23 +149,31 @@ const bookLinks = [
     toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Book dropdown: click/keyboard toggle (hover handled by CSS for mouse users).
-  const bookToggle = document.getElementById('bookToggle');
-  const bookMenu = document.getElementById('bookMenu');
-  const navBook = document.getElementById('navBook');
-  function closeBook() {
-    bookMenu?.classList.remove('open');
-    bookToggle?.setAttribute('aria-expanded', 'false');
+  // Generic dropdown handling for both About and Book (hover works via CSS for mouse).
+  const dds = document.querySelectorAll('.nav-dd');
+  function closeAll(except) {
+    dds.forEach((dd) => {
+      const m = dd.querySelector('.book-menu');
+      if (m && m !== except) {
+        m.classList.remove('open');
+        dd.querySelector('button')?.setAttribute('aria-expanded', 'false');
+      }
+    });
   }
-  bookToggle?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const open = bookMenu?.classList.toggle('open');
-    bookToggle.setAttribute('aria-expanded', String(open));
+  dds.forEach((dd) => {
+    const trigger = dd.querySelector('button');
+    const menu = dd.querySelector('.book-menu');
+    trigger?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const open = menu?.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', String(open));
+      closeAll(menu);
+    });
   });
   document.addEventListener('click', (e) => {
-    if (navBook && !navBook.contains(e.target as Node)) closeBook();
+    let inside = false;
+    dds.forEach((dd) => { if (dd.contains(e.target as Node)) inside = true; });
+    if (!inside) closeAll(null);
   });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeBook();
-  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(null); });
 </script>
