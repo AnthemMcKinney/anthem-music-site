@@ -2,7 +2,7 @@ const chromaticNames=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const chromaticRange=Array.from({length:60},(_,index)=>`${chromaticNames[index%12]}${Math.floor((index+24)/12)-1}`).join(' ');
 
 export const instruments=[
- {id:'guitar',name:'Guitar',tunings:[['Standard','E2 A2 D3 G3 B3 E4'],['Drop D','D2 A2 D3 G3 B3 E4'],['Half-step down','Eb2 Ab2 Db3 Gb3 Bb3 Eb4'],['Whole-step down','D2 G2 C3 F3 A3 D4'],['Open G','D2 G2 D3 G3 B3 D4'],['Open D','D2 A2 D3 F#3 A3 D4'],['DADGAD','D2 A2 D3 G3 A3 D4']]},
+ {id:'guitar',name:'Guitar',tunings:[['Standard','E2 A2 D3 G3 B3 E4'],['Drop D','D2 A2 D3 G3 B3 E4'],['Half-step down','Eb2 Ab2 Db3 Gb3 Bb3 Eb4'],['Whole-step down','D2 G2 C3 F3 A3 D4'],['Open G','D2 G2 D3 G3 B3 D4'],['Open D','D2 A2 D3 F#3 A3 D4'],['DADGAD','D2 A2 D3 G3 A3 D4'],['The Rain Song','D2 G2 C3 G3 C4 D4']]},
  {id:'ukulele',name:'Ukulele',tunings:[['High G standard','G4 C4 E4 A4'],['Low G standard','G3 C4 E4 A4'],['Baritone','D3 G3 B3 E4'],['Guitalele','A2 D3 G3 C4 E4 A4']]},
  {id:'bass',name:'Bass',tunings:[['4-string standard','E1 A1 D2 G2']]},
  {id:'violin',name:'Violin',tunings:[['Standard','G3 D4 A4 E5']]},

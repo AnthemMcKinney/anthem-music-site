@@ -608,6 +608,16 @@ body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{min-width
 body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{position:static;margin:0}
 body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{position:static;grid-column:3}
 @media(max-width:600px){.panel-top{gap:5px}.instrument-info-open{padding-inline:6px;font-size:8px;letter-spacing:.35px}.instrument-info-open>span{width:15px;height:15px}.instrument-info-heading{padding-left:14px}.tuner-note-body{padding-left:14px;padding-right:14px}.chords-hero .instrument-path-caption{min-height:34px}}
+
+/* More Info belongs to the reference-note card; the two tuner columns share equal space. */
+body[data-view=tuner] aside .string-heading{grid-template-columns:minmax(0,1fr) auto}
+body[data-view=tuner] aside .string-heading .instrument-info-open{position:static;justify-self:end;align-self:center;min-height:25px;padding:3px 7px;font-size:8px}
+@media(min-width:741px){body[data-view=tuner] .workspace{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Keep the iPhone audio recovery action reachable after the original control scrolls away. */
+.chords-sound-rescue{position:fixed;z-index:40;left:50%;bottom:calc(max(62px,8dvh) + env(safe-area-inset-bottom) + 10px);transform:translateX(-50%);display:grid;gap:1px;width:min(88vw,310px);padding:10px 16px;border:2px solid #2f9f63;border-radius:999px;background:#45b978;color:#071b11;box-shadow:0 7px 24px #07132966,0 0 0 4px #45b97844;text-align:center;animation:sound-rescue-pulse 1.2s ease-in-out infinite}.chords-sound-rescue[hidden]{display:none}.chords-sound-rescue span{font:750 9px/1.1 var(--app-font);letter-spacing:.7px;text-transform:uppercase}.chords-sound-rescue strong{font:900 13px/1.15 var(--app-font)}@keyframes sound-rescue-pulse{50%{transform:translateX(-50%) scale(1.035);box-shadow:0 7px 24px #07132966,0 0 0 8px #45b97822}}@media(prefers-reduced-motion:reduce){.chords-sound-rescue{animation:none}}
+
+body[data-view=chords] .objective-panel[data-objective=one] .chord-card-heading h2{font-size:clamp(17px,2.15vw,25px);overflow:visible;text-overflow:clip}
 body[data-view=chords] .objective-panel[data-objective=one] .chord-grid .chord-card{height:auto;min-height:190px}
 
 /* Requested exercises follow the same section-row language as Practice and Strumming. */
