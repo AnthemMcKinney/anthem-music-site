@@ -68,8 +68,7 @@ const chords=[
  ,{id:'uke-c7',name:'C7',strings:['G','C','E','A'],frets:[0,0,0,1],fingers:[0,0,0,1],anchors:[],tip:'One finger on the A string. Let G, C, and E ring open.'}
 ];
 const byId=Object.fromEntries(chords.map(c=>[c.id,c]));
-const strummingChordNames=['C','A','G','E','D','Am','Em','Dm','F','Bm'];
-const strummingChordIds=course=>strummingChordNames.map(name=>`${course==='guitar'?'':course.startsWith('bar-')?'bar-':'uke-'}${name.toLowerCase()}`).filter(id=>byId[id]);
+const strummingChordIds=course=>chords.filter(chord=>!chord.variantOf&&(course==='guitar'?!chord.strings:course.startsWith('bar-')?chord.id.startsWith('bar-'):chord.id.startsWith('uke-'))).map(chord=>chord.id);
 const guitarStrings=['E','A','D','G','B','e'];
 const counts=['1','&','2','&','3','&','4','&'];
 const threeFourCounts=['1','&','2','&','3','&'];
