@@ -27,6 +27,12 @@ export function strumStringIndexes(pitches,direction,range,stringCount){
  return direction==='u'?selected.reverse():selected;
 }
 
+// Let strokes overlap naturally inside a measure, then finish their fade before
+// the next chord begins so two chord shapes never sound at the same time.
+export function exerciseStrokeDuration(naturalDuration,measureDuration,slotOffset){
+ return Math.max(.08,Math.min(naturalDuration,measureDuration-slotOffset-.045));
+}
+
 export class ChordPlayer{
  constructor(){this.ctx=null;this.buffers=new Map();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.unlocking=null;}
  context(){
@@ -95,7 +101,7 @@ export class ChordPlayer{
    }
    const priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(stroke=>stroke==='d'||stroke==='u').length,0);
    strokeIndexes.forEach((index,position)=>{
-     const duration=subdivision==='sixteenth'?1.65:2.2,chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,clustered=strokeIsClustered(index,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index],clustered);
+     const naturalDuration=subdivision==='sixteenth'?1.65:2.2,duration=exerciseStrokeDuration(naturalDuration,measure,index*slotDuration),chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,clustered=strokeIsClustered(index,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index],clustered);
      if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration,voicing.range,voicing.strength,voicing.count);
    });
   });
