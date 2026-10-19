@@ -763,11 +763,19 @@ body[data-view=chords] .custom-progression-body>p{margin:0;color:var(--theme-mut
 body[data-view=chords] .custom-progression-controls{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:12px;margin:14px 0}
 body[data-view=chords] .custom-chord-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 body[data-view=chords] .custom-2-chord .custom-chord-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+body[data-view=chords] .custom-dynamic-chord-controls{grid-template-columns:repeat(4,minmax(110px,1fr));align-items:end}
 body[data-view=chords] .custom-progression-controls label{display:grid;gap:4px;color:var(--theme-accent-deep);font:900 9px/1.2 var(--app-font);letter-spacing:.7px;text-transform:uppercase}
 body[data-view=chords] .custom-progression-controls select{width:100%;min-height:38px;padding:7px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:800 13px var(--app-font)}
+body[data-view=chords] .custom-measure-select-row{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:4px}
+body[data-view=chords] .remove-custom-measure{display:grid;place-items:center;min-height:38px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-accent-deep);font:900 18px/1 Arial;cursor:pointer}
+body[data-view=chords] .remove-custom-measure:disabled{cursor:not-allowed;opacity:.35}
+body[data-view=chords] .add-custom-measure{display:flex;align-items:center;justify-content:center;gap:6px;min-height:38px;border:1px dashed var(--theme-accent);border-radius:6px;background:var(--theme-surface);color:var(--theme-accent-deep);font:900 10px/1 var(--app-font);letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
+body[data-view=chords] .add-custom-measure>span{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--theme-accent);color:var(--theme-on-accent);font:900 15px/1 Arial}
+body[data-view=chords] .custom-dynamic-progression .measure-row{grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible}
+body[data-view=chords] .custom-dynamic-progression .music-measure{min-width:0}
 body[data-view=chords] .custom-progression-body>.change-card{margin-top:0}
 body[data-view=chords] .custom-progression-body>.change-card .change-top{display:none}
-@media(max-width:760px){body[data-view=chords] .custom-progression-controls{grid-template-columns:1fr}body[data-view=chords] .custom-chord-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){body[data-view=chords] .custom-progression-controls{grid-template-columns:1fr}body[data-view=chords] .custom-chord-controls,body[data-view=chords] .custom-dynamic-chord-controls{grid-template-columns:repeat(2,minmax(0,1fr))}body[data-view=chords] .custom-dynamic-progression .measure-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 
 body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice{margin-top:18px;padding-top:16px;border-top:1px solid var(--theme-border)}
 body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice>summary{padding-left:2px}
