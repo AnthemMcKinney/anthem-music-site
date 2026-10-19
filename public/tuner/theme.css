@@ -740,16 +740,25 @@ body[data-view=chords] .objective-panel:is([data-objective=practice],[data-objec
 
 body[data-view=chords] .strumming-panel .first-three-four{margin-top:18px;padding-top:18px;border-top-width:4px}
 
-/* The final Practice tool stays open so students can build and replay a progression quickly. */
-body[data-view=chords] .custom-progression-builder{margin-top:18px;padding:16px;border:2px solid var(--theme-border-strong);border-top:5px solid var(--theme-accent);border-radius:12px;background:var(--theme-soft)}
-body[data-view=chords] .custom-progression-heading>p{margin:0;color:var(--theme-accent-deep);font-size:10px;font-weight:900;letter-spacing:1.2px}
-body[data-view=chords] .custom-progression-heading>h2{margin:3px 0 2px;color:var(--theme-ink);font-size:24px}
-body[data-view=chords] .custom-progression-heading>span{color:var(--theme-muted);font-size:12px;line-height:1.4}
+/* Build-your-own tools follow the same expandable card language as the lesson libraries. */
+body[data-view=chords] .custom-practice-tools{margin-top:18px;padding:16px;border:2px solid var(--theme-border-strong);border-top:5px solid var(--theme-accent);border-radius:12px;background:var(--theme-soft)}
+body[data-view=chords] .custom-practice-heading{padding-bottom:11px;border-bottom:1px solid var(--theme-border)}
+body[data-view=chords] .custom-practice-heading>p{margin:0;color:var(--theme-accent-deep);font-size:10px;font-weight:900;letter-spacing:1.2px}
+body[data-view=chords] .custom-practice-heading>h2{margin:3px 0 2px;color:var(--theme-ink);font-size:24px}
+body[data-view=chords] .custom-practice-heading>span{color:var(--theme-muted);font-size:12px;line-height:1.4}
+body[data-view=chords] .custom-progression-builder{margin:0;border-bottom:1px solid var(--theme-border);background:transparent}
+body[data-view=chords] .custom-progression-builder:last-child{border-bottom:0}
+body[data-view=chords] .custom-progression-builder>summary{display:flex;align-items:center;gap:10px;min-height:58px;padding:9px 4px;list-style:none;cursor:pointer}
+body[data-view=chords] .custom-progression-builder>summary::-webkit-details-marker{display:none}
+body[data-view=chords] .custom-progression-builder>summary small{display:block;color:var(--theme-accent-deep);font-size:8px;font-weight:900;letter-spacing:1px}
+body[data-view=chords] .custom-progression-builder>summary strong{display:block;margin-top:2px;color:var(--theme-ink);font-size:18px}
+body[data-view=chords] .custom-progression-body{padding:2px 4px 14px}
+body[data-view=chords] .custom-progression-body>p{margin:0;color:var(--theme-muted);font-size:12px;line-height:1.45}
 body[data-view=chords] .custom-progression-controls{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:12px;margin:14px 0}
 body[data-view=chords] .custom-chord-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
 body[data-view=chords] .custom-2-chord .custom-chord-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
 body[data-view=chords] .custom-progression-controls label{display:grid;gap:4px;color:var(--theme-accent-deep);font:900 9px/1.2 var(--app-font);letter-spacing:.7px;text-transform:uppercase}
 body[data-view=chords] .custom-progression-controls select{width:100%;min-height:38px;padding:7px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:800 13px var(--app-font)}
-body[data-view=chords] .custom-progression-builder>.change-card{margin-top:0}
-body[data-view=chords] .custom-progression-builder>.change-card .change-top{display:none}
+body[data-view=chords] .custom-progression-body>.change-card{margin-top:0}
+body[data-view=chords] .custom-progression-body>.change-card .change-top{display:none}
 @media(max-width:760px){body[data-view=chords] .custom-progression-controls{grid-template-columns:1fr}body[data-view=chords] .custom-chord-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
