@@ -777,7 +777,7 @@ body[data-view=chords] .library-section{
  display:block;margin:0;padding:0 12px;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);overflow:hidden
 }
 body[data-view=chords] .library-section>summary{
- display:grid;grid-template-columns:minmax(0,1fr) 30px;align-items:center;gap:10px;min-height:72px;padding:12px 2px;list-style:none;cursor:pointer
+ box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 30px;align-items:center;gap:10px;width:100%;min-height:72px;padding:12px 2px;list-style:none;cursor:pointer
 }
 body[data-view=chords] .library-section>summary::-webkit-details-marker{display:none}
 body[data-view=chords] .library-section>summary small{
@@ -859,4 +859,21 @@ body[data-view=chords] .custom-progression-body{padding:8px 2px 12px;border-top:
  body[data-view=chords] .library-section-body>.progression-details>summary,
  body[data-view=chords] .requested-practice-body>.progression-details>summary,
  body[data-view=chords] .custom-progression-builder>summary{min-height:54px}
+}
+
+/* Retire the legacy Requested/Custom overrides in favor of the master section card. */
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice.library-section,
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.custom-practice-tools.library-section{
+ display:block;margin:0;padding:0 12px;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);overflow:hidden
+}
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice.library-section>summary,
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.custom-practice-tools.library-section>summary{
+ box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 30px;align-items:center;gap:10px;width:100%;min-height:72px;padding:12px 2px;background:transparent
+}
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice.library-section summary strong,
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.custom-practice-tools.library-section summary strong{
+ font:750 23px/1.08 var(--app-font)
+}
+html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice.library-section .requested-practice-body{
+ padding:0 0 8px;border:0;background:transparent
 }
