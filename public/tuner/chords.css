@@ -315,3 +315,20 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 }
 
 @media(max-width:740px){body[data-view=chords] .strumming-panel .song-example .change-card .measure-row{grid-template-columns:1fr;overflow:visible}}
+/* Full-row hit target for expandable title/summary rows (audit fix) */
+.lesson-summary,
+.practice-exercise > summary,
+.practice-instructions > summary,
+.library-section > summary,
+.requested-song > summary,
+.progression-details > summary,
+.exercise-details > summary {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+summary * {
+  pointer-events: none;
+}
