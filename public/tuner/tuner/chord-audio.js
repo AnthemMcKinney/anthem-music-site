@@ -80,7 +80,7 @@ export class ChordPlayer{
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
-  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4){
+  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0){
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),chords=progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beat=60/bpm,eighth=beat/2,beatsPerMeasure=meter===3?3:4,measure=beat*beatsPerMeasure,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),selectedProgression=progression.slice(startIndex),cycle=selectedProgression.length*measure;
   if(token!==this.loopToken)return false;
   this.onCue=onCue;
@@ -99,7 +99,9 @@ export class ChordPlayer{
      if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration,voicing.range,voicing.strength,voicing.count);
    });
   });
-  let nextCycleAt=ctx.currentTime+.065,nextBeatAt=nextCycleAt,rhythmBeat=0;
+  const countIn=meter===4?[0,2,4].includes(Number(countInBeats))?Number(countInBeats):0:0,leadStart=ctx.currentTime+.065;
+  for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,.46);
+  let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0;
   const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0);this.click(ctx,hat,nextBeatAt+eighth,false);this.drum(ctx,rhythmBeat%2===0?kick:snare,nextBeatAt,rhythmBeat%2===0?.56:.5);}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.46:.4);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.1);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
   if(onCue)this.cueFrame=requestAnimationFrame(cueTick);pump();return true;
  }
