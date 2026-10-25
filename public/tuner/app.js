@@ -54,7 +54,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
   return;
  }
  lastGood=now;panel.dataset.stale='false';
- if(auto){const guitalele=instrument.id==='ukulele'&&instrument.tunings[tuningIndex][0]==='Guitalele';const next=selector.update(result.hz,notes(),stringIndex,guitalele?false:result.confirmedChange,guitalele?{dwell:3,margin:55}:undefined);if(guitalele&&next===stringIndex&&selector.pending>=0){if(diagnostic)diagnostic.uiRejectionReason='confirming_guitalele_string';return;}if(next!==stringIndex){stringIndex=next;inTuneSince=0;trend=null;renderStrings();updateTarget();}}
+ if(auto){const guitalele=instrument.id==='ukulele'&&instrument.tunings[tuningIndex][0]==='Guitalele';const next=selector.update(result.hz,notes(),stringIndex,chromatic()?true:guitalele?false:result.confirmedChange,guitalele?{dwell:3,margin:55}:undefined);if(guitalele&&next===stringIndex&&selector.pending>=0){if(diagnostic)diagnostic.uiRejectionReason='confirming_guitalele_string';return;}if(next!==stringIndex){stringIndex=next;inTuneSince=0;trend=null;renderStrings();updateTarget();}}
  const cents=centsBetween(result.hz,frequency(target()));
  const reading=gauge.update(cents,now),abs=Math.abs(reading.average);
  if(!chromatic())confirmation.accept(reading,now);
