@@ -324,7 +324,6 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 .progression-details > summary,
 .exercise-details > summary,
 .custom-progression-builder > summary {
-  display: flex;
   width: 100%;
   cursor: pointer;
   box-sizing: border-box;
