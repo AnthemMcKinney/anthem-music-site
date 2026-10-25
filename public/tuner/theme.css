@@ -783,6 +783,8 @@ body[data-view=chords] .custom-progression-body>.change-card .change-top{display
 body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice{margin-top:18px;padding-top:16px;border-top:1px solid var(--theme-border)}
 body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice>summary{padding-left:2px}
 body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice summary strong{font-size:21px}
+body[data-view=chords] .requested-strum-control{display:grid;gap:4px;margin:8px 0 10px;color:var(--theme-accent-deep);font:900 9px/1.2 var(--app-font);letter-spacing:.7px;text-transform:uppercase}
+body[data-view=chords] .requested-strum-control select{box-sizing:border-box;width:100%;min-height:38px;padding:7px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:800 13px var(--app-font);text-transform:none}
 @container (min-width:620px){body[data-view=chords] .custom-progression-builder>summary strong,body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice summary strong{font-size:24px}}
 
 /* First Chords UI system: one hierarchy for Practice and Strumming at every size. */
@@ -832,7 +834,7 @@ html[data-theme=classic] body[data-view=chords] .objective-panel:is([data-object
 body[data-view=chords] .library-section-body>.progression-details>summary:after,
 body[data-view=chords] .requested-practice-body>.progression-details>summary:after,
 body[data-view=chords] .custom-progression-builder>summary:after{
- content:'+';position:static;grid-column:3;grid-row:1/3;display:grid;place-items:center;color:var(--theme-accent-deep);font:900 18px/1 Arial;translate:none
+ content:'+';position:static;grid-column:3;grid-row:1/3;display:grid;place-items:center;justify-self:end;color:var(--theme-accent-deep);font:900 18px/1 Arial;translate:none
 }
 body[data-view=chords] .library-section-body>.progression-details[open]>summary:after,
 body[data-view=chords] .requested-practice-body>.progression-details[open]>summary:after,

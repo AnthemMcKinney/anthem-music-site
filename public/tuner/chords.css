@@ -322,7 +322,8 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 .library-section > summary,
 .requested-song > summary,
 .progression-details > summary,
-.exercise-details > summary {
+.exercise-details > summary,
+.custom-progression-builder > summary {
   display: flex;
   width: 100%;
   cursor: pointer;
