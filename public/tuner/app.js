@@ -1,13 +1,13 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=53';
 import {TunerAudio} from './tuner/audio.js?v=69';
-import {GaugeState} from './tuner/gauge.js?v=3.7f8';
+import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7f8';
-import {initChords} from './tuner/chords.js?v=3.7f8';
+import {initMetronome} from './tuner/metronome.js?v=3.7fh';
+import {initChords} from './tuner/chords.js?v=3.7fh';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
