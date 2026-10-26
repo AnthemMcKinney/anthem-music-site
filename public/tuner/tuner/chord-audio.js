@@ -7,7 +7,8 @@ const tunings={
  ukulele:[67,60,64,69]
 };
 
-// Keep the same string group for each direction; accents change weight only.
+// Downstrokes use the chord's full intended voicing. Upstrokes stay lighter
+// and favor the upper strings, as they do on a real guitar.
 export function strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat){
  const fastStep=slotsPerBeat/2;
  return strokeIndexes.some(other=>other!==slotIndex&&Math.abs(other-slotIndex)<=fastStep);
@@ -16,7 +17,7 @@ export function strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat){
 export function exerciseStrokeVoicing(pattern,subdivision,position,slotIndex,slotsPerBeat,direction,clustered=false){
  const accent=pattern==='d.d.d.du.ud.d.du'&&(position%10===2||position%10===7)
   ||pattern==='d...d.du.ud.d...'&&(position%7===2||position%7===6);
- const range=accent||direction==='d'&&!clustered?'full':direction==='u'?'high':'low';
+ const range=direction==='d'?'full':direction==='u'?'high':'low';
  return {range,strength:accent?.88:slotIndex%slotsPerBeat===0?.76:.64};
 }
 
@@ -37,6 +38,12 @@ export class ChordPlayer{
   this.compressor=this.ctx.createDynamicsCompressor();
   this.compressor.threshold.value=-12;this.compressor.knee.value=7;this.compressor.ratio.value=5;this.compressor.attack.value=.004;this.compressor.release.value=.2;
   this.master.connect(this.compressor).connect(this.ctx.destination);
+  // Keep the rhythm guide out of the chord compressor so guitar transients
+  // cannot bury the click, kick, snare, or hi-hat.
+  this.rhythm=this.ctx.createGain();this.rhythm.gain.value=.95;
+  this.rhythmLimiter=this.ctx.createDynamicsCompressor();
+  this.rhythmLimiter.threshold.value=-4;this.rhythmLimiter.knee.value=3;this.rhythmLimiter.ratio.value=10;this.rhythmLimiter.attack.value=.001;this.rhythmLimiter.release.value=.09;
+  this.rhythm.connect(this.rhythmLimiter).connect(this.ctx.destination);
   return this.ctx;
  }
  async load(ctx,file){
@@ -62,21 +69,21 @@ export class ChordPlayer{
   // Four-string low-range playback otherwise stops at the G string and makes
   // the exercise sound like the open-B 320003 voicing that we do not teach.
   const exerciseStringCount=chord.id==='g'&&direction==='d'&&range==='low'?5:chord.id==='d'&&direction==='u'?3:stringCount;
-  const {ctx,pitches,samples,buffers}=kit,order=strumStringIndexes(pitches,direction,range,exerciseStringCount),spacing=direction==='u'?.008:.017;
-  order.forEach((sampleIndex,strokeIndex)=>{const buffer=buffers[sampleIndex],sample=samples[sampleIndex],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),start=when+strokeIndex*spacing,rate=sample.hz/sample.sourceHz,voiceDuration=Math.min(duration,buffer.duration/rate);source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;const level=({low:.4,mid:.42,high:.35,full:.64}[range]||.42)*strength;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+.006);gain.gain.exponentialRampToValueAtTime(level*.64,start+Math.min(.28,voiceDuration*.25));gain.gain.setValueAtTime(level*.64,start+Math.max(.3,voiceDuration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+voiceDuration);source.connect(tone).connect(gain).connect(this.master);source.start(start);source.stop(start+voiceDuration+.01);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};});
+  const {ctx,pitches,samples,buffers}=kit,order=strumStringIndexes(pitches,direction,range,exerciseStringCount),guitar=isGuitarChord(chord.id),spacing=guitar?(direction==='u'?.009:.011):direction==='u'?.008:.017;
+  order.forEach((sampleIndex,strokeIndex)=>{const buffer=buffers[sampleIndex],sample=samples[sampleIndex],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),presence=ctx.createBiquadFilter(),start=when+strokeIndex*spacing,rate=sample.hz/sample.sourceHz,voiceDuration=Math.min(duration,buffer.duration/rate);source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;presence.type='highshelf';presence.frequency.value=2800;presence.gain.value=isGuitarChord(chord.id)?2.5:0;const level=({low:.4,mid:.42,high:.35,full:.64}[range]||.42)*strength,attack=isGuitarChord(chord.id)?.003:.006;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+attack);gain.gain.exponentialRampToValueAtTime(level*.64,start+Math.min(.28,voiceDuration*.25));gain.gain.setValueAtTime(level*.64,start+Math.max(.3,voiceDuration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+voiceDuration);source.connect(tone).connect(presence).connect(gain).connect(this.master);source.start(start);source.stop(start+voiceDuration+.01);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();presence.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};});
  }
- click(ctx,buffer,when,accent=false,level=accent?.38:.27){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type='highpass';tone.frequency.value=accent?3600:4200;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+.11);source.connect(tone).connect(gain).connect(this.master);source.start(when);source.stop(when+.125);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
- drum(ctx,buffer,when,level=.48){const source=ctx.createBufferSource(),gain=ctx.createGain();source.buffer=buffer;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(.48,buffer.duration));source.connect(gain).connect(this.master);source.start(when);source.stop(when+Math.min(.5,buffer.duration)+.02);this.voices.push(source);source.onended=()=>{source.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
+ click(ctx,buffer,when,accent=false,level=accent?.5:.38){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type='highpass';tone.frequency.value=accent?2200:2800;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+.14);source.connect(tone).connect(gain).connect(this.rhythm);source.start(when);source.stop(when+.155);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
+ drum(ctx,buffer,when,level=.6,voice='snare'){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type=voice==='kick'?'lowshelf':'peaking';tone.frequency.value=voice==='kick'?140:1900;tone.gain.value=voice==='kick'?8:4;if(voice!=='kick')tone.Q.value=.7;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(.62,buffer.duration));source.connect(tone).connect(gain).connect(this.rhythm);source.start(when);source.stop(when+Math.min(.64,buffer.duration)+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
  async play(chord){
   this.stop();const ctx=await this.unlock();
   const pitches=this.pitches(chord),samples=pitches.map(hz=>({hz,...referenceSample('guitar',hz)})),buffers=await Promise.all(samples.map(sample=>this.load(ctx,sample.file)));
-  const now=ctx.currentTime+.025,spacing=pitches.length===4?.045:.038;
+  const now=ctx.currentTime+.025,spacing=isGuitarChord(chord.id)?.012:pitches.length===4?.045:.038;
   buffers.forEach((buffer,index)=>{
-   const sample=samples[index],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),start=now+index*spacing,rate=sample.hz/sample.sourceHz,duration=Math.min(1.85,buffer.duration/rate);
-   source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;
-   const level=.8-index*.045;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(Math.max(.46,level),start+.012);gain.gain.setValueAtTime(Math.max(.46,level),start+Math.max(.03,duration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
-   source.connect(tone).connect(gain).connect(this.master);source.start(start);source.stop(start+duration+.02);this.voices.push(source);
-   source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
+   const sample=samples[index],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),presence=ctx.createBiquadFilter(),start=now+index*spacing,rate=sample.hz/sample.sourceHz,duration=Math.min(1.85,buffer.duration/rate);
+   source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;presence.type='highshelf';presence.frequency.value=2800;presence.gain.value=isGuitarChord(chord.id)?2.5:0;
+   const level=Math.max(.46,.8-index*.045),attack=isGuitarChord(chord.id)?.004:.012,sustain=isGuitarChord(chord.id)?level*.7:level;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+attack);gain.gain.exponentialRampToValueAtTime(sustain,start+Math.min(.12,duration*.2));gain.gain.setValueAtTime(sustain,start+Math.max(.13,duration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+   source.connect(tone).connect(presence).connect(gain).connect(this.master);source.start(start);source.stop(start+duration+.02);this.voices.push(source);
+   source.onended=()=>{source.disconnect();tone.disconnect();presence.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
@@ -100,11 +107,12 @@ export class ChordPlayer{
    });
   });
   const countIn=meter===4?[0,2,4].includes(Number(countInBeats))?Number(countInBeats):0:0,leadStart=ctx.currentTime+.065;
-  for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,.46);
+  for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,index===0?.72:.58);
   let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0;
-  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0);this.click(ctx,hat,nextBeatAt+eighth,false);this.drum(ctx,rhythmBeat%2===0?kick:snare,nextBeatAt,rhythmBeat%2===0?.56:.5);}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.46:.4);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.1);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
+  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){const kickBeat=rhythmBeat%2===0;this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.56:.44);this.click(ctx,hat,nextBeatAt+eighth,false,.34);this.drum(ctx,kickBeat?kick:snare,nextBeatAt,kickBeat?1.08:.9,kickBeat?'kick':'snare');}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.72:.58);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.16);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.82:.64);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
   if(onCue)this.cueFrame=requestAnimationFrame(cueTick);pump();return true;
  }
 }
 
-const familyTone=id=>id.startsWith('uke-')?5200:id.startsWith('bar-')?4700:4300;
+const isGuitarChord=id=>!id.startsWith('uke-')&&!id.startsWith('bar-');
+const familyTone=id=>id.startsWith('uke-')?5200:id.startsWith('bar-')?4700:7800;
