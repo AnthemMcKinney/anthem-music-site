@@ -942,3 +942,92 @@ body[data-view=chords] .objective-strum-control{margin:0 0 9px}
 body[data-view=chords] .objective-strum-control select{width:100%}
 @container (min-width:620px){body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab{grid-template-columns:42px minmax(0,1fr) 28px;min-height:70px;padding:10px 4px;column-gap:14px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .exercise-tab-number{width:34px;height:34px;font-size:15px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab small{font-size:10px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab strong{font-size:20px}}
 @media(max-width:520px){body[data-view=chords] .objective-practice-disclosure.library-section{padding-inline:9px}body[data-view=chords] .objective-practice-disclosure.library-section>summary{min-height:62px;padding-block:9px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab{min-height:54px}}
+
+/* Chord variations stay anchored to the chord name and use one forward control. */
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav){
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:36px;
+  padding-right:38px;
+}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{
+  display:grid;
+  grid-template-columns:minmax(0,max-content) 28px;
+  align-items:center;
+  gap:1px 7px;
+  min-width:0;
+  padding-right:0;
+}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div>span{grid-column:1/-1}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) h2{grid-column:1;grid-row:2}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{
+  position:static;
+  grid-column:2;
+  grid-row:2;
+  margin:0;
+}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav button{
+  width:27px;
+  height:27px;
+}
+body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{
+  position:absolute;
+  top:0;
+  right:0;
+  margin:0;
+}
+@media(max-width:740px){
+  body[data-view=chords] .chord-card-heading,
+  body[data-view=chords] .chord-card-heading:has(.chord-variant-nav){min-height:36px}
+  body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{padding-right:0}
+}
+/* Expanded numbered exercises receive a quiet location cue; section-card headers do not. */
+body[data-view=chords] .practice-exercise-tab[aria-pressed=true],
+body[data-view=chords] .progression-details[open]>summary,
+body[data-view=chords] .custom-progression-builder[open]>summary{
+  background:color-mix(in srgb,var(--theme-accent) 12%,var(--theme-soft));
+  position:relative;
+  z-index:1;
+  box-shadow:0 3px 8px color-mix(in srgb,var(--theme-ink) 16%,transparent);
+  transition:background-color .15s ease,box-shadow .15s ease;
+}
+html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab[aria-pressed=true],
+html[data-theme^=dark] body[data-view=chords] .progression-details[open]>summary,
+html[data-theme^=dark] body[data-view=chords] .custom-progression-builder[open]>summary{
+  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-soft));
+}
+/* Objective exercise details nest directly beneath their numbered row. */
+body[data-view=chords] .objective-practice-card .practice-exercise-tabs>.practice-exercise-panel{
+  box-sizing:border-box;
+  width:calc(100% - 8px);
+  margin:0 0 10px 8px;
+  padding:9px;
+  border:1px solid var(--theme-border);
+  border-top:0;
+  border-radius:0 0 0 8px;
+  background:color-mix(in srgb,var(--theme-soft-2) 90%,var(--theme-ink));
+}
+html[data-theme^=dark] body[data-view=chords] .objective-practice-card .practice-exercise-tabs>.practice-exercise-panel{background:color-mix(in srgb,var(--theme-soft-2) 84%,var(--theme-page))}
+body[data-view=chords] .objective-practice-card .practice-exercise-tabs>.practice-exercise-panel[hidden]{display:none}
+body[data-view=chords] .objective-practice-card .practice-exercise-tabs>.practice-exercise-panel .music-measure{background:var(--theme-surface)}
+/* The same nested detail surface follows every open numbered exercise. */
+body[data-view=chords] .progression-details[open]>.progression-body,
+body[data-view=chords] .custom-progression-builder[open]>.custom-progression-body{
+  box-sizing:border-box;
+  width:calc(100% - 8px);
+  margin:0 0 10px 8px;
+  padding:9px;
+  border:1px solid var(--theme-border);
+  border-top:0;
+  border-radius:0 0 0 8px;
+  background:color-mix(in srgb,var(--theme-soft-2) 90%,var(--theme-ink));
+}
+html[data-theme^=dark] body[data-view=chords] .progression-details[open]>.progression-body,
+html[data-theme^=dark] body[data-view=chords] .custom-progression-builder[open]>.custom-progression-body{
+  background:color-mix(in srgb,var(--theme-soft-2) 84%,var(--theme-page));
+}
+body[data-view=chords] .progression-details[open]>.progression-body .music-measure,
+body[data-view=chords] .custom-progression-builder[open]>.custom-progression-body .music-measure{
+  background:var(--theme-surface);
+}

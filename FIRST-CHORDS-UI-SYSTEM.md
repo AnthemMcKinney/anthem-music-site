@@ -29,6 +29,8 @@ Each section card contains:
 - Make the entire row clickable.
 - Place the plus/minus indicator at the right.
 - Use a single horizontal divider between rows. Do not wrap each closed row in its own outlined card.
+- Give only the open numbered exercise row a light accent tint and soft drop shadow. Keep section-card headers visually unchanged when their cards expand.
+- Place every open numbered exercise panel immediately beneath its row across Objectives, Strumming, Practice, Requested Songs, and Custom Patterns. Inset its left edge, align its right edge with the row, and use a slightly darker secondary soft surface to show that it is nested detail.
 
 ## Responsive and theme rules
 
@@ -44,4 +46,6 @@ Each section card contains:
 - Objective practice uses separate section cards for Chord Pairs, 4-Chord Progressions, and First Songs. Do not place these distinct activities beneath divider headings inside one card.
 - Supporting note disclosures use one orange uppercase label only, such as Objective Notes, Practice Notes, Strumming Notes, or How These Patterns Work. Do not add a second title to the collapsed row.
 - Objective chord cards retain the same page-level title and notes hierarchy, while their chord diagrams remain the primary card content.
+- When a chord has other shapes or variations, place one forward arrow directly beside the chord name. The arrow cycles through the available options; the first chord shown remains the primary chord to learn.
+- Continuous down-up strumming is a chord-pair training option. Exclude it from four-chord progressions, first songs, fully customizable progressions, and requested songs.
 
