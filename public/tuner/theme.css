@@ -912,6 +912,8 @@ html body[data-view=chords] .objective-panel[data-objective=practice] .objective
 body[data-view=chords] .objective-practice-disclosure.library-section{display:block;margin:0;padding:0 12px;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;background:var(--theme-soft);overflow:hidden}
 body[data-view=chords] .objective-practice-disclosure.library-section>summary{box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) 30px;align-items:center;gap:10px;width:100%;min-height:72px;padding:12px 2px;background:transparent;color:var(--theme-ink);cursor:pointer}
 body[data-view=chords] .objective-practice-disclosure.library-section>.objective-practice-disclosure-body{padding:0 0 8px}
+body[data-view=chords] .practice-drawers.objective-practice-card-stack{display:grid;grid-template-columns:1fr;gap:12px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+body[data-view=chords] .objective-practice-group-card{min-width:0}
 body[data-view=chords] .objective-practice-notes.lesson-details{margin:0 1px 9px;padding:8px 0;border:0;border-top:1px solid var(--theme-border);border-radius:0;background:transparent;color:var(--theme-ink)}
 body[data-view=chords] .objective-practice-notes>.lesson-summary{box-sizing:border-box;width:100%;cursor:pointer}
 body[data-view=chords] .objective-practice-notes>.practice-instructions-body{border:0;border-top:1px solid var(--theme-border);background:transparent}

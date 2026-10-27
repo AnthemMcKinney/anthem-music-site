@@ -41,5 +41,7 @@ Each section card contains:
 
 - Core 4/4 strumming, 3/4 strumming, and sixteenth-note strumming are separate section cards because they teach different counting systems. Numbering restarts in each card.
 - Practice uses separate section cards for Common Progression Patterns, Custom Patterns, and Requested Patterns.
+- Objective practice uses separate section cards for Chord Pairs, 4-Chord Progressions, and First Songs. Do not place these distinct activities beneath divider headings inside one card.
+- Supporting note disclosures use one orange uppercase label only, such as Objective Notes, Practice Notes, Strumming Notes, or How These Patterns Work. Do not add a second title to the collapsed row.
 - Objective chord cards retain the same page-level title and notes hierarchy, while their chord diagrams remain the primary card content.
 
