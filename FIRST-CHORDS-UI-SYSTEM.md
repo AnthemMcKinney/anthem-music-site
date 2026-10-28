@@ -50,6 +50,9 @@ Each section card contains:
 - Continuous down-up strumming is a chord-pair training option. Exclude it from four-chord progressions, first songs, fully customizable progressions, and requested songs.
 - Objective 1 Practice Notes contain the compact beat-grid legend: down arrow, up arrow, movement dot, numbered beats, and the `&` subdivision.
 - Fully Customizable progressions let each chord last 1/4, 2/4, 3/4, or 4/4 while the selected strumming pattern continues across chord changes.
-- Guitar Objective 4 mirrors the existing objective hierarchy and is reserved for movable E-string and A-string barre shapes. Higher shapes use a labeled starting-fret window, and the practice cards connect each new shape to familiar open chords before completing the A- and E-family I–IV–V–vi progressions.
+- Guitar Objective 3 orders A, Dm, F-Alternative, and B7 by frequency, musical importance, and playability. It introduces the manageable F alternative before the full barre lesson.
+- Guitar Objective 4 mirrors the existing objective hierarchy and focuses only on the two movable shape families at fret 2: B/Bm from A/Am and F♯/F♯m from E/Em. Higher positions and additional chord names are reserved for a future chord library.
+- Chord diagrams stay anchored to the real white nut and use a faint fret-3 position marker. Strings receive only a tight black depth shadow beginning at the fretboard edge, so the shadow does not pass over the nut.
+- Chord-card titles contain only the chord name. Full names, shape families, and starting-fret guidance use the smaller subheader row directly below the title.
 - Objective 4 is guitar-specific. Baritone and standard ukulele keep the existing Objective 1–3, Strumming, and Practice navigation.
 

@@ -140,7 +140,7 @@ html[data-theme^=dark]{--theme-on-accent:#102330}
 .variant-swipe-cue[hidden]{display:none}
 
 /* SVG-native string depth renders consistently in WebKit, Chromium, and Android WebView. */
-.chord-diagram .string-shadow{stroke:#0d1f3c;opacity:.24;pointer-events:none}
+.chord-diagram .string-shadow{stroke:#000;opacity:.38;pointer-events:none}
 .chord-diagram .muted-string-shadow{opacity:.1}
 html[data-theme^=dark] .chord-diagram .string-shadow{stroke:#000;opacity:.72}
 html[data-theme^=dark] .chord-diagram .muted-string-shadow{opacity:.22}
@@ -1051,5 +1051,6 @@ body[data-view=chords] .objective-tabs[data-course-family=guitar]{grid-template-
 body[data-view=chords] .objective-tabs [data-guitar-only][hidden]{display:none}
 
 /* Movable chord diagrams label the first visible fret instead of forcing high shapes off-card. */
-body[data-view=chords] .chord-diagram .fret-position-label{fill:var(--theme-accent-deep);font:900 8px Arial;text-anchor:end;letter-spacing:.2px}
-body[data-view=chords] .chord-diagram .nut.shifted-nut{fill:var(--theme-border);stroke:var(--theme-border);filter:none}
+body[data-view=chords] .chord-diagram .fret-position-marker{fill:var(--theme-border);opacity:.72;pointer-events:none}
+body[data-view=chords] .chord-title-subheader{display:block;margin:3px 0 0;color:var(--theme-text);font:800 9px/1.2 var(--app-font);letter-spacing:.35px;opacity:.68}
+body[data-view=chords] .preview-heading .chord-title-subheader{margin-top:4px;font-size:10px}
