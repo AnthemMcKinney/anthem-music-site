@@ -1,4 +1,4 @@
-import {ChordPlayer} from './chord-audio.js?v=3.7fzl';
+import {ChordPlayer} from './chord-audio.js?v=3.7fzm';
 
 const chords=[
  {id:'g',name:'G',subtitle:'G Major',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],variants:['g7'],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
@@ -417,7 +417,7 @@ const refreshDynamicBuilder=dynamicBuilder=>{
  const chordParts=id=>{const label=byId[id].measureName||byId[id].name,match=label.match(/^([A-G](?:♯|♭)?)(.*)$/);return {root:match?.[1]||label,quality:match?.[2]||''};};
  for(let index=0;index<beatTimeline.length;index+=meter)measures.push(beatTimeline.slice(index,index+meter));
  card.dataset.customChordSequence=JSON.stringify(sequence);card.dataset.customBeatDurations=JSON.stringify(durations);card.dataset.audioBeatProgression=JSON.stringify(beatTimeline);card.dataset.audioProgression=JSON.stringify(measures);
- controls.innerHTML=sequence.map((id,index)=>{const parts=chordParts(id);return `<button type="button" class="custom-chord-tile" data-edit-measure="${index}" aria-label="Edit chord ${index+1}: ${byId[id].name}, ${durations[index]} beats"><strong><span>${parts.root}</span>${parts.quality?`<sup>${parts.quality}</sup>`:''}</strong><i aria-hidden="true">${Array.from({length:6},(_,beat)=>`<b class="${beat<durations[index]?'active':''}"></b>`).join('')}</i></button>`;}).join('')+`<button type="button" class="add-custom-measure" aria-label="Add another chord"${sequence.length>=16?' disabled':''}>+</button>`;
+ controls.innerHTML=sequence.map((id,index)=>{const parts=chordParts(id),beats=durations[index];return `<button type="button" class="custom-chord-tile" data-edit-measure="${index}" aria-label="Edit chord ${index+1}: ${byId[id].name}, ${beats} beats"><strong><span>${parts.root}</span>${parts.quality?`<sup>${parts.quality}</sup>`:''}</strong><i aria-hidden="true" style="--beat-count:${beats}">${Array.from({length:Math.max(0,beats-1)},()=>'<b></b>').join('')}</i></button>`;}).join('')+`<button type="button" class="add-custom-measure" aria-label="Add another chord"${sequence.length>=16?' disabled':''}>+</button>`;
  row.style.setProperty('--bar-count',measures.length);row.classList.toggle('long-progression',measures.length>4);row.classList.add('has-split-measure');row.innerHTML=measures.map((ids,index)=>{const barPattern=pattern.slice((index%bars)*slotsPerMeasure,(index%bars)*slotsPerMeasure+ids.length*slotsPerBeat);return beatMeasure(ids,barPattern,subdivision);}).join('');card.dataset.startMeasure='0';card.querySelector('.start-measure-note').hidden=true;row.querySelectorAll('.music-measure').forEach((item,index)=>{item.dataset.measureIndex=String(index);item.tabIndex=0;item.setAttribute('role','button');item.setAttribute('aria-label',`Measure ${index+1}. Select to start Follow Along here.`);item.setAttribute('aria-pressed',String(index===0));});
 };
 section.querySelectorAll('.custom-dynamic-progression').forEach(dynamicBuilder=>{

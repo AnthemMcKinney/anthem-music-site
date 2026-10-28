@@ -55,10 +55,10 @@ Each section card contains:
 - Chord diagrams stay anchored to the real white nut and use a faint fret-3 position marker. Strings receive only a tight black depth shadow beginning at the fretboard edge, so the shadow does not pass over the nut.
 - Chord-card titles contain only the chord name. Full names, shape families, and starting-fret guidance use the smaller subheader row directly below the title.
 - Requested songs use a numbered song row followed by indented, numbered part rows. Every part retains its badge, disclosure control, and active-panel treatment, including long chorus progressions.
-- Fully Customizable defaults to four short, equal-width ruler-style chord tiles that fill one horizontal row, with a slim add tile at the end. Narrow screens scroll this row instead of wrapping it. The gray ruler line and beat ticks connect directly to the tile's gray outline and communicate each chord's 1–6 beat duration without a separate duration label.
+- Fully Customizable defaults to four short, equal-width ruler-style chord tiles that fill one horizontal row, with a slim add tile at the end. Narrow screens scroll this row instead of wrapping it. Dark gray beat ticks divide the full width of each tile evenly and connect to its equally dark gray outline; there is no horizontal line above the ruler ticks.
 - Chord tiles use a navy root name and a small superscript quality. Tapping a tile opens a focused editor with the chromatic root list, the common Major, minor, 7, maj7, add9, and m7 qualities available for that instrument, and the 1–6 beat duration. Include visible Cancel, green Save, and red Delete actions.
 - The advanced control row has no enclosing panel: green icon-only Play aligns left, the labeled Strumming button centers, and the labeled Settings button aligns right. Settings contains time signature, count-in, drums, and BPM; drums default on. Strumming defaults to D D-u — u-D-u and contains the optional detailed rhythm-grid toggle.
-- Every Follow Along button uses the same solid green action treatment; its playing state uses a darker green.
+- Every Follow Along button uses a green outline at rest and fills solid green only while playback is active.
 - The detailed rhythm grid stays hidden until the user chooses to show it. Opting into strumming may use additional rows because the user has requested the extra detail. Follow Along actions and active cues use green throughout the app.
 - Objective 4 is guitar-specific. Baritone and standard ukulele keep the existing Objective 1–3, Strumming, and Practice navigation.
 
