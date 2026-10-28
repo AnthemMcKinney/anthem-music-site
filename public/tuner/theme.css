@@ -986,7 +986,7 @@ body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{
 body[data-view=chords] .practice-exercise-tab[aria-pressed=true],
 body[data-view=chords] .progression-details[open]>summary,
 body[data-view=chords] .custom-progression-builder[open]>summary{
-  background:color-mix(in srgb,var(--theme-accent) 12%,var(--theme-soft));
+  background:color-mix(in srgb,var(--theme-nav) 11%,var(--theme-soft));
   position:relative;
   z-index:1;
   box-shadow:0 3px 8px color-mix(in srgb,var(--theme-ink) 16%,transparent);
@@ -995,8 +995,11 @@ body[data-view=chords] .custom-progression-builder[open]>summary{
 html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab[aria-pressed=true],
 html[data-theme^=dark] body[data-view=chords] .progression-details[open]>summary,
 html[data-theme^=dark] body[data-view=chords] .custom-progression-builder[open]>summary{
-  background:color-mix(in srgb,var(--theme-accent) 16%,var(--theme-soft));
+  background:color-mix(in srgb,var(--theme-nav) 28%,var(--theme-soft));
 }
+body[data-view=chords] .practice-exercise-tab[aria-pressed=true] strong,
+body[data-view=chords] .progression-details[open]>summary h3,
+body[data-view=chords] .custom-progression-builder[open]>summary strong{color:var(--theme-ink)}
 /* Objective exercise details nest directly beneath their numbered row. */
 body[data-view=chords] .objective-practice-card .practice-exercise-tabs>.practice-exercise-panel{
   box-sizing:border-box;
@@ -1031,3 +1034,22 @@ body[data-view=chords] .progression-details[open]>.progression-body .music-measu
 body[data-view=chords] .custom-progression-builder[open]>.custom-progression-body .music-measure{
   background:var(--theme-surface);
 }
+
+/* Objective 1 introduces the symbols exactly where students first use the beat grid. */
+body[data-view=chords] .objective-rhythm-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin:0 0 12px;padding:9px 10px;border-left:3px solid var(--theme-nav);background:var(--theme-soft-2);color:var(--theme-ink);font-size:11px;line-height:1.3}
+body[data-view=chords] .objective-rhythm-legend>strong{grid-column:1/-1;color:var(--theme-accent-deep);font-size:9px;letter-spacing:.8px}
+body[data-view=chords] .objective-rhythm-legend>span{display:flex;align-items:center;gap:6px}
+body[data-view=chords] .objective-rhythm-legend b{min-width:24px;color:var(--theme-nav);font-size:15px;text-align:center}
+@media(max-width:430px){body[data-view=chords] .objective-rhythm-legend{grid-template-columns:1fr}}
+
+/* Fully Customizable keeps chord and beat length together in one compact control row. */
+body[data-view=chords] .custom-dynamic-progression .custom-measure-select-row{grid-template-columns:minmax(0,1fr) 58px 34px}
+body[data-view=chords] .custom-beat-count{padding-inline:4px!important;text-align:center}
+
+/* Guitar adds one focused movable-shapes objective; ukulele paths retain five equal tabs. */
+body[data-view=chords] .objective-tabs[data-course-family=guitar]{grid-template-columns:repeat(6,minmax(0,1fr))}
+body[data-view=chords] .objective-tabs [data-guitar-only][hidden]{display:none}
+
+/* Movable chord diagrams label the first visible fret instead of forcing high shapes off-card. */
+body[data-view=chords] .chord-diagram .fret-position-label{fill:var(--theme-accent-deep);font:900 8px Arial;text-anchor:end;letter-spacing:.2px}
+body[data-view=chords] .chord-diagram .nut.shifted-nut{fill:var(--theme-border);stroke:var(--theme-border);filter:none}

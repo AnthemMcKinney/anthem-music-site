@@ -29,7 +29,7 @@ Each section card contains:
 - Make the entire row clickable.
 - Place the plus/minus indicator at the right.
 - Use a single horizontal divider between rows. Do not wrap each closed row in its own outlined card.
-- Give only the open numbered exercise row a light accent tint and soft drop shadow. Keep section-card headers visually unchanged when their cards expand.
+- Give only the open numbered exercise row a muted navy/beige tint and soft drop shadow. Keep orange on the small category label and number badge; do not turn the item title orange. Keep section-card headers visually unchanged when their cards expand.
 - Place every open numbered exercise panel immediately beneath its row across Objectives, Strumming, Practice, Requested Songs, and Custom Patterns. Inset its left edge, align its right edge with the row, and use a slightly darker secondary soft surface to show that it is nested detail.
 
 ## Responsive and theme rules
@@ -48,4 +48,8 @@ Each section card contains:
 - Objective chord cards retain the same page-level title and notes hierarchy, while their chord diagrams remain the primary card content.
 - When a chord has other shapes or variations, place one forward arrow directly beside the chord name. The arrow cycles through the available options; the first chord shown remains the primary chord to learn.
 - Continuous down-up strumming is a chord-pair training option. Exclude it from four-chord progressions, first songs, fully customizable progressions, and requested songs.
+- Objective 1 Practice Notes contain the compact beat-grid legend: down arrow, up arrow, movement dot, numbered beats, and the `&` subdivision.
+- Fully Customizable progressions let each chord last 1/4, 2/4, 3/4, or 4/4 while the selected strumming pattern continues across chord changes.
+- Guitar Objective 4 mirrors the existing objective hierarchy and is reserved for movable E-string and A-string barre shapes. Higher shapes use a labeled starting-fret window, and the practice cards connect each new shape to familiar open chords before completing the A- and E-family I–IV–V–vi progressions.
+- Objective 4 is guitar-specific. Baritone and standard ukulele keep the existing Objective 1–3, Strumming, and Practice navigation.
 

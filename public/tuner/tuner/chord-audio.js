@@ -87,25 +87,29 @@ export class ChordPlayer{
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
-  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0){
-  this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),chords=progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beat=60/bpm,eighth=beat/2,beatsPerMeasure=meter===3?3:4,measure=beat*beatsPerMeasure,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),selectedProgression=progression.slice(startIndex),cycle=selectedProgression.length*measure;
-  if(token!==this.loopToken)return false;
+  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0,beatTimeline=[]){
+  this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),timeline=Array.isArray(beatTimeline)&&beatTimeline.length?beatTimeline:null,chords=timeline||progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beat=60/bpm,eighth=beat/2,beatsPerMeasure=meter===3?3:4,measure=beat*beatsPerMeasure,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),startBeat=startIndex*beatsPerMeasure,selectedTimeline=timeline?.slice(startBeat),selectedProgression=progression.slice(startIndex),cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;
+  if(token!==this.loopToken||cycle<=0)return false;
   this.onCue=onCue;
    const strumLead=.032,slotsPerBeat=subdivision==='sixteenth'?4:2,slotsPerMeasure=slotsPerBeat*beatsPerMeasure,slotDuration=beat/slotsPerBeat,patternBars=String(pattern).match(new RegExp(`.{1,${slotsPerMeasure}}`,'g'))||['d.d.d.d.'];
   const queueCue=(at,data)=>{if(onCue)this.cueQueue.push({at,data});};
   const cueTick=()=>{if(token!==this.loopToken)return;let cue=null;while(this.cueQueue[0]?.at<=ctx.currentTime+.025)cue=this.cueQueue.shift();if(cue)onCue(cue.data);this.cueFrame=requestAnimationFrame(cueTick);};
-  const scheduleCycle=start=>selectedProgression.forEach((entry,offset)=>{
-    const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry),slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
-    for(let index=0;index<slotsPerMeasure;index++){
-    const activeStrokeIndex=strokeIndexes.filter(strokeIndex=>strokeIndex<=index).at(-1)??strokeIndexes.at(-1)??0;
-     queueCue(measureStart+index*slotDuration,{measureIndex,slotIndex:index,activeStrokeIndex,isRest:slots[index]==='.',isDownbeat:index%slotsPerBeat===0,beatChords,slotsPerBeat});
+  const scheduleBeatTimeline=start=>{
+   for(let localSlot=0;localSlot<selectedTimeline.length*slotsPerBeat;localSlot++){
+    const absoluteBeat=startBeat+Math.floor(localSlot/slotsPerBeat),measureIndex=Math.floor(absoluteBeat/beatsPerMeasure),slotIndex=absoluteBeat%beatsPerMeasure*slotsPerBeat+localSlot%slotsPerBeat,slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0),stroke=slots[slotIndex]||'.',activeStrokeIndex=strokeIndexes.filter(index=>index<=slotIndex).at(-1)??strokeIndexes.at(-1)??0,at=start+localSlot*slotDuration;
+    queueCue(at,{measureIndex,slotIndex,activeStrokeIndex,isRest:stroke==='.',isDownbeat:slotIndex%slotsPerBeat===0,beatChords:true,slotsPerBeat});
+    if(stroke!=='d'&&stroke!=='u')continue;
+    const chord=selectedTimeline[Math.floor(localSlot/slotsPerBeat)],position=strokeIndexes.indexOf(slotIndex),priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(value=>value==='d'||value==='u').length,0),clustered=strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+Math.max(0,position),slotIndex,slotsPerBeat,stroke,clustered),duration=subdivision==='sixteenth'?1.65:2.2;
+    if(chord)this.stroke(chord,kits.get(chord.id),at-strumLead,stroke,duration,voicing.range,voicing.strength,voicing.count);
    }
+  };
+  const scheduleMeasures=start=>selectedProgression.forEach((entry,offset)=>{
+   const measureIndex=startIndex+offset,measureStart=start+offset*measure,beatChords=Array.isArray(entry),slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0);
+   for(let index=0;index<slotsPerMeasure;index++){const activeStrokeIndex=strokeIndexes.filter(strokeIndex=>strokeIndex<=index).at(-1)??strokeIndexes.at(-1)??0;queueCue(measureStart+index*slotDuration,{measureIndex,slotIndex:index,activeStrokeIndex,isRest:slots[index]==='.',isDownbeat:index%slotsPerBeat===0,beatChords,slotsPerBeat});}
    const priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(stroke=>stroke==='d'||stroke==='u').length,0);
-   strokeIndexes.forEach((index,position)=>{
-     const duration=subdivision==='sixteenth'?1.65:2.2,chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,clustered=strokeIsClustered(index,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index],clustered);
-     if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration,voicing.range,voicing.strength,voicing.count);
-   });
+   strokeIndexes.forEach((index,position)=>{const duration=subdivision==='sixteenth'?1.65:2.2,chord=beatChords?entry[Math.floor(index/slotsPerBeat)]:entry,clustered=strokeIsClustered(index,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+position,index,slotsPerBeat,slots[index],clustered);if(chord)this.stroke(chord,kits.get(chord.id),measureStart+index*slotDuration-strumLead,slots[index],duration,voicing.range,voicing.strength,voicing.count);});
   });
+  const scheduleCycle=timeline?scheduleBeatTimeline:scheduleMeasures;
   const countIn=meter===4?[0,2,4].includes(Number(countInBeats))?Number(countInBeats):0:0,leadStart=ctx.currentTime+.065;
   for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,index===0?.72:.58);
   let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0;
