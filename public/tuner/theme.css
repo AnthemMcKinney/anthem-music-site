@@ -1226,7 +1226,7 @@ body[data-view=chords] .unified-exercise-toolbar .exercise-tool-count-in .exerci
 body[data-view=chords] .progression-details[open]>summary,
 body[data-view=chords] .requested-song[open]>summary,
 body[data-view=chords] .lesson-details[open]>summary,
-body[data-view=chords] .practice-exercise-tab[aria-pressed=true]{background:color-mix(in srgb,var(--theme-nav) 24%,var(--theme-soft))!important;box-shadow:0 3px 9px color-mix(in srgb,var(--theme-ink) 24%,transparent)!important}
+body[data-view=chords] .practice-exercise-tab[aria-pressed=true]{background:color-mix(in srgb,var(--theme-nav) 20%,var(--theme-soft))!important;box-shadow:0 3px 9px color-mix(in srgb,var(--theme-ink) 20%,transparent)!important}
 body[data-view=chords] .progression-details[open]>summary strong,
 body[data-view=chords] .progression-details[open]>summary h3,
 body[data-view=chords] .requested-song[open]>summary strong,
@@ -1234,8 +1234,8 @@ body[data-view=chords] .lesson-details[open]>summary strong,
 body[data-view=chords] .practice-exercise-tab[aria-pressed=true] strong{color:var(--theme-ink)!important}
 body[data-view=chords] .progression-details[open]>.progression-body,
 body[data-view=chords] .requested-song[open]>.requested-song-body,
-body[data-view=chords] .practice-exercise-panel:not([hidden]){background:color-mix(in srgb,var(--theme-soft-2) 86%,var(--theme-ink))!important}
+body[data-view=chords] .practice-exercise-panel:not([hidden]){background:color-mix(in srgb,var(--theme-soft-2) 90%,var(--theme-ink))!important}
 html[data-theme^=dark] body[data-view=chords] .progression-details[open]>summary,
 html[data-theme^=dark] body[data-view=chords] .requested-song[open]>summary,
 html[data-theme^=dark] body[data-view=chords] .lesson-details[open]>summary,
-html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab[aria-pressed=true]{background:color-mix(in srgb,var(--theme-nav) 38%,var(--theme-soft))!important}
+html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab[aria-pressed=true]{background:color-mix(in srgb,var(--theme-nav) 34%,var(--theme-soft))!important}
