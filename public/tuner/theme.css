@@ -1182,10 +1182,11 @@ body[data-view=chords] .custom-backing-mixer>header{display:block;padding:12px 1
 body[data-view=chords] .custom-backing-mixer>header div{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 body[data-view=chords] .custom-backing-mixer>header small{color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.85px}
 body[data-view=chords] .custom-backing-mixer>header strong{color:var(--theme-muted);font:650 11px/1.2 var(--app-font)}
-body[data-view=chords] .custom-track-row{display:grid;grid-template-columns:104px minmax(150px,1fr) 118px;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--theme-border);transition:opacity .15s,background .15s}
+body[data-view=chords] .custom-track-row{display:grid;grid-template-columns:142px minmax(142px,1fr) 112px;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--theme-border);transition:opacity .15s,background .15s}
 body[data-view=chords] .custom-track-row:last-child{border-bottom:0}
 body[data-view=chords] .custom-track-row:not(.is-off){background:color-mix(in srgb,#e7f4eb 60%,var(--theme-surface))}
 body[data-view=chords] .custom-track-row.is-off .custom-track-style,body[data-view=chords] .custom-track-row.is-off .custom-track-volume{opacity:.42}
+body[data-view=chords] .custom-track-identity{display:flex;align-items:center;justify-content:space-between;gap:7px;min-width:0}
 body[data-view=chords] .custom-track-toggle{display:grid;grid-template-columns:36px 1fr;align-items:center;gap:9px;cursor:pointer}
 body[data-view=chords] .custom-track-toggle input{position:absolute;opacity:0}
 body[data-view=chords] .custom-track-toggle i{position:relative;width:36px;height:21px;border-radius:99px;background:#858d91;box-shadow:inset 0 0 0 1px #00000018}
@@ -1193,13 +1194,16 @@ body[data-view=chords] .custom-track-toggle i::after{content:"";position:absolut
 body[data-view=chords] .custom-track-toggle:has(input:checked) i{background:#37965c}
 body[data-view=chords] .custom-track-toggle:has(input:checked) i::after{transform:translateX(15px)}
 body[data-view=chords] .custom-track-toggle strong{color:var(--theme-ink);font:800 13px/1 var(--app-font)}
+body[data-view=chords] .custom-track-solo{min-width:38px;height:27px;padding:0 7px;border:1px solid var(--theme-border-strong);border-radius:99px;background:var(--theme-surface);color:var(--theme-muted);font:850 9px/1 var(--app-font);cursor:pointer}
+body[data-view=chords] .custom-track-solo[aria-pressed=true]{border-color:#37965c;background:#37965c;color:#fff;box-shadow:0 0 0 2px color-mix(in srgb,#37965c 20%,transparent)}
+body[data-view=chords] .custom-track-solo:disabled{opacity:.38;cursor:default}
 body[data-view=chords] .custom-track-style,body[data-view=chords] .custom-track-volume{display:grid;gap:5px;min-width:0;color:var(--theme-accent-deep);font:900 8px/1 var(--app-font);letter-spacing:.55px;text-transform:uppercase}
 body[data-view=chords] .custom-track-style select{box-sizing:border-box;width:100%;height:34px;padding:5px 8px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:750 12px/1 var(--app-font);text-transform:none}
 body[data-view=chords] .custom-track-volume input{width:100%;height:20px;margin:0;accent-color:#37965c;cursor:pointer}
 body[data-view=chords] .custom-track-volume>span{display:flex;justify-content:space-between;gap:6px}
 body[data-view=chords] .custom-track-volume output{color:var(--theme-muted);font:800 9px/1 var(--app-font);letter-spacing:0}
-@media(max-width:520px){body[data-view=chords] .custom-settings-editor .custom-settings-grid{grid-template-columns:74px 82px minmax(128px,1fr);gap:7px}body[data-view=chords] .custom-track-row{grid-template-columns:88px minmax(108px,1fr) 82px;gap:7px;padding:9px 10px}body[data-view=chords] .custom-track-toggle{grid-template-columns:32px 1fr;gap:6px}body[data-view=chords] .custom-track-toggle i{width:32px}body[data-view=chords] .custom-track-toggle:has(input:checked) i::after{transform:translateX(11px)}body[data-view=chords] .custom-backing-mixer>header div{display:grid;gap:4px}}
-@media(max-width:390px){body[data-view=chords] .custom-settings-editor .custom-settings-grid{grid-template-columns:66px 72px minmax(118px,1fr)}body[data-view=chords] .custom-track-row{grid-template-columns:82px minmax(100px,1fr) 68px;padding-inline:8px}body[data-view=chords] .custom-track-toggle strong{font-size:11px}body[data-view=chords] .custom-track-style select{padding-inline:5px;font-size:10px}}
+@media(max-width:520px){body[data-view=chords] .custom-settings-editor .custom-settings-grid{grid-template-columns:74px 82px minmax(128px,1fr);gap:7px}body[data-view=chords] .custom-track-row{grid-template-columns:116px minmax(104px,1fr) 76px;gap:7px;padding:9px 10px}body[data-view=chords] .custom-track-toggle{grid-template-columns:32px 1fr;gap:6px}body[data-view=chords] .custom-track-toggle i{width:32px}body[data-view=chords] .custom-track-toggle:has(input:checked) i::after{transform:translateX(11px)}body[data-view=chords] .custom-track-solo{min-width:32px;padding-inline:5px;font-size:8px}body[data-view=chords] .custom-backing-mixer>header div{display:grid;gap:4px}}
+@media(max-width:390px){body[data-view=chords] .custom-settings-editor .custom-settings-grid{grid-template-columns:66px 72px minmax(118px,1fr)}body[data-view=chords] .custom-track-row{grid-template-columns:108px minmax(96px,1fr) 64px;padding-inline:8px}body[data-view=chords] .custom-track-toggle strong{font-size:11px}body[data-view=chords] .custom-track-style select{padding-inline:5px;font-size:10px}}
 
 /* One compact, labeled playback row for every standard exercise. */
 body[data-view=chords] .exercise-toolbar.unified-exercise-toolbar{display:grid;grid-template-columns:56px 102px minmax(108px,1fr) 64px 38px;align-items:end;gap:6px;margin:6px 0 10px}
