@@ -97,7 +97,7 @@ export class ChordPlayer{
   const scheduleBeatTimeline=start=>{
    for(let localSlot=0;localSlot<selectedTimeline.length*slotsPerBeat;localSlot++){
     const absoluteBeat=startBeat+Math.floor(localSlot/slotsPerBeat),measureIndex=Math.floor(absoluteBeat/beatsPerMeasure),slotIndex=absoluteBeat%beatsPerMeasure*slotsPerBeat+localSlot%slotsPerBeat,slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0),stroke=slots[slotIndex]||'.',activeStrokeIndex=strokeIndexes.filter(index=>index<=slotIndex).at(-1)??strokeIndexes.at(-1)??0,at=start+localSlot*slotDuration;
-    queueCue(at,{measureIndex,slotIndex,activeStrokeIndex,isRest:stroke==='.',isDownbeat:slotIndex%slotsPerBeat===0,beatChords:true,slotsPerBeat});
+     queueCue(at,{measureIndex,slotIndex,activeStrokeIndex,isRest:stroke==='.',isDownbeat:slotIndex%slotsPerBeat===0,beatChords:true,slotsPerBeat,timelineBeatIndex:absoluteBeat});
     if(stroke!=='d'&&stroke!=='u')continue;
     const chord=selectedTimeline[Math.floor(localSlot/slotsPerBeat)],position=strokeIndexes.indexOf(slotIndex),priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(value=>value==='d'||value==='u').length,0),clustered=strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+Math.max(0,position),slotIndex,slotsPerBeat,stroke,clustered),duration=subdivision==='sixteenth'?1.65:2.2;
     if(chord)this.stroke(chord,kits.get(chord.id),at-strumLead,stroke,duration,voicing.range,voicing.strength,voicing.count);
