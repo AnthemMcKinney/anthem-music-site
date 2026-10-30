@@ -37,7 +37,7 @@ export function strumStringIndexes(pitches,direction,range,stringCount){
 }
 
 export class ChordPlayer{
- constructor(){this.ctx=null;this.buffers=new Map();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.unlocking=null;}
+ constructor(){this.ctx=null;this.buffers=new Map();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.unlocking=null;this.activeBackingMix=null;this.backingBuses=null;}
  context(){
   if(this.ctx)return this.ctx;
   const AudioContext=window.AudioContext||window.webkitAudioContext;
@@ -46,6 +46,8 @@ export class ChordPlayer{
   this.compressor=this.ctx.createDynamicsCompressor();
   this.compressor.threshold.value=-12;this.compressor.knee.value=7;this.compressor.ratio.value=5;this.compressor.attack.value=.004;this.compressor.release.value=.2;
   this.master.connect(this.compressor).connect(this.ctx.destination);
+  this.backingBuses={bass:this.ctx.createGain(),piano:this.ctx.createGain(),strings:this.ctx.createGain()};
+  Object.values(this.backingBuses).forEach(bus=>bus.connect(this.master));
   // Keep the rhythm guide out of the chord compressor so guitar transients
   // cannot bury the click, kick, snare, or hi-hat.
   this.rhythm=this.ctx.createGain();this.rhythm.gain.value=.95;
@@ -59,8 +61,13 @@ export class ChordPlayer{
   return this.buffers.get(file);
  }
  unlock(){const ctx=this.context();if(ctx.state==='running')return Promise.resolve(ctx);if(this.unlocking)return this.unlocking;const resume=ctx.resume(),oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);this.unlocking=Promise.resolve(resume).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});return this.unlocking;}
- stop(){clearTimeout(this.loopTimer);this.loopTimer=0;cancelAnimationFrame(this.cueFrame);this.cueFrame=0;this.cueQueue=[];this.loopToken++;if(this.onCue)this.onCue(null);this.onCue=null;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];}
- setExerciseGroove(groove){this.exerciseGroove=groove==='rock'?'rock':'click';}
+ stop(){clearTimeout(this.loopTimer);this.loopTimer=0;cancelAnimationFrame(this.cueFrame);this.cueFrame=0;this.cueQueue=[];this.loopToken++;if(this.onCue)this.onCue(null);this.onCue=null;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];this.activeBackingMix=null;if(this.ctx){this.rhythm.gain.setValueAtTime(.95,this.ctx.currentTime);Object.values(this.backingBuses||{}).forEach(bus=>bus.gain.setValueAtTime(1,this.ctx.currentTime));}}
+ setExerciseGroove(groove){this.exerciseGroove=groove==='rock'?'rock':'click';if(this.activeBackingMix)this.setBackingVolume('drums',this.activeBackingMix.drums?.volume??.72);}
+ setBackingVolume(track,value){
+  const amount=Math.max(0,Math.min(1,Number(value)||0));if(this.activeBackingMix?.[track])this.activeBackingMix[track].volume=amount;if(!this.ctx)return;
+  const now=this.ctx.currentTime,target=track==='drums'?this.rhythm:this.backingBuses?.[track];if(!target)return;const level=track==='drums'?(this.exerciseGroove==='rock' ? .95*amount : .95):amount;
+  target.gain.cancelScheduledValues(now);target.gain.setTargetAtTime(level,now,.025);
+ }
  pitches(chord){
   const family=chord.id.startsWith('bar-')?'baritone':chord.id.startsWith('uke-')?'ukulele':'guitar',open=tunings[family];
   return chord.frets.map((fret,index)=>fret==='x'?null:midiHz(open[index]+Number(fret))).filter(Boolean);
@@ -86,7 +93,7 @@ export class ChordPlayer{
   const ctx=this.context(),source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),rate=hz/sourceHz,available=buffer.duration/rate,voiceDuration=Math.max(.12,Math.min(duration,available)),sustained=instrument==='cello'||instrument==='violin',attack=sustained ? .11 : .008,release=Math.min(sustained ? .34 : .2,voiceDuration*.35),start=Math.max(ctx.currentTime+.004,when);
   source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=instrument==='bass'?1100:instrument==='piano'?5400:3600;tone.Q.value=.25;
   gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,level),start+Math.min(attack,voiceDuration*.3));gain.gain.setValueAtTime(Math.max(.0002,level*(instrument==='piano' ? .5 : .82)),start+Math.max(attack+.01,voiceDuration-release));gain.gain.exponentialRampToValueAtTime(.0001,start+voiceDuration);
-  source.connect(tone).connect(gain).connect(this.master);source.start(start);source.stop(start+voiceDuration+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
+  const bus=instrument==='bass'?this.backingBuses.bass:instrument==='piano'?this.backingBuses.piano:this.backingBuses.strings;source.connect(tone).connect(gain).connect(bus);source.start(start);source.stop(start+voiceDuration+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
  }
  async play(chord){
   this.stop();const ctx=await this.unlock();
@@ -105,6 +112,7 @@ export class ChordPlayer{
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),timeline=Array.isArray(beatTimeline)&&beatTimeline.length?beatTimeline:null,chords=timeline||progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beat=60/bpm,eighth=beat/2,beatsPerMeasure=meter===3?3:4,measure=beat*beatsPerMeasure,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),startBeat=startIndex*beatsPerMeasure,selectedTimeline=timeline?.slice(startBeat),selectedProgression=progression.slice(startIndex),cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;
   if(token!==this.loopToken||cycle<=0)return false;
   const mix={drums:{enabled:groove==='rock',volume:.72},bass:{enabled:false,style:'roots',volume:.46},piano:{enabled:false,style:'simple',volume:.3},strings:{enabled:false,style:'low',volume:.2},...(backing||{})};
+  this.activeBackingMix=mix;Object.keys(mix).forEach(track=>this.setBackingVolume(track,mix[track]?.volume??1));
   const targetNotes=[];
   for(const chord of unique){const tones=chordToneData(chord),bassRoot=midiFor(tones.root,36),pianoRoot=midiFor(tones.root,48),stringRoot=midiFor(tones.root,mix.strings?.style==='high'?60:43);if(mix.bass?.enabled)targetNotes.push(['bass',midiHz(bassRoot)],['bass',midiHz(bassRoot+7)]);if(mix.piano?.enabled)for(const interval of [0,3,4,7,12,16,19,24])targetNotes.push(['piano',midiHz(pianoRoot+interval)]);if(mix.strings?.enabled)for(const interval of tones.intervals.slice(0,3))targetNotes.push([mix.strings.style==='high'?'violin':'cello',midiHz(stringRoot+interval)]);}
   const backingSamples=new Map();
@@ -116,9 +124,9 @@ export class ChordPlayer{
   const playBacking=(instrument,hz,at,duration,level)=>{const sample=backingSamples.get(`${instrument}:${hz}`);if(sample)this.sampledTone(instrument,hz,sample.buffer,sample.sourceHz,at,duration,level);};
   const scheduleBackingBeat=(chord,timelineIndex,at)=>{
    if(!chord)return;const tones=chordToneData(chord),beatInMeasure=timelineIndex%beatsPerMeasure;
-   if(mix.bass?.enabled){const root=midiFor(tones.root,36),useFifth=mix.bass.style==='fifths'&&beatInMeasure%2===1;playBacking('bass',midiHz(root+(useFifth?7:0)),at,beat*.78,.28*Number(mix.bass.volume??.46));}
-   if(mix.piano?.enabled){const root=midiFor(tones.root,48),third=tones.intervals[1],style=mix.piano.style||'simple',patterns={simple:[0,third,7,third],octave:[0,third,7,12],wide:[0,7,third+12,24],thirds:[0,third,7,third+12]},interval=(patterns[style]||patterns.simple)[beatInMeasure%4],volume=.34*Number(mix.piano.volume??.3);playBacking('piano',midiHz(root+interval),at,beat*.84,volume);if(style==='thirds'&&beatInMeasure%2===0)playBacking('piano',midiHz(root+third),at+.018,beat*.82,volume*.78);}
-   if(mix.strings?.enabled&&(timelineIndex===0||selectedTimeline[timelineIndex-1]?.id!==chord.id)){let run=1;while(selectedTimeline[timelineIndex+run]?.id===chord.id)run++;const high=mix.strings.style==='high',instrument=high?'violin':'cello',root=midiFor(tones.root,high?60:43),volume=.2*Number(mix.strings.volume??.2);tones.intervals.slice(0,3).forEach((interval,index)=>playBacking(instrument,midiHz(root+interval),at+index*.025,Math.max(beat*.8,run*beat-.08),volume*(index===0?1:.82)));}
+   if(mix.bass?.enabled){const root=midiFor(tones.root,36),useFifth=mix.bass.style==='fifths'&&beatInMeasure%2===1;playBacking('bass',midiHz(root+(useFifth?7:0)),at,beat*.78,.28);}
+   if(mix.piano?.enabled){const root=midiFor(tones.root,48),third=tones.intervals[1],style=mix.piano.style||'simple',patterns={simple:[0,third,7,third],octave:[0,third,7,12],wide:[0,7,third+12,24],thirds:[0,third,7,third+12]},interval=(patterns[style]||patterns.simple)[beatInMeasure%4],volume=.34;playBacking('piano',midiHz(root+interval),at,beat*.84,volume);if(style==='thirds'&&beatInMeasure%2===0)playBacking('piano',midiHz(root+third),at+.018,beat*.82,volume*.78);}
+   if(mix.strings?.enabled&&(timelineIndex===0||selectedTimeline[timelineIndex-1]?.id!==chord.id)){let run=1;while(selectedTimeline[timelineIndex+run]?.id===chord.id)run++;const high=mix.strings.style==='high',instrument=high?'violin':'cello',root=midiFor(tones.root,high?60:43),volume=.32;tones.intervals.slice(0,3).forEach((interval,index)=>playBacking(instrument,midiHz(root+interval),at+index*.025,Math.max(beat*.8,run*beat-.08),volume*(index===0?1:.82)));}
   };
   const cueTick=()=>{if(token!==this.loopToken)return;let cue=null;while(this.cueQueue[0]?.at<=ctx.currentTime+.025)cue=this.cueQueue.shift();if(cue)onCue(cue.data);this.cueFrame=requestAnimationFrame(cueTick);};
   const scheduleBeatTimeline=start=>{
@@ -140,8 +148,8 @@ export class ChordPlayer{
   const scheduleCycle=timeline?scheduleBeatTimeline:scheduleMeasures;
   const countInChoices=meter===3?[0,1,2,3]:[0,1,2,4],countIn=countInChoices.includes(Number(countInBeats))?Number(countInBeats):0,leadStart=ctx.currentTime+.065;
   for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,index===0?.72:.58);
-  let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0,drumVolume=Math.max(0,Math.min(1,Number(mix.drums?.volume??.72)));
-  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){const measureBeat=rhythmBeat%beatsPerMeasure,strongBeat=measureBeat===0;this.click(ctx,hat,nextBeatAt,strongBeat,(strongBeat?.58:.44)*drumVolume);this.click(ctx,hat,nextBeatAt+eighth,false,.34*drumVolume);if(beatsPerMeasure===3)this.drum(ctx,strongBeat?kick:snare,nextBeatAt,(strongBeat?1.08:measureBeat===1?.72:.62)*drumVolume,strongBeat?'kick':'snare');else{const kickBeat=rhythmBeat%2===0;this.drum(ctx,kickBeat?kick:snare,nextBeatAt,(kickBeat?1.08:.9)*drumVolume,kickBeat?'kick':'snare');}}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.72:.58);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.16);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.82:.64);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
+  let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0;
+  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){const measureBeat=rhythmBeat%beatsPerMeasure,strongBeat=measureBeat===0;this.click(ctx,hat,nextBeatAt,strongBeat,strongBeat?.58:.44);this.click(ctx,hat,nextBeatAt+eighth,false,.34);if(beatsPerMeasure===3)this.drum(ctx,strongBeat?kick:snare,nextBeatAt,strongBeat?1.08:measureBeat===1?.72:.62,strongBeat?'kick':'snare');else{const kickBeat=rhythmBeat%2===0;this.drum(ctx,kickBeat?kick:snare,nextBeatAt,kickBeat?1.08:.9,kickBeat?'kick':'snare');}}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.72:.58);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.16);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.82:.64);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
   if(onCue)this.cueFrame=requestAnimationFrame(cueTick);pump();return true;
  }
 }
