@@ -1108,7 +1108,7 @@ body[data-view=chords] .custom-editor-save{background:#3d9b5f}
 /* Follow Along is the global green action and cue language. */
 body[data-view=chords] .play-exercise{border-color:#37965c;background:var(--theme-surface);color:#2d7f4c}
 body[data-view=chords] .play-exercise:hover,body[data-view=chords] .play-exercise:focus-visible{border-color:#2d7f4c;background:#e7f4eb;color:#256b40;outline:0}
-body[data-view=chords] .play-exercise.playing{border-color:#2d7f4c;background:#37965c;color:#fff}
+body[data-view=chords] .play-exercise.playing{border-color:#a92f2a;background:#c7443e;color:#fff}
 body[data-view=chords] .measure-heading .preview-chord.cue-active,body[data-view=chords] .beat-chord-grid .preview-chord.cue-active,body[data-view=chords] .stroke-row .cue-active,body[data-view=chords] .beat-stroke-grid .cue-active{color:#2f9f63!important;text-shadow:0 0 7px #2f9f63!important;filter:drop-shadow(0 0 4px #2f9f63)}
 body[data-view=chords] .music-measure.cue-measure{border-color:#37965c!important;box-shadow:0 0 0 2px #37965c33}
 body[data-view=chords] .custom-chord-tile.cue-active{z-index:1;border-color:#2d7f4c;background:color-mix(in srgb,#37965c 24%,var(--theme-surface));box-shadow:0 0 0 3px color-mix(in srgb,#37965c 38%,transparent);transform:translateY(-1px)}
@@ -1136,7 +1136,7 @@ body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .ex
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise,body[data-view=chords] .custom-settings-trigger,body[data-view=chords] .custom-strum-trigger{display:flex;align-items:center;justify-content:center;gap:7px;width:auto;height:38px;min-width:40px;margin:0;padding:0 14px;border:1px solid #8f9294!important;border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:850 10px/1 var(--app-font);cursor:pointer}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise{grid-column:1;grid-row:1;justify-self:start;padding:0;width:40px;border-color:#37965c!important;background:var(--theme-surface);color:#2d7f4c}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise:hover,body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise:focus-visible{background:#e7f4eb;color:#256b40}
-body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing{border-color:#2d7f4c!important;background:#37965c;color:#fff}
+body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing{border-color:#a92f2a!important;background:#c7443e;color:#fff}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing svg{display:none}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing::before{content:"";width:13px;height:13px;border-radius:2px;background:currentColor}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise svg{width:23px;height:23px}
