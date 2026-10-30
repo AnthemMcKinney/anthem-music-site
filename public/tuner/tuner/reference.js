@@ -1,8 +1,9 @@
 import {samplePitches} from './sample-pitches.js';
-export const sampleFamily=instrument=>instrument==='bass'?'bass-electric':instrument==='piano'?'piano':instrument==='cello'?'cello':instrument==='violin'?'violin':instrument==='alto-sax'?'saxophone':'guitar-acoustic';
+export const sampleFamily=instrument=>instrument==='bass'?'bass-electric':instrument==='piano'?'piano':instrument==='piano-soft'?'piano-C':instrument==='piano-loud'?'piano-C':instrument==='strings-low'?'strings-low':instrument==='strings-high'?'strings-high':instrument==='cello'?'cello':instrument==='violin'?'violin':instrument==='alto-sax'?'saxophone':'guitar-acoustic';
 export function referenceSample(instrument,hz){
  const family=sampleFamily(instrument);
- return Object.entries(samplePitches).filter(([file])=>file.startsWith(family+'-')).map(([file,sourceHz])=>({file,sourceHz,distance:Math.abs(Math.log2(hz/sourceHz))})).sort((a,b)=>a.distance-b.distance)[0];
+ const velocity=instrument==='piano-soft'?'-v6.mp3':instrument==='piano-loud'?'-v12.mp3':null;
+ return Object.entries(samplePitches).filter(([file])=>{const name=file.split('/').at(-1);return velocity?file.startsWith('real/piano-')&&file.endsWith(velocity):name.startsWith(family+'-');}).map(([file,sourceHz])=>({file,sourceHz,distance:Math.abs(Math.log2(hz/sourceHz))})).sort((a,b)=>a.distance-b.distance)[0];
 }
 export class ReferencePlayer{
  constructor(){this.bytes=new Map();this.buffers=new Map();this.media=new Map();this.request=0;this.voice=null;this.nativeVoice=null;}
