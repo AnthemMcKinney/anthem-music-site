@@ -1109,15 +1109,15 @@ body[data-view=chords] .play-exercise:hover,body[data-view=chords] .play-exercis
 body[data-view=chords] .play-exercise.playing{border-color:#2d7f4c;background:#37965c;color:#fff}
 body[data-view=chords] .measure-heading .preview-chord.cue-active,body[data-view=chords] .beat-chord-grid .preview-chord.cue-active,body[data-view=chords] .stroke-row .cue-active,body[data-view=chords] .beat-stroke-grid .cue-active{color:#2f9f63!important;text-shadow:0 0 7px #2f9f63!important;filter:drop-shadow(0 0 4px #2f9f63)}
 body[data-view=chords] .music-measure.cue-measure{border-color:#37965c!important;box-shadow:0 0 0 2px #37965c33}
-body[data-view=chords] .custom-chord-tile.cue-active{border-color:#37965c;background:#e7f4eb;box-shadow:0 0 0 2px #37965c33}
+body[data-view=chords] .custom-chord-tile.cue-active{border-color:#37965c;background:color-mix(in srgb,#37965c 14%,var(--theme-surface));box-shadow:0 0 0 2px #37965c33}
 
 /* Advanced progression builder: ruler row first, optional tools second. */
 body[data-view=chords] .custom-dynamic-progression .custom-dynamic-chord-controls{gap:5px;margin:12px 0 8px}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile{grid-template-rows:1fr auto;flex:1 0 78px;min-width:78px;min-height:58px;height:58px;padding:6px 0 0;border:1px solid #8f9294;border-radius:5px;background:var(--theme-surface);overflow:hidden}
-body[data-view=chords] .custom-dynamic-progression .custom-chord-tile strong{align-self:start;padding:0 8px;color:#0d294d;font:750 22px/1 var(--app-font);white-space:nowrap;transform:translateY(-1px)}
+body[data-view=chords] .custom-dynamic-progression .custom-chord-tile strong{align-self:start;padding:0 8px;color:var(--theme-ink);font:750 22px/1 var(--app-font);white-space:nowrap;transform:translateY(-1px)}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile strong>span{color:inherit}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile sup{position:relative;top:.12em;margin-left:1px;color:var(--theme-muted);font:800 14px/1 var(--app-font);letter-spacing:0}
-body[data-view=chords] .custom-dynamic-progression .custom-chord-tile .minor-quality{display:inline;margin-left:1px;color:#0d294d;font:500 16px/1 var(--app-font);vertical-align:baseline}
+body[data-view=chords] .custom-dynamic-progression .custom-chord-tile .minor-quality{display:inline;margin-left:1px;color:var(--theme-ink);font:500 16px/1 var(--app-font);vertical-align:baseline}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i{position:relative;display:block;box-sizing:border-box;width:100%;height:12px;margin:0;border:0;gap:0}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b{position:absolute;bottom:0;width:1px;height:11px;background:#8f9294;opacity:1}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(1){left:calc(100% / var(--beat-count))}
@@ -1246,3 +1246,14 @@ html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab[aria-presse
 
 /* Give the info disclosure icon breathing room from both the card edge and title. */
 body[data-view=chords] .objective-panel[data-objective=practice]>.lesson-details>.lesson-summary{padding-left:6px;column-gap:12px}
+
+/* Dark surfaces always carry light foreground text, including nested chord labels. */
+html[data-theme^=dark] body[data-view=chords] .measure-heading,
+html[data-theme^=dark] body[data-view=chords] .practice-exercise>summary,
+html[data-theme^=dark] body[data-view=chords] .progression-exercise>summary,
+html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab:not([aria-pressed=true]){color:var(--theme-ink)}
+html[data-theme^=dark] body[data-view=chords] .measure-heading .preview-chord:not(.cue-active),
+html[data-theme^=dark] body[data-view=chords] .measure-heading span,
+html[data-theme^=dark] body[data-view=chords] .practice-exercise>summary strong,
+html[data-theme^=dark] body[data-view=chords] .progression-exercise>summary strong,
+html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab:not([aria-pressed=true]) strong{color:var(--theme-ink)}
