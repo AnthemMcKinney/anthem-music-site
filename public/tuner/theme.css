@@ -1127,7 +1127,7 @@ body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-ch
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(3){left:calc(300% / var(--beat-count))}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(4){left:calc(400% / var(--beat-count))}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(5){left:calc(500% / var(--beat-count))}
-body[data-view=chords] .custom-dynamic-progression .custom-chord-tile.is-start-measure{border-color:#37965c;box-shadow:0 0 0 2px color-mix(in srgb,#37965c 24%,transparent)}
+body[data-view=chords] .custom-dynamic-progression:not(.is-playing) .custom-chord-tile.is-start-measure{border-color:#37965c;box-shadow:0 0 0 2px color-mix(in srgb,#37965c 24%,transparent)}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-row .add-custom-measure{min-height:58px;height:58px;min-width:34px}
 body[data-view=chords] .custom-dynamic-progression .change-card{margin-top:0;padding:0;background:transparent;border:0;box-shadow:none}
 body[data-view=chords] .custom-dynamic-progression .change-top,body[data-view=chords] .custom-dynamic-progression .exercise-copy{display:none}
