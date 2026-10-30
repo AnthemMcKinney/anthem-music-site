@@ -1,5 +1,5 @@
 import {samplePitches} from './sample-pitches.js';
-export const sampleFamily=instrument=>instrument==='bass'?'bass-electric':instrument==='violin'?'violin':instrument==='alto-sax'?'saxophone':'guitar-acoustic';
+export const sampleFamily=instrument=>instrument==='bass'?'bass-electric':instrument==='piano'?'piano':instrument==='cello'?'cello':instrument==='violin'?'violin':instrument==='alto-sax'?'saxophone':'guitar-acoustic';
 export function referenceSample(instrument,hz){
  const family=sampleFamily(instrument);
  return Object.entries(samplePitches).filter(([file])=>file.startsWith(family+'-')).map(([file,sourceHz])=>({file,sourceHz,distance:Math.abs(Math.log2(hz/sourceHz))})).sort((a,b)=>a.distance-b.distance)[0];

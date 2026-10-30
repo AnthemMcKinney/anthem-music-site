@@ -7,6 +7,14 @@ const tunings={
  ukulele:[67,60,64,69]
 };
 
+const pitchClasses={C:0,'C♯':1,'D♭':1,D:2,'D♯':3,'E♭':3,E:4,F:5,'F♯':6,'G♭':6,G:7,'G♯':8,'A♭':8,A:9,'A♯':10,'B♭':10,B:11};
+const midiFor=(pitchClass,minimum)=>minimum+(pitchClass-minimum%12+12)%12;
+const chordToneData=chord=>{
+ const label=chord.measureName||chord.name||'C',match=label.match(/^([A-G](?:♯|♭)?)(.*)$/),root=pitchClasses[match?.[1]]??0,suffix=(match?.[2]||'').toLowerCase();
+ const minor=suffix==='m'||suffix.startsWith('m7'),third=minor?3:4,seventh=suffix==='7'?10:suffix==='maj7'?11:null;
+ return {root,intervals:[0,third,7,...(seventh===null?[]:[seventh]),...(suffix==='add9'?[14]:[])]};
+};
+
 // Downstrokes use the chord's full intended voicing. Upstrokes stay lighter
 // and favor the upper strings, as they do on a real guitar.
 export function strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat){
@@ -74,6 +82,12 @@ export class ChordPlayer{
  }
  click(ctx,buffer,when,accent=false,level=accent?.5:.38){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type='highpass';tone.frequency.value=accent?2200:2800;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+.14);source.connect(tone).connect(gain).connect(this.rhythm);source.start(when);source.stop(when+.155);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
  drum(ctx,buffer,when,level=.6,voice='snare'){const source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter();source.buffer=buffer;tone.type=voice==='kick'?'lowshelf':'peaking';tone.frequency.value=voice==='kick'?140:1900;tone.gain.value=voice==='kick'?8:4;if(voice!=='kick')tone.Q.value=.7;gain.gain.setValueAtTime(level,when);gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(.62,buffer.duration));source.connect(tone).connect(gain).connect(this.rhythm);source.start(when);source.stop(when+Math.min(.64,buffer.duration)+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};}
+ sampledTone(instrument,hz,buffer,sourceHz,when,duration,level){
+  const ctx=this.context(),source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),rate=hz/sourceHz,available=buffer.duration/rate,voiceDuration=Math.max(.12,Math.min(duration,available)),sustained=instrument==='cello'||instrument==='violin',attack=sustained ? .11 : .008,release=Math.min(sustained ? .34 : .2,voiceDuration*.35),start=Math.max(ctx.currentTime+.004,when);
+  source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=instrument==='bass'?1100:instrument==='piano'?5400:3600;tone.Q.value=.25;
+  gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,level),start+Math.min(attack,voiceDuration*.3));gain.gain.setValueAtTime(Math.max(.0002,level*(instrument==='piano' ? .5 : .82)),start+Math.max(attack+.01,voiceDuration-release));gain.gain.exponentialRampToValueAtTime(.0001,start+voiceDuration);
+  source.connect(tone).connect(gain).connect(this.master);source.start(start);source.stop(start+voiceDuration+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
+ }
  async play(chord){
   this.stop();const ctx=await this.unlock();
   const pitches=this.pitches(chord),samples=pitches.map(hz=>({hz,...referenceSample('guitar',hz)})),buffers=await Promise.all(samples.map(sample=>this.load(ctx,sample.file)));
@@ -87,16 +101,30 @@ export class ChordPlayer{
   });
   return (pitches.length-1)*spacing*1000+1900;
  }
-  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0,beatTimeline=[]){
+  async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0,beatTimeline=[],backing=null){
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),timeline=Array.isArray(beatTimeline)&&beatTimeline.length?beatTimeline:null,chords=timeline||progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beat=60/bpm,eighth=beat/2,beatsPerMeasure=meter===3?3:4,measure=beat*beatsPerMeasure,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),startBeat=startIndex*beatsPerMeasure,selectedTimeline=timeline?.slice(startBeat),selectedProgression=progression.slice(startIndex),cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;
   if(token!==this.loopToken||cycle<=0)return false;
+  const mix={drums:{enabled:groove==='rock',volume:.72},bass:{enabled:false,style:'roots',volume:.46},piano:{enabled:false,style:'simple',volume:.3},strings:{enabled:false,style:'low',volume:.2},...(backing||{})};
+  const targetNotes=[];
+  for(const chord of unique){const tones=chordToneData(chord),bassRoot=midiFor(tones.root,36),pianoRoot=midiFor(tones.root,48),stringRoot=midiFor(tones.root,mix.strings?.style==='high'?60:43);if(mix.bass?.enabled)targetNotes.push(['bass',midiHz(bassRoot)],['bass',midiHz(bassRoot+7)]);if(mix.piano?.enabled)for(const interval of [0,3,4,7,12,16,19,24])targetNotes.push(['piano',midiHz(pianoRoot+interval)]);if(mix.strings?.enabled)for(const interval of tones.intervals.slice(0,3))targetNotes.push([mix.strings.style==='high'?'violin':'cello',midiHz(stringRoot+interval)]);}
+  const backingSamples=new Map();
+  await Promise.all(targetNotes.map(async([instrument,hz])=>{const sample=referenceSample(instrument,hz),key=`${instrument}:${hz}`;if(!backingSamples.has(key))backingSamples.set(key,{...sample,buffer:await this.load(ctx,sample.file)});}));
+  if(token!==this.loopToken)return false;
   this.onCue=onCue;
    const strumLead=.032,slotsPerBeat=subdivision==='sixteenth'?4:2,slotsPerMeasure=slotsPerBeat*beatsPerMeasure,slotDuration=beat/slotsPerBeat,patternBars=String(pattern).match(new RegExp(`.{1,${slotsPerMeasure}}`,'g'))||['d.d.d.d.'];
   const queueCue=(at,data)=>{if(onCue)this.cueQueue.push({at,data});};
+  const playBacking=(instrument,hz,at,duration,level)=>{const sample=backingSamples.get(`${instrument}:${hz}`);if(sample)this.sampledTone(instrument,hz,sample.buffer,sample.sourceHz,at,duration,level);};
+  const scheduleBackingBeat=(chord,timelineIndex,at)=>{
+   if(!chord)return;const tones=chordToneData(chord),beatInMeasure=timelineIndex%beatsPerMeasure;
+   if(mix.bass?.enabled){const root=midiFor(tones.root,36),useFifth=mix.bass.style==='fifths'&&beatInMeasure%2===1;playBacking('bass',midiHz(root+(useFifth?7:0)),at,beat*.78,.28*Number(mix.bass.volume??.46));}
+   if(mix.piano?.enabled){const root=midiFor(tones.root,48),third=tones.intervals[1],style=mix.piano.style||'simple',patterns={simple:[0,third,7,third],octave:[0,third,7,12],wide:[0,7,third+12,24],thirds:[0,third,7,third+12]},interval=(patterns[style]||patterns.simple)[beatInMeasure%4],volume=.34*Number(mix.piano.volume??.3);playBacking('piano',midiHz(root+interval),at,beat*.84,volume);if(style==='thirds'&&beatInMeasure%2===0)playBacking('piano',midiHz(root+third),at+.018,beat*.82,volume*.78);}
+   if(mix.strings?.enabled&&(timelineIndex===0||selectedTimeline[timelineIndex-1]?.id!==chord.id)){let run=1;while(selectedTimeline[timelineIndex+run]?.id===chord.id)run++;const high=mix.strings.style==='high',instrument=high?'violin':'cello',root=midiFor(tones.root,high?60:43),volume=.2*Number(mix.strings.volume??.2);tones.intervals.slice(0,3).forEach((interval,index)=>playBacking(instrument,midiHz(root+interval),at+index*.025,Math.max(beat*.8,run*beat-.08),volume*(index===0?1:.82)));}
+  };
   const cueTick=()=>{if(token!==this.loopToken)return;let cue=null;while(this.cueQueue[0]?.at<=ctx.currentTime+.025)cue=this.cueQueue.shift();if(cue)onCue(cue.data);this.cueFrame=requestAnimationFrame(cueTick);};
   const scheduleBeatTimeline=start=>{
    for(let localSlot=0;localSlot<selectedTimeline.length*slotsPerBeat;localSlot++){
     const absoluteBeat=startBeat+Math.floor(localSlot/slotsPerBeat),measureIndex=Math.floor(absoluteBeat/beatsPerMeasure),slotIndex=absoluteBeat%beatsPerMeasure*slotsPerBeat+localSlot%slotsPerBeat,slots=[...patternBars[measureIndex%patternBars.length].padEnd(slotsPerMeasure,'.')],strokeIndexes=slots.map((stroke,index)=>stroke==='d'||stroke==='u'?index:-1).filter(index=>index>=0),stroke=slots[slotIndex]||'.',activeStrokeIndex=strokeIndexes.filter(index=>index<=slotIndex).at(-1)??strokeIndexes.at(-1)??0,at=start+localSlot*slotDuration;
+    if(localSlot%slotsPerBeat===0)scheduleBackingBeat(selectedTimeline[Math.floor(localSlot/slotsPerBeat)],Math.floor(localSlot/slotsPerBeat),at);
      queueCue(at,{measureIndex,slotIndex,activeStrokeIndex,isRest:stroke==='.',isDownbeat:slotIndex%slotsPerBeat===0,beatChords:true,slotsPerBeat,timelineBeatIndex:absoluteBeat});
     if(stroke!=='d'&&stroke!=='u')continue;
     const chord=selectedTimeline[Math.floor(localSlot/slotsPerBeat)],position=strokeIndexes.indexOf(slotIndex),priorStrokeCount=patternBars.slice(0,measureIndex%patternBars.length).reduce((sum,bar)=>sum+[...bar].filter(value=>value==='d'||value==='u').length,0),clustered=strokeIsClustered(slotIndex,strokeIndexes,slotsPerBeat),voicing=exerciseStrokeVoicing(pattern,subdivision,priorStrokeCount+Math.max(0,position),slotIndex,slotsPerBeat,stroke,clustered),duration=subdivision==='sixteenth'?1.65:2.2;
@@ -112,8 +140,8 @@ export class ChordPlayer{
   const scheduleCycle=timeline?scheduleBeatTimeline:scheduleMeasures;
   const countInChoices=meter===3?[0,1,2,3]:[0,1,2,4],countIn=countInChoices.includes(Number(countInBeats))?Number(countInBeats):0,leadStart=ctx.currentTime+.065;
   for(let index=0;index<countIn;index++)this.click(ctx,hat,leadStart+index*beat,index===0,index===0?.72:.58);
-  let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0;
-  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){const measureBeat=rhythmBeat%beatsPerMeasure,strongBeat=measureBeat===0;this.click(ctx,hat,nextBeatAt,strongBeat,strongBeat?.58:.44);this.click(ctx,hat,nextBeatAt+eighth,false,.34);if(beatsPerMeasure===3)this.drum(ctx,strongBeat?kick:snare,nextBeatAt,strongBeat?1.08:measureBeat===1?.72:.62,strongBeat?'kick':'snare');else{const kickBeat=rhythmBeat%2===0;this.drum(ctx,kickBeat?kick:snare,nextBeatAt,kickBeat?1.08:.9,kickBeat?'kick':'snare');}}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.72:.58);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.16);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.82:.64);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
+  let nextCycleAt=leadStart+countIn*beat,nextBeatAt=nextCycleAt,rhythmBeat=0,drumVolume=Math.max(0,Math.min(1,Number(mix.drums?.volume??.72)));
+  const pump=()=>{if(token!==this.loopToken)return;while(nextCycleAt<ctx.currentTime+.3){scheduleCycle(nextCycleAt);nextCycleAt+=cycle;}while(nextBeatAt<ctx.currentTime+.3){if(this.exerciseGroove==='rock'){const measureBeat=rhythmBeat%beatsPerMeasure,strongBeat=measureBeat===0;this.click(ctx,hat,nextBeatAt,strongBeat,(strongBeat?.58:.44)*drumVolume);this.click(ctx,hat,nextBeatAt+eighth,false,.34*drumVolume);if(beatsPerMeasure===3)this.drum(ctx,strongBeat?kick:snare,nextBeatAt,(strongBeat?1.08:measureBeat===1?.72:.62)*drumVolume,strongBeat?'kick':'snare');else{const kickBeat=rhythmBeat%2===0;this.drum(ctx,kickBeat?kick:snare,nextBeatAt,(kickBeat?1.08:.9)*drumVolume,kickBeat?'kick':'snare');}}else if(beatTicks){this.click(ctx,hat,nextBeatAt,true,rhythmBeat%beatsPerMeasure===0?.72:.58);for(let part=1;part<4;part++)this.click(ctx,hat,nextBeatAt+part*beat/4,false,.16);}else this.click(ctx,hat,nextBeatAt,rhythmBeat%beatsPerMeasure===0,rhythmBeat%beatsPerMeasure===0?.82:.64);nextBeatAt+=beat;rhythmBeat=(rhythmBeat+1)%beatsPerMeasure;}this.loopTimer=setTimeout(pump,45);};
   if(onCue)this.cueFrame=requestAnimationFrame(cueTick);pump();return true;
  }
 }
