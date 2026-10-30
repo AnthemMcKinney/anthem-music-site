@@ -1127,6 +1127,7 @@ body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-ch
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(3){left:calc(300% / var(--beat-count))}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(4){left:calc(400% / var(--beat-count))}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-tile>i b:nth-child(5){left:calc(500% / var(--beat-count))}
+body[data-view=chords] .custom-dynamic-progression .custom-chord-tile.is-start-measure{border-color:#37965c;box-shadow:0 0 0 2px color-mix(in srgb,#37965c 24%,transparent)}
 body[data-view=chords] .custom-dynamic-progression .custom-chord-row .add-custom-measure{min-height:58px;height:58px;min-width:34px}
 body[data-view=chords] .custom-dynamic-progression .change-card{margin-top:0;padding:0;background:transparent;border:0;box-shadow:none}
 body[data-view=chords] .custom-dynamic-progression .change-top,body[data-view=chords] .custom-dynamic-progression .exercise-copy{display:none}
@@ -1136,6 +1137,8 @@ body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .pl
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise{grid-column:1;grid-row:1;justify-self:start;padding:0;width:40px;border-color:#37965c!important;background:var(--theme-surface);color:#2d7f4c}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise:hover,body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise:focus-visible{background:#e7f4eb;color:#256b40}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing{border-color:#2d7f4c!important;background:#37965c;color:#fff}
+body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing svg{display:none}
+body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise.playing::before{content:"";width:13px;height:13px;border-radius:2px;background:currentColor}
 body[data-view=chords] .custom-dynamic-progression .custom-advanced-controls .play-exercise svg{width:23px;height:23px}
 body[data-view=chords] .custom-settings-trigger{grid-column:3;grid-row:1;justify-self:end}
 body[data-view=chords] .custom-strum-trigger{grid-column:2;grid-row:1;justify-self:center}
