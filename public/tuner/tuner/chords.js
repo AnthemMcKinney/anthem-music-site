@@ -1,4 +1,4 @@
-import {ChordPlayer} from './chord-audio.js?v=3.7fzzr';
+import {ChordPlayer} from './chord-audio.js?v=3.7fzzs';
 
 const chords=[
  {id:'g',name:'G',subtitle:'G Major',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],variants:['g7'],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
@@ -97,7 +97,7 @@ function diagram(chord){
   if(muted)marker=`<text x="48" y="${y+5}" class="mute">×</text>`;
   else if(fret===0)marker=`<circle cx="48" cy="${y}" r="6" class="open"/>`;
   else if(!(chord.bar&&fret===chord.bar.fret&&si>=chord.bar.from&&si<=chord.bar.to)){const x=70+(fret-.5)*58,anchor=chord.anchors.includes(si)?' anchor':'';marker=`<circle cx="${x}" cy="${y}" r="8.5" class="finger${anchor}"/><text x="${x}" y="${y+4}" class="finger-number">${finger}</text>`;}
-  return `<text x="25" y="${y+5}" class="string-name${muted?' muted-label':''}">${label}</text><line x1="74" y1="${y+1}" x2="303" y2="${y+1}" class="string-shadow${muted?' muted-string-shadow':''}" style="stroke-width:${(Number(weight)+.5).toFixed(2)}"/><line x1="58" y1="${y}" x2="303" y2="${y}" class="string-line${muted?' muted-string':''}" style="stroke-width:${weight}"/>${marker}`;
+  return `<text x="25" y="${y+5}" class="string-name${muted?' muted-label':''}">${label}</text><line x1="58" y1="${y+1}" x2="303" y2="${y+1}" class="string-shadow${muted?' muted-string-shadow':''}" style="stroke-width:${(Number(weight)+.5).toFixed(2)}"/><line x1="58" y1="${y}" x2="303" y2="${y}" class="string-line${muted?' muted-string':''}" style="stroke-width:${weight}"/>${marker}`;
  }).join('');
  const frets=[126,185,244,303].map(x=>`<line x1="${x}" y1="${top}" x2="${x}" y2="${bottom}" class="fret"/>`).join('');
  let barre='';if(chord.bar){const x=70+(chord.bar.fret-.5)*58,y1=top+(count-1-chord.bar.to)*step,y2=top+(count-1-chord.bar.from)*step,mid=(y1+y2)/2;barre=`<rect x="${x-8.5}" y="${y1-8.5}" width="17" height="${y2-y1+17}" rx="8.5" class="barre"/><text x="${x}" y="${mid+4}" class="finger-number barre-number">1</text>`;}

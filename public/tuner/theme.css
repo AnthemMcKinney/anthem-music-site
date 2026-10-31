@@ -146,6 +146,9 @@ html[data-theme^=dark] .chord-diagram .string-shadow{stroke:#000;opacity:.72}
 html[data-theme^=dark] .chord-diagram .muted-string-shadow{opacity:.22}
 html[data-theme^=dark] .chord-diagram .string-line{filter:none}
 
+/* Keep objective names intact and carry each string's depth across the nut. */
+body[data-view=chords] .objective-tabs button{padding-inline:2px;white-space:nowrap;overflow-wrap:normal;word-break:normal}
+
 /* Exercise chord labels keep explicit contrast in every palette and measure layout. */
 .measure-heading .preview-chord{color:#fff}
 .beat-chord-grid .preview-chord{color:var(--theme-ink)}
