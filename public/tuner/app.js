@@ -7,7 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=3.7fh';
-import {initChords} from './tuner/chords.js?v=3.7fzzq';
+import {initChords} from './tuner/chords.js?v=3.7fzzr';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -37,7 +37,7 @@ function updateTarget(){const note=target(),shown=shownNote(note);const key=inst
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
 const engine=new TunerAudio((result,diagnostic)=>{
  const now=performance.now();
- if(now<playUntil){if(diagnostic)diagnostic.uiRejectionReason='reference_playback';message('Listen to your note','Pluck your string after the tone finishes.');return;}
+ if(now<playUntil){if(diagnostic)diagnostic.uiRejectionReason='reference_playback';message(saxophone()?'Listen to the sax note':chromatic()?'Listen to the reference note':'Listen to your note',chromatic()?'Play after the reference tone finishes.':'Pluck your string after the tone finishes.');return;}
  if(now<confirmedUntil){if(diagnostic)diagnostic.uiRejectionReason='confirmation_hold';return;}
  result=displayPitch.update(result,now);
  if(diagnostic&&!result)diagnostic.uiRejectionReason??='display_confirmation';
@@ -49,7 +49,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
   if(displayPitch.note){
    panel.dataset.stale='true';$('live-caption').textContent='LAST NOTE · PLUCK AGAIN';$('motion').textContent='';
    if(gauge.value?.zero&&now-lastGood<1200)message('✓ Close enough',chromatic()?'Repeat a few steady long tones in the green.':'Now check three steady plucks across the center line.','tuned');
-   else message('Pluck your string','Listening for a clear note. The gray trace is your last reading.');
+   else message(chromatic()?'Play the note again':'Pluck your string',chromatic()?'Listening for a clear, steady note. The gray trace is your last reading.':'Listening for a clear note. The gray trace is your last reading.');
   }else clear();
   return;
  }
@@ -215,7 +215,7 @@ async function playTargetReference(){
  try{
   const duration=await engine.play(frequency(target()),instrument.id);
   if(request!==referenceRequest||duration===null)return;
-  playUntil=performance.now()+duration;clear();message(chromatic()?'Listen to the sax note':'Listen to your string',chromatic()?'Tap again to replay. Match this written note after it fades.':'Tap again to replay. Pluck your string when the sound fades.');
+  playUntil=performance.now()+duration;clear();message(saxophone()?'Listen to the sax note':chromatic()?'Listen to the reference note':'Listen to your string',saxophone()?'Tap again to replay. Match this written note after it fades.':chromatic()?'Tap again to replay. Play the same concert-pitch note after it fades.':'Tap again to replay. Pluck your string when the sound fades.');
   referenceTimer=setTimeout(()=>{if(request===referenceRequest){playUntil=0;clear();}},duration);
  }catch{if(request!==referenceRequest)return;$('error').hidden=false;$('error').textContent='The string recording could not load. Reload the page and try again.';}
  finally{if(request===referenceRequest)updateTarget();}
@@ -240,7 +240,7 @@ moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.<
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.150';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.151';moreBody.append(copyright,feedback,version);
 const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
