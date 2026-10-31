@@ -1086,25 +1086,21 @@ body[data-view=chords] .custom-dynamic-progression:not(.show-strum-overlay) .mea
 body[data-view=chords] .custom-chord-editor{box-sizing:border-box;width:min(92vw,460px);max-width:460px;padding:0;border:0;border-radius:10px;background:var(--theme-surface);color:var(--theme-ink);box-shadow:0 18px 55px #07132966;overflow:hidden}
 body[data-view=chords] .custom-chord-editor::backdrop{background:#07132999}
 body[data-view=chords] .custom-chord-editor form{display:grid;gap:16px;padding:18px}
-body[data-view=chords] .custom-chord-editor header{display:flex;align-items:start;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--theme-border)}
+body[data-view=chords] .custom-chord-editor>form>header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--theme-border)}
 body[data-view=chords] .custom-chord-editor header small{color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.8px}
 body[data-view=chords] .custom-chord-editor header h3{margin:4px 0 0;font:750 24px/1.1 var(--app-font)}
-body[data-view=chords] .custom-editor-close{display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:var(--theme-accent);color:var(--theme-on-accent);font-size:0;box-shadow:0 1px 3px color-mix(in srgb,var(--theme-ink) 28%,transparent);cursor:pointer}
-body[data-view=chords] .custom-editor-close::before{content:'×';font:900 17px/1 Arial;transform:translateY(-.5px)}
-body[data-view=chords] .custom-editor-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+body[data-view=chords] .custom-editor-close{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;margin:0;padding:0;border:0;border-radius:50%;background:var(--theme-accent);color:var(--theme-on-accent);font-size:0;box-shadow:0 1px 3px color-mix(in srgb,var(--theme-ink) 28%,transparent);cursor:pointer}
+body[data-view=chords] .custom-editor-close::before{content:'×';display:grid;place-items:center;width:32px;height:32px;font:900 17px/1 Arial;transform:none}
+body[data-view=chords] .custom-editor-fields{display:grid;grid-template-columns:1fr;gap:12px}
 body[data-view=chords] .custom-editor-fields label{display:grid;gap:5px;color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.6px;text-transform:uppercase}
 body[data-view=chords] .custom-editor-fields select{box-sizing:border-box;width:100%;min-height:42px;padding:8px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:800 14px var(--app-font);text-transform:none}
-body[data-view=chords] .custom-editor-duration{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;gap:8px;margin:0;padding:12px;border:1px solid var(--theme-border);border-radius:8px}
-body[data-view=chords] .custom-editor-duration legend{padding:0 5px;color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.6px;text-transform:uppercase}
-body[data-view=chords] .custom-editor-duration button{height:38px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-soft-2);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
-body[data-view=chords] .custom-editor-duration output{text-align:center;font:850 15px/1 var(--app-font)}
-body[data-view=chords] .custom-transpose-panel{display:grid;gap:10px;padding:12px;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-soft)}
-body[data-view=chords] .custom-transpose-panel>header{align-items:center;padding:0;border:0}
-body[data-view=chords] .custom-transpose-panel>header span{color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.6px;text-transform:uppercase}
-body[data-view=chords] .custom-transpose-panel>header output{color:var(--theme-muted);font:800 10px/1 var(--app-font)}
-body[data-view=chords] .custom-transpose-controls{display:grid;grid-template-columns:38px minmax(0,1fr) 38px;align-items:center;gap:8px}
-body[data-view=chords] .custom-transpose-controls button{height:38px;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-surface);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
-body[data-view=chords] .custom-transpose-preview{min-width:0;margin:0;color:var(--theme-ink);font:750 14px/1.35 var(--app-font);text-align:center;overflow-wrap:anywhere}
+body[data-view=chords] .custom-editor-control-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0}
+body[data-view=chords] .custom-editor-control-row>span{color:var(--theme-accent-deep);font:900 9px/1 var(--app-font);letter-spacing:.6px;text-transform:uppercase}
+body[data-view=chords] .custom-editor-control-row>div{display:grid;grid-template-columns:minmax(78px,auto) 38px 38px;align-items:center;gap:7px}
+body[data-view=chords] .custom-editor-control-row output{text-align:right;color:var(--theme-ink);font:850 13px/1 var(--app-font);white-space:nowrap}
+body[data-view=chords] .custom-editor-control-row button{width:38px;height:38px;padding:0;border:1px solid var(--theme-border-strong);border-radius:6px;background:var(--theme-soft-2);color:var(--theme-ink);font:900 20px/1 Arial;cursor:pointer}
+body[data-view=chords] .custom-transpose-panel{display:grid;gap:10px;padding-top:2px;border-top:1px solid var(--theme-border)}
+body[data-view=chords] .custom-transpose-preview{min-width:0;margin:0;padding:10px;border-radius:6px;background:var(--theme-soft);color:var(--theme-ink);font:750 14px/1.35 var(--app-font);text-align:center;overflow-wrap:anywhere}
 body[data-view=chords] .custom-transpose-apply{justify-self:end;min-height:34px;padding:7px 11px;border:0;border-radius:6px;background:#3d9b5f;color:#fff;font:850 10px/1 var(--app-font);cursor:pointer}
 body[data-view=chords] .custom-transpose-apply:disabled{opacity:.38;cursor:not-allowed}
 body[data-view=chords] .custom-chord-editor footer{display:flex;justify-content:space-between;gap:10px;padding-top:3px}
@@ -1112,7 +1108,7 @@ body[data-view=chords] .custom-chord-editor footer button{display:flex;align-ite
 body[data-view=chords] .custom-editor-delete{background:#d74636}
 body[data-view=chords] .custom-editor-delete:disabled{opacity:.35;cursor:not-allowed}
 body[data-view=chords] .custom-editor-save{background:#3d9b5f}
-@media(max-width:560px){body[data-view=chords] .custom-player-options{grid-template-columns:1fr}body[data-view=chords] .custom-strum-overlay-toggle{justify-content:center}body[data-view=chords] .custom-editor-fields{grid-template-columns:1fr}}
+@media(max-width:560px){body[data-view=chords] .custom-player-options{grid-template-columns:1fr}body[data-view=chords] .custom-strum-overlay-toggle{justify-content:center}}
 
 /* Follow Along is the global green action and cue language. */
 body[data-view=chords] .play-exercise{border-color:#37965c;background:var(--theme-surface);color:#2d7f4c}
