@@ -1,4 +1,4 @@
-import {ChordPlayer} from './chord-audio.js?v=3.7fzzu';
+import {ChordPlayer} from './chord-audio.js?v=3.7fzzv';
 
 const chords=[
  {id:'g',name:'G',subtitle:'G Major',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],variants:['g7'],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
@@ -210,7 +210,9 @@ const requestedByFamily={
  guitar:[
   {song:'God Rest Ye Merry Gentlemen',part:'Verse 1',title:'Em · Em · C · B7',progression:['em','em','c','b7'],copy:'Let B7 pull back toward Em.',pattern:'d.du.udu',bpm:85},
   {song:'God Rest Ye Merry Gentlemen',part:'Verse 2',title:'Am · G · Em · D',progression:['am','g','em','d'],copy:'Keep the Am → G and Em → D changes moving steadily.',pattern:'d.d.dudu',bpm:85},
-  {song:'God Rest Ye Merry Gentlemen',part:'Chorus',title:'G · B7 · Em · D · G · B7 · Em · Em',progression:['g','b7','em','d','g','b7','em','em'],copy:'Play both lines as one continuous chorus, then loop back to the beginning.',pattern:'d.d.dudu',bpm:85}
+  {song:'God Rest Ye Merry Gentlemen',part:'Chorus',title:'G · B7 · Em · D · G · B7 · Em · Em',progression:['g','b7','em','d','g','b7','em','em'],copy:'Play both lines as one continuous chorus, then loop back to the beginning.',pattern:'d.d.dudu',bpm:85},
+  {song:'Rudolph the Red-Nosed Reindeer',part:'Verses 1 and 2',title:'G · G · G · D · D · D · D · G',progression:['g','g','g','d','d','d','d','g'],copy:'Use this same eight-measure progression for verses 1 and 2. Give every chord one full measure and return to G at the end.',pattern:'d.d.d.d.',bpm:85},
+  {song:'Rudolph the Red-Nosed Reindeer',part:'Bridge',title:'C · G · C · G · D · D · A7 · A7',progression:['c','g','c','g','d','d','a7','a7'],copy:'Play C and G for the first four measures, then D, D, A7, A7 before returning to the verse.',pattern:'d.d.d.d.',bpm:85}
  ],
  bar:[
   {title:'Remember Me · phrase 1',progression:['bar-c','bar-fm-short'],copy:'C for four beats, then Fm for four beats. Keep the D D D-up D-up pattern moving.',pattern:'d.d.dudu',bpm:72},

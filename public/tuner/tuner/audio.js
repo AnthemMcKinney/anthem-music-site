@@ -1,5 +1,5 @@
 import {ReferencePlayer} from './reference.js';
-import {detectPitch,PitchTracker,DETECTOR_VERSION} from './pitch.js?v=3.7fzzu';
+import {detectPitch,PitchTracker,DETECTOR_VERSION} from './pitch.js?v=3.7fzzv';
 import {nearestNote} from './tunings.js';
 export class TunerAudio{
  constructor(onPitch,onState,onLevel=()=>{}){this.onPitch=onPitch;this.onState=onState;this.onLevel=onLevel;this.tracker=new PitchTracker();this.generation=0;this.reference=new ReferencePlayer();this.referenceRequest=0;this.successSound=null;this.successPromise=null;this.detectorOptions={};}
