@@ -160,7 +160,7 @@ html[data-theme^=dark] .beat-chord-grid{border-color:var(--theme-border)}
 html[data-theme^=dark] .beat-chord-grid .preview-chord{color:var(--theme-ink)}
 
 /* More-page accordions use flex alignment instead of the inline text baseline. */
-.more-card>summary{display:flex;align-items:center;gap:9px;min-height:45px;padding:10px 13px;line-height:1.2}
+.more-card>summary{display:flex;box-sizing:border-box;align-items:center;gap:9px;width:100%;min-height:45px;padding:10px 13px;line-height:1.2;cursor:pointer;touch-action:manipulation;user-select:none}
 .more-card>summary:before{display:grid;place-items:center;flex:0 0 20px;width:20px;height:20px;margin:0;line-height:1;transform:none}
 .more-card>summary:not([aria-disabled=true]):before{padding-bottom:1px}
 .more-card[open]>summary:before{padding-bottom:2px}
