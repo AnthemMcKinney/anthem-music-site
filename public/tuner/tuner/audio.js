@@ -1,8 +1,9 @@
 import {ReferencePlayer} from './reference.js';
-import {detectPitch,PitchTracker,DETECTOR_VERSION} from './pitch.js';
+import {detectPitch,PitchTracker,DETECTOR_VERSION} from './pitch.js?v=3.7fzzu';
 import {nearestNote} from './tunings.js';
 export class TunerAudio{
- constructor(onPitch,onState,onLevel=()=>{}){this.onPitch=onPitch;this.onState=onState;this.onLevel=onLevel;this.tracker=new PitchTracker();this.generation=0;this.reference=new ReferencePlayer();this.referenceRequest=0;this.successSound=null;this.successPromise=null;}
+ constructor(onPitch,onState,onLevel=()=>{}){this.onPitch=onPitch;this.onState=onState;this.onLevel=onLevel;this.tracker=new PitchTracker();this.generation=0;this.reference=new ReferencePlayer();this.referenceRequest=0;this.successSound=null;this.successPromise=null;this.detectorOptions={};}
+ setDetectorOptions(options={}){this.detectorOptions={...options};this.tracker.reset();}
  getContext(){return this.ctx??=new (window.AudioContext||window.webkitAudioContext)({latencyHint:'interactive'});}
  async prepareSuccess(ctx){
   this.successPromise??=fetch(new URL('../samples/tuning-success.mp3',import.meta.url)).then(r=>{if(!r.ok)throw Error('Success sound unavailable');return r.arrayBuffer();}).then(bytes=>ctx.decodeAudioData(bytes)).then(buffer=>{
@@ -39,7 +40,7 @@ export class TunerAudio{
    if(ctx.state!=='running'){this.onLevel(0,{state:'Audio paused'});this.onPitch(null);return;}
    if(performance.now()<(this.mutedUntil||0)){this.onLevel(0,{state:'Pausing for playback'});this.onPitch(null);return;}
    this.analyser.getFloatTimeDomainData(this.buffer);let power=0;for(const x of this.buffer)power+=x*x;
-   const raw=detectPitch(this.buffer,ctx.sampleRate),tracked=this.tracker.update(raw,performance.now());
+   const raw=detectPitch(this.buffer,ctx.sampleRate,{},this.detectorOptions),tracked=this.tracker.update(raw,performance.now());
    this.onLevel(Math.sqrt(power/this.buffer.length),{rawHz:raw?.hz,confidence:raw?.confidence,confidenceMetric:raw?.confidenceMetric,trackedHz:tracked?.hz,microphone:stream.getAudioTracks()[0].label,sampleRate:ctx.sampleRate});this.onPitch(tracked);
   },65);
  }
@@ -50,7 +51,7 @@ export class TunerAudio{
   if(!paused){
    this.analyser.getFloatTimeDomainData(this.buffer);let power=0;peak=0;
    for(const x of this.buffer){power+=x*x;peak=Math.max(peak,Math.abs(x));}rms=Math.sqrt(power/this.buffer.length);
-   if(!muted){raw=detectPitch(this.buffer,ctx.sampleRate,detector);tracked=this.tracker.update(raw,performance.now(),tracker);}
+   if(!muted){raw=detectPitch(this.buffer,ctx.sampleRate,detector,this.detectorOptions);tracked=this.tracker.update(raw,performance.now(),tracker);}
   }
   const reason=paused?'audio_context_paused':muted?'reference_or_confirmation_playback':detector.reason||tracker.reason;
   const frame={audioContextTime,windowMs:this.buffer.length/ctx.sampleRate*1000,rms,peak,

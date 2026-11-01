@@ -1,8 +1,8 @@
 import {harmonicPitch} from './spectral.js';
-export const DETECTOR_VERSION='harmonic-check-2-wind-range';
+export const DETECTOR_VERSION='harmonic-check-3-instrument-octave-guard';
 
-export function detectPitch(samples,sampleRate,diagnostic={}){
- const raw=detectYin(samples,sampleRate,diagnostic);
+export function detectPitch(samples,sampleRate,diagnostic={},options={}){
+ const raw=detectYin(samples,sampleRate,diagnostic,options);
  diagnostic.yinHz=raw?.hz??diagnostic.candidateHz??null;
  diagnostic.yinConfidence=diagnostic.confidence;
  diagnostic.harmonicHz=null;
@@ -24,7 +24,7 @@ export function detectPitch(samples,sampleRate,diagnostic={}){
 
 // YIN difference function with cumulative mean normalization and parabolic interpolation.
 // No DOM, branding, target-note assumptions, or audio-device dependencies.
-function detectYin(samples,sampleRate,diagnostic={}){
+function detectYin(samples,sampleRate,diagnostic={},options={}){
  let mean=0;for(const x of samples)mean+=x;mean/=samples.length;
  let energy=0,clipped=0;for(const x of samples){energy+=(x-mean)**2;if(Math.abs(x)>.98)clipped++;}
  const rms=Math.sqrt(energy/samples.length);
@@ -53,7 +53,7 @@ function detectYin(samples,sampleRate,diagnostic={}){
  // can make YIN choose two waveform cycles as one period. The half-period is
  // only accepted when it is independently very periodic; recorded high-E
  // guitar and real sax samples remain well outside this narrow condition.
- if(hz>=300&&hz<500&&hz*2<=1000&&halfScore<.08){
+ if(options.allowStrongHalfPeriod&&hz>=300&&hz<500&&hz*2<=1000&&halfScore<.08){
   const halfLag=Math.round(period/2),ha=d[halfLag-1],hb=d[halfLag],hc=d[halfLag+1],hden=ha-2*hb+hc;
   period=halfLag+(hden?(ha-hc)/(2*hden):0);hz=rate/period;diagnostic.octaveCorrection='strong_half_period';
  }

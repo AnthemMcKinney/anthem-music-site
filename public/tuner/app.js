@@ -1,5 +1,5 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=53';
-import {TunerAudio} from './tuner/audio.js?v=69';
+import {TunerAudio} from './tuner/audio.js?v=70';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=70';
@@ -7,7 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=3.7fh';
-import {initChords} from './tuner/chords.js?v=3.7fzzt';
+import {initChords} from './tuner/chords.js?v=3.7fzzu';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -35,10 +35,21 @@ function displayNote(note){note=shownNote(note);$('target-note').textContent=pre
 function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=saxophone()?'WRITTEN SAX NOTE':chromatic()?'WAITING FOR YOUR NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play one clear note':'Pluck a string'):'Ready when you are',listening?(saxophone()?'Hold any note steadily. The tuner handles the transposition.':chromatic()?'Let the note ring steadily.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
 function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
+function correctStringOctave(result,diagnostic){
+ if(!result||chromatic())return result;
+ const expected=frequency(target()),delta=centsBetween(result.hz,expected);
+ let hz=result.hz;
+ if(Math.abs(delta-1200)<=100)hz/=2;
+ else if(Math.abs(delta+1200)<=100)hz*=2;
+ else return result;
+ if(diagnostic)diagnostic.uiOctaveCorrection={fromHz:result.hz,toHz:hz,targetHz:expected};
+ return {...result,hz};
+}
 const engine=new TunerAudio((result,diagnostic)=>{
  const now=performance.now();
  if(now<playUntil){if(diagnostic)diagnostic.uiRejectionReason='reference_playback';message(saxophone()?'Listen to the sax note':chromatic()?'Listen to the reference note':'Listen to your note',chromatic()?'Play after the reference tone finishes.':'Pluck your string after the tone finishes.');return;}
  if(now<confirmedUntil){if(diagnostic)diagnostic.uiRejectionReason='confirmation_hold';return;}
+ result=correctStringOctave(result,diagnostic);
  result=displayPitch.update(result,now);
  if(diagnostic&&!result)diagnostic.uiRejectionReason??='display_confirmation';
  $('display-stage').textContent=result?'Updating gauge':'Holding last reading';
@@ -175,6 +186,7 @@ function renderStrings(){
  void engine.prepareReference(instrument.id).catch(()=>{});
 }
 function renderInstrument(){
+ engine.setDetectorOptions({allowStrongHalfPeriod:saxophone()});
  $('instrument-choice').replaceChildren(...instruments.map((item,index)=>new Option(item.name,index)));
  $('instrument-choice').value=instruments.indexOf(instrument);
  $('tuning').replaceChildren(...instrument.tunings.map((entry,i)=>new Option(tuningLabel(instrument,entry),i)));
@@ -240,7 +252,7 @@ moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.<
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.153';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.154';moreBody.append(copyright,feedback,version);
 const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
