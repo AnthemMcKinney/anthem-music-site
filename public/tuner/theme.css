@@ -247,6 +247,12 @@ html[data-theme^=dark] .lesson-summary:before{background:var(--theme-accent);col
 @media(max-width:740px){.chords-sound-check{font-size:8px}}
 .bottom-nav .nav-icon{width:26px;height:26px}
 .bottom-nav .nav-icon svg{width:24px;height:24px;stroke-width:1.9}
+.bottom-nav .tuner-nav-icon svg{width:25px;height:25px;stroke-width:1.45}
+.bottom-nav .metronome-nav-icon svg{width:25px;height:25px;stroke-width:1.45}
+.bottom-nav .metronome-nav-icon .metronome-weight{fill:currentColor;stroke:none}
+.bottom-nav .chords-nav-icon svg{width:25px;height:25px;stroke-width:1.25}
+.bottom-nav .chords-nav-icon .chord-nut{stroke-width:2.6}
+.bottom-nav .chords-nav-icon circle{fill:currentColor;stroke:var(--theme-nav);stroke-width:.55}
 .bottom-nav .nav-icon circle{fill:currentColor;stroke:none}
 
 /* Tuning feedback should tint the selected theme, never replace it. */
@@ -917,6 +923,16 @@ html body[data-view=chords] .objective-panel[data-objective=practice] .objective
 }
 html body[data-view=chords] .objective-panel[data-objective=practice] .objective-library-card>.requested-practice.library-section .requested-practice-body{
  padding:0 0 8px;border:0;background:transparent
+}
+
+/* One locked title scale for every top-level Practice card. */
+body[data-view=chords] .objective-panel[data-objective=practice] .library-section>summary strong,
+body[data-view=chords] .objective-practice-disclosure.library-section>summary strong{
+ font:750 23px/1.08 var(--app-font)!important
+}
+@media(max-width:520px){
+ body[data-view=chords] .objective-panel[data-objective=practice] .library-section>summary strong,
+ body[data-view=chords] .objective-practice-disclosure.library-section>summary strong{font-size:20px!important}
 }
 
 /* Objective practice follows the same card and numbered-row hierarchy as Practice and Strumming. */

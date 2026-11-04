@@ -7,7 +7,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=3.7fh';
-import {initChords} from './tuner/chords.js?v=3.7fzzv';
+import {initChords} from './tuner/chords.js?v=3.7fzzzb';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -264,9 +264,9 @@ const metronome=initMetronome({enableSound:metronomeSoundCheck,soundSession}),ch
 document.addEventListener('visibilitychange',()=>{if(document.hidden)soundSession.ready=false;});
 const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
-tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v6a3 3 0 0 0 6 0V3"/><path d="M7 3v6a5 5 0 0 0 4 4.9V21M17 3v6a5 5 0 0 1-4 4.9V21M8 21h8"/></svg></span><span>Tuner</span>';
-metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6h8l3 15H5L8 6Z"/><path d="M12 17 17.5 2.5"/><path d="m16.3 5.5 3.1 1.2 1.2-3.1-3.1-1.2Z"/><path d="M7 18h10"/></svg></span><span>Metronome</span>';
-chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 3v18M13 3v18M17 3v18M5 8h14M5 14h14"/><circle cx="9" cy="11" r="1.5"/><circle cx="13" cy="17" r="1.5"/><circle cx="17" cy="6" r="1.5"/></svg></span><span>Chords</span>';
+tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon tuner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8"/><path d="M6.5 7a5 5 0 0 0 0 6M17.5 7a5 5 0 0 1 0 6"/><path d="M4 5a8 8 0 0 0 0 10M20 5a8 8 0 0 1 0 10"/></svg></span><span>Tuner</span>';
+metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon metronome-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l3 17H5L8 4Z"/><path d="M7 17h10M11 17 15.5 3"/><rect class="metronome-weight" x="11.75" y="7.9" width="3" height="4.2" rx=".6" transform="rotate(18 13.25 10)"/></svg></span><span>Metronome</span>';
+chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon chords-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="chord-nut" d="M5 2h14"/><path d="M5 2v20M7.8 2v20M10.6 2v20M13.4 2v20M16.2 2v20M19 2v20M5 8.67h14M5 15.33h14M5 22h14"/><circle cx="16.2" cy="5.34" r="1.65"/><circle cx="10.6" cy="12" r="1.65"/><circle cx="13.4" cy="12" r="1.65"/></svg></span><span>Chords</span>';
 moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
 bottomNav.append(tunerNav,metronomeNav,chordsNav,moreNav);document.body.append(bottomNav);
 function showView(view,{updateHash=true}={}){

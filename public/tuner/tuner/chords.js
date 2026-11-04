@@ -170,22 +170,30 @@ const objectivePracticeStrums={
  ]
 };
 const objectiveRhythms={one:objectivePracticeStrums.one.map(item=>item.pattern),two:objectivePracticeStrums.two.map(item=>item.pattern),three:objectivePracticeStrums.three.map(item=>item.pattern),four:objectivePracticeStrums.four.map(item=>item.pattern)};
-function objectiveOneSongs(course){
- if(course.startsWith('bar-'))return [
-  {title:'Mary Had a Little Lamb',progression:[['bar-c','bar-c','bar-c','bar-c'],['bar-g7','bar-g7','bar-c','bar-c']],copy:'Start in C. The second measure changes to G7 for beats 1–2, then returns to C for beats 3–4.',keyOptions:[{label:'Key of C · C → G7',copy:'Start in C. The second measure changes to G7 for beats 1–2, then returns to C for beats 3–4.',progression:[['bar-c','bar-c','bar-c','bar-c'],['bar-g7','bar-g7','bar-c','bar-c']]},{label:'Key of G · G → D',copy:'Start in G. The second measure changes to D for beats 1–2, then returns to G for beats 3–4.',progression:[['bar-g','bar-g','bar-g','bar-g'],['bar-d','bar-d','bar-g','bar-g']]}]},
+const maryPatternCopy='This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.';
+const marySong=(instrument,tonic,dominant,alternate)=>{const prefix=instrument==='bar'?'bar-':'uke-',tonicName=tonic.toUpperCase(),dominantName=dominant.toUpperCase(),progression=[[`${prefix}${tonic}`,`${prefix}${tonic}`,`${prefix}${tonic}`,`${prefix}${tonic}`],[`${prefix}${dominant}`,`${prefix}${dominant}`,`${prefix}${tonic}`,`${prefix}${tonic}`]],copy=`Strum ${tonicName} on beats 1–4. In measure 2, strum ${dominantName} on beats 1–2, then return to ${tonicName} on beats 3–4. ${maryPatternCopy}`,keyOptions=[{label:`Key of ${tonicName} · ${tonicName} → ${dominantName}`,copy,progression}];if(alternate){const altTonic=alternate.tonic.toUpperCase(),altDominant=alternate.dominant.toUpperCase(),altProgression=[[`${prefix}${alternate.tonic}`,`${prefix}${alternate.tonic}`,`${prefix}${alternate.tonic}`,`${prefix}${alternate.tonic}`],[`${prefix}${alternate.dominant}`,`${prefix}${alternate.dominant}`,`${prefix}${alternate.tonic}`,`${prefix}${alternate.tonic}`]],altCopy=`Strum ${altTonic} on beats 1–4. In measure 2, strum ${altDominant} on beats 1–2, then return to ${altTonic} on beats 3–4. ${maryPatternCopy}`;keyOptions.push({label:`Key of ${altTonic} · ${altTonic} → ${altDominant}`,copy:altCopy,progression:altProgression});}return {title:'Mary Had a Little Lamb',progression,copy,pattern:'d.d.d.d.',keyOptions};};
+function objectiveSongs(course,objective){
+ if(course==='guitar'&&objective==='one')return [
+  {title:'Mary Had a Little Lamb',progression:[['g','g','g','g'],['d','d','g','g']],copy:`Strum G on beats 1–4. In measure 2, strum D on beats 1–2, then return to G on beats 3–4. ${maryPatternCopy}`,pattern:'d.d.d.d.'},
+  {title:'Jingle Bells',progression:['g','g','cadd9','g','d','d','g','g'],copy:'A simplified first-song path in G. Give each box four steady beats and keep moving through G, Cadd9, and D.'},
+  {title:'Twinkle, Twinkle, Little Star',progression:['g','g','cadd9','g','cadd9','g','d','g'],copy:'A simplified opening phrase in G using only the Objective 1 shapes. Each box lasts four steady beats.'}
+ ];
+ if(course==='bar-general'&&objective==='one')return [
   {title:'Jingle Bells',progression:['bar-g','bar-g','bar-c','bar-g','bar-d','bar-d','bar-g','bar-g'],copy:'A simplified first-song path in G. Give each box four steady beats and keep moving through G, C, and D.'},
   {title:'Twinkle, Twinkle, Little Star',progression:['bar-g','bar-g','bar-c','bar-g','bar-c','bar-g','bar-d','bar-g'],copy:'A simplified opening phrase in G using only the Objective 1 shapes. Each box lasts four steady beats.'}
  ];
- if(course.startsWith('uke-'))return [
-  {title:'Mary Had a Little Lamb',progression:[['uke-f','uke-f','uke-f','uke-f'],['uke-c7','uke-c7','uke-f','uke-f']],copy:'Start in F. The second measure changes to C7 for beats 1–2, then returns to F for beats 3–4.',keyOptions:[{label:'Key of F · F → C7',copy:'Start in F. The second measure changes to C7 for beats 1–2, then returns to F for beats 3–4.',progression:[['uke-f','uke-f','uke-f','uke-f'],['uke-c7','uke-c7','uke-f','uke-f']]},{label:'Key of C · C → G',copy:'Start in C. The second measure changes to G for beats 1–2, then returns to C for beats 3–4.',progression:[['uke-c','uke-c','uke-c','uke-c'],['uke-g','uke-g','uke-c','uke-c']]}]},
+ if(course==='uke-general'&&objective==='one')return [
   {title:'Jingle Bells',progression:['uke-c','uke-c','uke-f','uke-c','uke-g','uke-g','uke-c','uke-c'],copy:'A simplified first-song path in C. Give each box four steady beats and keep moving through C, F, and G.'},
   {title:'Twinkle, Twinkle, Little Star',progression:['uke-c','uke-c','uke-f','uke-c','uke-f','uke-c','uke-g','uke-c'],copy:'A simplified opening phrase in C using only the Objective 1 shapes. Each box lasts four steady beats.'}
  ];
+ if(objective==='two'&&course.startsWith('bar-'))return [marySong('bar','c','g7',{tonic:'g',dominant:'d'})];
+ if(objective==='two'&&course.startsWith('uke-'))return [marySong('uke','f','c7',{tonic:'c',dominant:'g'})];
  return [];
 }
-function practiceBlock(items,objective,course){const rhythms=objectiveRhythms[objective]||objectiveRhythms.one,songs=objective==='one'?objectiveOneSongs(course):[],defaultPattern=index=>objective==='one'?(index===0?objectivePracticeStrums.one[0].pattern:objectivePracticeStrums.one.at(-1).pattern):rhythms[index%rhythms.length];return `<section class="practice-section"><div class="exercise-grid">${items.map((item,index)=>exercise(index+1,item[0],item[1],{pattern:defaultPattern(index),...(item[2]||{})})).join('')}</div>${songs.length?`<div class="first-song-grid">${songs.map((song,index)=>exercise(index+1,song.progression,song.copy,{pattern:objectivePracticeStrums.one.at(-1).pattern,title:song.title,keyOptions:song.keyOptions||[]})).join('')}</div>`:''}</section>`;}
+function firstSongGrid(course,objective){const songs=objectiveSongs(course,objective);return songs.length?`<div class="first-song-grid">${songs.map((song,index)=>exercise(index+1,song.progression,song.copy,{pattern:song.pattern||objectivePracticeStrums.one.at(-1).pattern,title:song.title,keyOptions:song.keyOptions||[]})).join('')}</div>`:'';}
+function practiceBlock(items,objective,course){const rhythms=objectiveRhythms[objective]||objectiveRhythms.one,defaultPattern=index=>objective==='one'?(index===0?objectivePracticeStrums.one[0].pattern:objectivePracticeStrums.one.at(-1).pattern):rhythms[index%rhythms.length];return `<section class="practice-section"><div class="exercise-grid">${items.map((item,index)=>exercise(index+1,item[0],item[1],{pattern:defaultPattern(index),...(item[2]||{})})).join('')}</div>${firstSongGrid(course,objective)}</section>`;}
 function objectiveWhy(course,objective){
- if(objective==='one')return course.endsWith('young')?'Learn a small chord family and play a complete song pattern.':'Learn one repeating chord family and start playing real songs.';
+ if(objective==='one')return course.endsWith('young')?'Learn two easy shapes and keep a steady beat through every change.':'Learn one repeating chord family and start playing real songs.';
  if(objective==='two')return course.endsWith('young')?'Add the next useful shapes when a song needs them.':'Add another useful chord family and open the door to more songs.';
  if(objective==='four')return 'Learn the movable major and minor shapes rooted on the E and A strings.';
  return course.endsWith('young')?'Add another song-ready change while keeping a steady beat.':'Add frequent, playable shapes before moving into full barre chords.';
@@ -298,7 +306,7 @@ export function initChords({enableSound,soundSession}={}){
  ${exercise(4,['em','g'],'Keep fingers 2 and 3 together as a pair. Move them from the Em shape into G, then return without pausing the beat.',{pattern:'d.d.dudu'})}
  ${exercise(5,['g','cadd9','g','d'],'Your first four-chord progression: keep four steady beats in every box and repeat without stopping.',{pattern:'d.d.dudu'})}
  ${exercise(6,['g','cadd9','em','d'],'Keep the beat steady through G, Cadd9, Em, and D. Let the shared fingers guide the changes instead of lifting the whole hand away.',{pattern:'d.d.dudu'})}
- </div></section></section>
+ </div>${firstSongGrid('guitar','one')}</section></section>
  <section class="objective-panel" data-course="guitar" data-objective="two" hidden><div class="chords-intro single"><div><p class="chords-kicker">Key of C Foundations</p><h2>E, Am, C</h2><p class="objective-why">Add a second essential family and open the door to more songs.</p></div></div>${techniqueCallout('guitar-two')}<div class="chord-grid three-up">${cards(['e','am','c'])}</div><section class="practice-section"><div class="section-heading"><div><p>OBJECTIVE 2 EXERCISES</p><h2>See exactly when you strum</h2></div><span>Counts and arrows stay aligned</span></div><div class="exercise-grid">
  ${exercise(1,['am','g'],'Keep the hand relaxed as the fingers move from the compact Am shape into the G triangle.',{pattern:'d.d.dudu'})}
  ${exercise(2,['e','am'],'Move the three-finger group together. Add gentle up-strums after beats 3 and 4.',{pattern:'d.d.dudu'})}
