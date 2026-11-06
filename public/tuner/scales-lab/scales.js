@@ -7,14 +7,14 @@ const sequence=positions=>positions.map(([string,fret])=>position(string,fret));
 const naturalAA=sequence([[4,0],[4,2],[4,3],[3,0],[3,2],[3,3],[2,0],[2,2]]);
 const naturalExpanded=sequence([[5,0],[5,1],[5,3],[4,0],[4,2],[4,3],[3,0],[3,2],[3,3],[2,0],[2,2],[1,0],[1,1],[1,3],[0,0],[0,1],[0,3]]);
 const boxPentatonic=sequence([[5,5],[5,8],[4,5],[4,7],[3,5],[3,7],[2,5],[2,7],[1,5],[1,8],[0,5],[0,8]]);
-const boxDiatonic=sequence([[5,5],[5,7],[5,8],[4,5],[4,7],[4,8],[3,5],[3,7],[2,5],[2,7],[1,5],[1,6],[1,8],[0,5],[0,7],[0,8]]);
+const boxDiatonic=sequence([[5,5],[5,7],[5,8],[4,5],[4,7],[4,8],[3,5],[3,7],[2,4],[2,5],[2,7],[1,5],[1,6],[1,8],[0,5],[0,7],[0,8]]);
 
 const patterns={
  natural:{kicker:'NATURAL NOTES · FIRST THREE FRETS',layers:{
-  aa:{label:'A–A',title:'A minor: A to A',copy:'Start on the open A string and connect one natural note at a time.',positions:naturalAA},
+  aa:{label:'A–A',title:'Natural notes: A to A',copy:'Play A · B · C · D · E · F · G · A and hear the musical alphabet repeat.',positions:naturalAA},
   expanded:{label:'Expanded E–G',title:'Natural notes: E to G',copy:'See every natural note available on the first three frets.',positions:naturalExpanded}
  }},
- box1:{kicker:'CAGED · FIFTH POSITION',layers:{
+ box1:{kicker:'CAGED · FRETS 4–8',layers:{
   pentatonic:{label:'Pentatonic',title:'Box 1 pentatonic',copy:'Five dependable notes for riffs, fills, and first solos.',positions:boxPentatonic},
   diatonic:{label:'Diatonic',title:'Box 1 diatonic',copy:'Add B and F to complete the relative C-major and A-minor scale.',positions:boxDiatonic}
  }}
@@ -28,12 +28,13 @@ function scaleSequence(){
  const rootClass=root==='A'?9:0,rootIndexes=all.map((note,index)=>({note,index})).filter(item=>item.note.midi%12===rootClass).map(item=>item.index);
  return all.slice(rootIndexes[0],rootIndexes.at(-1)+1);
 }
-const tabSteps=()=>{const up=scaleSequence();return [...up,...[...up].reverse().slice(1)];};
+const tabDirections=()=>{const up=scaleSequence(),down=[...up].reverse().slice(1);return {up,down,all:[...up,...down]};};
+const tabSteps=()=>tabDirections().all;
 
 function renderControls(){
  $$('.pattern-tabs button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pattern===pattern)));
  $('#layer-buttons').innerHTML=Object.entries(patterns[pattern].layers).map(([key,item])=>`<button type="button" data-layer="${key}" aria-pressed="${key===layer}">${item.label}</button>`).join('');
- const box=pattern==='box1';$('#root-control').hidden=!box;$('#root-legend').hidden=!box;
+ const box=pattern==='box1';$('#root-control').hidden=!box;$('#root-legend').hidden=!box;$('#natural-theory').hidden=box;
  $$('[data-root]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.root===root)));
 }
 function renderCopy(){
@@ -43,16 +44,18 @@ function renderCopy(){
  $('#tab-copy').textContent=pattern==='box1'?`Follow the ${rootLabel} path up and back down.`:'Read from left to right. Play one note at a time.';
 }
 function renderFretboard(){
- const svg=$('#fretboard'),positions=current().positions,minFret=pattern==='box1'?5:0,maxFret=pattern==='box1'?8:3,width=860,height=310,left=74,right=22,top=55,boardWidth=width-left-right,boardHeight=219,row=boardHeight/5,fretWidth=boardWidth/(maxFret-minFret+1),xFor=fret=>fret===0?left-28:left+(fret-minFret+.5)*fretWidth,yFor=string=>top+string*row;
- const frets=Array.from({length:maxFret-minFret+2},(_,i)=>left+i*fretWidth).map((x,i)=>`<line class="${i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
+ const svg=$('#fretboard'),positions=current().positions,isBox=pattern==='box1',minFret=isBox?4:1,maxFret=isBox?8:3,width=860,height=310,left=74,right=22,top=55,boardWidth=width-left-right,boardHeight=219,row=boardHeight/5,fretCount=maxFret-minFret+1,fretWidth=boardWidth/fretCount,xFor=fret=>!isBox&&fret===0?left-28:left+(fret-minFret+.5)*fretWidth,yFor=string=>top+string*row;
+ const frets=Array.from({length:fretCount+1},(_,i)=>left+i*fretWidth).map((x,i)=>`<line class="${!isBox&&i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
  const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-43}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${left}" y1="${yFor(index)}" x2="${width-right}" y2="${yFor(index)}"/>`).join('');
- const fretLabels=Array.from({length:maxFret-minFret+1},(_,i)=>minFret+i).map(fret=>`<text class="fret-label" x="${xFor(fret)}" y="27">${fret===0?'OPEN':`${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET`}</text>`).join('');
- const rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId;return `<g><circle class="marker${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="15"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${note.note.replace(/\d/,'')}</text></g>`;}).join('');
- svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.innerHTML=`<title id="fretboard-title">${$('#scale-title').textContent} guitar fretboard</title><desc id="fretboard-description">Highlighted notes show the selected scale pattern. Orange notes show the selected root.</desc><rect class="wood" x="${left}" y="${top-16}" width="${boardWidth}" height="${boardHeight+32}" rx="5"/>${frets}${stringLines}${fretLabels}${markers}`;
+ const fretLabels=Array.from({length:fretCount},(_,i)=>minFret+i).map(fret=>`<text class="fret-label" x="${xFor(fret)}" y="27">${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET</text>`).join('');
+ const openLabel=!isBox?`<text class="fret-label open-label" x="${left-28}" y="27">OPEN</text>`:'';
+ const rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId;return `<g><circle class="marker${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="18"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${note.note.replace(/\d/,'')}</text></g>`;}).join('');
+ svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.innerHTML=`<title id="fretboard-title">${$('#scale-title').textContent} guitar fretboard</title><desc id="fretboard-description">Highlighted notes show the selected scale pattern. Orange notes show the selected root.</desc><rect class="wood" x="${left}" y="${top-16}" width="${boardWidth}" height="${boardHeight+32}" rx="5"/>${frets}${stringLines}${openLabel}${fretLabels}${markers}`;
 }
 function renderTab(){
- const steps=tabSteps(),container=$('#tablature');container.style.setProperty('--steps',steps.length);
- container.innerHTML=strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span>${steps.map((note,index)=>`<span class="tab-cell${note.string===stringIndex?' note':''}${index===activeStep?' active':''}">${note.string===stringIndex?note.fret:'–'}</span>`).join('')}</div>`).join('');
+ const {up,down}=tabDirections(),container=$('#tablature');
+ const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}</strong><div class="tab-staff">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>`<span class="tab-segment${note.string===stringIndex?' note':''}${note.string===stringIndex&&offset+index===activeStep?' active':''}"><i>--</i><b>${note.string===stringIndex?note.fret:'-'}</b></span>`).join('')}<span class="tab-end">-|</span></span></div>`).join('')}</div></section>`;
+ container.innerHTML=system('ASCENDING',up,0)+system('DESCENDING',down,up.length);
 }
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}
 
