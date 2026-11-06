@@ -42,14 +42,25 @@ function renderCopy(){
  $('#scale-kicker').textContent=patterns[pattern].kicker;$('#scale-title').textContent=pattern==='box1'?`${item.title} · ${rootLabel}`:item.title;
  $('#scale-copy').textContent=pattern==='box1'?`${item.copy} The tab begins and resolves on ${root}.`:item.copy;
  $('#tab-copy').textContent=pattern==='box1'?`Follow the ${rootLabel} path up and back down.`:'Read from left to right. Play one note at a time.';
+ $('#objective-kicker').textContent=pattern==='box1'?'CAGED · BOX 1':'OBJECTIVE 1 · NATURAL NOTES';
+ $('#objective-title').textContent=pattern==='box1'?'Pentatonic and diatonic shapes':'The musical alphabet';
+ $('#objective-copy').textContent=pattern==='box1'?'See how the five-note pentatonic pattern grows into the full diatonic scale across frets 4–8.':'Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.';
+ $('#notes-title').textContent=pattern==='box1'?'BOX 1 NOTES':'OBJECTIVE 1 NOTES';
+ $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Position:</strong> Keep your hand centered at the fifth fret. The fourth-fret B completes the diatonic pattern.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings.';
+}
+function fingerFor(note){
+ if(pattern!=='natural'||note.fret===0)return '';
+ const outer=note.string===0||note.string===1||note.string===5;
+ if(outer)return note.fret===1?'1':note.fret===3?'3':'';
+ return note.fret===2?'1':note.fret===3?'2':'';
 }
 function renderFretboard(){
  const svg=$('#fretboard'),positions=current().positions,isBox=pattern==='box1',minFret=isBox?4:1,maxFret=isBox?8:3,width=860,height=310,left=74,right=22,top=55,boardWidth=width-left-right,boardHeight=219,row=boardHeight/5,fretCount=maxFret-minFret+1,fretWidth=boardWidth/fretCount,xFor=fret=>!isBox&&fret===0?left-28:left+(fret-minFret+.5)*fretWidth,yFor=string=>top+string*row;
  const frets=Array.from({length:fretCount+1},(_,i)=>left+i*fretWidth).map((x,i)=>`<line class="${!isBox&&i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
- const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-43}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${left}" y1="${yFor(index)}" x2="${width-right}" y2="${yFor(index)}"/>`).join('');
+ const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-58}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${left}" y1="${yFor(index)}" x2="${width-right}" y2="${yFor(index)}"/>`).join('');
  const fretLabels=Array.from({length:fretCount},(_,i)=>minFret+i).map(fret=>`<text class="fret-label" x="${xFor(fret)}" y="27">${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET</text>`).join('');
  const openLabel=!isBox?`<text class="fret-label open-label" x="${left-28}" y="27">OPEN</text>`:'';
- const rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId;return `<g><circle class="marker${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="18"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${note.note.replace(/\d/,'')}</text></g>`;}).join('');
+ const rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId,finger=fingerFor(note);return `<g><circle class="marker${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="18"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${note.note.replace(/\d/,'')}</text>${finger?`<text class="finger-number" x="${xFor(note.fret)+19}" y="${yFor(note.string)-13}">${finger}</text>`:''}</g>`;}).join('');
  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.innerHTML=`<title id="fretboard-title">${$('#scale-title').textContent} guitar fretboard</title><desc id="fretboard-description">Highlighted notes show the selected scale pattern. Orange notes show the selected root.</desc><rect class="wood" x="${left}" y="${top-16}" width="${boardWidth}" height="${boardHeight+32}" rx="5"/>${frets}${stringLines}${openLabel}${fretLabels}${markers}`;
 }
 function renderTab(){

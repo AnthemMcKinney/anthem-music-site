@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=2">
+ <link rel="stylesheet" href="./scales.css?v=3">
 </head>
 <body>
  <header class="site-header">
@@ -17,13 +17,23 @@
  </header>
  <main>
   <section class="hero">
-   <div><p class="eyebrow">SCALES LAB</p><h1>Connect the dots.</h1><p>See the notes, follow the tab, and hear how the scale moves.</p></div>
-   <svg class="scale-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M9 13h46M9 25h46M9 37h46M9 49h46M17 8v46M30 8v46M43 8v46"/><circle cx="17" cy="37" r="5"/><circle cx="30" cy="25" r="5"/><circle cx="43" cy="13" r="5"/></svg>
+   <div><p class="eyebrow">GUITAR FOUNDATIONS</p><h1>Scales</h1><p>Learn the notes. Connect the patterns. Start making melodies.</p></div>
+   <svg class="scale-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M9 53h10V43h10V33h10V23h10V13h7"/><circle cx="14" cy="48" r="4"/><circle cx="24" cy="38" r="4"/><circle cx="34" cy="28" r="4"/><circle cx="44" cy="18" r="4"/><path d="M14 44V31m10 3V21m10 3V11m10 3V4"/></svg>
   </section>
+  <section class="module-body">
   <nav class="pattern-tabs" aria-label="Scale pattern">
    <button type="button" data-pattern="natural" aria-pressed="true"><span>OBJECTIVE 1</span>Natural Notes</button>
    <button type="button" data-pattern="box1" aria-pressed="false"><span>CAGED</span>Box 1</button>
   </nav>
+  <section class="objective-intro">
+   <p id="objective-kicker">OBJECTIVE 1 · NATURAL NOTES</p>
+   <h2 id="objective-title">The musical alphabet</h2>
+   <p id="objective-copy">Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.</p>
+  </section>
+  <div class="objective-notes">
+   <span aria-hidden="true">+</span>
+   <div><b id="notes-title">OBJECTIVE 1 NOTES</b><p id="finger-guide"><strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings.</p></div>
+  </div>
   <section class="scale-card" aria-labelledby="scale-title">
    <div class="scale-heading">
    <div><p id="scale-kicker">NATURAL NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Natural notes: A to A</h2><p id="scale-copy">Play A · B · C · D · E · F · G · A and hear the musical alphabet repeat.</p></div>
@@ -50,8 +60,9 @@
    <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
    <p class="tab-help"><strong>Tab reads from the highest string at the top to the lowest string at the bottom.</strong> The number tells you which fret to play; 0 means an open string.</p>
   </section>
+  </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 2</span></footer>
- <script type="module" src="./scales.js?v=2"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 3</span></footer>
+ <script type="module" src="./scales.js?v=3"></script>
 </body>
 </html>
