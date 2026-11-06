@@ -1318,3 +1318,31 @@ html[data-theme^=dark] body[data-view=chords] .measure-heading span,
 html[data-theme^=dark] body[data-view=chords] .practice-exercise>summary strong,
 html[data-theme^=dark] body[data-view=chords] .progression-exercise>summary strong,
 html[data-theme^=dark] body[data-view=chords] .practice-exercise-tab:not([aria-pressed=true]) strong{color:var(--theme-ink)}
+
+/* Keep the pitch trail anchored while the one readable status line changes. */
+body[data-view=tuner] .tuner-guidance-slot{display:grid;align-content:center;min-height:36px;margin:2px 0 4px}
+body[data-view=tuner] .tuner-guidance-slot .guidance{min-height:0;margin:0}
+body[data-view=tuner] .tuner-guidance-slot .hint,
+body[data-view=tuner] .tuner-guidance-slot .motion{display:none}
+body[data-view=tuner] .tuning-panel[data-status]{background:var(--theme-surface)!important}
+body[data-view=tuner] .tuning-panel[data-status=far]{--signal:var(--theme-ink)}
+body[data-view=tuner] aside .string-heading{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto;
+ align-items:center;
+ gap:10px;
+ width:100%;
+ height:auto;
+ min-height:28px;
+ padding-inline:0;
+}
+body[data-view=tuner] aside .string-heading h2{min-width:0;margin:0;text-align:left}
+body[data-view=tuner] aside .string-heading .instrument-info-open{position:static!important;justify-self:end;margin:0}
+
+/* Every instrument and objective uses the same locked chord-name size. */
+body[data-view=chords] .chord-card-heading h2{font-size:25px;line-height:1;overflow:visible;text-overflow:clip}
+@media(max-width:740px){
+ body[data-view=tuner] .tuner-guidance-slot{min-height:30px;margin-block:1px 3px}
+ body[data-view=tuner] aside .string-heading{gap:8px;min-height:28px}
+ body[data-view=chords] .chord-card-heading h2{font-size:25px}
+}

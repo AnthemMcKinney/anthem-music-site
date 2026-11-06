@@ -48,7 +48,6 @@ export class PitchTrail{
    if(this.last){const px=x(this.last.cents),r=Math.min(25,(head-10)/2),cy=head-r-7;
     ctx.fillStyle=(live||completed)?signal(this.gauge?.green||0):rgba(muted,.9);ctx.beginPath();ctx.arc(px,cy,r,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(px-7,cy+r-2);ctx.lineTo(px,head);ctx.lineTo(px+7,cy+r-2);ctx.closePath();ctx.fill();
     ctx.fillStyle='white';ctx.font='600 13px Arial';ctx.textAlign='center';ctx.textBaseline='middle';const c=this.last.cents;ctx.fillText((c>0?'+':'')+c.toFixed(1),px,cy-3);ctx.font='9px Arial';ctx.fillText('CENTS',px,cy+11);
-    if(!live){ctx.fillStyle=rgba(muted,1);ctx.font='10px Arial';ctx.fillText('LAST',px,9);}
    }
   }
   this.frame=requestAnimationFrame(this.draw);

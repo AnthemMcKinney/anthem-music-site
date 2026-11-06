@@ -1,13 +1,13 @@
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=53';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
 import {TunerAudio} from './tuner/audio.js?v=70';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
-import {PitchTrail} from './tuner/trail.js?v=70';
+import {PitchTrail} from './tuner/trail.js?v=71';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=3.7fh';
-import {initChords} from './tuner/chords.js?v=3.7fzzzb';
+import {initChords} from './tuner/chords.js?v=3.7fzzzc';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -26,22 +26,24 @@ const notes=()=>instrument.tunings[tuningIndex][1].split(' ');
 const target=()=>notes()[stringIndex];
 const chromatic=()=>instrument.mode==='chromatic';
 const saxophone=()=>instrument.id==='saxophone';
+const referencePitch=()=>instrument.id==='chromatic'?(instrument.tunings[tuningIndex][2]||440):440;
 const saxTranspose=()=>instrument.tunings[tuningIndex][2]||0;
 const shownNote=note=>saxophone()?transposeNote(note,saxTranspose()):note;
 const pretty=note=>note.replace('b','♭').replace('#','♯');
 const trail=new PitchTrail($('pitch-trail'));const confirmation=new ThreePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
 function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;}
 function displayNote(note){note=shownNote(note);$('target-note').textContent=pretty(note.slice(0,-1));$('target-octave').textContent=note.at(-1);}
-function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;displayNote(target());$('live-caption').textContent=saxophone()?'WRITTEN SAX NOTE':chromatic()?'WAITING FOR YOUR NOTE':'WAITING FOR YOUR NOTE';message(listening?(chromatic()?'Play one clear note':'Pluck a string'):'Ready when you are',listening?(saxophone()?'Hold any note steadily. The tuner handles the transposition.':chromatic()?'Let the note ring steadily.':'Let it ring. The needle follows as you turn the peg.'):(chromatic()?'Turn on Auto Detect, then play any comfortable note.':'Turn on Auto Detect, then pluck one string.'));}
-function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
+function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;if(chromatic()){$('target-note').textContent='—';$('target-octave').textContent='';}else displayNote(target());$('live-caption').textContent=saxophone()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(chromatic()?'Play a note':'Pluck a string',listening?(saxophone()?'Hold one note steadily.':chromatic()?'Let one clear note ring.':'Let the string ring while you adjust it.'):(chromatic()?'Turn on Auto Detect, then play one note.':'Turn on Auto Detect, then pluck one string.'));}
+function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='A'+referencePitch()+' reference · Play any note';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
 function correctStringOctave(result,diagnostic){
  if(!result||chromatic())return result;
- const expected=frequency(target()),delta=centsBetween(result.hz,expected);
- let hz=result.hz;
- if(Math.abs(delta-1200)<=100)hz/=2;
- else if(Math.abs(delta+1200)<=100)hz*=2;
- else return result;
+ const expected=frequency(target()),candidates=[];
+ for(let shift=-3;shift<=3;shift++)candidates.push(result.hz*2**shift);
+ if(expected>=250&&result.hz<expected*.55)for(let multiple=3;multiple<=8;multiple++)candidates.push(result.hz*multiple);
+ const hz=candidates.reduce((best,value)=>Math.abs(centsBetween(value,expected))<Math.abs(centsBetween(best,expected))?value:best,result.hz);
+ const ratio=hz/result.hz,octaveFold=Math.abs(Math.log2(ratio)-Math.round(Math.log2(ratio)))<.001,tolerance=octaveFold?135:110;
+ if(hz===result.hz||Math.abs(centsBetween(hz,expected))>tolerance)return result;
  if(diagnostic)diagnostic.uiOctaveCorrection={fromHz:result.hz,toHz:hz,targetHz:expected};
  return {...result,hz};
 }
@@ -65,8 +67,10 @@ const engine=new TunerAudio((result,diagnostic)=>{
   return;
  }
  lastGood=now;panel.dataset.stale='false';
- if(auto){const guitalele=instrument.id==='ukulele'&&instrument.tunings[tuningIndex][0]==='Guitalele';const next=selector.update(result.hz,notes(),stringIndex,chromatic()?true:guitalele?false:result.confirmedChange,guitalele?{dwell:3,margin:55}:undefined);if(guitalele&&next===stringIndex&&selector.pending>=0){if(diagnostic)diagnostic.uiRejectionReason='confirming_guitalele_string';return;}if(next!==stringIndex){stringIndex=next;inTuneSince=0;trend=null;renderStrings();updateTarget();}}
- const cents=centsBetween(result.hz,frequency(target()));
+ if(auto){const guitalele=instrument.id==='ukulele'&&instrument.tunings[tuningIndex][0]==='Guitalele',standardUkulele=instrument.id==='ukulele'&&!guitalele,selectionOptions=guitalele?{dwell:3,margin:55}:standardUkulele?{dwell:1,margin:55}:undefined;const next=selector.update(result.hz,notes(),stringIndex,chromatic()?true:guitalele?false:result.confirmedChange,selectionOptions);if(guitalele&&next===stringIndex&&selector.pending>=0){if(diagnostic)diagnostic.uiRejectionReason='confirming_guitalele_string';return;}if(next!==stringIndex){stringIndex=next;inTuneSince=0;trend=null;renderStrings();updateTarget();}}
+ const activeNote=chromatic()?nearestNote(result.hz,referencePitch()):target(),activeFrequency=frequency(activeNote,referencePitch());
+ if(chromatic()&&trailTarget!==activeNote){gauge.reset();trail.clear();trailTarget=activeNote;}
+ const cents=centsBetween(result.hz,activeFrequency);
  const reading=gauge.update(cents,now),abs=Math.abs(reading.average);
  if(!chromatic())confirmation.accept(reading,now);
  if(diagnostic)Object.assign(diagnostic,{uiAccepted:true,uiRejectionReason:null,displayHz:result.hz,displayNote:result.displayNote,centsError:cents,gaugeCents:reading.average,confirmationTone:reading.ding});
@@ -75,14 +79,14 @@ const engine=new TunerAudio((result,diagnostic)=>{
  // Keep microphone analysis continuous in the browser. Native packages can
  // restore an audible confirmation with a full-duplex audio session.
 
- displayNote(result.displayNote);$('live-caption').textContent=saxophone()?'WRITTEN NOTE YOU’RE PLAYING':chromatic()?'NEAREST NOTE':'NOTE YOU’RE PLAYING';
- $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz)));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
- if(!trend)trend={cents,time:now};
- if(now-trend.time>=350){const delta=cents-trend.cents;const closer=abs<Math.abs(trend.cents);$('motion').textContent=Math.abs(delta)>=2?(delta>0?'Pitch rising':'Pitch falling')+' · '+(closer?'getting closer':'moving away'):'';trend={cents,time:now};}
+ displayNote(activeNote);$('live-caption').textContent=saxophone()?'WRITTEN NOTE YOU’RE PLAYING':chromatic()?'NEAREST NOTE':'TARGET NOTE';
+ if(chromatic())$('target-frequency').textContent='Closest to '+pretty(activeNote)+' · '+activeFrequency.toFixed(2)+' Hz · A'+referencePitch();
+ $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz,referencePitch())));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
+ if(!trend||now-trend.time>=350)trend={cents,time:now};
  if(reading.inZone&&!chromatic())message(confirmation.count>=3?'✓ Tuned — 3 steady plucks':'✓ Close enough',confirmation.count?`${confirmation.count} of 3 good plucks. Keep going.`:'Pluck again to begin the three-pluck check.','tuned');
- else if(reading.zero)message('✓ Close enough','Repeat a few steady long tones in the green.','tuned');
- else if(abs<=8)message('Almost there','Hold that pitch for a moment.');
- else message(reading.average<0?'↑ Tune higher':'↓ Tune lower',abs>150?(chromatic()?'Center the pitch and hold the note steadily.':'Check the string. Tap its button to lock the target.'):(reading.average<0?'Too low':'Too high')+' for '+pretty(shownNote(target()))+'. Follow the fine line and cents pointer.',abs>150?'far':'');
+ else if(reading.zero)message(chromatic()?'✓ '+pretty(activeNote)+' — close enough':'✓ Close enough','Repeat a few steady long tones near the center line.','tuned');
+ else if(abs<=8)message(chromatic()?pretty(activeNote)+' · Almost there':'Almost there','Hold that pitch for a moment.');
+ else message(reading.average<0?'↑ Tune higher':'↓ Tune lower',abs>150?(chromatic()?'Center the pitch and hold the note steadily.':'Check the string. Tap its button to lock the target.'):(reading.average<0?'Too low':'Too high')+' for '+pretty(shownNote(activeNote))+'. Follow the fine line and cents pointer.',abs>150?'far':'');
 
 },state=>{listening=state==='listening';if(!listening){starting=false;auto=false;}renderMode();clear();if(state==='ended'){$('error').hidden=false;$('error').textContent='The microphone disconnected. Tap Auto to reconnect.';}},(rms,diagnostic={})=>{
  if(!chromatic())confirmation.level(rms,performance.now());
@@ -103,17 +107,17 @@ function renderInstrumentNotes(){
  if(details.hidden)return;
  if(instrument.id==='guitar'){
   title.textContent='Know your guitar';
-  body.innerHTML='<p><strong>Remember the open strings:</strong> From the lowest/thickest string to the highest/thinnest string, say “<b>E</b>ddie <b>A</b>te <b>D</b>ynamite <b>G</b>ood <b>B</b>ye <b>E</b>ddie.”</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary by manufacturer, but commonly appear at frets 3, 5, 7, 9, and 12; the pattern begins again after fret 12.</p><button type="button" class="tuner-note-image" aria-label="Enlarge guitar string and fret map"><img src="./images/objective-one/guitar-string-and-fret-map.png" alt="Guitar open-string names, fret spaces, and high and low orientation"></button>';
+  body.innerHTML='<p><strong>Remember the open strings:</strong> From the lowest/thickest string to the highest/thinnest string, say “<b>E</b>ddie <b>A</b>te <b>D</b>ynamite <b>G</b>ood <b>B</b>ye <b>E</b>ddie.”</p><p><strong>What the small number means:</strong> The number beside a note is its octave—the same note name in a higher or lower pitch range. For example, E2 is the low E string and E4 is the high E string.</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary by manufacturer, but commonly appear at frets 3, 5, 7, 9, and 12; the pattern begins again after fret 12.</p><button type="button" class="tuner-note-image" aria-label="Enlarge guitar string and fret map"><img src="./images/objective-one/guitar-string-and-fret-map.png" alt="Guitar open-string names, fret spaces, and high and low orientation"></button>';
   return;
  }
  if(instrument.id==='ukulele'){
   const baritone=instrument.tunings[tuningIndex][0]==='Baritone',phrase=baritone?'<b>D</b>onkeys <b>G</b>row <b>B</b>ig <b>E</b>ars':'<b>G</b>ood <b>C</b>hildren <b>E</b>at <b>A</b>pples';
   title.textContent=baritone?'Know your baritone ukulele':'Know your ukulele';
-  body.innerHTML=`<p><strong>Remember the open strings:</strong> Say “${phrase}.” Your selected tuning is ${pitchNames.join(' · ')}.</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary, but commonly appear on odd-numbered frets with a special marker at fret 12.</p>`;
+  body.innerHTML=`<p><strong>Remember the open strings:</strong> Say “${phrase}.” Your selected tuning is ${pitchNames.join(' · ')}.</p><p><strong>What the small number means:</strong> It is the note’s octave—the same note name in a higher or lower pitch range. High-G ukulele uses G4; low-G uses the deeper G3.</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary, but commonly appear on odd-numbered frets with a special marker at fret 12.</p>`;
   return;
  }
  title.textContent=`Know your ${instrument.name.toLowerCase()}`;
- body.innerHTML=`<p><strong>Open strings:</strong> From the lowest listed string to the highest, this tuning is ${pitchNames.join(' · ')}. Tap each string above to hear its target note before tuning.</p>`;
+ body.innerHTML=`<p><strong>Open strings:</strong> From the lowest listed string to the highest, this tuning is ${pitchNames.join(' · ')}. Tap each string above to hear its target note before tuning.</p><p><strong>What the small number means:</strong> It is the note’s octave—the same note name in a higher or lower pitch range.</p>`;
 }
 function renderStrings(){
  const guitar=instrument.id==='guitar', container=$('strings');
@@ -129,7 +133,7 @@ function renderStrings(){
    $('string-order').textContent='CONCERT PITCH';$('neck-top').hidden=$('neck-bottom').hidden=true;
    document.querySelector('.string-tip').textContent='Use one clear note at a time. The large note and cents display update automatically.';
    const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>One note at a time.</strong> Let it ring clearly and keep other strings or notes quiet.';help[1].innerHTML='<strong>Watch the center.</strong> Adjust until the cents reading and pitch trail settle in the green.';
-   $('pitch-expectation').textContent='The tuner follows the nearest note automatically. Aim for a steady average in the green.';
+   $('pitch-expectation').textContent='The tuner follows the nearest note automatically. Aim for a steady average at the center line.';
    $('tune-reminder').innerHTML='<strong>Check one note at a time.</strong> Background sound and overlapping notes can make a chromatic tuner choose the wrong pitch.';
    $('mic-help-action').textContent='Turn on Auto Detect and play one clear note. If the sound bar moves, the app can hear you.';
    $('tuning-help-first').innerHTML='<strong>Find the note:</strong> play one clear note and let it ring. The large letter shows the nearest concert-pitch note.';
@@ -143,7 +147,7 @@ function renderStrings(){
   $('string-order').textContent=eb?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO';$('neck-top').hidden=$('neck-bottom').hidden=true;
   document.querySelector('.string-tip').textContent='No transposition math. Play a comfortable note and read the large note you finger on your saxophone.';
   const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>Set the mouthpiece.</strong> Push in if you are consistently flat; pull out if you are consistently sharp.';help[1].innerHTML='<strong>Steady air.</strong> Hold a long tone, then use small embouchure adjustments without biting.';
-  $('pitch-expectation').textContent='Pitch moves with your air and embouchure. Aim for a steady average in the green.';
+  $('pitch-expectation').textContent='Pitch moves with your air and embouchure. Aim for a steady average at the center line.';
   $('tune-reminder').innerHTML='<strong>Set up before you play.</strong> Saxophone pitch changes with mouthpiece position and embouchure. Check it with a comfortable long tone.';
   $('mic-help-action').textContent='Turn on Auto Detect and play a long, comfortable note. If the sound bar moves, the app can hear you.';
   $('tuning-help-first').innerHTML='<strong>Set the saxophone:</strong> play a comfortable long tone with steady air. If you are consistently flat, push the mouthpiece in a little. If you are consistently sharp, pull it out a little.';
@@ -175,7 +179,7 @@ function renderStrings(){
  $('neck-bottom').textContent=instrument.id==='banjo'?'Short 5th string · high G':reentrant?'String 4 · high G (higher than C and E)':instrument.id==='ukulele'?'String 4 · '+notes()[0]:'Thickest string · lower sound';
  document.querySelector('.string-tip').textContent=instrument.id==='violin'?'Tap a string, then play it open — no fingers on the fingerboard.':'Tap a string, then play it open — no fingers on the frets.';
  const help=document.querySelectorAll('.help p');help[0].innerHTML='<strong>One string at a time.</strong> Let it ring. Keep the others quiet.';help[1].innerHTML='<strong>Small turns.</strong> Keep plucking about once a second while you adjust the peg.';
- $('pitch-expectation').textContent='Green means close. Finish with three steady plucks crossing the center line.';
+ $('pitch-expectation').textContent='Use the center line and cents near zero. Finish with three steady plucks.';
  $('tune-reminder').innerHTML='<strong>Tune before you play.</strong> String instruments drift while you play. Check your tuning every time you sit down, and check it again as you play.';
  $('mic-help-action').textContent='Turn on Auto Detect and pluck a string. If the sound bar moves, the app can hear you.';
  $('tuning-help-first').innerHTML='<strong>Find the note:</strong> pluck about once each second and make small turns until the reading reaches green. Green means you are close, not finished.';

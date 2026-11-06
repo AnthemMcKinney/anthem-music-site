@@ -110,7 +110,7 @@ export class ChordPlayer{
   buffers.forEach((buffer,index)=>{
    const sample=samples[index],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),presence=ctx.createBiquadFilter(),start=now+index*spacing,rate=sample.hz/sample.sourceHz,duration=Math.min(1.85,buffer.duration/rate);
    source.buffer=buffer;source.playbackRate.value=rate;tone.type='lowpass';tone.frequency.value=familyTone(chord.id);tone.Q.value=.3;presence.type='highshelf';presence.frequency.value=2800;presence.gain.value=isGuitarChord(chord.id)?2.5:0;
-   const level=Math.max(.46,.8-index*.045),attack=isGuitarChord(chord.id)?.004:.012,sustain=isGuitarChord(chord.id)?level*.7:level;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+attack);gain.gain.exponentialRampToValueAtTime(sustain,start+Math.min(.12,duration*.2));gain.gain.setValueAtTime(sustain,start+Math.max(.13,duration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+   const level=Math.max(.46,.8-index*.045),attack=isGuitarChord(chord.id)?.012:.02,sustain=isGuitarChord(chord.id)?level*.7:level;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(level,start+attack);gain.gain.exponentialRampToValueAtTime(sustain,start+Math.min(.12,duration*.2));gain.gain.setValueAtTime(sustain,start+Math.max(.13,duration-.28));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
    source.connect(tone).connect(presence).connect(gain).connect(this.master);source.start(start);source.stop(start+duration+.02);this.voices.push(source);
    source.onended=()=>{source.disconnect();tone.disconnect();presence.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
   });
