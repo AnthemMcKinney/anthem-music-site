@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#0d1f3c">
+ <meta name="description" content="Anthem Scales Lab: connect beginner guitar scale shapes with tablature and sound.">
+ <meta name="robots" content="noindex,nofollow">
+ <title>Anthem • Scales Lab</title>
+ <link rel="icon" href="../icon.svg">
+ <link rel="stylesheet" href="./scales.css?v=1">
+</head>
+<body>
+ <header class="site-header">
+  <a class="brand" href="https://www.anthemmusic.net/" aria-label="Anthem Music home"><img src="../anthem-logo.svg" alt=""><span>Anthem <b>Music</b></span></a>
+  <span class="lab-badge">DIRECT-LINK PROTOTYPE</span>
+ </header>
+ <main>
+  <section class="hero">
+   <div><p class="eyebrow">SCALES LAB</p><h1>Connect the dots.</h1><p>See the notes, follow the tab, and hear how the scale moves.</p></div>
+   <svg class="scale-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M9 13h46M9 25h46M9 37h46M9 49h46M17 8v46M30 8v46M43 8v46"/><circle cx="17" cy="37" r="5"/><circle cx="30" cy="25" r="5"/><circle cx="43" cy="13" r="5"/></svg>
+  </section>
+  <nav class="pattern-tabs" aria-label="Scale pattern">
+   <button type="button" data-pattern="natural" aria-pressed="true"><span>OBJECTIVE 1</span>Natural Notes</button>
+   <button type="button" data-pattern="box1" aria-pressed="false"><span>CAGED</span>Box 1</button>
+  </nav>
+  <section class="scale-card" aria-labelledby="scale-title">
+   <div class="scale-heading">
+    <div><p id="scale-kicker">NATURAL NOTES · FIRST THREE FRETS</p><h2 id="scale-title">A minor: A to A</h2><p id="scale-copy">Start on the open A string and connect one natural note at a time.</p></div>
+    <div id="root-control" class="root-control" hidden><span>ROOT</span><div role="group" aria-label="Choose the root note"><button type="button" data-root="A" aria-pressed="true">A minor</button><button type="button" data-root="C" aria-pressed="false">C major</button></div></div>
+   </div>
+   <div class="layer-control"><span>LAYER</span><div id="layer-buttons" role="group" aria-label="Choose the scale layer"></div></div>
+   <div class="legend" aria-label="Diagram legend"><span><i class="note-dot"></i>Scale note</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
+   <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg></div>
+  </section>
+  <section class="tab-card" aria-labelledby="tab-title">
+   <div class="tab-heading">
+    <div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div>
+    <div class="transport">
+     <label><span>TEMPO</span><select id="tempo"><option value="70">Slow · 70</option><option value="90" selected>Practice · 90</option><option value="110">Steady · 110</option></select></label>
+     <button id="play" type="button" class="play-button"><span aria-hidden="true">▶</span> Play up &amp; down</button>
+     <button id="stop" type="button" class="stop-button" disabled><span aria-hidden="true">■</span> Stop</button>
+    </div>
+   </div>
+   <div id="tab-status" class="tab-status" aria-live="polite">Ready when you are.</div>
+   <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
+   <p class="tab-help"><strong>Tab reads from the highest string at the top to the lowest string at the bottom.</strong> The number tells you which fret to play; 0 means an open string.</p>
+  </section>
+ </main>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 1</span></footer>
+ <script type="module" src="./scales.js?v=1"></script>
+</body>
+</html>
