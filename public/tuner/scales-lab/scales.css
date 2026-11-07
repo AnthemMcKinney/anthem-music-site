@@ -104,3 +104,23 @@ footer{background:#e9e1d4}
 .tab-segment{flex:0 1 38px;min-width:20px;justify-content:flex-start}
 .tab-segment i{letter-spacing:-1px}.tab-segment b{width:1em}
 @media(max-width:720px){.objective-notes summary{padding-inline:4px}.objective-notes-body{padding:12px 4px 15px 32px}.tab-system{width:100%}.tab-staff{min-width:0}.tab-row{font-size:clamp(8px,2.15vw,11px)}.tab-label{width:20px;flex-basis:20px}.tab-segment{min-width:0;flex:1 1 0}.tab-segment i{letter-spacing:-2px}.tab-end{flex:0 0 auto}}
+
+/* Prototype 10: stable Objective headings and continuous compact tablature */
+.objective-notes summary{background:#eeeeec;box-shadow:0 3px 7px #0d1f3c1a}
+.objective-notes summary b{color:#a94415}
+.objective-notes-body #notes-why{margin:0 0 10px;color:#35495a;font-size:11px;font-weight:400;line-height:1.45;letter-spacing:0}
+.objective-notes-body #finger-guide{display:grid;gap:4px;margin:0;padding-left:18px;color:#35495a;font-size:11px;line-height:1.42}
+.objective-notes-body #finger-guide li{padding-left:1px}
+.term-definitions{margin-top:10px}
+.scale-heading>div>p:last-child{height:1.45em;min-height:1.45em;margin:7px 0 0;overflow:hidden;color:#43556a;font-size:12px;font-weight:400;line-height:1.45;letter-spacing:0;white-space:nowrap;text-overflow:ellipsis}
+.layer-control{justify-content:flex-start;margin-top:15px;padding-top:12px}
+.layer-control>div{width:100%}
+.tablature{overflow:hidden;padding:12px 14px}
+.tab-system{width:100%;min-width:0}
+.tab-row{height:23px;white-space:nowrap}
+.tab-line{display:flex;min-width:0;flex:1;align-items:center;white-space:nowrap;overflow:hidden;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.tab-segment{display:inline-block;flex:0 0 auto;min-width:0;height:auto;padding:0;border:0;background:transparent;color:#59636d;font:inherit;line-height:1;white-space:pre}
+.tab-segment.note{color:var(--navy);font-weight:900}
+.tab-segment.active{border-radius:3px;background:var(--yellow);box-shadow:0 0 0 2px #319a614d;color:#071c12}
+.tab-end{flex:0 0 auto;color:#59636d}
+@media(max-width:720px){.tab-row{font-size:clamp(8px,2.1vw,10px);height:20px}.tab-label{width:19px;flex-basis:19px}.tablature{padding:10px 7px}.tab-line{overflow:hidden}.tab-segment{font-size:inherit}.objective-notes-body #finger-guide{font-size:11px}}

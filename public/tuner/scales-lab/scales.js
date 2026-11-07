@@ -10,9 +10,9 @@ const boxPentatonic=sequence([[5,5],[5,8],[4,5],[4,7],[3,5],[3,7],[2,5],[2,7],[1
 const boxDiatonic=sequence([[5,5],[5,7],[5,8],[4,5],[4,7],[4,8],[3,5],[3,7],[2,4],[2,5],[2,7],[1,5],[1,6],[1,8],[0,5],[0,7],[0,8]]);
 
 const patterns={
- natural:{kicker:'NATURAL NOTES · FIRST THREE FRETS',layers:{
-  aa:{label:'A–A',title:'Notes ABCDEFG–A',copy:'Find the natural notes in order, then hear how the note names begin again after G.',positions:naturalAA},
-  expanded:{label:'Expanded E–G',title:'Notes across the first three frets',copy:'Find every natural note available across the first three frets.',positions:naturalExpanded}
+ natural:{kicker:'FIRST NOTES · FIRST THREE FRETS',layers:{
+  aa:{label:'A–A',title:'Musical Notes ABCDEFG · A',copy:'Identify where the notes in music are on your guitar.',positions:naturalAA},
+  expanded:{label:'Expanded E–G',title:'Expanded notes E–G',copy:'Identify where the notes in music are on your guitar.',positions:naturalExpanded}
  }},
  box1:{kicker:'CAGED · FRETS 4–8',layers:{
   pentatonic:{label:'Pentatonic',title:'Box 1 pentatonic',copy:'Five dependable notes for riffs, fills, and first solos.',positions:boxPentatonic},
@@ -30,22 +30,22 @@ const tabSteps=()=>tabDirections().all;
 function renderControls(){
  $$('.pattern-tabs button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pattern===pattern)));
  $('#layer-buttons').innerHTML=Object.entries(patterns[pattern].layers).map(([key,item])=>`<button type="button" data-layer="${key}" aria-pressed="${key===layer}">${item.label}</button>`).join('');
- const box=pattern==='box1',diatonic=box&&layer==='diatonic';$('#root-control').hidden=!box;$('#root-legend').hidden=!box;$('#natural-theory').hidden=box;$('#natural-legend').hidden=box;$('#foundation-legend').hidden=!box;$('#added-legend').hidden=!diatonic;
+ const box=pattern==='box1',diatonic=box&&layer==='diatonic';$('#root-control').hidden=!box;$('#root-legend').hidden=!box;$('#natural-legend').hidden=box;$('#foundation-legend').hidden=!box;$('#added-legend').hidden=!diatonic;
  $$('[data-root]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.root===root)));
 }
 function renderCopy(){
  const item=current(),rootLabel=root==='A'?'A minor':'C major';
  $('#scale-kicker').textContent=patterns[pattern].kicker;$('#scale-title').textContent=pattern==='box1'?`${item.title} pattern · ${rootLabel} roots`:item.title;
- $('#scale-copy').textContent=pattern==='box1'?`${item.copy} Orange notes show where a ${rootLabel} phrase resolves.`:item.copy;
+ $('#scale-copy').textContent=pattern==='box1'?'Identify where the notes in music are on your guitar.':item.copy;
  $('#tab-title').textContent=pattern==='box1'?'Pattern tablature':'Scale tablature';
  $('#tab-copy').textContent=pattern==='box1'?'Start on the low E string with fingers 1–3–4. Follow the complete Box 1 pattern up and back down.':'Read from left to right. Play one note at a time.';
- $('#objective-kicker').textContent=pattern==='box1'?'CAGED · BOX 1':'OBJECTIVE 1 · NATURAL NOTES';
- $('#objective-title').textContent=pattern==='box1'?'Pentatonic and diatonic shapes':'Finding the notes in music on the guitar';
- $('#objective-copy').textContent=pattern==='box1'?'See how the five-note pentatonic pattern grows into the full diatonic scale across frets 4–8.':'Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.';
+ $('#objective-kicker').textContent=pattern==='box1'?'OBJECTIVE 2 · CAGED':'OBJECTIVE 1 · FIRST NOTES';
+ $('#objective-title').textContent=pattern==='box1'?'CAGED Box 1':'Identifying the musical notes on guitar';
+ $('#objective-copy').textContent=pattern==='box1'?'Find two related scales inside one repeating fretboard pattern.':'Identify where the notes in music are on your guitar.';
  $('#notes-title').textContent=pattern==='box1'?'BOX 1 NOTES':'OBJECTIVE 1 NOTES';
- $('#notes-lead').textContent=pattern==='box1'?'Use one fretboard pattern to find two related scales.':'Find the natural notes and connect them into a scale.';
- $('#notes-why').textContent=pattern==='box1'?'Box 1 is a reusable section of the neck. The pattern stays in place while the musical resolution changes: C feels like home for C major, and A feels like home for A minor.':'The fretboard is a map of repeating notes. Learning the natural notes gives you landmarks for finding every sharp, flat, scale, and chord that follows.';
- $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Pattern and scale:</strong> The complete Box 1 pattern begins on the low E string with fingers 1–3–4. This one fretboard pattern contains both C major and A minor. Resolve a major phrase on a C; resolve a minor phrase on an A. <strong>Four-fret position:</strong> Frets 5–8 use fingers 1–4. For the floating fourth-fret B on the G string, reach back with finger 1, then return to the box.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.';
+ $('#notes-lead').textContent=pattern==='box1'?'Use one fretboard pattern to find two related scales.':'Find notes across the guitar neck.';
+ $('#notes-why').textContent=pattern==='box1'?'Box 1 is a reusable section of the neck. The pattern stays in place while the musical resolution changes: C feels like home for C major, and A feels like home for A minor.':'The seven note names repeat across the fretboard. “Natural notes” is the formal music term for A through G before sharps and flats are added. In order: A · BC · D · EF · G · A. B–C and E–F sit next to each other with no note between them.';
+ $('#finger-guide').innerHTML=pattern==='box1'?'<li><strong>Pattern and scale:</strong> The complete Box 1 pattern begins on low E with fingers 1–3–4. It contains both C major and A minor. Resolve a major phrase on C; resolve a minor phrase on A.</li><li><strong>Four-fret position:</strong> Frets 5–8 use fingers 1–4. Reach back to the fourth-fret B on the G string with finger 1, then return to the box.</li>':'<li><strong>Think in patterns:</strong> Guitar is full of repeating patterns. Memorizing a short pattern is easier than starting from an unfamiliar fretboard.</li><li><strong>A–A pattern:</strong> 0–2–3, 0–2–3, 0–2. Here 0 means open string; 2 and 3 mean fret 2 and fret 3.</li><li><strong>Open string names:</strong> A, D, and G are the three strings used in this pattern.</li><li><strong>Fingers:</strong> Use fingers 1 and 2 for A–A; use fingers 1 and 3 for the expanded E, B, and high-e pattern.</li>';
 }
 function fingerFor(note){
  if(pattern==='box1')return note.fret===4?'1':String(note.fret-4);
@@ -65,7 +65,7 @@ function renderFretboard(){
 }
 function renderTab(){
  const {up,down}=tabDirections(),container=$('#tablature');
- const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}</strong><div class="tab-staff" style="--step-count:${steps.length}">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>`<span class="tab-segment${note.string===stringIndex?' note':''}${note.string===stringIndex&&offset+index===activeStep?' active':''}"><i>--</i><b>${note.string===stringIndex?note.fret:'-'}</b></span>`).join('')}<span class="tab-end">-|</span></span></div>`).join('')}</div></section>`;
+ const system=(label,steps,offset)=>{const unit=steps.length<=10?4:2;return `<section class="tab-system"><strong>${label}</strong><div class="tab-staff">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>{const active=note.string===stringIndex&&offset+index===activeStep;const cell=note.string===stringIndex?`${'-'.repeat(Math.max(0,unit-String(note.fret).length))}${note.fret}`:`-`.repeat(unit);return `<span class="tab-segment${note.string===stringIndex?' note':''}${active?' active':''}">${cell}</span>`;}).join('')}<span class="tab-end">|</span></span></div>`).join('')}</div></section>`;};
  container.innerHTML=system('ASCENDING',up,0)+system('DESCENDING',down,up.length);
 }
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}

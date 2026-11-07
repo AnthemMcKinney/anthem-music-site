@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=9">
+ <link rel="stylesheet" href="./scales.css?v=10">
 </head>
 <body>
  <header class="site-header">
@@ -22,21 +22,21 @@
   </section>
   <section class="module-body">
   <nav class="pattern-tabs" aria-label="Scale pattern">
-   <button type="button" data-pattern="natural" aria-pressed="true"><span>OBJECTIVE 1</span>Natural Notes</button>
-   <button type="button" data-pattern="box1" aria-pressed="false"><span>CAGED</span>Box 1</button>
+   <button type="button" data-pattern="natural" aria-pressed="true"><span>OBJECTIVE 1</span>First Notes</button>
+   <button type="button" data-pattern="box1" aria-pressed="false"><span>OBJECTIVE 2 · CAGED</span>Box 1</button>
   </nav>
   <section class="objective-intro">
-   <p id="objective-kicker">OBJECTIVE 1 · NATURAL NOTES</p>
-   <h2 id="objective-title">The musical alphabet</h2>
+   <p id="objective-kicker">OBJECTIVE 1 · FIRST NOTES</p>
+   <h2 id="objective-title">Identifying the musical notes on guitar</h2>
    <p id="objective-copy">Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.</p>
   </section>
   <details class="objective-notes">
    <summary><span class="notes-toggle" aria-hidden="true"></span><b id="notes-title">OBJECTIVE 1 NOTES</b></summary>
    <div class="objective-notes-body">
-    <h3 id="notes-lead">Find the natural notes and connect them into a scale.</h3>
-    <p id="notes-why">The fretboard is a map of repeating notes. Learning the natural notes gives you landmarks for finding every sharp, flat, scale, and chord that follows.</p>
+    <h3 id="notes-lead">Find notes across the guitar neck.</h3>
+    <p id="notes-why">The seven note names repeat across the fretboard. “Natural notes” is the formal music term for A through G before sharps and flats are added.</p>
     <p class="notes-section-label">QUICK NOTES</p>
-    <p id="finger-guide"><strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.</p>
+    <ul id="finger-guide" class="quick-notes-list"><li><strong>Think in patterns:</strong> Guitar is full of repeating patterns. Memorizing a short pattern is easier than starting from an unfamiliar fretboard.</li><li><strong>A–A pattern:</strong> 0–2–3, 0–2–3, 0–2. Here 0 means open string; 2 and 3 mean fret 2 and fret 3.</li><li><strong>Open string names:</strong> A, D, and G strings are the three strings used in this pattern.</li><li><strong>Fingers:</strong> Use fingers 1 and 2 for the A-to-A exercise; use fingers 1 and 3 for the expanded E, B, and high-e pattern.</li></ul>
     <section class="term-definitions" aria-label="Scale terms"><strong>QUICK DEFINITIONS</strong><dl>
      <div><dt>Note</dt><dd>One musical sound.</dd></div><div><dt>Natural note</dt><dd>One of the seven lettered notes: A, B, C, D, E, F, or G.</dd></div>
      <div><dt>Chromatic scale</dt><dd>All twelve notes in order, including the natural notes, sharps, and flats.</dd></div><div><dt>Sharp</dt><dd>Raises a note by one half step.</dd></div><div><dt>Flat</dt><dd>Lowers a note by one half step.</dd></div>
@@ -51,14 +51,10 @@
   </details>
   <section class="scale-card" aria-labelledby="scale-title">
    <div class="scale-heading">
-   <div><p id="scale-kicker">NATURAL NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Natural notes: A to A</h2><p id="scale-copy">Play A · B · C · D · E · F · G · A and hear the musical alphabet repeat.</p></div>
+   <div><p id="scale-kicker">FIRST NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Musical Notes ABCDEFG · A</h2><p id="scale-copy">Identify where the notes in music are on your guitar.</p></div>
     <div id="root-control" class="root-control" hidden><span>ROOT</span><div role="group" aria-label="Choose the root note"><button type="button" data-root="C" aria-pressed="true">C major</button><button type="button" data-root="A" aria-pressed="false">A minor</button></div></div>
    </div>
-   <div class="layer-control"><span>LAYER</span><div id="layer-buttons" role="group" aria-label="Choose the scale layer"></div></div>
-   <aside id="natural-theory" class="natural-theory">
-    <div><small>NATURAL NOTES IN ORDER</small><strong><span class="root-note">A</span> · BC · D · EF · G · <span class="octave-note">A</span></strong></div>
-    <p><b>Natural notes</b> use the seven letter names. After G, the note names begin again at A in a higher octave. Sharps and flats name the pitches between most natural notes. B–C and E–F sit directly next to each other with no note between them.</p>
-   </aside>
+   <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div></div>
    <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
    <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg></div>
   </section>
@@ -77,7 +73,7 @@
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 9</span></footer>
- <script type="module" src="./scales.js?v=9"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 10</span></footer>
+ <script type="module" src="./scales.js?v=10"></script>
 </body>
 </html>
