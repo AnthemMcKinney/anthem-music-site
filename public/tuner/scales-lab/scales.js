@@ -20,7 +20,7 @@ const patterns={
  }}
 };
 
-let pattern='natural',layer='aa',root='A',playing=false,playToken=0,audioContext=null,activeId='',activeStep=-1;
+let pattern='natural',layer='aa',root='C',playing=false,playToken=0,audioContext=null,activeId='',activeStep=-1;
 const buffers=new Map(),$=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)],current=()=>patterns[pattern].layers[layer];
 
 function scaleSequence(){
@@ -56,8 +56,8 @@ function fingerFor(note){
 }
 function renderFretboard(){
  const svg=$('#fretboard'),positions=current().positions,isBox=pattern==='box1',minFret=isBox?4:1,maxFret=isBox?8:3,width=860,height=310,left=82,right=22,top=55,boardWidth=width-left-right,boardHeight=220,row=boardHeight/5,fretCount=maxFret-minFret+1,fretWidth=boardWidth/fretCount,xFor=fret=>!isBox&&fret===0?left-28:left+(fret-minFret+.5)*fretWidth,yFor=string=>top+string*row;
- const frets=Array.from({length:fretCount+1},(_,i)=>left+i*fretWidth).map((x,i)=>`<line class="${!isBox&&i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
- const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-58}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${left}" y1="${yFor(index)}" x2="${width-right}" y2="${yFor(index)}"/>`).join('');
+ const frets=Array.from({length:fretCount+1},(_,i)=>({x:left+i*fretWidth,i})).filter(item=>!isBox||item.i>0).map(({x,i})=>`<line class="${!isBox&&i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
+ const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-58}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${isBox?left-18:left}" y1="${yFor(index)}" x2="${isBox?width-right+18:width-right}" y2="${yFor(index)}"/>`).join('');
  const fretLabels=Array.from({length:fretCount},(_,i)=>minFret+i).filter(fret=>pattern==='natural'&&layer==='aa'||[3,5,7,9,12,15,17,19,21,24].includes(fret)).map(fret=>`<text class="fret-label" x="${xFor(fret)}" y="27">${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET</text>`).join('');
  const openLabel=!isBox?`<text class="fret-label open-label" x="${left-28}" y="27">OPEN</text>`:'';
  const pentatonicIds=new Set(boxPentatonic.map(note=>note.id)),rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId,isAdded=pattern==='box1'&&layer==='diatonic'&&!pentatonicIds.has(note.id),finger=fingerFor(note),letter=note.note.replace(/\d/,'');return `<g><circle class="marker${pattern==='box1'?(isAdded?' added':' foundation'):''}${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="19"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${letter}</text>${finger?`<text class="finger-number" x="${xFor(note.fret)+21}" y="${yFor(note.string)-15}">${finger}</text>`:''}</g>`;}).join('');
