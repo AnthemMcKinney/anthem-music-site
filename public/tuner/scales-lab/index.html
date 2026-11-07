@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=7">
+ <link rel="stylesheet" href="./scales.css?v=8">
 </head>
 <body>
  <header class="site-header">
@@ -30,10 +30,21 @@
    <h2 id="objective-title">The musical alphabet</h2>
    <p id="objective-copy">Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.</p>
   </section>
-  <div class="objective-notes">
-   <span aria-hidden="true">+</span>
-   <div><b id="notes-title">OBJECTIVE 1 NOTES</b><p id="finger-guide"><strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.</p></div>
-  </div>
+  <details class="objective-notes">
+   <summary><span class="notes-toggle" aria-hidden="true"></span><b id="notes-title">OBJECTIVE 1 NOTES</b></summary>
+   <div class="objective-notes-body">
+    <p id="finger-guide"><strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.</p>
+    <section class="term-definitions" aria-label="Scale terms"><strong>TERMS USED IN THIS MODULE</strong><dl>
+     <div><dt>Natural note</dt><dd>One of the seven lettered notes: A, B, C, D, E, F, or G.</dd></div><div><dt>Sharp / flat</dt><dd>A pitch one step above or below a natural note.</dd></div>
+     <div><dt>Pattern</dt><dd>A fixed fretboard shape. One pattern can contain more than one scale, depending on which root feels like home.</dd></div><div><dt>CAGED</dt><dd>A map based on the open C, A, G, E, and D chord shapes that divides the neck into five connected boxes.</dd></div>
+     <div><dt>Root</dt><dd>The note that feels like home and gives a scale its name.</dd></div><div><dt>Octave</dt><dd>The same note name at a higher or lower pitch after twelve half steps.</dd></div>
+     <div><dt>Scale</dt><dd>An ordered collection of notes organized around a root.</dd></div><div><dt>Pentatonic scale</dt><dd>A five-note scale that gives us the strongest foundation notes for riffs and solos.</dd></div>
+     <div><dt>Diatonic scale</dt><dd>A seven-note scale. Here it adds B and F to the pentatonic foundation.</dd></div><div><dt>Major scale</dt><dd>A diatonic scale with a major sound. In this pattern, C major resolves on C.</dd></div>
+     <div><dt>Minor scale</dt><dd>A related diatonic scale with a minor sound. In this pattern, A minor resolves on A.</dd></div><div><dt>Tab (tablature)</dt><dd>Six-line guitar notation that shows which string and fret to play.</dd></div>
+     <div><dt>Beat / rhythm</dt><dd>The steady pulse and timing that turn a group of notes into music.</dd></div>
+    </dl></section>
+   </div>
+  </details>
   <section class="scale-card" aria-labelledby="scale-title">
    <div class="scale-heading">
    <div><p id="scale-kicker">NATURAL NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Natural notes: A to A</h2><p id="scale-copy">Play A · B · C · D · E · F · G · A and hear the musical alphabet repeat.</p></div>
@@ -41,7 +52,7 @@
    </div>
    <div class="layer-control"><span>LAYER</span><div id="layer-buttons" role="group" aria-label="Choose the scale layer"></div></div>
    <aside id="natural-theory" class="natural-theory">
-    <div><small>THE MUSICAL ALPHABET</small><strong><span class="root-note">A</span> · B · C · D · E · F · G · <span class="octave-note">A</span></strong></div>
+    <div><small>THE MUSICAL ALPHABET</small><strong><span class="root-note">A</span> · BC · D · EF · G · <span class="octave-note">A</span></strong></div>
     <p><b>Natural notes</b> use the seven letter names. After G, the alphabet begins again at A in a higher octave. Sharps and flats name the pitches between most natural notes. B–C and E–F sit directly next to each other with no note between them.</p>
    </aside>
    <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
@@ -55,13 +66,14 @@
      <button id="play" type="button" class="play-exercise" aria-label="Follow scale" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Follow Along</span></button>
     </div>
    </div>
+   <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong>TURN THE MAP INTO MUSIC</strong><p>First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
    <div id="tab-status" class="tab-status" aria-live="polite">Ready when you are.</div>
    <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
    <p class="tab-help"><strong>Tab reads from the highest string at the top to the lowest string at the bottom.</strong> The number tells you which fret to play; 0 means an open string.</p>
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 7</span></footer>
- <script type="module" src="./scales.js?v=7"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 8</span></footer>
+ <script type="module" src="./scales.js?v=8"></script>
 </body>
 </html>

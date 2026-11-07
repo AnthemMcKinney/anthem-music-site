@@ -11,7 +11,7 @@ const boxDiatonic=sequence([[5,5],[5,7],[5,8],[4,5],[4,7],[4,8],[3,5],[3,7],[2,4
 
 const patterns={
  natural:{kicker:'NATURAL NOTES · FIRST THREE FRETS',layers:{
-  aa:{label:'A–A',title:'Natural notes: A to A',copy:'Play A · B · C · D · E · F · G · A and hear the musical alphabet repeat.',positions:naturalAA},
+  aa:{label:'A–A',title:'Natural notes: A to A',copy:'Play A · BC · D · EF · G · A and hear the musical alphabet repeat.',positions:naturalAA},
   expanded:{label:'Expanded E–G',title:'Natural notes: E to G',copy:'See every natural note available on the first three frets.',positions:naturalExpanded}
  }},
  box1:{kicker:'CAGED · FRETS 4–8',layers:{
@@ -23,11 +23,7 @@ const patterns={
 let pattern='natural',layer='aa',root='C',playing=false,playToken=0,audioContext=null,activeId='',activeStep=-1;
 const buffers=new Map(),$=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)],current=()=>patterns[pattern].layers[layer];
 
-function scaleSequence(){
- const all=current().positions;if(pattern!=='box1')return all;
- const rootClass=root==='A'?9:0,rootIndexes=all.map((note,index)=>({note,index})).filter(item=>item.note.midi%12===rootClass).map(item=>item.index);
- return all.slice(rootIndexes[0],rootIndexes.at(-1)+1);
-}
+function scaleSequence(){return current().positions;}
 const tabDirections=()=>{const up=scaleSequence(),down=[...up].reverse().slice(1);return {up,down,all:[...up,...down]};};
 const tabSteps=()=>tabDirections().all;
 
@@ -39,14 +35,15 @@ function renderControls(){
 }
 function renderCopy(){
  const item=current(),rootLabel=root==='A'?'A minor':'C major';
- $('#scale-kicker').textContent=patterns[pattern].kicker;$('#scale-title').textContent=pattern==='box1'?`${item.title} · ${rootLabel}`:item.title;
- $('#scale-copy').textContent=pattern==='box1'?`${item.copy} The tab begins and resolves on ${root}.`:item.copy;
- $('#tab-copy').textContent=pattern==='box1'?`Follow the ${rootLabel} path up and back down.`:'Read from left to right. Play one note at a time.';
+ $('#scale-kicker').textContent=patterns[pattern].kicker;$('#scale-title').textContent=pattern==='box1'?`${item.title} pattern · ${rootLabel} roots`:item.title;
+ $('#scale-copy').textContent=pattern==='box1'?`${item.copy} Orange notes show where a ${rootLabel} phrase resolves.`:item.copy;
+ $('#tab-title').textContent=pattern==='box1'?'Pattern tablature':'Scale tablature';
+ $('#tab-copy').textContent=pattern==='box1'?'Start on the low E string with fingers 1–3–4. Follow the complete Box 1 pattern up and back down.':'Read from left to right. Play one note at a time.';
  $('#objective-kicker').textContent=pattern==='box1'?'CAGED · BOX 1':'OBJECTIVE 1 · NATURAL NOTES';
  $('#objective-title').textContent=pattern==='box1'?'Pentatonic and diatonic shapes':'The musical alphabet';
  $('#objective-copy').textContent=pattern==='box1'?'See how the five-note pentatonic pattern grows into the full diatonic scale across frets 4–8.':'Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.';
  $('#notes-title').textContent=pattern==='box1'?'BOX 1 NOTES':'OBJECTIVE 1 NOTES';
- $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Four-fret position:</strong> Box 1 uses frets 5–8. Assign one finger to each fret: finger 1 plays fret 5, finger 2 plays fret 6, finger 3 plays fret 7, and finger 4 plays fret 8. In the diatonic layer, reach back to the fourth-fret B on the G string with finger 1, then return to the box.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.';
+ $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Pattern and scale:</strong> The complete Box 1 pattern begins on the low E string with fingers 1–3–4. This one fretboard pattern contains both C major and A minor. Resolve a major phrase on a C; resolve a minor phrase on an A. <strong>Four-fret position:</strong> Frets 5–8 use fingers 1–4. For the floating fourth-fret B on the G string, reach back with finger 1, then return to the box.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.';
 }
 function fingerFor(note){
  if(pattern==='box1')return note.fret===4?'1':String(note.fret-4);
@@ -66,7 +63,7 @@ function renderFretboard(){
 }
 function renderTab(){
  const {up,down}=tabDirections(),container=$('#tablature');
- const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}</strong><div class="tab-staff">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>`<span class="tab-segment${note.string===stringIndex?' note':''}${note.string===stringIndex&&offset+index===activeStep?' active':''}"><i>--</i><b>${note.string===stringIndex?note.fret:'-'}</b></span>`).join('')}<span class="tab-end">-|</span></span></div>`).join('')}</div></section>`;
+ const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}</strong><div class="tab-staff" style="--step-count:${steps.length}">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>`<span class="tab-segment${note.string===stringIndex?' note':''}${note.string===stringIndex&&offset+index===activeStep?' active':''}"><i>--</i><b>${note.string===stringIndex?note.fret:'-'}</b></span>`).join('')}<span class="tab-end">-|</span></span></div>`).join('')}</div></section>`;
  container.innerHTML=system('ASCENDING',up,0)+system('DESCENDING',down,up.length);
 }
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}
