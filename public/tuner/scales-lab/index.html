@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=3">
+ <link rel="stylesheet" href="./scales.css?v=4">
 </head>
 <body>
  <header class="site-header">
@@ -44,16 +44,16 @@
     <div><small>THE MUSICAL ALPHABET</small><strong>A · B · C · D · E · F · G · A</strong></div>
     <p><b>Natural notes</b> use the seven letter names. After G, the alphabet begins again at A in a higher octave. Sharps and flats name the pitches between most natural notes. B–C and E–F sit directly next to each other with no note between them.</p>
    </aside>
-   <div class="legend" aria-label="Diagram legend"><span><i class="note-dot"></i>Scale note</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
+   <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
    <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg></div>
   </section>
   <section class="tab-card" aria-labelledby="tab-title">
    <div class="tab-heading">
     <div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div>
     <div class="transport">
-     <label class="transport-control"><span>BPM</span><select id="tempo"><option value="70">70 · Slow</option><option value="90" selected>90 · Practice</option><option value="110">110 · Steady</option></select></label>
-     <div class="transport-control"><span>PLAY</span><button id="play" type="button" class="play-button"><i aria-hidden="true">▶</i> Up &amp; down</button></div>
-     <div class="transport-control"><span>STOP</span><button id="stop" type="button" class="stop-button" disabled><i aria-hidden="true">■</i> Stop</button></div>
+     <div class="transport-control tempo-control"><span>TEMPO</span><div class="tempo-stepper"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><output id="tempo">90</output><em>BPM</em><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div></div>
+     <div class="transport-control action-control"><span>PLAY</span><button id="play" type="button" class="play-button"><i aria-hidden="true">▶</i><b>Play</b></button></div>
+     <div class="transport-control action-control"><span>STOP</span><button id="stop" type="button" class="stop-button" disabled><i aria-hidden="true">■</i><b>Stop</b></button></div>
     </div>
    </div>
    <div id="tab-status" class="tab-status" aria-live="polite">Ready when you are.</div>
@@ -62,7 +62,7 @@
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 3</span></footer>
- <script type="module" src="./scales.js?v=3"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 4</span></footer>
+ <script type="module" src="./scales.js?v=4"></script>
 </body>
 </html>
