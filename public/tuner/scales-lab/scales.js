@@ -46,10 +46,11 @@ function renderCopy(){
  $('#objective-title').textContent=pattern==='box1'?'Pentatonic and diatonic shapes':'The musical alphabet';
  $('#objective-copy').textContent=pattern==='box1'?'See how the five-note pentatonic pattern grows into the full diatonic scale across frets 4–8.':'Learn how natural notes, sharps, and flats fit together, then play the natural notes across the first three frets.';
  $('#notes-title').textContent=pattern==='box1'?'BOX 1 NOTES':'OBJECTIVE 1 NOTES';
- $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Position:</strong> Keep your hand centered at the fifth fret. The fourth-fret B completes the diatonic pattern.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.';
+ $('#finger-guide').innerHTML=pattern==='box1'?'<strong>Four-fret position:</strong> Box 1 uses frets 5–8. Assign one finger to each fret: finger 1 plays fret 5, finger 2 plays fret 6, finger 3 plays fret 7, and finger 4 plays fret 8. In the diatonic layer, reach back to the fourth-fret B on the G string with finger 1, then return to the box.':'<strong>Fingering:</strong> Use fingers 1 and 2 for the A-to-A scale. In the expanded pattern, use fingers 1 and 3 for notes on the low E, B, and high e strings. <strong>Root and octave:</strong> The first A is the root; the final A is the same note name one octave higher.';
 }
 function fingerFor(note){
- if(pattern!=='natural'||note.fret===0)return '';
+ if(pattern==='box1')return note.fret===4?'1':String(note.fret-4);
+ if(note.fret===0)return '';
  const outer=note.string===0||note.string===1||note.string===5;
  if(outer)return note.fret===1?'1':note.fret===3?'3':'';
  return note.fret===2?'1':note.fret===3?'2':'';
@@ -58,9 +59,9 @@ function renderFretboard(){
  const svg=$('#fretboard'),positions=current().positions,isBox=pattern==='box1',minFret=isBox?4:1,maxFret=isBox?8:3,width=860,height=310,left=82,right=22,top=55,boardWidth=width-left-right,boardHeight=220,row=boardHeight/5,fretCount=maxFret-minFret+1,fretWidth=boardWidth/fretCount,xFor=fret=>!isBox&&fret===0?left-28:left+(fret-minFret+.5)*fretWidth,yFor=string=>top+string*row;
  const frets=Array.from({length:fretCount+1},(_,i)=>({x:left+i*fretWidth,i})).filter(item=>!isBox||item.i>0).map(({x,i})=>`<line class="${!isBox&&i===0?'nut':'fret'}" x1="${x}" y1="${top-10}" x2="${x}" y2="${top+boardHeight+10}"/>`).join('');
  const stringLines=strings.map((string,index)=>`<text class="string-label" x="${left-58}" y="${yFor(index)+5}">${string.label}</text><line class="string" style="stroke-width:${1.4+index*.45}" x1="${isBox?left-18:left}" y1="${yFor(index)}" x2="${isBox?width-right+18:width-right}" y2="${yFor(index)}"/>`).join('');
- const fretLabels=Array.from({length:fretCount},(_,i)=>minFret+i).filter(fret=>pattern==='natural'&&layer==='aa'||[3,5,7,9,12,15,17,19,21,24].includes(fret)).map(fret=>`<text class="fret-label" x="${xFor(fret)}" y="27">${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET</text>`).join('');
+ const fretLabels=Array.from({length:fretCount},(_,i)=>minFret+i).filter(fret=>pattern==='natural'&&layer==='aa'||[3,4,5,7,9,12,15,17,19,21,24].includes(fret)).map(fret=>`<text class="fret-label${isBox&&fret===4?' reach-back-label':''}" x="${xFor(fret)}" y="27">${fret}${fret===1?'st':fret===2?'nd':fret===3?'rd':'th'} FRET${isBox&&fret===4?' · REACH BACK':''}</text>`).join('');
  const openLabel=!isBox?`<text class="fret-label open-label" x="${left-28}" y="27">OPEN</text>`:'';
- const pentatonicIds=new Set(boxPentatonic.map(note=>note.id)),rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId,isAdded=pattern==='box1'&&layer==='diatonic'&&!pentatonicIds.has(note.id),finger=fingerFor(note),letter=note.note.replace(/\d/,'');return `<g><circle class="marker${pattern==='box1'?(isAdded?' added':' foundation'):''}${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="19"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${letter}</text>${finger?`<text class="finger-number" x="${xFor(note.fret)+21}" y="${yFor(note.string)-15}">${finger}</text>`:''}</g>`;}).join('');
+ const pentatonicIds=new Set(boxPentatonic.map(note=>note.id)),rootClass=root==='A'?9:0,markers=positions.map(note=>{const isRoot=pattern==='box1'&&note.midi%12===rootClass,isActive=note.id===activeId,isAdded=pattern==='box1'&&layer==='diatonic'&&!pentatonicIds.has(note.id),finger=fingerFor(note),letter=note.note.replace(/\d/,'');return `<g><circle class="marker${pattern==='box1'?(isAdded?' added':' foundation'):''}${isRoot?' root':''}${isActive?' active':''}" cx="${xFor(note.fret)}" cy="${yFor(note.string)}" r="${isAdded?17:19}"/><text class="marker-text${isRoot?' root':''}" x="${xFor(note.fret)}" y="${yFor(note.string)+1}">${letter}</text>${finger?`<text class="finger-number" x="${xFor(note.fret)+(isAdded?19:21)}" y="${yFor(note.string)-(isAdded?13:15)}">${finger}</text>`:''}</g>`;}).join('');
  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.innerHTML=`<title id="fretboard-title">${$('#scale-title').textContent} guitar fretboard</title><desc id="fretboard-description">Highlighted notes show the selected scale pattern. Orange notes show the selected root.</desc><rect class="wood" x="${left}" y="${top-16}" width="${boardWidth}" height="${boardHeight+32}" rx="5"/>${frets}${stringLines}${openLabel}${fretLabels}${markers}`;
 }
 function renderTab(){
@@ -79,15 +80,18 @@ async function playNote(note,duration){
 }
 function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#tab-status').textContent=`Now playing ${note.note} · string ${note.string+1}, fret ${note.fret}`;}
 async function play(){
- if(playing)return;playing=true;const token=++playToken,steps=tabSteps(),beat=60/Number($('#tempo').textContent);$('#play').disabled=true;$('#stop').disabled=false;
+ if(playing)return;playing=true;const token=++playToken,steps=tabSteps(),beat=60/Number($('#tempo').value);$('#play').classList.add('playing');$('#play').setAttribute('aria-pressed','true');$('#play').setAttribute('aria-label','Stop scale');$('#play span').textContent='Stop';
  try{await context();for(let index=0;index<steps.length&&token===playToken;index++){const note=steps[index];showStep(note,index);await playNote(note,Math.min(1.5,beat*1.16));await new Promise(resolve=>setTimeout(resolve,beat*1000));}}
  catch{$('#tab-status').textContent='Sound could not start. Tap Play again.';}
- finally{if(token===playToken){playing=false;showStep(null,-1);$('#tab-status').textContent='Complete. Play it again or try the other layer.';$('#play').disabled=false;$('#stop').disabled=true;}}
+ finally{if(token===playToken){playing=false;showStep(null,-1);$('#tab-status').textContent='Complete. Play it again or try the other layer.';resetPlayControl();}}
 }
-function stop(){playToken++;playing=false;showStep(null,-1);$('#tab-status').textContent='Stopped.';$('#play').disabled=false;$('#stop').disabled=true;}
+function resetPlayControl(){$('#play').classList.remove('playing');$('#play').setAttribute('aria-pressed','false');$('#play').setAttribute('aria-label','Follow scale');$('#play span').textContent='Follow Along';}
+function stop(){playToken++;playing=false;showStep(null,-1);$('#tab-status').textContent='Stopped.';resetPlayControl();}
 
 $('.pattern-tabs').addEventListener('click',event=>{const button=event.target.closest('[data-pattern]');if(!button)return;stop();pattern=button.dataset.pattern;layer=pattern==='natural'?'aa':'pentatonic';render();});
 $('#layer-buttons').addEventListener('click',event=>{const button=event.target.closest('[data-layer]');if(!button)return;stop();layer=button.dataset.layer;render();});
 $('#root-control').addEventListener('click',event=>{const button=event.target.closest('[data-root]');if(!button)return;stop();root=button.dataset.root;render();});
-$$('[data-tempo-step]').forEach(button=>button.addEventListener('click',()=>{const output=$('#tempo'),next=Math.max(50,Math.min(160,Number(output.textContent)+Number(button.dataset.tempoStep)));output.textContent=String(next);}));
-$('#play').addEventListener('click',play);$('#stop').addEventListener('click',stop);render();
+function setTempo(value){$('#tempo').value=String(Math.max(50,Math.min(160,Number(value)||90)));}
+$$('[data-tempo-step]').forEach(button=>button.addEventListener('click',()=>setTempo(Number($('#tempo').value)+Number(button.dataset.tempoStep))));
+$('#tempo').addEventListener('change',event=>setTempo(event.target.value));
+$('#play').addEventListener('click',()=>playing?stop():play());render();

@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=6">
+ <link rel="stylesheet" href="./scales.css?v=7">
 </head>
 <body>
  <header class="site-header">
@@ -50,10 +50,9 @@
   <section class="tab-card" aria-labelledby="tab-title">
    <div class="tab-heading">
     <div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div>
-    <div class="transport">
-     <div class="transport-control tempo-control"><span>TEMPO</span><div class="tempo-stepper"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><output id="tempo">90</output><em>BPM</em><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div></div>
-     <div class="transport-control action-control"><span>PLAY</span><button id="play" type="button" class="play-button"><i aria-hidden="true">▶</i><b>Play</b></button></div>
-     <div class="transport-control action-control"><span>STOP</span><button id="stop" type="button" class="stop-button" disabled><i aria-hidden="true">■</i><b>Stop</b></button></div>
+    <div class="exercise-toolbar scales-exercise-toolbar">
+     <div class="exercise-tempo" aria-label="Scale tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><label><input id="tempo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="90" aria-label="Scale tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div>
+     <button id="play" type="button" class="play-exercise" aria-label="Follow scale" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Follow Along</span></button>
     </div>
    </div>
    <div id="tab-status" class="tab-status" aria-live="polite">Ready when you are.</div>
@@ -62,7 +61,7 @@
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 6</span></footer>
- <script type="module" src="./scales.js?v=6"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 7</span></footer>
+ <script type="module" src="./scales.js?v=7"></script>
 </body>
 </html>
