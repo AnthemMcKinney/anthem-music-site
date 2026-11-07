@@ -11,8 +11,8 @@ const boxDiatonic=sequence([[5,5],[5,7],[5,8],[4,5],[4,7],[4,8],[3,5],[3,7],[2,4
 
 const patterns={
  natural:{kicker:'FIRST NOTES · FIRST THREE FRETS',layers:{
-  aa:{label:'A–A',title:'Musical Notes ABCDEFG · A',copy:'Identify where the notes in music are on your guitar.',positions:naturalAA},
-  expanded:{label:'Expanded E–G',title:'Expanded notes E–G',copy:'Identify where the notes in music are on your guitar.',positions:naturalExpanded}
+  aa:{label:'A<sub>2</sub> – A<sub>3</sub>',title:'Musical Notes ABCDEFG · A',copy:'Identify where the notes in music are on your guitar.',positions:naturalAA},
+  expanded:{label:'E<sub>2</sub> – G<sub>4</sub>',title:'Expanded notes E–G',copy:'Identify where the notes in music are on your guitar.',positions:naturalExpanded}
  }},
  box1:{kicker:'CAGED · FRETS 4–8',layers:{
   pentatonic:{label:'Pentatonic',title:'Box 1 pentatonic',copy:'Five dependable notes for riffs, fills, and first solos.',positions:boxPentatonic},
@@ -65,7 +65,7 @@ function renderFretboard(){
 }
 function renderTab(){
  const {up,down}=tabDirections(),container=$('#tablature');
- const system=(label,steps,offset)=>{const unit=steps.length<=10?4:2;return `<section class="tab-system"><strong>${label}</strong><div class="tab-staff">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line">${steps.map((note,index)=>{const active=note.string===stringIndex&&offset+index===activeStep;const cell=note.string===stringIndex?`${'-'.repeat(Math.max(0,unit-String(note.fret).length))}${note.fret}`:`-`.repeat(unit);return `<span class="tab-segment${note.string===stringIndex?' note':''}${active?' active':''}">${cell}</span>`;}).join('')}<span class="tab-end">|</span></span></div>`).join('')}</div></section>`;};
+const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}</strong><div class="tab-staff">${strings.map((string,stringIndex)=>`<div class="tab-row"><span class="tab-label">${string.label}|</span><span class="tab-line" style="--step-count:${steps.length}">${steps.map((note,index)=>{const isNote=note.string===stringIndex,active=isNote&&offset+index===activeStep,first=isNote&&index===0;return `<span class="tab-segment${isNote?' note':''}${active?' active':''}${first?' first-note':''}">${isNote?`<b>${note.fret}</b>`:''}</span>`;}).join('')}<span class="tab-end">|</span></span></div>`).join('')}</div></section>`;
  container.innerHTML=system('ASCENDING',up,0)+system('DESCENDING',down,up.length);
 }
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}
@@ -77,15 +77,15 @@ async function playNote(note,duration){
  const ctx=await context(),hz=440*2**((note.midi-69)/12),[url,sourceHz]=samples.reduce((best,item)=>Math.abs(Math.log2(hz/item[1]))<Math.abs(Math.log2(hz/best[1]))?item:best,samples[0]),buffer=await loadSample(url),source=ctx.createBufferSource(),gain=ctx.createGain(),filter=ctx.createBiquadFilter(),start=ctx.currentTime+.015;
  source.buffer=buffer;source.playbackRate.value=hz/sourceHz;filter.type='lowpass';filter.frequency.value=5200;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.62,start+.012);gain.gain.exponentialRampToValueAtTime(.48,start+Math.min(.24,duration*.3));gain.gain.setValueAtTime(.44,Math.max(start+.25,start+duration-.12));gain.gain.exponentialRampToValueAtTime(.0001,start+duration);source.connect(filter).connect(gain).connect(ctx.destination);source.start(start);source.stop(start+duration+.03);
 }
-function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#tab-status').textContent=`Now playing ${note.note} · string ${note.string+1}, fret ${note.fret}`;}
+function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#play-status').textContent=`Now playing ${note.note} on string ${note.string+1}, fret ${note.fret}.`;}
 async function play(){
  if(playing)return;playing=true;const token=++playToken,steps=tabSteps(),beat=60/Number($('#tempo').value);$('#play').classList.add('playing');$('#play').setAttribute('aria-pressed','true');$('#play').setAttribute('aria-label','Stop scale');$('#play span').textContent='Stop';
  try{await context();for(let index=0;index<steps.length&&token===playToken;index++){const note=steps[index];showStep(note,index);await playNote(note,Math.min(1.5,beat*1.16));await new Promise(resolve=>setTimeout(resolve,beat*1000));}}
- catch{$('#tab-status').textContent='Sound could not start. Tap Play again.';}
- finally{if(token===playToken){playing=false;showStep(null,-1);$('#tab-status').textContent='Complete. Play it again or try the other layer.';resetPlayControl();}}
+ catch{$('#play-status').textContent='Sound could not start. Tap Follow Along to try again.';}
+ finally{if(token===playToken){playing=false;showStep(null,-1);$('#play-status').textContent='Complete. Follow Along to play the pattern again.';resetPlayControl();}}
 }
 function resetPlayControl(){$('#play').classList.remove('playing');$('#play').setAttribute('aria-pressed','false');$('#play').setAttribute('aria-label','Follow scale');$('#play span').textContent='Follow Along';}
-function stop(){playToken++;playing=false;showStep(null,-1);$('#tab-status').textContent='Stopped.';resetPlayControl();}
+function stop(){playToken++;playing=false;showStep(null,-1);$('#play-status').textContent='Playback stopped.';resetPlayControl();}
 
 $('.pattern-tabs').addEventListener('click',event=>{const button=event.target.closest('[data-pattern]');if(!button)return;stop();pattern=button.dataset.pattern;layer=pattern==='natural'?'aa':'pentatonic';render();});
 $('#layer-buttons').addEventListener('click',event=>{const button=event.target.closest('[data-layer]');if(!button)return;stop();layer=button.dataset.layer;render();});

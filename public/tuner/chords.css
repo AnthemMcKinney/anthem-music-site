@@ -221,6 +221,12 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 .lesson-expanded>h3{margin:0 0 7px;color:var(--theme-ink);font:700 16px/1.2 var(--app-font)}
 @media(max-width:740px){.lesson-summary>div{display:flex;align-items:center}.lesson-summary p{font-size:10px}.lesson-expanded>h3{font-size:15px}}
 
+/* Objective information disclosures share the light gray heading and white content style. */
+.lesson-details{overflow:hidden;border:1px solid #d6d1c7;border-radius:8px;background:#fff}
+.lesson-details>.lesson-summary{background:#eeeeec;box-shadow:none;border-bottom:1px solid #d6d1c7}
+.lesson-details>.lesson-expanded{margin:0;padding:12px 14px 14px 42px;background:#fff}
+.lesson-details>.lesson-expanded>h3{margin-top:0}
+
 /* The chord stage is diagram-first; all teaching copy lives in Objective Notes. */
 @media(max-width:740px){
  body[data-view=chords] .chord-grid .chord-card{box-sizing:border-box;height:190px;padding:12px 14px}

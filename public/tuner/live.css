@@ -6,6 +6,13 @@
 
 #pitch-trail{display:block;width:100%;height:150px;border:1px solid #dce1df;border-radius:10px}.trail-heading{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#5c6470;margin:8px 0}.trail-heading span:first-child{font-weight:700;letter-spacing:1px}.meter{display:none}.meter-labels{margin-top:7px}@media(max-width:740px){#pitch-trail{height:125px}.trail-heading{font-size:10px}}
 
-#pitch-trail{height:255px}.mic-check p{margin:5px 0;font-size:13px}.tuning-panel[data-status=tuned]{background:white}@media(max-width:740px){#pitch-trail{height:235px}}
+#pitch-trail{height:255px}.mic-check p{margin:0;padding:7px 12px;background:#fff;font-size:13px}.tuning-panel[data-status=tuned]{background:white}@media(max-width:740px){#pitch-trail{height:235px}}
+
+/* Information disclosures share a light gray title row over a white body. */
+.mic-check,#tuning-help,.sample-credits{overflow:hidden;border:1px solid #d6d1c7;border-radius:8px;background:#fff}
+.mic-check>summary,#tuning-help>summary,.sample-credits>summary{padding:9px 12px;list-style:none;background:#eeeeec;color:#0d1f3c;font-weight:900;cursor:pointer;box-shadow:none;border-bottom:1px solid #d6d1c7}
+.mic-check>summary::-webkit-details-marker,#tuning-help>summary::-webkit-details-marker,.sample-credits>summary::-webkit-details-marker{display:none}
+.mic-check>p,#tuning-help>p,.sample-credits>p{margin:0;padding:7px 12px;background:#fff;color:#40535d;font-size:12px;line-height:1.45}
+.mic-check>p+p,#tuning-help>p+p,.sample-credits>p+p{border-top:1px solid #e0d9cd}
 
 .meter-labels .pitch-symbol{font-size:22px;line-height:1;vertical-align:middle;font-weight:500;margin:0 3px}
