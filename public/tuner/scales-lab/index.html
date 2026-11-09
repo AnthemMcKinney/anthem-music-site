@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=20">
+ <link rel="stylesheet" href="./scales.css?v=31">
 </head>
 <body>
  <header class="site-header">
@@ -51,11 +51,13 @@
   <section class="scale-card" aria-labelledby="scale-title">
    <div class="scale-heading">
    <div><p id="scale-kicker">FIRST NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Musical Notes ABCDEFG · A</h2><p id="scale-copy">Identify where the notes in music are on your guitar.</p></div>
-    <div id="root-control" class="root-control" hidden><span>ROOT</span><div role="group" aria-label="Choose the root note"><button type="button" data-root="C" aria-pressed="true">C major</button><button type="button" data-root="A" aria-pressed="false">A minor</button></div></div>
    </div>
    <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div></div>
-   <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span><i class="note-dot active-dot"></i>Now playing</span></div>
-   <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg></div>
+   <div class="diagram-tools">
+    <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span id="active-legend"><i class="note-dot active-dot"></i>Now playing</span></div>
+    <div id="root-control" class="root-control" role="radiogroup" aria-labelledby="root-label" hidden><span id="root-label">Root</span><label><input type="radio" name="root-choice" data-root="C" value="C" checked> C Major</label><label><input type="radio" name="root-choice" data-root="A" value="A"> A minor</label></div>
+   </div>
+   <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg><div id="finger-legend" class="finger-legend" role="list" aria-label="Finger numbers"></div></div>
   </section>
   <section class="tab-card" aria-labelledby="tab-title">
    <div class="tab-heading">
@@ -65,15 +67,23 @@
      <button id="play" type="button" class="play-exercise" aria-label="Follow scale" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Follow Along</span></button>
     </div>
    </div>
-   <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong>TURN THE MAP INTO MUSIC</strong><p>First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
-   <div id="tab-status" class="tab-status">Play the notes on the specified frets in order from left to right.</div>
+   <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
+   <section id="backing-panel" class="backing-panel" aria-label="Scale backing progression" hidden>
+    <div class="backing-heading"><div><p>PLAY IN TIME</p><strong>Practice with chords</strong></div><span id="backing-summary">Am · Am · C · C</span></div>
+    <div class="backing-controls">
+     <label>Progression<select id="backing-progression" aria-label="Backing progression"><option value="am-c">Am – C</option><option value="c-f">C – F</option><option value="c-g">C – G</option><option value="am-f">Am – F</option><option value="c-f-am-g">C – F – Am – G</option></select></label>
+     <label>Loop length<select id="backing-bars" aria-label="Backing loop length"><option value="2" selected>2 bars</option><option value="4">4 bars</option></select></label>
+     <button id="backing-play" type="button" class="play-exercise" aria-label="Start backing progression" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Backing</span></button>
+    </div>
+    <p class="backing-help" id="backing-help">Two-chord loops play one or two bars per chord. This progression loops until you stop it and follows the BPM above.</p>
+   </section>
    <span id="play-status" class="sr-only" aria-live="polite"></span>
    <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
-   <p class="tab-help"><strong>Tab reads from the highest string at the top to the lowest string at the bottom.</strong> The number tells you which fret to play; 0 means an open string.</p>
+   <p class="tab-help"><strong>Top line = high e. Bottom line = low E.</strong> Numbers show frets; 0 means an open string.</p>
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 20</span></footer>
- <script type="module" src="./scales.js?v=20"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 37</span></footer>
+ <script type="module" src="./scales.js?v=37"></script>
 </body>
 </html>
