@@ -43,6 +43,8 @@ footer{background:#e9e1d4}
 .fretboard .marker.foundation{fill:#f0e6d2;stroke:#a99c86;stroke-width:1.5}
 .fretboard .marker.added{fill:#c6aa74}
 .fretboard .marker.root{fill:var(--orange);stroke:none}
+.tab-title-row{display:flex;flex:1;align-items:flex-start;justify-content:space-between;gap:14px}.tab-title-row>div>span{display:block;margin:9px 0 0;color:var(--muted);font-size:14px}.backing-title-row{display:flex;align-items:center;gap:14px}.card-collapse{display:inline-flex;flex:0 0 auto;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:10px;font-weight:800;white-space:nowrap}.card-collapse b{color:var(--orange);font-size:14px;line-height:.8;transition:transform .16s ease}.card-collapse[aria-expanded=false] b{transform:rotate(180deg)}
+@media(max-width:720px){.tab-title-row{width:100%;align-items:flex-start}.backing-title-row{min-width:0;gap:8px}.card-collapse{padding:6px 8px;font-size:9px}}
 .foundation-dot{background:#f0e6d2;border:1px solid #a99c86}.added-dot{background:#c6aa74}
 .natural-theory .root-note{color:var(--orange)}.natural-theory .octave-note{color:#c43d2f}
 .transport{display:flex;width:auto;gap:8px;align-items:end}

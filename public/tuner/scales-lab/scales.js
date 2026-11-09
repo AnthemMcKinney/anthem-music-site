@@ -125,3 +125,4 @@ $('#backing-play').addEventListener('click',async()=>{
  try{const started=await startBacking();if(!started)stopBacking();}
  catch{stopBacking();$('#play-status').textContent='Backing sound could not start. Tap Play Backing to try again.';}
 });
+document.querySelectorAll('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=document.getElementById(button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${button.closest('.tab-card')?'Scale tablature':'Practice with chords'} card`);button.querySelector('span').textContent=expanded?'Expand':'Collapse';}));

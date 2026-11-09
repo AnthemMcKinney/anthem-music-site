@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=35">
+ <link rel="stylesheet" href="./scales.css?v=36">
 </head>
 <body>
  <header class="site-header">
@@ -61,18 +61,21 @@
   </section>
   <section class="tab-card" aria-labelledby="tab-title">
    <div class="tab-heading">
-    <div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div>
+    <div class="tab-title-row"><div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div><button class="card-collapse" type="button" aria-expanded="true" aria-controls="tab-card-content" data-collapse-target="tab-card-content"><span>Collapse</span><b aria-hidden="true">⌃</b></button></div>
     <div class="exercise-toolbar scales-exercise-toolbar">
      <div class="exercise-tempo" aria-label="Scale tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><label><input id="tempo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Scale tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div>
     </div>
    </div>
-   <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
-   <span id="play-status" class="sr-only" aria-live="polite"></span>
-   <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
-   <p class="tab-help"><strong>Top line = high e. Bottom line = low E.</strong> Numbers show frets; 0 means an open string.</p>
+   <div id="tab-card-content">
+    <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
+    <span id="play-status" class="sr-only" aria-live="polite"></span>
+    <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
+    <p class="tab-help"><strong>Top line = high e. Bottom line = low E.</strong> Numbers show frets; 0 means an open string.</p>
+   </div>
   </section>
   <section id="backing-panel" class="backing-panel" aria-label="Practice with chords">
-   <div class="backing-heading"><div><p>PLAY IN TIME</p><strong>Practice with chords</strong></div><span id="backing-summary">Am · Am · C · C</span></div>
+   <div class="backing-heading"><div class="backing-title-row"><div><p>PLAY IN TIME</p><strong>Practice with chords</strong></div><button class="card-collapse" type="button" aria-expanded="true" aria-controls="backing-card-content" data-collapse-target="backing-card-content"><span>Collapse</span><b aria-hidden="true">⌃</b></button></div><span id="backing-summary">Am · Am · C · C</span></div>
+   <div id="backing-card-content">
    <p class="backing-intro">Choose a groove, add a light backing mix, then play the scale along with it.</p>
    <div class="backing-controls">
     <label>Progression<select id="backing-progression" aria-label="Backing progression"><option value="am-c">Am – C</option><option value="c-f">C – F</option><option value="c-g">C – G</option><option value="am-f">Am – F</option><option value="c-f-am-g">C – F – Am – G</option></select></label>
@@ -92,10 +95,11 @@
     <label>Note value<select id="demo-note-value" aria-label="Scale demo note value"><option value="quarter">Quarter notes · one note per beat</option><option value="eighth">Eighth notes · two notes per beat</option></select></label>
     <button id="play" type="button" class="play-exercise" aria-label="Play scale demo with backing" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Scale + Backing</span></button>
    </div>
+   </div>
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 42</span></footer>
- <script type="module" src="./scales.js?v=41"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 43</span></footer>
+ <script type="module" src="./scales.js?v=42"></script>
 </body>
 </html>
