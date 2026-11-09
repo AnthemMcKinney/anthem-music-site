@@ -1,4 +1,4 @@
-import {ChordPlayer} from '../tuner/chord-audio.js?v=39';
+import {ChordPlayer} from '../tuner/chord-audio.js?v=40';
 
 const strings=[{label:'e',open:64},{label:'B',open:59},{label:'G',open:55},{label:'D',open:50},{label:'A',open:45},{label:'E',open:40}];
 const noteNames=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
@@ -95,7 +95,7 @@ async function play(noteValue=$('#demo-note-value').value){
  if(playing){stopBacking();return;}if(backingPlaying)stopBacking();
  const token=++playToken,steps=tabSteps(),beat=60/Number($('#tempo').value),stepDuration=beat*(noteValue==='eighth'?.5:1),ids=backingPatterns[$('#backing-progression').value],bars=Number($('#backing-bars').value),repeats=bars/ids.length,progression=ids.flatMap(id=>Array(repeats).fill(backingChords[id])),timeline=progression.flatMap(chord=>Array(4).fill(chord)),mix=backingMix();let demoIndex=0;
  playing=true;backingPlaying=true;demoWithBacking=true;setBackingButton(true);setDemoButton(true);$('#play-status').textContent=`Starting the ${noteValue}-note scale demo with ${$('#backing-summary').textContent}.`;
- try{await Promise.all(steps.map(note=>chordPlayer.prepareScaleTone(note.midi)));if(token!==playToken)return;const started=await chordPlayer.playExercise(progression,$('#backing-strum').value,Number($('#tempo').value), (cue,audioAt)=>{if(!cue||!playing)return;if(noteValue==='quarter'&&cue.slotIndex%2!==0)return;if(demoIndex>=steps.length)return;const index=demoIndex++,note=steps[index];showStep(note,index);chordPlayer.playScaleTone(note.midi,stepDuration*.96,audioAt);if(demoIndex===steps.length){playing=false;demoWithBacking=false;setDemoButton(false);$('#play-status').textContent='Scale demo complete. The backing keeps playing; press Stop Backing when you are ready.';}},mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix);if(!started)stopBacking();}
+ try{await Promise.all(steps.map(note=>chordPlayer.prepareScaleTone(note.midi)));if(token!==playToken)return;const started=await chordPlayer.playExercise(progression,$('#backing-strum').value,Number($('#tempo').value), (cue,audioAt)=>{if(!cue||!playing)return;if(noteValue==='quarter'&&cue.slotIndex%2!==0)return;if(demoIndex>=steps.length)demoIndex=0;const index=demoIndex++,note=steps[index];showStep(note,index);chordPlayer.playScaleTone(note.midi,stepDuration*.96,audioAt);},mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix);if(!started)stopBacking();}
  catch{stopBacking();$('#play-status').textContent='The scale demo could not start. Tap Play Scale + Backing to try again.';}
 }
 function setDemoButton(active){$('#play').classList.toggle('playing',active);$('#play').setAttribute('aria-pressed',String(active));$('#play').setAttribute('aria-label',active?'Stop scale demo and backing':'Play scale demo with backing');$('#play span').textContent=active?'Stop Demo':'Play Scale + Backing';}
@@ -110,13 +110,14 @@ $$('[data-tempo-step]').forEach(button=>button.addEventListener('click',()=>setT
 $('#tempo').addEventListener('change',event=>setTempo(event.target.value));
 $('#play').addEventListener('click',()=>play());render();
 
-function backingMix(){return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'roots',volume:.42},piano:{enabled:$('#mix-piano').checked,style:'simple',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
+function backingMix(){chordPlayer.setBackingMasterVolume(Number($('#backing-volume').value)/100);return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'roots',volume:.42},piano:{enabled:$('#mix-piano').checked,style:'simple',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
 async function startBacking(onCue=null){const ids=backingPatterns[$('#backing-progression').value],bars=Number($('#backing-bars').value),repeats=bars/ids.length,progression=ids.flatMap(id=>Array(repeats).fill(backingChords[id])),timeline=progression.flatMap(chord=>Array(4).fill(chord)),mix=backingMix();return chordPlayer.playExercise(progression,$('#backing-strum').value,Number($('#tempo').value),onCue,mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix);}
 function stopBacking(){if(!backingPlaying)return;if(playing||demoWithBacking||activeId)stop();chordPlayer.stop();backingPlaying=false;demoWithBacking=false;setBackingButton(false);$('#play-status').textContent='Backing progression stopped.';}
 $('#backing-progression').addEventListener('change',()=>{stopBacking();updateBackingSummary();});
 $('#backing-bars').addEventListener('change',()=>{stopBacking();updateBackingSummary();});
 $('#backing-strum').addEventListener('change',()=>{if(backingPlaying)stopBacking();});
 ['drums','bass','piano','strings'].forEach(track=>$(`#mix-${track}`).addEventListener('change',event=>{if(backingPlaying)chordPlayer.setBackingEnabled(track,event.target.checked);}));
+$('#backing-volume').addEventListener('input',event=>{const value=Number(event.target.value);$('#backing-volume-value').textContent=`${value}%`;chordPlayer.setBackingMasterVolume(value/100);});
 $('#demo-note-value').addEventListener('change',()=>{if(playing)stopBacking();});
 $('#backing-play').addEventListener('click',async()=>{
  if(backingPlaying){stopBacking();return;}
