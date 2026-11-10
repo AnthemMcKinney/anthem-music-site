@@ -25,3 +25,10 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 ## Preflight and visual review
 
 Before changing UI, identify the closest existing example and state which classes/components will be reused. After the change, compare a phone and desktop view against that example. Check card surface, border, title hierarchy, disclosure position/icon, spacing, and responsive behavior. Do not call the work complete based on a build alone.
+
+## Web Scales integration
+
+- Scales reuses the prototype's cream cards, navy header, notes disclosure, right-edge plus/minus buttons, and fretboard/tab layout. The app loads it inside a scoped component so generic lesson selectors cannot change the tuner or First Chords.
+- Base tempo and Play icon styles live in public/tuner/lesson-controls.css and are shared by First Chords and Scales. Their green action colors use shared light/dark tokens for readable contrast.
+- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows three ascending notes across horizontal fretboard/string lines.
+- Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.

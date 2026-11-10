@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=48">
+ <link rel="stylesheet" href="./scales.css?v=web-scales-1">
 </head>
 <body>
  <header class="site-header">
@@ -20,6 +20,8 @@
    <div><p class="eyebrow">GUITAR FOUNDATIONS</p><h1>Scales</h1><p>Learn the notes. Connect the patterns. Find the melodies.</p></div>
   </section>
   <section class="module-body">
+  <span id="play-status" class="sr-only" aria-live="polite"></span>
+  <p id="audio-error" class="audio-error" role="alert" hidden></p>
   <nav class="pattern-tabs" aria-label="Scale pattern">
    <button type="button" data-pattern="natural" aria-pressed="true"><span>OBJECTIVE 1</span>First Notes</button>
    <button type="button" data-pattern="box1" aria-pressed="false"><span>OBJECTIVE 2 · CAGED</span>Box 1</button>
@@ -70,7 +72,7 @@
      <button id="tab-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button>
     </div>
     <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
-    <span id="play-status" class="sr-only" aria-live="polite"></span>
+
     <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
     <p class="tab-help"><strong>Top line = high e. Bottom line = low E.</strong> Numbers show frets; 0 means an open string.</p>
    </div>
@@ -105,6 +107,6 @@
   </section>
  </main>
  <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 56</span></footer>
- <script type="module" src="./scales.js?v=51"></script>
+ <script type="module" src="./standalone.js?v=web-scales-1"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 import {ChordPlayer} from '../tuner/chord-audio.js?v=41';
 
+export function initScales(scope=document,{canPlay=()=>true}={}){
 const strings=[{label:'e',open:64},{label:'B',open:59},{label:'G',open:55},{label:'D',open:50},{label:'A',open:45},{label:'E',open:40}];
 const noteNames=['C','C♯','D','D♯','E','F','F♯','G','G♯','A','A♯','B'];
 const noteName=midi=>noteNames[midi%12]+(Math.floor(midi/12)-1);
@@ -23,7 +24,7 @@ const patterns={
 };
 
 let pattern='natural',layer='aa',root='C',playing=false,playToken=0,activeId='',activeStep=-1,backingPlaying=false,demoWithBacking=false,tabPlaying=false,tabTimer=0,tabToken=0,tabNextAt=0,tabIndex=0;
-const $=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)],current=()=>patterns[pattern].layers[layer];
+const $=selector=>scope.querySelector(selector),$$=selector=>[...scope.querySelectorAll(selector)],current=()=>patterns[pattern].layers[layer];
 const chordPlayer=new ChordPlayer();
 const backingChords={am:{id:'am',name:'Am',frets:['x',0,2,2,1,0]},c:{id:'c',name:'C',frets:['x',3,2,0,1,0]},f:{id:'f',name:'F',frets:['x','x',3,2,1,1]},g:{id:'g',name:'G',frets:[3,2,0,0,3,3]}};
 const backingPatterns={'am-c':['am','c'],'c-f':['c','f'],'c-g':['c','g'],'am-f':['am','f'],'c-f-am-g':['c','f','am','g']};
@@ -94,6 +95,8 @@ function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(
 function setTabPlayButton(active){$$('.pattern-play').forEach(button=>{button.classList.toggle('playing',active);button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-label',active?'Stop selected scale pattern':'Play notes in the selected pattern');button.querySelector('span').textContent=active?'Stop':'Play Notes';});}
 function stopTabPlayback(){if(!tabPlaying)return;tabToken++;tabPlaying=false;clearInterval(tabTimer);tabTimer=0;chordPlayer.stop();showStep(null,-1);setTabPlayButton(false);$('#play-status').textContent='Scale pattern stopped.';}
 async function playTabPattern(){
+ if(!canPlay())return;
+ $('#audio-error').hidden=true;
  if(tabPlaying){stopTabPlayback();return;}
  if(backingPlaying)stopBacking();
  if(playing)stopBacking();
@@ -115,15 +118,17 @@ async function playTabPattern(){
    }
   },25);
   $('#play-status').textContent=`Playing the selected scale pattern at ${$('#tempo').value} BPM.`;
- }catch(error){if(token!==tabToken)return;tabPlaying=false;clearInterval(tabTimer);setTabPlayButton(false);showStep(null,-1);$('#play-status').textContent=error.message||'The scale pattern could not start. Tap Play Notes to try again.';}
+ }catch(error){if(token!==tabToken)return;tabPlaying=false;clearInterval(tabTimer);setTabPlayButton(false);showStep(null,-1);$('#audio-error').hidden=false;$('#audio-error').textContent=$('#play-status').textContent=error.message||'The scale pattern could not start. Tap Play Notes to try again.';}
 }
 async function play(noteValue=$('#demo-note-value').value){
+ if(!canPlay())return;
+ $('#audio-error').hidden=true;
  if(tabPlaying)stopTabPlayback();
  if(playing){stopBacking();return;}if(backingPlaying)stopBacking();
  const token=++playToken,steps=tabSteps(),ids=backingPatterns[$('#backing-progression').value],bars=Number($('#backing-bars').value),repeats=bars/ids.length,progression=ids.flatMap(id=>Array(repeats).fill(backingChords[id])),timeline=progression.flatMap(chord=>Array(4).fill(chord)),mix=backingMix();let demoIndex=0;
  playing=true;backingPlaying=true;demoWithBacking=true;setBackingButton(true);setDemoButton(true);$('#play-status').textContent=`Starting the ${noteValue}-note scale demo with ${$('#backing-summary').textContent}.`;
  try{await chordPlayer.unlock();if(token!==playToken)return;await Promise.all(steps.map(note=>chordPlayer.prepareScaleTone(note.midi)));if(token!==playToken)return;const started=await chordPlayer.playExercise(progression,$('#backing-strum').value,Number($('#tempo').value), (cue,audioAt)=>{if(!cue||!playing)return;if(noteValue==='quarter'&&cue.slotIndex%2!==0)return;if(demoIndex>=steps.length)demoIndex=0;const index=demoIndex++,note=steps[index],stepDuration=60/Number($('#tempo').value)*(noteValue==='eighth'?.5:1);showStep(note,index);chordPlayer.playScaleTone(note.midi,stepDuration*.96,audioAt);},mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix);if(token!==playToken)return;if(!started)stopBacking();}
- catch(error){if(token!==playToken)return;stopBacking();$('#play-status').textContent=error.message||'The scale demo could not start. Tap Play Scale + Backing to try again.';}
+ catch(error){if(token!==playToken)return;stopBacking();$('#audio-error').hidden=false;$('#audio-error').textContent=$('#play-status').textContent=error.message||'The scale demo could not start. Tap Play Scale + Backing to try again.';}
 }
 function setDemoButton(active){$('#play').classList.toggle('playing',active);$('#play').setAttribute('aria-pressed',String(active));$('#play').setAttribute('aria-label',active?'Stop scale demo and backing':'Play scale demo with backing');$('#play span').textContent=active?'Stop Demo':'Play Scale + Backing';}
 function setBackingButton(active){$('#backing-play').classList.toggle('playing',active);$('#backing-play').setAttribute('aria-pressed',String(active));$('#backing-play').setAttribute('aria-label',active?'Stop backing progression':'Start backing progression');$('#backing-play span').textContent=active?'Stop Backing':'Play Backing';}
@@ -147,14 +152,20 @@ $('#backing-strum').addEventListener('change',()=>{if(backingPlaying)stopBacking
 $('#backing-volume').addEventListener('input',event=>{const value=Number(event.target.value);$('#backing-volume-value').textContent=`${value}%`;chordPlayer.setBackingMasterVolume(value/100);});
 $('#demo-note-value').addEventListener('change',()=>{if(playing)stopBacking();});
 $('#backing-play').addEventListener('click',async()=>{
+ if(!canPlay())return;
+ $('#audio-error').hidden=true;
  if(tabPlaying)stopTabPlayback();
  if(backingPlaying){stopBacking();return;}
  stop();const token=playToken;backingPlaying=true;setBackingButton(true);$('#play-status').textContent=`Playing backing progression ${$('#backing-summary').textContent} at ${$('#tempo').value} BPM.`;
  try{const started=await startBacking();if(token!==playToken)return;if(!started)stopBacking();}
- catch(error){if(token!==playToken)return;stopBacking();$('#play-status').textContent=error.message||'Backing sound could not start. Tap Play Backing to try again.';}
+ catch(error){if(token!==playToken)return;stopBacking();$('#audio-error').hidden=false;$('#audio-error').textContent=$('#play-status').textContent=error.message||'Backing sound could not start. Tap Play Backing to try again.';}
 });
-document.querySelectorAll('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=document.getElementById(button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));const title=button.closest('.tab-card')?'Scale tablature':'Practice to a Backing Track';button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${title} card`);button.querySelector('.card-collapse b').textContent=expanded?'+':'−';}));
+$$('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=scope.querySelector('#'+button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));const title=button.closest('.tab-card')?'Scale tablature':'Practice to a Backing Track';button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${title} card`);button.querySelector('.card-collapse b').textContent=expanded?'+':'−';}));
 
 // Stop pending starts as well as scheduled audio when the app leaves the foreground.
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopTabPlayback();stopBacking();}});
-window.addEventListener('pagehide',stopBacking);
+function stopPlayback(){stopTabPlayback();stopBacking();playToken++;tabToken++;chordPlayer.stop();}
+const onVisibility=()=>{if(document.hidden)stopPlayback();};
+document.addEventListener('visibilitychange',onVisibility);
+window.addEventListener('pagehide',stopPlayback);
+return {stopPlayback,destroy(){stopPlayback();document.removeEventListener('visibilitychange',onVisibility);window.removeEventListener('pagehide',stopPlayback);}};
+}

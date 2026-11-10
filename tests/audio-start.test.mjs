@@ -34,12 +34,12 @@ const scaleSource=readFileSync(new URL('../public/tuner/scales-lab/scales.js',im
 function scaleHarness(){
  const calls=[];let release;
  const elements=new Map();const $=id=>{if(!elements.has(id))elements.set(id,{value:id==='#backing-bars'?'1':id==='#tempo'?'75':'demo',textContent:''});return elements.get(id);};
- const sandbox={$,tabSteps:()=>[{midi:60}],backingPatterns:{demo:['c']},backingChords:{c:{id:'c'}},backingMix:()=>({drums:{enabled:false}}),setBackingButton(){},setDemoButton(){},showStep(){},calls,
+ const sandbox={$,canPlay:()=>true,stopTabPlayback(){},tabSteps:()=>[{midi:60}],backingPatterns:{demo:['c']},backingChords:{c:{id:'c'}},backingMix:()=>({drums:{enabled:false}}),setBackingButton(){},setDemoButton(){},showStep(){},calls,
  chordPlayer:{unlock(){calls.push('unlock');return new Promise(r=>release=r);},async prepareScaleTone(){calls.push('sample');},async playExercise(){calls.push('play');return true;},stop(){}}};
  vm.createContext(sandbox);
  const play=scaleSource.slice(scaleSource.indexOf('async function play('),scaleSource.indexOf('function setDemoButton'));
  const stopBacking=scaleSource.slice(scaleSource.indexOf('function stopBacking(){'),scaleSource.indexOf('\n',scaleSource.indexOf('function stopBacking(){')));
- vm.runInContext('let playing=false,backingPlaying=false,demoWithBacking=false,playToken=0,activeId="";function stop(){playToken++;playing=false;}'+play+stopBacking,sandbox);
+ vm.runInContext('let playing=false,tabPlaying=false,backingPlaying=false,demoWithBacking=false,playToken=0,activeId="";function stop(){playToken++;playing=false;}'+play+stopBacking,sandbox);
  return {sandbox,calls,release:()=>release(),status:()=>$('#play-status').textContent};
 }
 test('scale Play unlocks before any sample preparation, then starts',async()=>{
@@ -87,4 +87,15 @@ test('reset on stop/new playback clears single-chord button state',()=>{
  const classes=new Set(['playing']),button={classList:{remove:name=>classes.delete(name)}};
  const sandbox={section:{querySelectorAll:selector=>selector==='[data-play-chord].playing'?[button]:[]},clearExerciseCue(){}};
  vm.createContext(sandbox);vm.runInContext(code+';resetExamples();',sandbox);assert.equal(classes.has('playing'),false);
+});
+
+// A scale voice may still be waiting on its sample when the user leaves the module.
+test('scale tone cancelled while sample loads never creates an audio source',async()=>{
+ const player=new ChordPlayer();let release,created=0;
+ player.context=()=>({createBufferSource(){created++;throw Error('late voice');}});
+ player.load=()=>new Promise(resolve=>release=resolve);
+ const playing=player.playScaleTone(60,.4);player.loopToken++;release({duration:1});await playing;assert.equal(created,0);
+});
+test('hidden Scales cannot unlock or schedule audio',async()=>{
+ const h=scaleHarness();h.sandbox.canPlay=()=>false;await vm.runInContext('play("quarter")',h.sandbox);assert.deepEqual(h.calls,[]);
 });

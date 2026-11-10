@@ -1,0 +1,10 @@
+/* Web-only navigation and shell. Android assets are not changed by this review branch. */
+.bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+.bottom-nav .scales-nav-icon circle{fill:currentColor;stroke:var(--theme-nav);stroke-width:1.2}
+.bottom-nav .nav-item.active .scales-nav-icon circle{stroke:var(--theme-nav-active)}
+body[data-view=scales] .intro,body[data-view=scales] #tuner,body[data-view=scales] .metronome-view,body[data-view=scales] .chords-view{display:none}
+.scales-view[hidden]{display:none!important}
+.scales-view{padding:10px 0 calc(max(58px,7dvh) + env(safe-area-inset-bottom) + 28px);min-width:0}
+body[data-view=scales]{height:auto!important;min-height:100dvh;overflow-x:hidden!important;overflow-y:auto!important}
+body[data-view=scales] .app-shell{position:relative!important;inset:auto!important;width:auto!important;max-width:1180px!important;height:auto!important;min-height:0!important;margin:0 auto!important;transform:none!important;overflow:visible!important}
+@media(max-width:420px){.bottom-nav .nav-item{font-size:10px;min-width:0}}

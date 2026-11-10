@@ -1,3 +1,4 @@
+import {initScalesView} from './tuner/scales-view.js?v=web-scales-1';
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
 import {TunerAudio} from './tuner/audio.js?v=70';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
@@ -254,9 +255,10 @@ moreSection('About this app','<p>These tools turn the same ideas used in Anthem 
 const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>tuningHelp.lastElementChild.append(item));
 moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
+moreSection('Scales','<p>Learn guitar note names, connect scale patterns, and practice with tablature and backing tracks. Scales is part of this web review version.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.155';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.155 · Web Scales review';moreBody.append(copyright,feedback,version);
 const soundSession={ready:false};
 async function metronomeSoundCheck(){
  const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
@@ -266,22 +268,25 @@ async function metronomeSoundCheck(){
 }
 const metronome=initMetronome({enableSound:metronomeSoundCheck,soundSession}),chordsModule=initChords({enableSound:metronomeSoundCheck,soundSession});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)soundSession.ready=false;});
-const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),moreNav=document.createElement('button');
+const scalesModule=initScalesView();
+const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),scalesNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon tuner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8"/><path d="M6.5 7a5 5 0 0 0 0 6M17.5 7a5 5 0 0 1 0 6"/><path d="M4 5a8 8 0 0 0 0 10M20 5a8 8 0 0 1 0 10"/></svg></span><span>Tuner</span>';
 metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon metronome-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l3 17H5L8 4Z"/><path d="M7 17h10M11 17 15.5 3"/><rect class="metronome-weight" x="11.75" y="7.9" width="3" height="4.2" rx=".6" transform="rotate(18 13.25 10)"/></svg></span><span>Metronome</span>';
 chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon chords-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="chord-nut" d="M5 2h14"/><path d="M5 2v20M7.8 2v20M10.6 2v20M13.4 2v20M16.2 2v20M19 2v20M5 8.67h14M5 15.33h14M5 22h14"/><circle cx="16.2" cy="5.34" r="1.65"/><circle cx="10.6" cy="12" r="1.65"/><circle cx="13.4" cy="12" r="1.65"/></svg></span><span>Chords</span>';
+scalesNav.className='nav-item';scalesNav.innerHTML='<span class="nav-icon scales-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="6" r="2"/></svg></span><span>Scales</span>';
 moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
-bottomNav.append(tunerNav,metronomeNav,chordsNav,moreNav);document.body.append(bottomNav);
+bottomNav.append(tunerNav,metronomeNav,chordsNav,scalesNav,moreNav);document.body.append(bottomNav);
 function showView(view,{updateHash=true}={}){
- const metro=view==='metronome',chords=view==='chords',more=view==='more',tuner=!metro&&!chords&&!more;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
- [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
- document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':more?'MORE':'THE TUNER';
- if(!tuner&&(listening||starting))stopListening();if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
+ const metro=view==='metronome',chords=view==='chords',more=view==='more',scales=view==='scales',tuner=!metro&&!chords&&!more&&!scales;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
+ [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[scalesNav,scales],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
+ document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':scales?'SCALES':more?'MORE':'THE TUNER';
+ scalesModule.show(scales);
+ if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
  window.scrollTo(0,0);
 }
-tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');moreNav.onclick=()=>showView('more');
-window.addEventListener('hashchange',()=>{const view=['metronome','chords','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});});
+tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');scalesNav.onclick=()=>showView('scales');moreNav.onclick=()=>showView('more');
+window.addEventListener('hashchange',()=>{const view=['metronome','chords','scales','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});});
 renderInstrument();
-showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':location.hash==='#more'?'more':'tuner',{updateHash:false});
+showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':location.hash==='#scales'?'scales':location.hash==='#more'?'more':'tuner',{updateHash:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});

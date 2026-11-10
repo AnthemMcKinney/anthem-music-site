@@ -1,4 +1,5 @@
-:root{--app-font:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-family:var(--app-font);color:#0d1f3c;background:#e9e1d4;--navy:#0d1f3c;--orange:#ef5b12;--cream:#f7f1e5;--paper:#fff;--line:#d8cdb9;--muted:#5d6670;--yellow:#ffd363;--green:#319a61}
+@import url("../lesson-controls.css?v=web-scales-1");
+:root{--theme-border:#d8cdb9;--theme-surface:#fff;--theme-ink:#0d1f3c;--theme-accent:#ef5b12;--theme-on-accent:#fff;--app-font:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-family:var(--app-font);color:#0d1f3c;background:#e9e1d4;--navy:#0d1f3c;--orange:#ef5b12;--cream:#f7f1e5;--paper:#fff;--line:#d8cdb9;--muted:#5d6670;--yellow:#ffd363;--green:#319a61}
 *{box-sizing:border-box}body{margin:0;background:#e9e1d4;color:var(--navy)}button,select{font:inherit}button{cursor:pointer}
 .site-header{display:flex;align-items:center;justify-content:space-between;max-width:1120px;height:84px;margin:auto;padding:0 24px;background:#fff;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:22px;font-weight:900;text-decoration:none}.brand img{width:42px;height:46px}.brand b{color:var(--orange)}.lab-badge{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:var(--cream);font-size:9px;font-weight:900;letter-spacing:1px}
@@ -59,13 +60,10 @@ footer{background:#e9e1d4}
 @media(max-width:720px){.fretboard{min-height:0}.transport{display:grid;grid-template-columns:minmax(132px,1fr) 68px 68px;width:100%;gap:5px}.tempo-control,.action-control{width:auto}.fretboard .string-label{font-size:22px}.fretboard .fret-label{font-size:15px}.fretboard .marker-text{font-size:16px}}
 /* Shared chord-exercise control template */
 .scales-exercise-toolbar{display:grid;grid-template-columns:140px auto;align-items:end;justify-content:end;gap:7px;margin:0 0 7px}
-.exercise-tempo{display:grid;grid-template-columns:34px minmax(58px,1fr) 34px;align-items:center;width:140px;height:32px;overflow:hidden;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy)}
-.exercise-tempo button{display:grid;place-items:center;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent;color:inherit;font-family:inherit;font-size:18px;font-weight:900;line-height:1}
-.exercise-tempo label{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;height:100%;padding:0}
-.exercise-tempo-value{box-sizing:border-box!important;width:27px!important;height:20px!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-bottom:1px dotted var(--line)!important;border-radius:0!important;background:transparent!important;color:inherit!important;text-align:right!important;font-family:inherit!important;font-size:10px!important;font-weight:900!important;line-height:20px!important;letter-spacing:0!important;appearance:textfield!important;-webkit-appearance:none!important}
-.exercise-tempo-value::-webkit-inner-spin-button,.exercise-tempo-value::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.exercise-tempo label span{font-size:8px;font-weight:900}.exercise-tempo-value:focus{border-bottom-color:var(--orange)!important;outline:0}.exercise-tempo button:active{background:var(--orange);color:#fff}
-.play-exercise{display:flex;align-items:center;gap:6px;width:max-content;height:32px;margin:0;padding:4px 8px 4px 5px;border:1px solid #37965c;border-radius:999px;background:#fff;color:#2d7f4c;font-family:inherit;font-size:10px;font-weight:900;line-height:1;letter-spacing:.15px}
-.play-exercise svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}.play-exercise .play-fill{fill:currentColor;stroke:none}.play-exercise:hover,.play-exercise:focus-visible{border-color:#2d7f4c;background:#e7f4eb;color:#256b40;outline:0}.play-exercise.playing{border-color:#a92f2a;background:#c7443e;color:#fff}.play-exercise.playing svg{display:none}.play-exercise.playing::before{content:"";width:11px;height:11px;border-radius:2px;background:currentColor}
+.play-exercise{height:32px;border-color:var(--lesson-play-border,#37965c);background:var(--paper);color:var(--lesson-play-ink,#2d7f4c)}
+.play-exercise:hover,.play-exercise:focus-visible{border-color:var(--lesson-play-ink,#2d7f4c);background:var(--lesson-play-hover,#e7f4eb);color:var(--lesson-play-hover-ink,#256b40)}
+.play-exercise.playing{border-color:#a92f2a;background:#c7443e;color:#fff}
+.play-exercise.playing svg{display:none}.play-exercise.playing::before{content:"";width:11px;height:11px;border-radius:2px;background:currentColor}
 .fretboard .reach-back-label{fill:var(--orange);font-size:11px}
 @media(max-width:720px){.scales-exercise-toolbar{grid-template-columns:125px auto;width:100%;justify-content:space-between}.exercise-tempo{grid-template-columns:30px minmax(55px,1fr) 30px;width:125px}.exercise-tempo-value{width:26px!important}.play-exercise{padding-right:7px;font-size:9px}}
 
@@ -252,7 +250,7 @@ footer{background:#e9e1d4}
 .layer-control{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:9px;margin-top:13px;padding-top:12px}
 .layer-control #layer-buttons{display:flex;flex:1 1 auto;min-width:0;gap:5px}
 .layer-control #layer-buttons button{flex:1 1 auto;min-width:0;padding:7px 10px;font-size:12px;white-space:nowrap}
-.layer-control .pattern-play{flex:0 0 auto;min-height:32px;margin:0;padding:4px 9px 4px 6px;border:1px solid #37965c;border-radius:999px;background:#fff;color:#2d7f4c;font:900 10px/1 Arial,Helvetica,sans-serif;white-space:nowrap}
+.layer-control .pattern-play{flex:0 0 auto;min-height:32px;margin:0;padding:4px 9px 4px 6px;border:1px solid var(--lesson-play-border,#37965c);border-radius:999px;background:#fff;color:var(--lesson-play-ink,#2d7f4c);font:900 10px/1 Arial,Helvetica,sans-serif;white-space:nowrap}
 .layer-control .pattern-play svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
 .layer-control .pattern-play .play-fill{fill:currentColor;stroke:none}
 .layer-control button.pattern-play[aria-pressed=true]{border-color:#a92f2a;background:#c7443e;color:#fff}
@@ -267,3 +265,28 @@ footer{background:#e9e1d4}
  .layer-control #layer-buttons button{padding-inline:7px;font-size:11px}
 }
 @media(max-width:380px){.layer-control{flex-wrap:wrap}.layer-control #layer-buttons{flex-basis:100%}.layer-control .pattern-play{margin-left:auto}}
+
+/* Embedded in the app: inherit the same palette and module shell as First Chords. */
+:host{display:block;--app-font:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;--navy:var(--theme-ink,#0d1f3c);--orange:var(--theme-accent,#ef5b12);--cream:var(--theme-soft,#f7f1e5);--paper:var(--theme-surface,#fff);--line:var(--theme-border,#d8cdb9);--muted:var(--theme-muted,#5d6670);--yellow:#ffd363;--green:#319a61;font-family:var(--app-font);color:var(--navy)}
+:host main{max-width:none;min-height:0;margin:0;padding:0}
+:host .hero{background:var(--theme-nav);padding:24px 26px}
+:host .hero h1{font-size:clamp(34px,5vw,48px)}
+:host .hero p:last-child{font-size:13px;line-height:1.4}
+:host .module-body,:host .pattern-tabs,:host .objective-notes-body,:host .term-definitions,:host .tablature,:host .tab-segment.note b,:host .backing-action-row,:host .backing-mix,:host select,:host .rhythm-callout{background:var(--paper)}
+:host .pattern-tabs button{background:var(--theme-soft-2);color:var(--navy)}
+:host .pattern-tabs button[aria-pressed=true]{background:var(--theme-nav);color:#fff}
+:host .objective-notes summary{background:var(--theme-soft-2)}
+:host .objective-notes summary b,:host .card-heading-kicker,:host .scale-heading>div>p:first-child{color:var(--theme-accent-deep)}
+:host .objective-notes-body #notes-why,:host .objective-notes-body #finger-guide{color:var(--theme-text)}
+:host .card-heading-subtitle,:host .scale-heading>div>p:last-child{color:var(--muted)}
+:host .layer-control #layer-buttons button{background:var(--paper)}
+:host .layer-control #layer-buttons button[aria-pressed=true]{background:var(--orange);color:var(--theme-on-accent,#fff)}
+:host .fretboard .marker-text,:host .tab-segment.note.active b{color:#0d1f3c;fill:#0d1f3c}
+:host .fretboard .marker-text.root{fill:#fff}
+:host .tab-segment.note.active b{background:var(--yellow)}
+:host .layer-control .pattern-play{background:var(--paper)}
+:host .layer-control .pattern-play.playing{background:#c7443e;color:#fff}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+@media(max-width:720px){:host .hero{padding:20px}:host .hero h1{font-size:34px}}
+
+.audio-error{padding:10px 12px;border:1px solid #c7443e;border-radius:8px;color:var(--navy);background:var(--paper);font-size:13px;line-height:1.4}

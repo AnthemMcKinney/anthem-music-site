@@ -1,0 +1,14 @@
+:root{--lesson-play-ink:#2d7f4c;--lesson-play-border:#37965c;--lesson-play-hover:#e7f4eb;--lesson-play-hover-ink:#256b40}
+html[data-theme^=dark]{--lesson-play-ink:#8ed5aa;--lesson-play-border:#6cba89;--lesson-play-hover:#243e2f;--lesson-play-hover-ink:#b1e8c4}
+/* Existing First Chords transport, shared with Scales. Contextual layouts remain in each module. */
+.play-exercise{display:flex;align-items:center;gap:6px;width:max-content;margin:0;padding:4px 8px 4px 5px;border:1px solid var(--theme-border);border-radius:999px;background:var(--theme-surface);color:var(--theme-ink);font-family:inherit;font-size:10px;font-weight:900;line-height:1;letter-spacing:.15px}
+.play-exercise svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
+.play-exercise .play-fill{fill:currentColor;stroke:none}
+.exercise-tempo{grid-column:1;grid-row:1;justify-self:start;display:grid;grid-template-columns:34px minmax(58px,1fr) 34px;align-items:center;width:140px;height:32px;overflow:hidden;border:1px solid var(--theme-border);border-radius:999px;background:var(--theme-surface);color:var(--theme-ink)}
+.exercise-tempo button{display:grid;place-items:center;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent;color:inherit;font-family:inherit;font-size:18px;font-weight:900;line-height:1}
+.exercise-tempo label{display:flex;align-items:center;justify-content:center;gap:3px;width:100%;height:100%;padding:0}
+.exercise-tempo-value{box-sizing:border-box!important;width:27px!important;height:20px!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-bottom:1px dotted var(--theme-border)!important;border-radius:0!important;background:transparent!important;color:inherit!important;text-align:right!important;font-family:inherit!important;font-size:10px!important;font-weight:900!important;line-height:20px!important;letter-spacing:0!important;appearance:textfield!important;-webkit-appearance:none!important}
+.exercise-tempo-value::-webkit-inner-spin-button,.exercise-tempo-value::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.exercise-tempo label span{font-size:8px;font-weight:900}
+.exercise-tempo-value:focus{border-bottom-color:var(--theme-accent)!important;outline:0}
+.exercise-tempo button:active{background:var(--theme-accent);color:var(--theme-on-accent)}
