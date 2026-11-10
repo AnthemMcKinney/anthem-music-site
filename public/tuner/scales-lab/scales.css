@@ -1,4 +1,4 @@
-:root{font-family:Arial,Helvetica,sans-serif;color:#0d1f3c;background:#e9e1d4;--navy:#0d1f3c;--orange:#ef5b12;--cream:#f7f1e5;--paper:#fff;--line:#d8cdb9;--muted:#5d6670;--yellow:#ffd363;--green:#319a61}
+:root{--app-font:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-family:var(--app-font);color:#0d1f3c;background:#e9e1d4;--navy:#0d1f3c;--orange:#ef5b12;--cream:#f7f1e5;--paper:#fff;--line:#d8cdb9;--muted:#5d6670;--yellow:#ffd363;--green:#319a61}
 *{box-sizing:border-box}body{margin:0;background:#e9e1d4;color:var(--navy)}button,select{font:inherit}button{cursor:pointer}
 .site-header{display:flex;align-items:center;justify-content:space-between;max-width:1120px;height:84px;margin:auto;padding:0 24px;background:#fff;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;color:var(--navy);font-size:22px;font-weight:900;text-decoration:none}.brand img{width:42px;height:46px}.brand b{color:var(--orange)}.lab-badge{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:var(--cream);font-size:9px;font-weight:900;letter-spacing:1px}
@@ -203,15 +203,15 @@ footer{background:#e9e1d4}
 .rhythm-callout{margin:14px 0 0;background:#fff;border:1px solid #d4cbbb;border-left:4px solid var(--orange)}
 .tablature{margin-top:14px;background:#fff}
 .tab-segment.note.active b{background:var(--yellow);color:var(--navy)}
-.backing-card-heading-trigger{margin-bottom:13px}
+.backing-card-heading-trigger[aria-expanded=true]{margin-bottom:13px}
 .backing-controls{margin-top:0}
 @media(max-width:520px){.card-heading-trigger{gap:10px}.card-heading-subtitle{max-width:none}.tab-playback-controls{flex-wrap:wrap;gap:8px}}
 
 /* Match First Chords card sizing and keep controls inside the open selector row. */
 .scale-card,.tab-card,.backing-panel{margin:14px 0 12px;padding:14px;border:1px solid var(--line);border-top:4px solid var(--orange);border-radius:10px;background:var(--cream);box-shadow:none}
-.scale-heading h2,.card-heading-title{font-size:21px;line-height:1.15}
-.scale-heading>div>p:first-child,.card-heading-kicker{margin:0 0 5px;color:var(--orange);font-size:9px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase}
-.scale-heading>div>p:last-child{margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0}
+.scale-heading h2,.card-heading-title{font:700 24px/1.1 var(--app-font);margin:3px 0 2px}
+.scale-heading>div>p:first-child{margin:0;color:#c54a12;font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
+.scale-heading>div>p:last-child{margin:0;color:#52626a;font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0}
 .layer-control{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:9px;margin-top:13px;padding-top:12px}
 .layer-control #layer-buttons{display:flex;flex:1 1 auto;min-width:0;gap:5px}
 .layer-control #layer-buttons button{flex:1 1 auto;min-width:0;padding:7px 10px;font-size:12px;white-space:nowrap}
@@ -221,8 +221,8 @@ footer{background:#e9e1d4}
 .layer-control button.pattern-play[aria-pressed=true]{border-color:#a92f2a;background:#c7443e;color:#fff}
 .layer-control .pattern-play.playing svg{display:none}
 .layer-control .pattern-play.playing::before{content:"";width:11px;height:11px;border-radius:2px;background:currentColor}
-.card-heading-kicker{margin-bottom:5px;font-size:9px;letter-spacing:1.1px}
-.card-heading-title{font-size:21px;line-height:1.15}
+.card-heading-kicker{margin:0;color:#c54a12;font:900 10px/1.2 var(--app-font);letter-spacing:1.2px}
+.card-heading-title{font:700 24px/1.1 var(--app-font);margin:3px 0 2px}
 .tab-segment.note.active b{background:var(--yellow);color:var(--navy)}
 @media(max-width:520px){.scale-card,.tab-card,.backing-panel{padding:12px}.layer-control{gap:6px}.layer-control #layer-buttons button{padding-inline:7px;font-size:11px}}
 @media(max-width:380px){.layer-control{flex-wrap:wrap}.layer-control #layer-buttons{flex-basis:100%}.layer-control .pattern-play{margin-left:auto}}
@@ -232,5 +232,5 @@ footer{background:#e9e1d4}
 .card-heading-copy{display:contents}
 .card-heading-kicker{grid-column:1;grid-row:1}
 .card-heading-title{grid-column:1;grid-row:2}
-.card-heading-subtitle{grid-column:1/-1;grid-row:3;max-width:none}
+.card-heading-subtitle{grid-column:1/-1;grid-row:3;max-width:none;margin:0;color:#52626a;font:400 12px/1.4 var(--app-font)}
 .card-heading-trigger .card-collapse{grid-column:2;grid-row:1/3;justify-self:end}
