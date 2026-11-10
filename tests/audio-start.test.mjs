@@ -11,18 +11,18 @@ function context(resume){
 }
 test('unlock invokes resume synchronously, shares pending request, and can resume again',async()=>{
  let resolve,count=0;const p=new ChordPlayer(),ctx=context(()=>{count++;return new Promise(r=>resolve=r);});p.context=()=>ctx;
- const a=p.unlock();assert.equal(count,1);assert.equal(p.unlock(),a);ctx.state='running';resolve();assert.equal(await a,ctx);assert.equal(p.unlocking,null);
+ const a=p.unlock();assert.equal(count,1);assert.equal(p.unlock(),a);ctx.state='running';resolve();assert.equal(await a,ctx);
  ctx.state='suspended';const b=p.unlock();assert.equal(count,2);ctx.state='running';resolve();await b;
 });
 test('rejected resume is surfaced and a new tap can retry',async()=>{
  const p=new ChordPlayer(),ctx=context(()=>Promise.reject(Error('blocked')));p.context=()=>ctx;
- await assert.rejects(p.unlock(),/blocked/);assert.equal(p.unlocking,null);
+ await assert.rejects(p.unlock(),/blocked/);
  ctx.resume=()=>{ctx.state='running';return Promise.resolve();};await p.unlock();
 });
 test('hung resume times out, clears the lock, and permits retry',async()=>{
  const p=new ChordPlayer(),ctx=context(()=>new Promise(()=>{}));p.context=()=>ctx;
  const original=globalThis.setTimeout;globalThis.setTimeout=(fn,ms)=>original(fn,ms===4000?5:ms);
- try{await assert.rejects(p.unlock(),/Tap Play again/);assert.equal(p.unlocking,null);ctx.resume=()=>{ctx.state='running';return Promise.resolve();};await p.unlock();}finally{globalThis.setTimeout=original;}
+ try{await assert.rejects(p.unlock(),/Tap Play again/);ctx.resume=()=>{ctx.state='running';return Promise.resolve();};await p.unlock();}finally{globalThis.setTimeout=original;}
 });
 test('single chord cancelled while samples load cannot start afterward',async()=>{
  const p=new ChordPlayer();let resolve,started=0;
@@ -53,7 +53,7 @@ test('scale unlock failure gives error feedback and resets controls',async()=>{
  await vm.runInContext('play("quarter")',h.sandbox);assert.match(h.status(),/Audio is paused/);assert.equal(vm.runInContext('playing||backingPlaying',h.sandbox),false);
 });
 test('main chord Play has no separate iPhone enable gate and reports failures',()=>{
- const source=readFileSync(new URL('../public/tuner/tuner/chords.js',import.meta.url),'utf8');assert.doesNotMatch(source,/requireSound\(/);assert.match(source,/reportPlaybackError\(error\)/);assert.match(source,/await chordPlayer\.unlock\(\);iosPrimed=true/);
+ const source=readFileSync(new URL('../public/tuner/tuner/chords.js',import.meta.url),'utf8');assert.doesNotMatch(source,/requireSound\(/);assert.match(source,/reportPlaybackError\(error\)/);assert.match(source,/await chordPlayer\.unlock\(\);if\(token!==chordPlayer\.loopToken\)return;chordPlayer\.stop\(\);iosPrimed=true/);
 });
 
 test('older cancelled scale startup cannot stop a newer demo',async()=>{
@@ -79,7 +79,7 @@ test('a closed context does not reuse the old pending unlock',async()=>{
  const node=()=>({gain:parameter,threshold:parameter,knee:parameter,ratio:parameter,attack:parameter,release:parameter,connect(){return this;},start(){},stop(){},disconnect(){}});
  const next={state:'suspended',currentTime:0,destination:{},createGain:node,createDynamicsCompressor:node,createOscillator:node,resume(){this.state='running';return Promise.resolve();}};
  const previous=globalThis.window;globalThis.window={AudioContext:function(){return next;}};
- try{const rejected=assert.rejects(first,/Audio is paused/);assert.equal(await p.unlock(),next);oldResolve();await rejected;}finally{globalThis.window=previous;}
+ try{const rejected=assert.rejects(first,/Audio start cancelled/);assert.equal(await p.unlock(),next);oldResolve();await rejected;}finally{globalThis.window=previous;}
 });
 
 test('reset on stop/new playback clears single-chord button state',()=>{

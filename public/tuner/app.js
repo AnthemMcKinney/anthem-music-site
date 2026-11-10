@@ -1,13 +1,13 @@
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
-import {TunerAudio} from './tuner/audio.js?v=70';
+import {TunerAudio} from './tuner/audio.js?v=web-audio-1';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
 import {PitchTrail} from './tuner/trail.js?v=71';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=3.7fh';
-import {initChords} from './tuner/chords.js?v=3.7fzzzd';
+import {initMetronome} from './tuner/metronome.js?v=web-audio-1';
+import {initChords} from './tuner/chords.js?v=web-audio-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -252,28 +252,20 @@ const applyTheme=theme=>{document.documentElement.dataset.theme=theme;document.q
 appearance.addEventListener('click',event=>{const button=event.target.closest('[data-theme-choice]');if(button)applyTheme(button.dataset.themeChoice);});applyTheme(document.documentElement.dataset.theme);
 moreSection('About this app','<p>These tools turn the same ideas used in Anthem Music lessons into something students and families can use between sessions.</p><p>The approach comes from teaching hundreds of students, designing practical curriculum over many years, collaborating with professional musicians and music programs, and refining lessons through student and user feedback.</p>');
 const tuningHelp=moreSection('Tuner and sound help','');document.querySelectorAll('main > .tune-reminder, main > .help, main > details').forEach(item=>tuningHelp.lastElementChild.append(item));
-moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Sound Check appears where iPhone audio needs a user-triggered start.</p>');
+moreSection('Metronome and rhythm','<p><strong>Rhythm holds the music together.</strong> Use the metronome to connect the count, your foot, and your hands to one steady pulse. Tap Start to play. Sound Check is available if you want to test the output.</p>');
 moreSection('First-chord lessons','<p>First Chords follows a progressive lesson path for guitar, baritone ukulele, and standard ukulele. Chord shapes, transitions, strumming, and familiar progressions become more challenging one objective at a time.</p>');
 moreSection('Scales','<p>Learn guitar note names, connect scale patterns, and practice with tablature and backing tracks. Scales is part of this web review version.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
 const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.155 · Web Scales review';moreBody.append(copyright,feedback,version);
-const soundSession={ready:false};
-async function metronomeSoundCheck(){
- const request=++referenceRequest;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(listening||starting)stopListening();trail.clear();
- const duration=await engine.play(frequency('E4'),'guitar');
- if(request!==referenceRequest||duration===null)throw Error('Sound check interrupted');
- soundSession.ready=true;playUntil=performance.now()+duration;referenceTimer=setTimeout(()=>{if(request===referenceRequest)playUntil=0;},duration);return duration;
-}
-const metronome=initMetronome({enableSound:metronomeSoundCheck,soundSession}),chordsModule=initChords({enableSound:metronomeSoundCheck,soundSession});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)soundSession.ready=false;});
+const metronome=initMetronome(),chordsModule=initChords();
 // Keep Scales dependencies out of the core app startup path.
 const scalesView=document.createElement('section');scalesView.id='scales-view';scalesView.className='scales-view';scalesView.hidden=true;scalesView.setAttribute('aria-label','Guitar scales');document.querySelector('main').append(scalesView);
 let scalesController=null,scalesLoading=null;
 function loadScalesView(){
  if(scalesController||scalesLoading)return;
  scalesView.innerHTML='<p role="status">Loading Scales.</p>';
- scalesLoading=import('./tuner/scales-view.js?v=web-scales-2').then(({initScalesView})=>{
+ scalesLoading=import('./tuner/scales-view.js?v=web-audio-1').then(({initScalesView})=>{
   scalesController=initScalesView(scalesView);scalesController.show(!scalesView.hidden);
  }).catch(()=>{
   scalesView.innerHTML='<p role="alert">Scales could not load. Your other tools are still available.</p><button type="button">Try again</button>';

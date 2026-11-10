@@ -34,3 +34,5 @@ Before changing UI, identify the closest existing example and state which classe
 - Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.
 
 - App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.
+
+- Audio starts from the requested Play/Start control. Sound Check is optional and must not require a tuner note or a separate unlock step before playing a lesson. Preserve the existing controls and layout.

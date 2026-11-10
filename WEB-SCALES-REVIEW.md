@@ -32,7 +32,7 @@ Open Scales in the bottom navigation. Try First Notes, Box 1, pentatonic/diatoni
 
 ## Verification
 
-- PASS: all 36 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
+- PASS: all 55 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
 - PASS: npm run build (33 static pages).
 - PASS: syntax checks and git diff --check.
 - VISUALLY CHECKED: desktop at 1920 pixels and phone emulation at 390 pixels; First Notes, Box 1 diatonic, tablature, backing card, classic/dark themes, and the existing Chords screen.
@@ -53,3 +53,21 @@ Dan reported multiple tools appearing as one continuous page. His screenshot sho
 - Scales content is only exposed after its stylesheet has loaded. The original Scales Lab card/heading/fretboard design remains intact.
 - Browser fault injection returned 503 for scales-view.js: the retry state appeared, and Metronome still opened as a separate tool.
 - Physical iPhone Safari re-test is still needed; phone emulation is not an actual WebKit/device test.
+
+
+## First-use iPhone audio correction
+
+Dan reported silent chords on a fresh page, followed by working chords after playing a tuner string. Code comparison confirmed that tuner strings use native HTML media playback, while Chords/Scales and Metronome previously resumed only Web Audio. They considered an already-running AudioContext successful even though it does not establish iOS playback routing. This is consistent with the observed dependency; Dan's actual ringer/silent-switch state was not observed.
+
+- Every musical Play/Start now establishes a shared playback session synchronously, before resume or sample loading, including already-running contexts.
+- Feature-detected Audio Session API selects `playback`. Older/unsupported iOS uses an unmuted, zero-signal PCM WAV through native media, with no audible tuner note. The native loop exists only while a player owns it.
+- Stop, navigation, page hiding, sample failure, and completed single chords release that ownership. A late failed/cancelled attempt cannot release a newer one.
+- Tuner microphone startup releases playback owners and restores the automatic audio session before capture.
+- Metronome Start no longer requires Sound Check. The existing Sound Check control is an optional audible preview, and Chords retains its optional reconnect button.
+- Offline precache includes the shared module and generated zero-signal WAV; cache identity and module versions were advanced.
+
+Validation: 55 Node tests pass, build creates 33 pages, and syntax/diff checks pass. `tests/browser-audio-start.mjs` runs actual Linux WebKit 27.2 with an iPhone 13 profile in fresh contexts. It verifies first-action Chords, Metronome, Scales notes and scale/backing demo produce non-zero rendered audio; no tuner note is played to initialize them. It checks Stop, restart, navigation, single-chord cleanup, and delayed sample cancellation. It also exercises the modern API branch with an injected Audio Session API because Linux WebKit does not expose the iOS API. Screenshots at phone and desktop widths retain the existing layout.
+
+Run the browser check with Playwright/WebKit installed, a local server for `public/`, and `BASE_URL=http://127.0.0.1:4330 node tests/browser-audio-start.mjs`. `PLAYWRIGHT_MODULE` can point to an existing Playwright `index.mjs`; `ARTIFACT_DIR` chooses the screenshot folder.
+
+Remaining limit: Linux WebKit rendering is not an iPhone speaker, ringer-switch, Bluetooth, or installed-PWA test. A physical iPhone check is still needed before production approval. This change is only on the web review branch; production and Android are untouched.

@@ -1,3 +1,4 @@
+import {prepareForMicrophone} from './playback-session.js?v=1';
 import {ReferencePlayer} from './reference.js';
 import {detectPitch,PitchTracker,DETECTOR_VERSION} from './pitch.js?v=3.7fzzv';
 import {nearestNote} from './tunings.js';
@@ -29,6 +30,7 @@ export class TunerAudio{
  async start(){
   const generation=++this.generation;
   if(!isSecureContext||!navigator.mediaDevices?.getUserMedia)throw new Error('Microphone access needs HTTPS on phones, or localhost on this computer.');
+  prepareForMicrophone();
   const ctx=await this.context();if(generation!==this.generation)return;
   const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1},video:false});
   if(generation!==this.generation){stream.getTracks().forEach(t=>t.stop());return;}
