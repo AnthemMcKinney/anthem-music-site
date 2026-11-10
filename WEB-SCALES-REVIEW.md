@@ -28,10 +28,11 @@ Open Scales in the bottom navigation. Try First Notes, Box 1, pentatonic/diatoni
 - Shared control tokens retain green actions and readable dark-theme contrast.
 - Updated PWA cache, all backing samples, and safe static-asset fallback for versioned module URLs and Vary: Origin.
 - Visible playback error messages and retryable lesson-load failure.
+- Hosted audio range responses are returned without trying to cache partial recordings, preserving the full offline samples.
 
 ## Verification
 
-- PASS: all 25 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
+- PASS: all 27 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
 - PASS: npm run build (33 static pages).
 - PASS: syntax checks and git diff --check.
 - VISUALLY CHECKED: desktop at 1920 pixels and phone emulation at 390 pixels; First Notes, Box 1 diatonic, tablature, backing card, classic/dark themes, and the existing Chords screen.

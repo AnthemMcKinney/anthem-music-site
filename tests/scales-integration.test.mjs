@@ -62,6 +62,18 @@ test('service worker precaches Scales dependencies and every real backing sample
  let response;events.get('fetch')({request:{method:'GET',url:'https://example.com/tuner/scales-lab/scales.js?v=web-scales-1'},respondWith(promise){response=promise;}});assert.equal(await response,cached);assert.equal(matches[0].ignoreSearch,true);
 });
 
+for(const status of [206,200])test(`network audio HTTP ${status} is returned and ${status===206?'does not replace':'updates'} the cached full recording`,async()=>{
+ const events=new Map(),pending=[],writes=[],original=new Response('full precached audio'),network=new Response(status===206?'partial audio':'full network audio',{status});let stored=original,clones=0;
+ const clone=network.clone.bind(network);network.clone=()=>{clones++;return clone();};
+ const request={method:'GET',url:'https://example.com/tuner/samples/guitar-acoustic-A2.wav'};
+ const sandbox={URL,Response,self:{location:{origin:'https://example.com',href:'https://example.com/tuner/sw.js'},addEventListener(k,fn){events.set(k,fn);}},fetch:async()=>network,caches:{open:async()=>({put:async(key,value)=>{writes.push(key);stored=value;}})}};
+ vm.createContext(sandbox);vm.runInContext(file('sw.js'),sandbox);
+ let response;events.get('fetch')({request,respondWith(value){response=value;},waitUntil(value){pending.push(value);}});
+ assert.equal(await response,network);await Promise.all(pending);
+ if(status===206){assert.equal(writes.length,0);assert.equal(pending.length,0);assert.equal(clones,0);assert.equal(stored,original);assert.equal(await stored.text(),'full precached audio');}
+ else{assert.equal(writes.length,1);assert.equal(writes[0],request);assert.equal(clones,1);assert.equal(await stored.text(),'full network audio');}
+});
+
 test('offline precached modules survive Vary Origin without loosening private responses',async()=>{
  const events=new Map(),matches=[],cached={ok:true},sandbox={URL,Response,self:{location:{origin:'https://example.com',href:'https://example.com/tuner/sw.js'},addEventListener(k,fn){events.set(k,fn);}},fetch:async()=>{throw Error('offline');},caches:{match:async()=>undefined,open:async()=>({match:async(request,options)=>{matches.push(options);return cached;}})}};
  vm.createContext(sandbox);vm.runInContext(file('sw.js'),sandbox);
