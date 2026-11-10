@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=38">
+ <link rel="stylesheet" href="./scales.css?v=45">
 </head>
 <body>
  <header class="site-header">
@@ -52,7 +52,7 @@
    <div class="scale-heading">
    <div><p id="scale-kicker">FIRST NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Musical Notes ABCDEFG · A</h2><p id="scale-copy">Identify where the notes in music are on your guitar.</p></div>
    </div>
-   <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div></div>
+   <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div><button id="fretboard-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button></div>
    <div class="diagram-tools">
     <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span id="active-legend"><i class="note-dot active-dot"></i>Now playing</span></div>
     <div id="root-control" class="root-control" role="radiogroup" aria-labelledby="root-label" hidden><span id="root-label">Root</span><label><input type="radio" name="root-choice" data-root="C" value="C" checked> C Major</label><label><input type="radio" name="root-choice" data-root="A" value="A"> A minor</label></div>
@@ -60,13 +60,15 @@
    <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg><div id="finger-legend" class="finger-legend" role="list" aria-label="Finger numbers"></div></div>
   </section>
   <section class="tab-card" aria-labelledby="tab-title">
-   <div class="tab-heading">
-    <div class="tab-title-row"><div><p>FOLLOW THE PATH</p><h2 id="tab-title">Scale tablature</h2><span id="tab-copy">Read from left to right. Play one note at a time.</span></div><button class="card-collapse" type="button" aria-expanded="true" aria-label="Collapse Scale tablature card" aria-controls="tab-card-content" data-collapse-target="tab-card-content"><span class="sr-only">Collapse</span><b aria-hidden="true">−</b></button></div>
-    <div class="exercise-toolbar scales-exercise-toolbar">
-     <div class="exercise-tempo" aria-label="Scale tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><label><input id="tempo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Scale tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div>
-    </div>
-   </div>
+   <button class="card-heading-trigger" type="button" aria-expanded="true" aria-label="Collapse Scale tablature card" aria-controls="tab-card-content" data-collapse-target="tab-card-content">
+   <span class="card-heading-copy"><span class="card-heading-kicker">FOLLOW THE PATH</span><span id="tab-title" class="card-heading-title" role="heading" aria-level="2">Scale tablature</span><span id="tab-copy" class="card-heading-subtitle">Read from left to right. Play one note at a time.</span></span>
+    <span class="card-collapse" aria-hidden="true"><b>−</b></span>
+   </button>
    <div id="tab-card-content">
+    <div class="tab-playback-controls" aria-label="Scale playback controls">
+     <div class="exercise-tempo" aria-label="Scale tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><label><input id="tempo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Scale tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div>
+     <button id="tab-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button>
+    </div>
     <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
     <span id="play-status" class="sr-only" aria-live="polite"></span>
     <div id="tablature" class="tablature" aria-label="Guitar tablature"></div>
@@ -74,9 +76,12 @@
    </div>
   </section>
   <section id="backing-panel" class="backing-panel" aria-label="Practice to a Backing Track">
-   <div class="backing-heading"><div class="backing-title-row"><div><p>Put it all together</p><h2>Practice to a Backing Track</h2></div><button class="card-collapse" type="button" aria-expanded="true" aria-label="Collapse Practice to a Backing Track card" aria-controls="backing-card-content" data-collapse-target="backing-card-content"><span class="sr-only">Collapse</span><b aria-hidden="true">−</b></button></div></div>
+   <button class="card-heading-trigger backing-card-heading-trigger" type="button" aria-expanded="true" aria-label="Collapse Practice to a Backing Track card" aria-controls="backing-card-content" data-collapse-target="backing-card-content">
+    <span class="card-heading-copy"><span class="card-heading-kicker">Put it all together</span><span id="backing-title" class="card-heading-title" role="heading" aria-level="2">Practice to a Backing Track</span><span class="card-heading-subtitle">Choose a progression, customize the mix, and play the scale along with&nbsp;it.</span></span>
+    <span class="card-collapse" aria-hidden="true"><b>−</b></span>
+   </button>
    <div id="backing-card-content">
-   <p class="backing-intro"><strong id="backing-summary">Am · Am · C · C</strong><span>Choose a groove, add a light backing mix, then play the scale along with it.</span></p>
+   <span id="backing-summary" class="sr-only">Am · Am · C · C</span>
    <div class="backing-controls">
     <label>Progression<select id="backing-progression" aria-label="Backing progression"><option value="am-c">Am – C</option><option value="c-f">C – F</option><option value="c-g">C – G</option><option value="am-f">Am – F</option><option value="c-f-am-g">C – F – Am – G</option></select></label>
     <label>Loop length<select id="backing-bars" aria-label="Backing loop length"><option value="2" selected>2 bars</option><option value="4">4 bars</option></select></label>
@@ -99,7 +104,7 @@
   </section>
   </section>
  </main>
- <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 46</span></footer>
- <script type="module" src="./scales.js?v=45"></script>
+ <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 53</span></footer>
+ <script type="module" src="./scales.js?v=51"></script>
 </body>
 </html>

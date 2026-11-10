@@ -5,14 +5,15 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 ## Page and card hierarchy
 
 - Keep the app canvas beige, the main module shell white, and the shell’s thin orange outline consistent with existing modules.
-- Use cream/beige for content cards, with a light beige border, a narrow orange top rule, and the established rounded corners. Use white for the lesson content inside a card when it needs its own reading surface, such as tablature.
-- A card header uses a small orange uppercase kicker, a navy title, and optional muted blue-gray supporting text. Keep title and controls from colliding or changing order at breakpoints.
+- Use cream/beige for content cards, with a light beige border, a 4px orange top rule, and 10px rounded corners. Use white for the lesson content inside a card when it needs its own reading surface, such as tablature.
+- A card header uses a 9px orange uppercase kicker, a 21px navy title, and optional muted blue-gray supporting text. Set supporting text to 12px, regular weight, with a 1.4 line-height. Keep title and controls from colliding or changing order at breakpoints.
+- Put related controls in the existing horizontal control row and use its open space before adding another row. Allow wrapping only when the viewport is too narrow for the controls to fit legibly.
 - Keep info callouts visually distinct from the main card content. Leave clear vertical space between a callout and the next major reading surface.
 
 ## Disclosures
 
 - Objective Notes is one expandable notes section per objective. Use the existing gray notes bar and filled orange plus/minus circle at the left. Put new terms, definitions, and instructional context in its expanded white body. Do not create duplicate notes disclosures for every card within the objective.
-- A collapsible section card uses the standard small orange outlined circle with a plus or minus at the far right of its header. Do not substitute a text pill, caret, filled yellow/orange badge, or a control beside the title.
+- A collapsible section card uses the standard small orange outlined circle with a plus or minus at the far right of its header. The full title/header area is the disclosure target, not just the icon. Do not substitute a text pill, caret, filled yellow/orange badge, or a control beside the title.
 - Keep disclosure state and accessible labels synchronized. Collapsing a content panel does not stop its audio unless that behavior is explicitly requested.
 
 ## Existing controls and color roles
