@@ -188,13 +188,31 @@ footer{background:#e9e1d4}
 @media(max-width:720px){.tab-card,.backing-panel{padding:12px}.tab-title-row,.backing-title-row{gap:10px}.tab-title-row{align-items:flex-start}.card-collapse{margin-top:2px}}
 
 /* Prototype 48: shared full-header disclosure and synchronized pattern controls. */
-.card-heading-trigger{display:grid;width:100%;grid-template-columns:minmax(0,1fr) 24px;align-items:start;gap:14px;margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.card-heading-trigger{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 30px;
+ column-gap:10px;
+ width:100%;
+ margin:0;
+ padding:0;
+ border:0;
+ background:transparent;
+ color:inherit;
+ font:inherit;
+ text-align:left;
+ cursor:pointer;
+}
 .card-heading-trigger:focus-visible{outline:2px solid #ef5b1266;outline-offset:4px;border-radius:4px}
-.card-heading-copy{display:grid;min-width:0;gap:0}
-.card-heading-kicker{display:block;margin:0 0 6px;color:var(--orange);font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
-.card-heading-title{display:block;color:var(--navy);font-size:clamp(20px,3vw,26px);font-weight:900;line-height:1.1}
-.card-heading-subtitle{display:block;max-width:72ch;margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0;text-transform:none}
-.card-heading-trigger .card-collapse{align-self:start}
+.card-heading-copy{display:contents}
+.card-heading-kicker,.card-heading-title{grid-column:1}
+.card-heading-subtitle{grid-column:1/-1}
+.card-heading-trigger .card-collapse{
+ grid-column:2;
+ grid-row:1/4;
+ align-self:center;
+ justify-self:center;
+ margin:0;
+}
 .card-heading-trigger:focus-visible .card-collapse{background:#fff2e9}
 .fretboard-playback-controls{display:flex;align-items:center;gap:10px;margin:12px 0 0}
 .tab-playback-controls{display:flex;align-items:center;gap:10px;margin-top:14px}
@@ -205,13 +223,32 @@ footer{background:#e9e1d4}
 .tab-segment.note.active b{background:var(--yellow);color:var(--navy)}
 .backing-card-heading-trigger[aria-expanded=true]{margin-bottom:13px}
 .backing-controls{margin-top:0}
-@media(max-width:520px){.card-heading-trigger{gap:10px}.card-heading-subtitle{max-width:none}.tab-playback-controls{flex-wrap:wrap;gap:8px}}
+@media(max-width:520px){.tab-playback-controls{flex-wrap:wrap;gap:8px}}
 
-/* Match First Chords card sizing and keep controls inside the open selector row. */
-.scale-card,.tab-card,.backing-panel{margin:14px 0 12px;padding:14px;border:1px solid var(--line);border-top:4px solid var(--orange);border-radius:10px;background:var(--cream);box-shadow:none}
-.scale-heading h2,.card-heading-title{font:700 24px/1.1 var(--app-font);margin:3px 0 2px}
-.scale-heading>div>p:first-child{margin:0;color:#c54a12;font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase}
-.scale-heading>div>p:last-child{margin:0;color:#52626a;font-size:12px;font-weight:400;line-height:1.4;letter-spacing:0}
+/* Match the First Chords objective practice disclosure headers in theme.css. */
+.scale-card,.tab-card,.backing-panel{margin:14px 0 12px;padding:12px 14px;border:1px solid var(--line);border-top:4px solid var(--orange);border-radius:10px;background:var(--cream);box-shadow:none}
+.scale-heading>div>p:first-child,.card-heading-kicker{
+ display:block;
+ margin:0;
+ color:#c54a12;
+ font:900 9px/1.15 var(--app-font);
+ letter-spacing:1.15px;
+ text-transform:uppercase;
+}
+.scale-heading h2,.card-heading-title{
+ display:block;
+ margin:4px 0 0;
+ color:var(--navy);
+ font:750 23px/1.08 var(--app-font);
+}
+.scale-heading>div>p:last-child,.card-heading-subtitle{
+ display:block;
+ margin:6px 0 0;
+ color:#5c6470;
+ font:400 12px/1.4 var(--app-font);
+ letter-spacing:0;
+}
+.scale-heading>div>p:last-child{height:1.4em;min-height:1.4em}
 .layer-control{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:9px;margin-top:13px;padding-top:12px}
 .layer-control #layer-buttons{display:flex;flex:1 1 auto;min-width:0;gap:5px}
 .layer-control #layer-buttons button{flex:1 1 auto;min-width:0;padding:7px 10px;font-size:12px;white-space:nowrap}
@@ -221,16 +258,12 @@ footer{background:#e9e1d4}
 .layer-control button.pattern-play[aria-pressed=true]{border-color:#a92f2a;background:#c7443e;color:#fff}
 .layer-control .pattern-play.playing svg{display:none}
 .layer-control .pattern-play.playing::before{content:"";width:11px;height:11px;border-radius:2px;background:currentColor}
-.card-heading-kicker{margin:0;color:#c54a12;font:900 10px/1.2 var(--app-font);letter-spacing:1.2px}
-.card-heading-title{font:700 24px/1.1 var(--app-font);margin:3px 0 2px}
 .tab-segment.note.active b{background:var(--yellow);color:var(--navy)}
-@media(max-width:520px){.scale-card,.tab-card,.backing-panel{padding:12px}.layer-control{gap:6px}.layer-control #layer-buttons button{padding-inline:7px;font-size:11px}}
+@media(max-width:520px){
+ .scale-card,.tab-card,.backing-panel{padding:9px 11px}
+ .scale-heading h2,.card-heading-title{font-size:20px}
+ .scale-heading>div>p:last-child,.card-heading-subtitle{font-size:11px}
+ .layer-control{gap:6px}
+ .layer-control #layer-buttons button{padding-inline:7px;font-size:11px}
+}
 @media(max-width:380px){.layer-control{flex-wrap:wrap}.layer-control #layer-buttons{flex-basis:100%}.layer-control .pattern-play{margin-left:auto}}
-
-/* Prototype 50: give fretboard padding equal margins and prevent orphaned suffixes. */
-.card-heading-trigger{grid-template-rows:auto auto auto}
-.card-heading-copy{display:contents}
-.card-heading-kicker{grid-column:1;grid-row:1}
-.card-heading-title{grid-column:1;grid-row:2}
-.card-heading-subtitle{grid-column:1/-1;grid-row:3;max-width:none;margin:0;color:#52626a;font:400 12px/1.4 var(--app-font)}
-.card-heading-trigger .card-collapse{grid-column:2;grid-row:1/3;justify-self:end}
