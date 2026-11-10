@@ -32,7 +32,7 @@ Open Scales in the bottom navigation. Try First Notes, Box 1, pentatonic/diatoni
 
 ## Verification
 
-- PASS: all 27 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
+- PASS: all 36 Node tests, including pending playback cancellation, root scoping, navigation/hash state, cache coverage, and offline header fallback.
 - PASS: npm run build (33 static pages).
 - PASS: syntax checks and git diff --check.
 - VISUALLY CHECKED: desktop at 1920 pixels and phone emulation at 390 pixels; First Notes, Box 1 diatonic, tablature, backing card, classic/dark themes, and the existing Chords screen.
@@ -42,3 +42,14 @@ Open Scales in the bottom navigation. Try First Notes, Box 1, pentatonic/diatoni
 ## Android boundary
 
 The original checkout remains on main. No native Android project or packaged assets were touched. Do not copy this review branch into the Android build; continue that release from its separate no-Scales baseline. Review and approval are still needed before any production publication.
+
+## iPhone review correction
+
+Dan reported multiple tools appearing as one continuous page. His screenshot shows Tuner and Metronome together, with styling present. That matches the former pre-initialization state. The exact iPhone exception was not observable from the screenshot.
+
+- HTML now starts in a single Tuner view, with Metronome initially hidden. Navigation explicitly sets hidden state on every module.
+- Scales imports are lazy and isolated. A failed optional module cannot block core app startup; it has a retry state.
+- A failed core startup shows a reload message instead of silently exposing the static page.
+- Scales content is only exposed after its stylesheet has loaded. The original Scales Lab card/heading/fretboard design remains intact.
+- Browser fault injection returned 503 for scales-view.js: the retry state appeared, and Metronome still opened as a separate tool.
+- Physical iPhone Safari re-test is still needed; phone emulation is not an actual WebKit/device test.

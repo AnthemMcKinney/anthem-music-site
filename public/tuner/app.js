@@ -1,4 +1,3 @@
-import {initScalesView} from './tuner/scales-view.js?v=web-scales-1';
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
 import {TunerAudio} from './tuner/audio.js?v=70';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
@@ -268,7 +267,20 @@ async function metronomeSoundCheck(){
 }
 const metronome=initMetronome({enableSound:metronomeSoundCheck,soundSession}),chordsModule=initChords({enableSound:metronomeSoundCheck,soundSession});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)soundSession.ready=false;});
-const scalesModule=initScalesView();
+// Keep Scales dependencies out of the core app startup path.
+const scalesView=document.createElement('section');scalesView.id='scales-view';scalesView.className='scales-view';scalesView.hidden=true;scalesView.setAttribute('aria-label','Guitar scales');document.querySelector('main').append(scalesView);
+let scalesController=null,scalesLoading=null;
+function loadScalesView(){
+ if(scalesController||scalesLoading)return;
+ scalesView.innerHTML='<p role="status">Loading Scales.</p>';
+ scalesLoading=import('./tuner/scales-view.js?v=web-scales-2').then(({initScalesView})=>{
+  scalesController=initScalesView(scalesView);scalesController.show(!scalesView.hidden);
+ }).catch(()=>{
+  scalesView.innerHTML='<p role="alert">Scales could not load. Your other tools are still available.</p><button type="button">Try again</button>';
+  scalesView.querySelector('button').addEventListener('click',loadScalesView);
+ }).finally(()=>{scalesLoading=null;});
+}
+const scalesModule={show(active){scalesView.hidden=!active;if(scalesController)scalesController.show(active);else if(active)loadScalesView();},stopPlayback(){scalesController?.stopPlayback();}};
 const bottomNav=document.createElement('nav'),tunerNav=document.createElement('button'),metronomeNav=document.createElement('button'),chordsNav=document.createElement('button'),scalesNav=document.createElement('button'),moreNav=document.createElement('button');
 bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools');
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon tuner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8"/><path d="M6.5 7a5 5 0 0 0 0 6M17.5 7a5 5 0 0 1 0 6"/><path d="M4 5a8 8 0 0 0 0 10M20 5a8 8 0 0 1 0 10"/></svg></span><span>Tuner</span>';
@@ -281,6 +293,8 @@ function showView(view,{updateHash=true}={}){
  const metro=view==='metronome',chords=view==='chords',more=view==='more',scales=view==='scales',tuner=!metro&&!chords&&!more&&!scales;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
  [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[scalesNav,scales],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
  document.querySelector('.edition').textContent=metro?'THE METRONOME':chords?'FIRST CHORDS':scales?'SCALES':more?'MORE':'THE TUNER';
+ // Explicit hidden state remains correct even when a stylesheet fails to load.
+ document.querySelector('.intro').hidden=!tuner;document.querySelector('#tuner').hidden=!tuner;document.querySelector('.metronome-view').hidden=!metro;document.querySelector('.chords-view').hidden=!chords;
  scalesModule.show(scales);
  if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
  window.scrollTo(0,0);

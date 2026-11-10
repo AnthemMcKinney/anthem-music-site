@@ -32,3 +32,5 @@ Before changing UI, identify the closest existing example and state which classe
 - Base tempo and Play icon styles live in public/tuner/lesson-controls.css and are shared by First Chords and Scales. Their green action colors use shared light/dark tokens for readable contrast.
 - The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows three ascending notes across horizontal fretboard/string lines.
 - Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.
+
+- App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.
