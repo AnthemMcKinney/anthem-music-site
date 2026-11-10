@@ -1,6 +1,10 @@
 # Web Scales review
 
-This is an isolated web-only review branch based on main b0f8d636e94f6061710b474f4837c53f68a0be53. No production deployment, remote push, Android build, or Google Play upload was performed.
+This is an isolated web-only review branch based on main b0f8d636e94f6061710b474f4837c53f68a0be53. The web-scales-review branch is published through the existing Cloudflare Pages branch-preview workflow. No production deployment, Android build, or Google Play upload was performed.
+
+## Review on any device
+
+Open https://web-scales-review.anthem-music-site.pages.dev/tuner/#scales . This is an HTTPS branch preview, separate from production, and can be reviewed on iPhone.
 
 ## Review locally
 
