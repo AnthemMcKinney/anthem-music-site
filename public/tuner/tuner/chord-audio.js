@@ -39,7 +39,8 @@ export function strumStringIndexes(pitches,direction,range,stringCount){
 export class ChordPlayer{
  constructor(){this.ctx=null;this.buffers=new Map();this.sampleLevels=new WeakMap();this.sampleOffsets=new WeakMap();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.unlocking=null;this.activeBackingMix=null;this.activeBackingSolo=null;this.backingBuses=null;this.exerciseGuitar=null;this.exerciseBacking=null;this.backingMasterVolume=1;this.exerciseTempoUpdater=null;}
  context(){
-  if(this.ctx)return this.ctx;
+  if(this.ctx&&this.ctx.state!=='closed')return this.ctx;
+  this.unlocking=null;
   const AudioContext=window.AudioContext||window.webkitAudioContext;
   this.ctx=new AudioContext({latencyHint:'interactive'});
   this.master=this.ctx.createGain();this.master.gain.value=.78;
@@ -62,7 +63,23 @@ export class ChordPlayer{
   if(!this.buffers.has(file))this.buffers.set(file,fetch(new URL('../samples/'+file,import.meta.url)).then(response=>{if(!response.ok)throw Error('Chord sample unavailable');return response.arrayBuffer();}).then(bytes=>ctx.decodeAudioData(bytes)).catch(error=>{this.buffers.delete(file);throw error;}));
   return this.buffers.get(file);
  }
- unlock(){const ctx=this.context();if(ctx.state==='running')return Promise.resolve(ctx);if(this.unlocking)return this.unlocking;const resume=ctx.resume(),oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);this.unlocking=Promise.resolve(resume).then(()=>{if(ctx.state!=='running')throw Error('Audio remains paused');return ctx;}).finally(()=>{this.unlocking=null;});return this.unlocking;}
+ unlock(){
+  const ctx=this.context();
+  if(ctx.state==='running')return Promise.resolve(ctx);
+  if(this.unlocking)return this.unlocking;
+  // Call resume in the Play gesture, before any sample fetch or other await.
+  let timer;
+  const resume=ctx.resume(),oscillator=ctx.createOscillator(),gain=ctx.createGain(),now=ctx.currentTime;
+  gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.00001,now+.025);
+  oscillator.connect(gain).connect(ctx.destination);oscillator.start(now);oscillator.stop(now+.03);
+  oscillator.onended=()=>{oscillator.disconnect();gain.disconnect();};
+  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Audio did not start. Tap Play again to reconnect sound.')),4000);});
+  const pending=Promise.race([Promise.resolve(resume),timeout]).then(()=>{
+   if(ctx.state!=='running')throw Error('Audio is paused. Tap Play again to reconnect sound.');
+   return ctx;
+  }).finally(()=>{clearTimeout(timer);if(this.unlocking===pending)this.unlocking=null;});
+  this.unlocking=pending;return pending;
+ }
  stop(){clearTimeout(this.loopTimer);this.loopTimer=0;cancelAnimationFrame(this.cueFrame);this.cueFrame=0;this.cueQueue=[];this.loopToken++;this.exerciseTempoUpdater=null;if(this.onCue)this.onCue(null);this.onCue=null;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];this.activeBackingMix=null;this.activeBackingSolo=null;if(this.ctx){this.rhythm.gain.setValueAtTime(.95,this.ctx.currentTime);this.exerciseGuitar.gain.setValueAtTime(1,this.ctx.currentTime);this.exerciseBacking.gain.setValueAtTime(this.backingMasterVolume,this.ctx.currentTime);Object.values(this.backingBuses||{}).forEach(bus=>bus.gain.setValueAtTime(1,this.ctx.currentTime));}}
  setExerciseTempo(value){this.exerciseTempoUpdater?.(Math.max(40,Math.min(240,Math.round(Number(value)||75))));}
  setExerciseGroove(groove){this.exerciseGroove=groove==='rock'?'rock':'click';this.applyBackingGains();}
@@ -109,8 +126,9 @@ export class ChordPlayer{
   const bus=instrument==='bass'?this.backingBuses.bass:piano?this.backingBuses.piano:this.backingBuses.strings;source.connect(tone);if(panner){tone.connect(panner);panner.connect(gain);}else tone.connect(gain);gain.connect(bus);source.start(start,offset);source.stop(start+voiceDuration+.02);this.voices.push(source);source.onended=()=>{source.disconnect();tone.disconnect();panner?.disconnect();gain.disconnect();this.voices=this.voices.filter(item=>item!==source);};
  }
  async play(chord){
-  this.stop();const ctx=await this.unlock();
+  this.stop();const token=this.loopToken,ctx=await this.unlock();
   const pitches=this.pitches(chord),samples=pitches.map(hz=>({hz,...referenceSample('guitar',hz)})),buffers=await Promise.all(samples.map(sample=>this.load(ctx,sample.file)));
+  if(token!==this.loopToken)return null;
   const now=ctx.currentTime+.025,spacing=isGuitarChord(chord.id)?.012:pitches.length===4?.045:.038;
   buffers.forEach((buffer,index)=>{
    const sample=samples[index],source=ctx.createBufferSource(),gain=ctx.createGain(),tone=ctx.createBiquadFilter(),presence=ctx.createBiquadFilter(),start=now+index*spacing,rate=sample.hz/sample.sourceHz,duration=Math.min(1.85,buffer.duration/rate);
@@ -123,7 +141,6 @@ export class ChordPlayer{
  }
   async playExercise(progression,pattern='d.d.d.d.',bpm=84,onCue=null,groove='click',startMeasure=0,subdivision='eighth',beatTicks=false,meter=4,countInBeats=0,beatTimeline=[],backing=null){
   this.stop();this.setExerciseGroove(groove);const token=this.loopToken,ctx=await this.unlock(),timeline=Array.isArray(beatTimeline)&&beatTimeline.length?beatTimeline:null,chords=timeline||progression.flat(),unique=[...new Map(chords.map(chord=>[chord.id,chord])).values()],kits=new Map(await Promise.all(unique.map(async chord=>[chord.id,await this.samples(chord)]))),hat=await this.load(ctx,'drums/closed-hat.wav'),kick=await this.load(ctx,'drums/kick.wav'),snare=await this.load(ctx,'drums/snare.wav'),beatsPerMeasure=meter===3?3:4,startIndex=Math.max(0,Math.min(progression.length-1,Math.trunc(Number(startMeasure)||0))),startBeat=startIndex*beatsPerMeasure,selectedTimeline=timeline?.slice(startBeat),selectedProgression=progression.slice(startIndex);let tempo=Math.max(40,Math.min(240,Math.round(Number(bpm)||75))),beat=60/tempo,eighth=beat/2,measure=beat*beatsPerMeasure,cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;
-  this.exerciseTempoUpdater=value=>{tempo=value;beat=60/tempo;eighth=beat/2;measure=beat*beatsPerMeasure;cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;};
   if(token!==this.loopToken||cycle<=0)return false;
   const mix={drums:{enabled:groove==='rock',volume:.72},bass:{enabled:false,style:'roots',volume:.46},piano:{enabled:false,style:'simple',volume:.3},strings:{enabled:false,style:'low',volume:.2},...(backing||{})};
   this.activeBackingMix=mix;this.activeBackingSolo=null;this.applyBackingGains();
@@ -132,6 +149,7 @@ export class ChordPlayer{
   const backingSamples=new Map();
   await Promise.all(targetNotes.map(async([instrument,hz])=>{const sample=referenceSample(instrument,hz),key=`${instrument}:${hz}`;if(!backingSamples.has(key))backingSamples.set(key,{...sample,buffer:await this.load(ctx,sample.file)});}));
   if(token!==this.loopToken)return false;
+  this.exerciseTempoUpdater=value=>{tempo=value;beat=60/tempo;eighth=beat/2;measure=beat*beatsPerMeasure;cycle=timeline?selectedTimeline.length*beat:selectedProgression.length*measure;};
   this.onCue=onCue;
    const strumLead=.032,slotsPerBeat=subdivision==='sixteenth'?4:2,slotsPerMeasure=slotsPerBeat*beatsPerMeasure,patternBars=String(pattern).match(new RegExp(`.{1,${slotsPerMeasure}}`,'g'))||['d.d.d.d.'];
   const queueCue=(at,data)=>{if(onCue)this.cueQueue.push({at,data});};
