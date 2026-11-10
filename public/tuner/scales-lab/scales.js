@@ -125,7 +125,7 @@ $('#backing-play').addEventListener('click',async()=>{
  try{const started=await startBacking();if(token!==playToken)return;if(!started)stopBacking();}
  catch(error){if(token!==playToken)return;stopBacking();$('#play-status').textContent=error.message||'Backing sound could not start. Tap Play Backing to try again.';}
 });
-document.querySelectorAll('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=document.getElementById(button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${button.closest('.tab-card')?'Scale tablature':'Practice to a Backing Track'} card`);button.querySelector('span').textContent=expanded?'Expand':'Collapse';}));
+document.querySelectorAll('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=document.getElementById(button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));const title=button.closest('.tab-card')?'Scale tablature':'Practice to a Backing Track';button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${title} card`);button.querySelector('.sr-only').textContent=expanded?'Expand':'Collapse';button.querySelector('b').textContent=expanded?'+':'−';}));
 
 // Stop pending starts as well as scheduled audio when the app leaves the foreground.
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopBacking();});
