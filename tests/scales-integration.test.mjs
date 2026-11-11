@@ -31,7 +31,7 @@ function scalesHarness({delayExercise=false,failPrepare=false,failExercise=false
 }
 test('initScales renders and collapses entirely within its supplied root',()=>{
  const h=scalesHarness();assert.match(h.get('#scale-title').textContent,/Musical Notes/);
- h.get('[data-collapse-target]').events.get('click')();assert.equal(h.get('#tab-card-content').hidden,true);
+ assert.equal(h.get('#tab-card-content').hidden,true);h.get('[data-collapse-target]').events.get('click')();assert.equal(h.get('#tab-card-content').hidden,false);h.get('[data-collapse-target]').events.get('click')();
  assert.equal(h.get('[data-collapse-target]').getAttribute('aria-expanded'),'false');h.api.destroy();
 });
 for(const mode of ['notes','demo'])for(const interrupt of ['stop','pagehide','visibility'])test(`${mode} pending start is invalidated by ${interrupt}`,async()=>{
@@ -220,8 +220,15 @@ test('all mode switches invalidate pending starts and only the chosen transport 
 
 test('wide Scales keeps tab open and restores stacked disclosure state',()=>{
  const h=scalesHarness(),heading=h.get('[data-collapse-target]'),content=h.get('#tab-card-content');
- heading.events.get('click')();assert.equal(content.hidden,true);
+ assert.equal(content.hidden,true);
  h.media.matches=true;h.media.change();assert.equal(content.hidden,false);assert.equal(heading.disabled,true);assert.equal(heading.getAttribute('aria-expanded'),'true');
  h.media.matches=false;h.media.change();assert.equal(content.hidden,true);assert.equal(heading.disabled,false);
  heading.events.get('click')();assert.equal(content.hidden,false);h.api.destroy();assert.equal(h.media.change,null);
+});
+
+test('Scales markup starts tablature and backing cards collapsed',()=>{
+ const html=file('scales-lab/index.html');
+ for(const id of ['tab-card-content','backing-card-content'])assert.match(html,new RegExp('<div id="'+id+'" hidden>'));
+ assert.match(html,/aria-expanded="false" aria-label="Expand Scale tablature card"/);
+ assert.match(html,/aria-expanded="false" aria-label="Expand Practice to a Backing Track card"/);
 });

@@ -41,3 +41,5 @@ Before changing UI, identify the closest existing example and state which classe
 - Scales keeps a local tempo control beside Notes, Backing, and Demo playback. The two Notes controls mirror one notes setting; each playback mode remembers its own BPM. Changing an inactive mode does not change the current sound. Only one mode plays at a time; Demo notes and accompaniment share one audio clock. Tempo taps, press-and-hold, and valid typed values update live without restarting playback.
 
 - On wide desktop displays (1440px and above), Scales presents the existing fretboard and tablature cards side by side, with equal widths and equal expanded card heights. Tablature stays open in this wide layout, without a collapse affordance. Below that width the full header restores its expand/collapse behavior and remembers its stacked-view state. Below that width they remain stacked; controls wrap within their card and scrolling stays available.
+
+- Scales tablature defaults closed in stacked layouts; the backing-track card defaults closed at every width. Wide tablature remains open beside the fretboard.

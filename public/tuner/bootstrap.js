@@ -1,6 +1,6 @@
 // A failed optional lesson must never leave all tools stacked on screen.
 const status=document.getElementById('app-load-status');
-import('./app.js?v=web-layout-161').then(()=>status?.remove()).catch(()=>{
+import('./app.js?v=web-layout-162').then(()=>status?.remove()).catch(()=>{
  if(!status)return;
  status.setAttribute('role','alert');
  status.querySelector('p').textContent='The app could not finish loading. Check your connection and reload to try again.';

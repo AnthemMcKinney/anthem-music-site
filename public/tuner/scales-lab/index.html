@@ -63,11 +63,11 @@
    <div class="fretboard-shell"><svg id="fretboard" class="fretboard" role="img" aria-labelledby="fretboard-title fretboard-description"></svg><div id="finger-legend" class="finger-legend" role="list" aria-label="Finger numbers"></div></div>
   </section>
   <section class="tab-card" aria-labelledby="tab-title">
-   <button class="card-heading-trigger" type="button" aria-expanded="true" aria-label="Collapse Scale tablature card" aria-controls="tab-card-content" data-collapse-target="tab-card-content">
+   <button class="card-heading-trigger" type="button" aria-expanded="false" aria-label="Expand Scale tablature card" aria-controls="tab-card-content" data-collapse-target="tab-card-content">
    <span class="card-heading-copy"><span class="card-heading-kicker">FOLLOW THE PATH</span><span id="tab-title" class="card-heading-title" role="heading" aria-level="2">Scale tablature</span><span id="tab-copy" class="card-heading-subtitle">Read from left to right. Play one note at a time.</span></span>
-    <span class="card-collapse" aria-hidden="true"><b>−</b></span>
+    <span class="card-collapse" aria-hidden="true"><b>+</b></span>
    </button>
-   <div id="tab-card-content">
+   <div id="tab-card-content" hidden>
     <div class="tab-playback-controls" aria-label="Scale playback controls">
      <div class="exercise-tempo" data-tempo-mode="notes" aria-label="Notes tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease notes tempo">−</button><label><input id="notes-tempo" data-tempo-input="notes" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Notes tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase notes tempo">+</button></div>
      <button id="tab-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button>
@@ -80,11 +80,11 @@
   </section>
   </div>
   <section id="backing-panel" class="backing-panel" aria-label="Practice to a Backing Track">
-   <button class="card-heading-trigger backing-card-heading-trigger" type="button" aria-expanded="true" aria-label="Collapse Practice to a Backing Track card" aria-controls="backing-card-content" data-collapse-target="backing-card-content">
+   <button class="card-heading-trigger backing-card-heading-trigger" type="button" aria-expanded="false" aria-label="Expand Practice to a Backing Track card" aria-controls="backing-card-content" data-collapse-target="backing-card-content">
     <span class="card-heading-copy"><span class="card-heading-kicker">Put it all together</span><span id="backing-title" class="card-heading-title" role="heading" aria-level="2">Practice to a Backing Track</span><span class="card-heading-subtitle">Choose a progression, customize the mix, and play the scale along with&nbsp;it.</span></span>
-    <span class="card-collapse" aria-hidden="true"><b>−</b></span>
+    <span class="card-collapse" aria-hidden="true"><b>+</b></span>
    </button>
-   <div id="backing-card-content">
+   <div id="backing-card-content" hidden>
    <span id="backing-summary" class="sr-only">Am · Am · F · F</span>
    <div class="backing-controls">
     <label>Progression<select id="backing-progression" aria-label="Backing progression"><option value="am-c">Am – C</option><option value="c-f">C – F</option><option value="c-g">C – G</option><option value="am-f" selected>Am – F</option><option value="c-f-am-g">C – F – Am – G</option></select></label>

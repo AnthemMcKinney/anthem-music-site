@@ -195,7 +195,7 @@ $('#backing-play').addEventListener('click',async()=>{
 });
 const wideReadingLayout=window.matchMedia('(min-width:1440px)');
 const tabHeading=$('[data-collapse-target="tab-card-content"]');
-let stackedTabExpanded=true;
+let stackedTabExpanded=false;
 const syncTabDisclosure=()=>{
  const expanded=wideReadingLayout.matches||stackedTabExpanded;
  $('#tab-card-content').hidden=!expanded;

@@ -12,10 +12,10 @@ export function initScalesView(view){
   loading=(async()=>{
    if(!shadow){view.replaceChildren();shadow=view.attachShadow({mode:'open'});}
    shadow.innerHTML='<p role="status">Loading Scales.</p>';
-   const [module,response]=await Promise.all([import('../scales-lab/scales.js?v=web-playback-159'),fetch(new URL('../scales-lab/index.html',import.meta.url))]);
+   const [module,response]=await Promise.all([import('../scales-lab/scales.js?v=web-layout-162'),fetch(new URL('../scales-lab/index.html?v=web-layout-162',import.meta.url))]);
    if(!response.ok)throw Error('Scales could not load.');
    const source=new DOMParser().parseFromString(await response.text(),'text/html'),main=source.querySelector('main');if(!main)throw Error('Scales could not load.');
-   const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('../scales-lab/scales.css?v=web-playback-159',import.meta.url).href;
+   const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('../scales-lab/scales.css?v=web-layout-162',import.meta.url).href;
    const styled=new Promise((resolve,reject)=>{style.onload=resolve;style.onerror=()=>reject(Error('Scales styles could not load.'));});
    shadow.prepend(style);await styled;
    const content=document.createElement('div');content.className='scales-content';content.append(...main.childNodes);shadow.replaceChildren(style,content);
