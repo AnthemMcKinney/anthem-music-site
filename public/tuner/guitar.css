@@ -115,13 +115,15 @@ footer{display:none}
  aside .string-heading h2{font-size:14px;line-height:1.1;white-space:nowrap}
 }
 
-/* Wide desktop: keep the complete working surface above the fixed tool bar. */
+/* Only the tuner is a fixed-height instrument. Lessons and the metronome
+   must keep normal document scrolling when their content exceeds the window. */
 @media(min-width:1100px) and (min-height:620px){
- html,body{height:100%;overflow:hidden}
- .app-shell{height:calc(100dvh - max(58px,7dvh));max-width:1240px;padding:0 24px;overflow:hidden}
+ html[data-view=tuner],body[data-view=tuner]{height:100%;overflow:hidden}
+ .app-shell{max-width:1240px;padding:0 24px}
+ body[data-view=tuner] .app-shell{height:calc(100dvh - max(58px,7dvh));overflow:hidden}
  header{height:70px;min-height:70px}
  .brand img{width:37px;height:41px}.brand{font-size:23px}
- main{height:calc(100% - 70px);overflow:hidden}
+ body[data-view=tuner] main{height:calc(100% - 70px);overflow:hidden}
  .intro{display:none}
  #tuner{display:flex;flex-direction:column;height:100%;min-height:0}
  .instruments{flex:0 0 57px;padding:7px 12px;border-radius:12px 12px 0 0}

@@ -9,6 +9,7 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 - A card header uses a 9px orange uppercase kicker, a 21px navy title, and optional muted blue-gray supporting text. Set supporting text to 12px, regular weight, with a 1.4 line-height. Keep title and controls from colliding or changing order at breakpoints.
 - Put related controls in the existing horizontal control row and use its open space before adding another row. Allow wrapping only when the viewport is too narrow for the controls to fit legibly.
 - Keep info callouts visually distinct from the main card content. Leave clear vertical space between a callout and the next major reading surface.
+- Only the tuner uses a fixed-height desktop instrument surface. Lesson pages and the metronome keep normal document scrolling, with enough space to reach controls above the fixed navigation. Choose the metronome's desktop columns by width, not window height; a short window may reduce the pulse display smoothly but must not rearrange or clip controls.
 
 ## Disclosures
 
