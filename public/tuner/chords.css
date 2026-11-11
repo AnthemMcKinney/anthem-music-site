@@ -227,9 +227,10 @@ html[data-view=chords]{overflow-y:scroll!important;scrollbar-gutter:stable}
 .lesson-details>.lesson-expanded{margin:0;padding:12px 14px 14px 42px;background:#fff}
 .lesson-details>.lesson-expanded>h3{margin-top:0}
 
-/* The chord stage is diagram-first; all teaching copy lives in Objective Notes. */
+/* The chord stage is diagram-first; all teaching copy lives in Objective Notes.
+   Let the stage grow with its title and diagram so lower strings never clip. */
 @media(max-width:740px){
- body[data-view=chords] .chord-grid .chord-card{box-sizing:border-box;height:190px;padding:12px 14px}
+ body[data-view=chords] .chord-grid .chord-card{box-sizing:border-box;height:auto;min-height:190px;padding:12px 14px}
  body[data-view=chords] .chord-card-heading{min-height:29px;align-items:center}
  body[data-view=chords] .chord-card-heading>div{min-width:0;flex:1}
  body[data-view=chords] .chord-card-heading h2{max-width:100%;font-size:27px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

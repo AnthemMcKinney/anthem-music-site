@@ -12,3 +12,8 @@ html[data-theme^=dark]{--lesson-play-ink:#8ed5aa;--lesson-play-border:#6cba89;--
 .exercise-tempo label span{font-size:8px;font-weight:900}
 .exercise-tempo-value:focus{border-bottom-color:var(--theme-accent)!important;outline:0}
 .exercise-tempo button:active{background:var(--theme-accent);color:var(--theme-on-accent)}
+
+/* Preserve each transport's existing size; active playback always exposes a stop square. */
+.lesson-stop-icon{width:20px;height:20px;fill:currentColor;stroke:none;vertical-align:middle}
+body[data-view=chords] .play-chord.playing{background:#c7443e;border-color:#a92f2a;color:#fff}
+body[data-view=metronome] .metronome-start.running{background:#c7443e;color:#fff}

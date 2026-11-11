@@ -20,6 +20,7 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 
 - Reuse the shared tempo, Play, and Stop controls already used by chord exercises. Do not recreate them inside a new module.
 - Keep playback actions green at rest and red only for Stop/active stopping states, consistent with First Chords. Keep the app’s orange accent for headings, borders, and disclosure controls; reserve yellow for the established “now playing” cue.
+- Active transport controls show a filled stop square and an accessible Stop label, including while audio is loading. A second tap cancels pending playback or stops current playback. Restore the idle icon and label on completion, cancellation, or failure. Synchronize surrounding action captions, tooltips, and hidden labels with the same state. Status copy distinguishes loading from playing and must not instruct the user to press Play/Start when the visible action is Stop.
 - Use existing CSS variables and component classes wherever possible. If a style must be shared across modules, extract it once rather than copy/paste a new variation.
 
 ## Preflight and visual review
@@ -36,3 +37,4 @@ Before changing UI, identify the closest existing example and state which classe
 - App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.
 
 - Audio starts from the requested Play/Start control. Sound Check is optional and must not require a tuner note or a separate unlock step before playing a lesson. Preserve the existing controls and layout.
+- Scales keeps a local tempo control beside Notes, Backing, and Demo playback. The two Notes controls mirror one notes setting; each playback mode remembers its own BPM. Changing an inactive mode does not change the current sound. Only one mode plays at a time; Demo notes and accompaniment share one audio clock. Tempo taps, press-and-hold, and valid typed values update live without restarting playback.
