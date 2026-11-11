@@ -11,3 +11,5 @@ body[data-view=scales] .app-shell{position:relative!important;inset:auto!importa
 
 .app-load-status{padding:12px 0;color:var(--theme-ink,#0d1f3c);font:14px/1.4 var(--app-font,Arial,sans-serif)}
 .app-load-status button,.scales-view>button{padding:8px 12px;border:1px solid currentColor;border-radius:7px;background:var(--theme-surface,#fff);color:var(--theme-ink,#0d1f3c);font:inherit}
+
+@media(min-width:1440px){body[data-view=scales] .app-shell{max-width:1480px!important}}

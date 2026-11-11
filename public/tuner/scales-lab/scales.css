@@ -302,3 +302,14 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .scale-demo{grid-template-columns:minmax(0,1fr) minmax(220px,.8fr)}
 .scale-demo .demo-playback-controls{grid-column:1/-1;justify-content:flex-end;margin:0;flex-wrap:nowrap}
 @media(max-width:720px){.tab-playback-controls .exercise-tempo{flex-basis:125px}.layer-control{flex-wrap:wrap}.layer-control #layer-buttons{flex-basis:100%}.layer-control .notes-playback-controls{width:100%;margin-left:0;justify-content:space-between}.backing-action-row{grid-template-columns:1fr}.backing-action-row .tab-playback-controls{justify-content:space-between}.scale-demo{grid-template-columns:1fr}.scale-demo .demo-playback-controls{justify-content:space-between}.scale-demo .play-exercise{width:max-content}}
+
+/* Keep the two views of a pattern together only when both remain readable. */
+.scale-reading-layout{min-width:0}
+@media(min-width:1440px){
+ .scale-reading-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+ .scale-reading-layout>.scale-card,.scale-reading-layout>.tab-card{min-width:0}
+ .scale-reading-layout .fretboard{min-height:0}
+ .scale-reading-layout .layer-control{flex-wrap:wrap}
+ .scale-reading-layout .layer-control #layer-buttons{flex-basis:100%}
+ .scale-reading-layout .notes-playback-controls{width:100%;margin-left:0;justify-content:flex-end}
+}

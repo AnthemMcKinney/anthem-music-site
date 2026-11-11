@@ -39,3 +39,5 @@ Before changing UI, identify the closest existing example and state which classe
 
 - Audio starts from the requested Play/Start control. Sound Check is optional and must not require a tuner note or a separate unlock step before playing a lesson. Preserve the existing controls and layout.
 - Scales keeps a local tempo control beside Notes, Backing, and Demo playback. The two Notes controls mirror one notes setting; each playback mode remembers its own BPM. Changing an inactive mode does not change the current sound. Only one mode plays at a time; Demo notes and accompaniment share one audio clock. Tempo taps, press-and-hold, and valid typed values update live without restarting playback.
+
+- On wide desktop displays (1440px and above), Scales presents the existing fretboard and tablature cards side by side, with a larger share for the fretboard. Below that width they remain stacked; controls wrap within their card and scrolling stays available.
