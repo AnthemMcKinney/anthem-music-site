@@ -1,6 +1,6 @@
 # Chord-card layout review
 
-Review branch `chord-layout-eyebrow-review`, rebased onto production `7d7d131` (web 3.7.159). It includes the released G7 correction and Scales mix. This branch is for isolated visual review, not a production merge.
+Review branch `chord-layout-eyebrow-review`, rebased onto production `7d7d131` (web 3.7.159). It includes the released G7 correction and Scales mix. Dan approved this reviewed layout for release as web 3.7.160; the final release uses web-layout-160 identities. The record below documents the review before approval.
 
 ## What changed
 
