@@ -1,4 +1,4 @@
-import {ChordPlayer} from '../tuner/chord-audio.js?v=web-playback-158';
+import {ChordPlayer} from '../tuner/chord-audio.js?v=web-playback-159';
 
 export function initScales(scope=document,{canPlay=()=>true}={}){
 const strings=[{label:'e',open:64},{label:'B',open:59},{label:'G',open:55},{label:'D',open:50},{label:'A',open:45},{label:'E',open:40}];
@@ -27,7 +27,8 @@ let pattern='natural',layer='aa',root='C',activeId='',activeStep=-1,activeMode='
 const tempos={notes:75,backing:75,demo:75};
 let refreshNotesTempo=null;
 const $=selector=>scope.querySelector(selector),$$=selector=>[...scope.querySelectorAll(selector)],current=()=>patterns[pattern].layers[layer];
-const chordPlayer=new ChordPlayer();
+// Keep the summed guitar, melody, piano, bass, and drums below full scale.
+const chordPlayer=new ChordPlayer({outputLevel:.65});
 const backingChords={am:{id:'am',name:'Am',frets:['x',0,2,2,1,0]},c:{id:'c',name:'C',frets:['x',3,2,0,1,0]},f:{id:'f',name:'F',frets:['x','x',3,2,1,1]},g:{id:'g',name:'G',frets:[3,2,0,0,3,3]}};
 const backingPatterns={'am-c':['am','c'],'c-f':['c','f'],'c-g':['c','g'],'am-f':['am','f'],'c-f-am-g':['c','f','am','g']};
 
@@ -132,7 +133,9 @@ async function playTabPattern(){
   starting=false;playbackStatus();schedule();notesTimer=setInterval(schedule,25);
  }catch(error){playbackFailed(token,error,'The scale pattern could not start. Tap Play Notes to try again.');}
 }
-function backingMix(){chordPlayer.setBackingMasterVolume(Number($('#backing-volume').value)/100);return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'roots',volume:.42},piano:{enabled:$('#mix-piano').checked,style:'simple',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
+// Reuse the Chords mix presets: syncopated root/fifth bass and accented piano thirds.
+// Backing and Demo intentionally share these instrument controls.
+function backingMix(){chordPlayer.setBackingMasterVolume(Number($('#backing-volume').value)/100);return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'sync-fifths',volume:.72},piano:{enabled:$('#mix-piano').checked,style:'thirds',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
 async function startBacking(mode,onCue=null,onSchedule=null){const ids=backingPatterns[$('#backing-progression').value],bars=Number($('#backing-bars').value),repeats=bars/ids.length,progression=ids.flatMap(id=>Array(repeats).fill(backingChords[id])),timeline=progression.flatMap(chord=>Array(4).fill(chord)),mix=backingMix();return chordPlayer.playExercise(progression,$('#backing-strum').value,tempos[mode],onCue,mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix,{onSchedule});}
 async function play(noteValue=$('#demo-note-value').value){
  if(!canPlay())return;
