@@ -12,19 +12,19 @@ function element(){
   addEventListener(k,fn){events.set(k,fn);},removeEventListener(k){events.delete(k);},
   querySelector(k){if(!children.has(k))children.set(k,element());return children.get(k);},closest(){return null;}};
 }
-function scalesHarness(){
- const elements=new Map(),events=new Map(),windowEvents=new Map(),calls=[];let resolveUnlock,allowed=true;
+function scalesHarness({delayExercise=false}={}){
+ const elements=new Map(),events=new Map(),windowEvents=new Map(),calls=[];let resolveUnlock,resolveExercise,allowed=true;
  const get=selector=>{if(!elements.has(selector))elements.set(selector,element());return elements.get(selector);};
- get('#backing-progression').value='am-c';get('#backing-bars').value='2';get('#tempo').value='75';get('#backing-volume').value='70';get('#demo-note-value').value='quarter';
+ for(const id of ['backing-progression','backing-bars']){const options=file('scales-lab/index.html').match(new RegExp('<select id="'+id+'"[^>]*>(.*?)</select>'))[1];get('#'+id).value=options.match(/<option value="([^"]+)" selected>/)[1];}get('#tempo').value='75';get('#backing-volume').value='70';get('#demo-note-value').value='quarter';
  const collapse=get('[data-collapse-target]');collapse.dataset.collapseTarget='tab-content';collapse.setAttribute('aria-expanded','true');
  const scope={querySelector:get,querySelectorAll(selector){return selector==='.pattern-play'?[get('.pattern-play')]:selector==='[data-collapse-target]'?[collapse]:[];}};
  const document={hidden:false,querySelector(){throw Error('Unscoped document query');},querySelectorAll(){throw Error('Unscoped document query');},getElementById(){throw Error('Unscoped document query');},addEventListener(k,fn){events.set(k,fn);},removeEventListener(k){events.delete(k);}};
  const window={addEventListener(k,fn){windowEvents.set(k,fn);},removeEventListener(k){windowEvents.delete(k);}};
- class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>resolveUnlock=resolve);}async prepareScaleTone(){calls.push('prepare');}async playExercise(){calls.push('exercise');return true;}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
+ class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>resolveUnlock=resolve);}async prepareScaleTone(){calls.push('prepare');}async playExercise(){calls.push('exercise');return delayExercise?new Promise(resolve=>resolveExercise=resolve):true;}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
  const sandbox={document,window,ChordPlayer:Player,setInterval(){calls.push('interval');return 1;},clearInterval(){},setTimeout(){}};
  vm.createContext(sandbox);vm.runInContext(scaleSource.replace(/^import .*\r?\n/,'').replace('export function initScales','function initScales'),sandbox);
  const api=sandbox.initScales(scope,{canPlay:()=>allowed});
- return {api,get,calls,events,windowEvents,document,setAllowed(value){allowed=value;},release(){resolveUnlock({currentTime:0});}};
+ return {api,get,calls,events,windowEvents,document,setAllowed(value){allowed=value;},release(){resolveUnlock({currentTime:0});},releaseExercise(){resolveExercise(true);}};
 }
 test('initScales renders and collapses entirely within its supplied root',()=>{
  const h=scalesHarness();assert.match(h.get('#scale-title').textContent,/Musical Notes/);
@@ -129,4 +129,23 @@ test('offline precached modules survive Vary Origin without loosening private re
  const request=url=>{let p;events.get('fetch')({request:{method:'GET',url},respondWith(value){p=value;}});return p;};
  assert.equal(await request('https://example.com/tuner/app.js?v=web-scales-1'),cached);assert.equal(matches[0].ignoreVary,true);
  const missing=await request('https://example.com/tuner/private-account');assert.equal(missing.type,'error');assert.equal(matches.length,1);
+});
+
+
+test('Scales starts with four bars of Am–F and retains chosen backing settings on lesson changes and exit',()=>{
+ const h=scalesHarness();assert.equal(h.get('#backing-progression').value,'am-f');assert.equal(h.get('#backing-bars').value,'4');assert.equal(h.get('#backing-summary').textContent,'Am · Am · F · F');
+ h.get('#backing-progression').value='c-g';h.get('#backing-bars').value='2';h.get('#backing-progression').events.get('change')();
+ for(const [selector,key,value] of [['.pattern-tabs','pattern','box1'],['#layer-buttons','layer','diatonic'],['#root-control','root','A'],['.pattern-tabs','pattern','natural']]){
+  h.get(selector).events.get(key==='root'?'change':'click')({target:{closest:()=>({dataset:{[key]:value}})}});
+  assert.equal(h.get('#backing-progression').value,'c-g');assert.equal(h.get('#backing-bars').value,'2');assert.equal(h.get('#backing-summary').textContent,'C · G');
+ }
+ h.api.stopPlayback();assert.equal(h.get('#backing-progression').value,'c-g');assert.equal(h.get('#backing-bars').value,'2');h.api.destroy();
+});
+for(const selector of ['.pattern-play','#play','#backing-play'])for(const interrupt of ['button','navigation','pagehide'])test(`${selector} exposes a stop square while pending and restores play after ${interrupt}`,async()=>{
+ const h=scalesHarness({delayExercise:true}),button=h.get(selector),pending=button.events.get('click')();
+ const assertState=(node,active)=>{assert.equal(node.querySelector('.play-fill').getAttribute('d'),active?'M8 8h8v8H8Z':'m10 8 6 4-6 4V8Z');assert.equal(node.getAttribute('aria-pressed'),String(active));assert.match(node.getAttribute('aria-label'),active?/^Stop/:/^(Play|Start)/);};
+ assertState(button,true);if(selector==='#play')assertState(h.get('#backing-play'),true);
+ if(interrupt==='button')await button.events.get('click')();else if(interrupt==='navigation')h.api.stopPlayback();else h.windowEvents.get('pagehide')();
+ assertState(button,false);if(selector==='#play')assertState(h.get('#backing-play'),false);
+ if(selector==='#backing-play')h.releaseExercise();else h.release();await pending;await Promise.resolve();assertState(button,false);assert.equal(h.calls.includes('interval'),false);h.api.destroy();
 });

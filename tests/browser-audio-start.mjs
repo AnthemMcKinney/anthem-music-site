@@ -9,8 +9,9 @@ const artifacts=process.env.ARTIFACT_DIR||'/tmp/anthem-audio-browser';
 await mkdir(artifacts,{recursive:true});
 const browser=await webkit.launch({headless:true});
 const results=[];
-async function fresh(view,{modern=false,desktop=false}={}){
- const context=await browser.newContext(desktop?{viewport:{width:1280,height:900}}:{...devices['iPhone 13']});
+async function fresh(view,{modern=false,desktop=false,holdSamples=false}={}){
+ const context=await browser.newContext({...(desktop?{viewport:{width:1280,height:900}}:{...devices['iPhone 13']}),serviceWorkers:holdSamples?'block':'allow'});
+ const held=[];if(holdSamples)await context.route('**/samples/guitar-acoustic-*',route=>new Promise(resolve=>held.push(async()=>{await route.continue();resolve();})));
  await context.addInitScript(({modern})=>{
   const probe=window.__audioProbe={events:[],peak:0,contexts:[],meters:[],media:[]};
   const event=(type,extra={})=>probe.events.push({type,time:performance.now(),...extra});
@@ -28,7 +29,7 @@ async function fresh(view,{modern=false,desktop=false}={}){
  },{modern});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(`${base}/tuner/#${view}`);await page.waitForFunction(()=>!document.getElementById('app-load-status'));
- return {page,context,errors};
+ return {page,context,errors,releaseSamples:()=>Promise.all(held.map(release=>release()))};
 }
 const report=async(page)=>page.evaluate(()=>({peak:__audioProbe.peak,events:__audioProbe.events,states:__audioProbe.contexts.map(ctx=>ctx.state),nativePlaying:__audioProbe.media.some(audio=>!audio.paused)}));
 async function noErrors(page,errors){assert.deepEqual(errors,[]);assert.deepEqual(await page.locator('[role=alert]:visible').allTextContents(),[]);}
@@ -59,9 +60,8 @@ try{
   results.push({flow:`fresh ${view}, stop, restart, navigation`,peak:evidence.peak});await context.close();
  }
  // Simulate a slow first sample; leaving the tool must prevent delayed playback.
- const {page,context,errors}=await fresh('chords');
- await page.route('**/samples/guitar-acoustic-*',async route=>{await new Promise(resolve=>setTimeout(resolve,700));await route.continue();});
- await page.locator('[data-play-chord]:visible').first().click();await page.getByRole('button',{name:'Metronome',exact:true}).click();await page.waitForTimeout(1200);
+ const {page,context,errors,releaseSamples}=await fresh('chords',{holdSamples:true});
+ await page.locator('[data-play-chord]:visible').first().click();await page.getByRole('button',{name:'Metronome',exact:true}).click();await releaseSamples();await page.waitForTimeout(700);
  const cancelled=await report(page);assert.equal(cancelled.events.filter(e=>e.type==='sample').length,0);assert.equal(cancelled.nativePlaying,false);await noErrors(page,errors);await context.close();results.push({flow:'navigation during first chord sample loading'});
  const desktop=await fresh('metronome',{desktop:true});await desktop.page.locator('#metronome-start').click();await desktop.page.waitForTimeout(600);await desktop.page.screenshot({path:`${artifacts}/metronome-desktop.png`});
  await desktop.context.close();

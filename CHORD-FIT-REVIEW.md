@@ -21,3 +21,15 @@ Review only. Based on production commit `424c8a4` (web 3.7.157). Do not merge or
 ## Repeat locally
 
 Serve `public/` on port 4331. Run `node --test tests/*.test.mjs` and `ASTRO_TELEMETRY_DISABLED=1 npm run build`. With Playwright/WebKit available, run `tests/browser-chord-fit.mjs`, `tests/browser-audio-start.mjs`, and `tests/browser-audio-articulation.mjs` with `BASE_URL=http://127.0.0.1:4331` and `PLAYWRIGHT_MODULE` if it is installed outside this repository.
+
+## Review 2: faster chord starts and clearer playback controls
+
+Dan approved the appearance and reported occasional chord delays, requested 4-bar Am–F Scales backing defaults, and asked for a universal stop icon. This remains a review branch, not a production release.
+
+- Visible First Chords lessons and chord popups now prepare their recordings before Play. Before the first gesture this only fetches bytes, without creating an AudioContext, claiming the speaker route, or making sound. Later selections can decode into the already-created context. Fetch/decode promises are shared, and failed requests or decodes are evicted so a subsequent tap can retry.
+- A controlled WebKit test with 600ms added to sample requests measured approximately 709ms from tap to scheduled first sound cold versus 106ms with recordings prepared. The prepared tap made no network requests. This demonstrates removal of a cold-download wait, not a measurement of Dan's device or proof that every intermittent delay is eliminated.
+- First Chords speakers, Follow Along/progression controls, Scales note/backing/demo controls, and Metronome now show a stop square and accessible Stop label during startup/playback. Single-chord buttons remain active for the actual playback duration instead of reverting after 420ms; tapping again stops rather than restarts. Stop cancels pending sample starts and metronome voices that were already scheduled. Error and completion paths restore idle state.
+- Scales starts with Am–F and four bars (Am · Am · F · F). Changing the progression or bar count remains respected through lesson changes and navigation.
+- The optional short Sound Check remains a readiness check, and tuner string-selection controls retain their existing behavior. Review assets use `chord-review-2`, a separate cache, and the `Chord review 2` label.
+
+Additional checks: 88 Node tests pass. Phone and desktop WebKit checks cover all active icons, natural completion, repeated taps, settings changes while playing, user-choice preservation, and cancellation during delayed loading. Browser artifacts were visually inspected. New reusable scripts are `tests/browser-chord-preload.mjs`, `tests/browser-playback-controls.mjs`, and `tests/browser-scales-controls.mjs`. Physical device/audio-route verification remains outstanding.

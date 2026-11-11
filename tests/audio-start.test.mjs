@@ -84,8 +84,8 @@ test('a closed context does not reuse the old pending unlock',async()=>{
 
 test('reset on stop/new playback clears single-chord button state',()=>{
  const source=readFileSync(new URL('../public/tuner/tuner/chords.js',import.meta.url),'utf8'),start=source.indexOf('const resetExamples='),code=source.slice(start,source.indexOf('\n',start));
- const classes=new Set(['playing']),button={classList:{remove:name=>classes.delete(name)}};
- const sandbox={section:{querySelectorAll:selector=>selector==='[data-play-chord].playing'?[button]:[]},clearExerciseCue(){}};
+ const classes=new Set(['playing']),button={dataset:{playChord:'g'},classList:{remove:name=>classes.delete(name)},setAttribute(name,value){this[name]=value;},getAttribute(name){return this[name];}};
+ const sandbox={playbackRequest:0,previewEndTimer:null,clearTimeout(){},speakerIcon:()=>'<speaker/>',byId:{g:{name:'G'}},section:{querySelectorAll:selector=>selector==='[data-play-chord].playing'?[button]:[]},clearExerciseCue(){}};
  vm.createContext(sandbox);vm.runInContext(code+';resetExamples();',sandbox);assert.equal(classes.has('playing'),false);
 });
 

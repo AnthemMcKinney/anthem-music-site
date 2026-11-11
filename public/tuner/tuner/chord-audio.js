@@ -38,7 +38,7 @@ export function strumStringIndexes(pitches,direction,range,stringCount){
 }
 
 export class ChordPlayer{
- constructor(){this.ctx=null;this.buffers=new Map();this.sampleLevels=new WeakMap();this.sampleOffsets=new WeakMap();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.activeBackingMix=null;this.activeBackingSolo=null;this.backingBuses=null;this.exerciseGuitar=null;this.exerciseBacking=null;this.backingMasterVolume=1;this.exerciseTempoUpdater=null;}
+ constructor(){this.ctx=null;this.bytes=new Map();this.buffers=new Map();this.sampleLevels=new WeakMap();this.sampleOffsets=new WeakMap();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.activeBackingMix=null;this.activeBackingSolo=null;this.backingBuses=null;this.exerciseGuitar=null;this.exerciseBacking=null;this.backingMasterVolume=1;this.exerciseTempoUpdater=null;}
  context(){
   if(this.ctx&&this.ctx.state!=='closed')return this.ctx;
 
@@ -60,9 +60,24 @@ export class ChordPlayer{
   this.rhythm.connect(this.rhythmLimiter).connect(this.ctx.destination);
   return this.ctx;
  }
+ fetchBytes(file){
+  if(!this.bytes.has(file))this.bytes.set(file,fetch(new URL('../samples/'+file,import.meta.url)).then(response=>{if(!response.ok)throw Error('Chord sample unavailable');return response.arrayBuffer();}).catch(error=>{this.bytes.delete(file);throw error;}));
+  return this.bytes.get(file);
+ }
  async load(ctx,file){
-  if(!this.buffers.has(file))this.buffers.set(file,fetch(new URL('../samples/'+file,import.meta.url)).then(response=>{if(!response.ok)throw Error('Chord sample unavailable');return response.arrayBuffer();}).then(bytes=>ctx.decodeAudioData(bytes)).catch(error=>{this.buffers.delete(file);throw error;}));
+  if(!this.buffers.has(file))this.buffers.set(file,this.fetchBytes(file).then(bytes=>ctx.decodeAudioData(bytes.slice(0))).catch(error=>{this.buffers.delete(file);this.bytes.delete(file);throw error;}));
   return this.buffers.get(file);
+ }
+ prepareChords(chords){
+  // Warm visible lesson recordings before Play without creating an audio
+  // context or taking the speaker route. Later selections can decode early
+  // using a context that a previous user gesture already created.
+  const files=new Set(chords.flatMap(chord=>{
+   const pitches=this.pitches(chord);
+   if(chord.id==='d')pitches.unshift(midiHz(tunings.guitar[1]));
+   return pitches.map(hz=>referenceSample('guitar',hz).file);
+  }));
+  return Promise.all([...files].map(file=>this.ctx&&this.ctx.state!=='closed'?this.load(this.ctx,file):this.fetchBytes(file)));
  }
  unlock(){return unlockAudioContext(this.context(),this);}
  stop(release=true){clearTimeout(this.audioReleaseTimer);if(release)releasePlayback(this);clearTimeout(this.loopTimer);this.loopTimer=0;cancelAnimationFrame(this.cueFrame);this.cueFrame=0;this.cueQueue=[];this.loopToken++;this.exerciseTempoUpdater=null;if(this.onCue)this.onCue(null);this.onCue=null;for(const voice of this.voices){try{voice.stop()}catch{}}this.voices=[];this.activeBackingMix=null;this.activeBackingSolo=null;if(this.ctx){this.rhythm.gain.setValueAtTime(.95,this.ctx.currentTime);this.exerciseGuitar.gain.setValueAtTime(1,this.ctx.currentTime);this.exerciseBacking.gain.setValueAtTime(this.backingMasterVolume,this.ctx.currentTime);Object.values(this.backingBuses||{}).forEach(bus=>bus.gain.setValueAtTime(1,this.ctx.currentTime));}}

@@ -1,4 +1,4 @@
-import {ChordPlayer} from '../tuner/chord-audio.js?v=chord-review-1';
+import {ChordPlayer} from '../tuner/chord-audio.js?v=chord-review-2';
 
 export function initScales(scope=document,{canPlay=()=>true}={}){
 const strings=[{label:'e',open:64},{label:'B',open:59},{label:'G',open:55},{label:'D',open:50},{label:'A',open:45},{label:'E',open:40}];
@@ -92,7 +92,8 @@ const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}
 
 function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#play-status').textContent=`Now playing ${note.note} on string ${note.string+1}, fret ${note.fret}.`;}
-function setTabPlayButton(active){$$('.pattern-play').forEach(button=>{button.classList.toggle('playing',active);button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-label',active?'Stop selected scale pattern':'Play notes in the selected pattern');button.querySelector('span').textContent=active?'Stop':'Play Notes';});}
+function setPlaybackIcon(button,active){button.querySelector('.play-fill').setAttribute('d',active?'M8 8h8v8H8Z':'m10 8 6 4-6 4V8Z');}
+function setTabPlayButton(active){$$('.pattern-play').forEach(button=>{setPlaybackIcon(button,active);button.classList.toggle('playing',active);button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-label',active?'Stop selected scale pattern':'Play notes in the selected pattern');button.querySelector('span').textContent=active?'Stop':'Play Notes';});}
 function stopTabPlayback(){if(!tabPlaying)return;tabToken++;tabPlaying=false;clearInterval(tabTimer);tabTimer=0;chordPlayer.stop();showStep(null,-1);setTabPlayButton(false);$('#play-status').textContent='Scale pattern stopped.';}
 async function playTabPattern(){
  if(!canPlay())return;
@@ -129,8 +130,8 @@ async function play(noteValue=$('#demo-note-value').value){
  try{await chordPlayer.unlock();if(token!==playToken)return;await Promise.all(steps.map(note=>chordPlayer.prepareScaleTone(note.midi)));if(token!==playToken)return;const started=await chordPlayer.playExercise(progression,$('#backing-strum').value,Number($('#tempo').value), (cue,audioAt)=>{if(!cue||!playing)return;if(noteValue==='quarter'&&cue.slotIndex%2!==0)return;if(demoIndex>=steps.length)demoIndex=0;const index=demoIndex++,note=steps[index],stepDuration=60/Number($('#tempo').value)*(noteValue==='eighth'?.5:1);showStep(note,index);chordPlayer.playScaleTone(note.midi,stepDuration*.96,audioAt);},mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix);if(token!==playToken)return;if(!started)stopBacking();}
  catch(error){if(token!==playToken)return;stopBacking();$('#audio-error').hidden=false;$('#audio-error').textContent=$('#play-status').textContent=error.message||'The scale demo could not start. Tap Play Scale + Backing to try again.';}
 }
-function setDemoButton(active){$('#play').classList.toggle('playing',active);$('#play').setAttribute('aria-pressed',String(active));$('#play').setAttribute('aria-label',active?'Stop scale demo and backing':'Play scale demo with backing');$('#play span').textContent=active?'Stop Demo':'Play Scale + Backing';}
-function setBackingButton(active){$('#backing-play').classList.toggle('playing',active);$('#backing-play').setAttribute('aria-pressed',String(active));$('#backing-play').setAttribute('aria-label',active?'Stop backing progression':'Start backing progression');$('#backing-play span').textContent=active?'Stop Backing':'Play Backing';}
+function setDemoButton(active){setPlaybackIcon($('#play'),active);$('#play').classList.toggle('playing',active);$('#play').setAttribute('aria-pressed',String(active));$('#play').setAttribute('aria-label',active?'Stop scale demo and backing':'Play scale demo with backing');$('#play span').textContent=active?'Stop Demo':'Play Scale + Backing';}
+function setBackingButton(active){setPlaybackIcon($('#backing-play'),active);$('#backing-play').classList.toggle('playing',active);$('#backing-play').setAttribute('aria-pressed',String(active));$('#backing-play').setAttribute('aria-label',active?'Stop backing progression':'Start backing progression');$('#backing-play span').textContent=active?'Stop Backing':'Play Backing';}
 function stop(){playToken++;playing=false;demoWithBacking=false;showStep(null,-1);$('#play-status').textContent='Playback stopped.';setDemoButton(false);}
 
 $('.pattern-tabs').addEventListener('click',event=>{const button=event.target.closest('[data-pattern]');if(!button)return;stopTabPlayback();stop();stopBacking();pattern=button.dataset.pattern;layer=pattern==='natural'?'aa':'pentatonic';render();});
