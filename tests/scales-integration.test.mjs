@@ -16,21 +16,22 @@ function scalesHarness({delayExercise=false,failPrepare=false,failExercise=false
  const elements=new Map(),events=new Map(),windowEvents=new Map(),calls=[];let resolveUnlock,resolveExercise,allowed=true;const intervals=new Map(),timeouts=new Map(),exerciseArgs=[],tones=[],tempoChanges=[],ctx={currentTime:0};let timer=0;const unlocks=[],exercises=[];
  const get=selector=>{if(!elements.has(selector))elements.set(selector,element());return elements.get(selector);};
  for(const id of ['backing-progression','backing-bars']){const options=file('scales-lab/index.html').match(new RegExp('<select id="'+id+'"[^>]*>(.*?)</select>'))[1];get('#'+id).value=options.match(/<option value="([^"]+)" selected>/)[1];}for(const id of ['fretboard-tempo','notes-tempo','backing-tempo','demo-tempo']){get('#'+id).value='75';get('#'+id).dataset.tempoInput=id.includes('backing')?'backing':id.includes('demo')?'demo':'notes';}get('#backing-volume').value='70';get('#demo-note-value').value='quarter';
- const collapse=get('[data-collapse-target]');collapse.dataset.collapseTarget='tab-content';collapse.setAttribute('aria-expanded','true');
+ const collapse=get('[data-collapse-target]');elements.set('[data-collapse-target="tab-card-content"]',collapse);collapse.dataset.collapseTarget='tab-card-content';collapse.setAttribute('aria-expanded','true');
  const tempoInputs=['fretboard-tempo','notes-tempo','backing-tempo','demo-tempo'].map(id=>get('#'+id));
  const tempoControls=tempoInputs.map(input=>{const control=element();control.dataset.tempoMode=input.dataset.tempoInput;control.buttons=[-5,5].map(step=>{const button=element();button.dataset.tempoStep=String(step);return button;});control.querySelectorAll=()=>control.buttons;return control;});
  const scope={querySelector:get,querySelectorAll(selector){if(selector==='[data-tempo-mode]')return tempoControls;if(selector==='[data-tempo-input]')return tempoInputs;const mode=selector.match(/^\[data-tempo-input="(.*?)"\]$/)?.[1];if(mode)return tempoInputs.filter(input=>input.dataset.tempoInput===mode);return selector==='.pattern-play'?[get('.pattern-play')]:selector==='[data-collapse-target]'?[collapse]:[];}};
  const document={hidden:false,querySelector(){throw Error('Unscoped document query');},querySelectorAll(){throw Error('Unscoped document query');},getElementById(){throw Error('Unscoped document query');},addEventListener(k,fn){events.set(k,fn);},removeEventListener(k){events.delete(k);}};
- const window={addEventListener(k,fn){windowEvents.set(k,fn);},removeEventListener(k){windowEvents.delete(k);}};
+ const media={matches:false,addEventListener(k,fn){this.change=fn;},removeEventListener(){this.change=null;}};
+ const window={matchMedia(){return media;},addEventListener(k,fn){windowEvents.set(k,fn);},removeEventListener(k){windowEvents.delete(k);}};
  class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>{resolveUnlock=resolve;unlocks.push(resolve);});}async prepareScaleTone(){calls.push('prepare');if(failPrepare)throw Error('Sample unavailable');}async playExercise(...args){exerciseArgs.push(args);calls.push('exercise');if(failExercise)throw Error('Backing unavailable');return delayExercise?new Promise(resolve=>{resolveExercise=resolve;exercises.push(resolve);}):true;}setExerciseTempo(value){tempoChanges.push(value);}playScaleTone(...args){tones.push(args);}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
  const sandbox={document,window,ChordPlayer:Player,setInterval(fn){calls.push('interval');intervals.set(++timer,fn);return timer;},clearInterval(id){intervals.delete(id);},setTimeout(fn){timeouts.set(++timer,fn);return timer;},clearTimeout(id){timeouts.delete(id);}};
  vm.createContext(sandbox);vm.runInContext(scaleSource.replace(/^import .*\r?\n/,'').replace('export function initScales','function initScales'),sandbox);
  const api=sandbox.initScales(scope,{canPlay:()=>allowed});
- return {api,get,calls,events,windowEvents,document,unlocks,exercises,tempoControls,tempoInputs,intervals,timeouts,exerciseArgs,tones,tempoChanges,ctx,setAllowed(value){allowed=value;},release(){resolveUnlock(ctx);},releaseExercise(){resolveExercise(true);}};
+ return {api,get,calls,media,events,windowEvents,document,unlocks,exercises,tempoControls,tempoInputs,intervals,timeouts,exerciseArgs,tones,tempoChanges,ctx,setAllowed(value){allowed=value;},release(){resolveUnlock(ctx);},releaseExercise(){resolveExercise(true);}};
 }
 test('initScales renders and collapses entirely within its supplied root',()=>{
  const h=scalesHarness();assert.match(h.get('#scale-title').textContent,/Musical Notes/);
- h.get('[data-collapse-target]').events.get('click')();assert.equal(h.get('#tab-content').hidden,true);
+ h.get('[data-collapse-target]').events.get('click')();assert.equal(h.get('#tab-card-content').hidden,true);
  assert.equal(h.get('[data-collapse-target]').getAttribute('aria-expanded'),'false');h.api.destroy();
 });
 for(const mode of ['notes','demo'])for(const interrupt of ['stop','pagehide','visibility'])test(`${mode} pending start is invalidated by ${interrupt}`,async()=>{
@@ -215,4 +216,12 @@ test('all mode switches invalidate pending starts and only the chosen transport 
  const notes=h.get('.pattern-play').events.get('click')();assert.equal(h.get('#backing-play').getAttribute('aria-pressed'),'false');assert.equal(h.get('.pattern-play').getAttribute('aria-pressed'),'true');
  h.unlocks[0](h.ctx);h.exercises[0](true);await demo;await backing;assert.equal(h.calls.includes('prepare'),false);
  editTempo(h,'notes',130);h.unlocks[1](h.ctx);await notes;assert.equal(h.intervals.size,1);assert.equal(h.tones.length,1);h.api.destroy();
+});
+
+test('wide Scales keeps tab open and restores stacked disclosure state',()=>{
+ const h=scalesHarness(),heading=h.get('[data-collapse-target]'),content=h.get('#tab-card-content');
+ heading.events.get('click')();assert.equal(content.hidden,true);
+ h.media.matches=true;h.media.change();assert.equal(content.hidden,false);assert.equal(heading.disabled,true);assert.equal(heading.getAttribute('aria-expanded'),'true');
+ h.media.matches=false;h.media.change();assert.equal(content.hidden,true);assert.equal(heading.disabled,false);
+ heading.events.get('click')();assert.equal(content.hidden,false);h.api.destroy();assert.equal(h.media.change,null);
 });

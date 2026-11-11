@@ -193,7 +193,27 @@ $('#backing-play').addEventListener('click',async()=>{
  try{const started=await startBacking('backing');if(token!==playToken)return;if(!started){stopPlayback();return;}starting=false;playbackStatus();}
  catch(error){playbackFailed(token,error,'Backing sound could not start. Tap Play Backing to try again.');}
 });
-$$('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{const content=scope.querySelector('#'+button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';if(!content)return;content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));const title=button.closest('.tab-card')?'Scale tablature':'Practice to a Backing Track';button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} ${title} card`);button.querySelector('.card-collapse b').textContent=expanded?'+':'−';}));
+const wideReadingLayout=window.matchMedia('(min-width:1440px)');
+const tabHeading=$('[data-collapse-target="tab-card-content"]');
+let stackedTabExpanded=true;
+const syncTabDisclosure=()=>{
+ const expanded=wideReadingLayout.matches||stackedTabExpanded;
+ $('#tab-card-content').hidden=!expanded;
+ tabHeading.disabled=wideReadingLayout.matches;
+ tabHeading.setAttribute('aria-expanded',String(expanded));
+ tabHeading.setAttribute('aria-label',wideReadingLayout.matches?'Scale tablature':`${expanded?'Collapse':'Expand'} Scale tablature card`);
+ tabHeading.querySelector('.card-collapse b').textContent=expanded?'−':'+';
+};
+wideReadingLayout.addEventListener('change',syncTabDisclosure);
+syncTabDisclosure();
+$$('[data-collapse-target]').forEach(button=>button.addEventListener('click',()=>{
+ if(button===tabHeading){stackedTabExpanded=!stackedTabExpanded;syncTabDisclosure();return;}
+ const content=scope.querySelector('#'+button.dataset.collapseTarget),expanded=button.getAttribute('aria-expanded')==='true';
+ if(!content)return;
+ content.hidden=expanded;button.setAttribute('aria-expanded',String(!expanded));
+ button.setAttribute('aria-label',`${expanded?'Expand':'Collapse'} Practice to a Backing Track card`);
+ button.querySelector('.card-collapse b').textContent=expanded?'+':'−';
+}));
 
 // Stop pending starts as well as scheduled audio when the app leaves the foreground.
 const onVisibility=()=>{if(document.hidden)stopPlayback();};
@@ -202,5 +222,5 @@ window.addEventListener('pagehide',stopPlayback);
 window.addEventListener('blur',cancelTempoHold);
 document.addEventListener('pointerup',cancelTempoHold);
 document.addEventListener('pointercancel',cancelTempoHold);
-return {stopPlayback,destroy(){stopPlayback();document.removeEventListener('visibilitychange',onVisibility);window.removeEventListener('pagehide',stopPlayback);window.removeEventListener('blur',cancelTempoHold);document.removeEventListener('pointerup',cancelTempoHold);document.removeEventListener('pointercancel',cancelTempoHold);}};
+return {stopPlayback,destroy(){stopPlayback();wideReadingLayout.removeEventListener('change',syncTabDisclosure);document.removeEventListener('visibilitychange',onVisibility);window.removeEventListener('pagehide',stopPlayback);window.removeEventListener('blur',cancelTempoHold);document.removeEventListener('pointerup',cancelTempoHold);document.removeEventListener('pointercancel',cancelTempoHold);}};
 }
