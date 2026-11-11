@@ -20,7 +20,7 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 
 - Reuse the shared tempo, Play, and Stop controls already used by chord exercises. Do not recreate them inside a new module.
 - Keep playback actions green at rest and red only for Stop/active stopping states, consistent with First Chords. Keep the app’s orange accent for headings, borders, and disclosure controls; reserve yellow for the established “now playing” cue.
-- Active transport controls show a filled stop square and an accessible Stop label, including while audio is loading. A second tap cancels pending playback or stops current playback. Restore the idle icon and label on completion, cancellation, or failure.
+- Active transport controls show a filled stop square and an accessible Stop label, including while audio is loading. A second tap cancels pending playback or stops current playback. Restore the idle icon and label on completion, cancellation, or failure. Synchronize surrounding action captions, tooltips, and hidden labels with the same state. Status copy distinguishes loading from playing and must not instruct the user to press Play/Start when the visible action is Stop.
 - Use existing CSS variables and component classes wherever possible. If a style must be shared across modules, extract it once rather than copy/paste a new variation.
 
 ## Preflight and visual review

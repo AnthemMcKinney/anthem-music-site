@@ -22,7 +22,10 @@ try{
   await page.evaluate(()=>location.hash='scales');await page.waitForFunction(()=>document.body.dataset.view==='scales');await retained();
   const state=async(button,active)=>{
    assert.equal(await button.getAttribute('aria-pressed'),String(active));
-   assert.match(await button.getAttribute('aria-label'),active?/^Stop/:/^(Play|Start)/);
+   assert.match(await button.getAttribute('aria-label'),active?/^Stop/:/^Play/);
+   assert.match(await button.innerText(),active?/^Stop/:/^Play/);
+   const labels=await button.evaluate(node=>({title:node.getAttribute('title'),before:getComputedStyle(node,'::before').content,after:getComputedStyle(node,'::after').content}));
+   if(active)for(const value of Object.values(labels))assert.doesNotMatch(value||'',/play/i);
    assert.equal(await button.locator('.play-fill').getAttribute('d'),active?'M8 8h8v8H8Z':'m10 8 6 4-6 4V8Z');
   };
   for(const selector of ['#fretboard-play','#tab-play','#backing-play','#play']){
@@ -51,6 +54,21 @@ try{
   await button.click();assert.equal(await button.getAttribute('aria-pressed'),'false');
   release();await page.waitForTimeout(1000);assert.equal(await page.evaluate(()=>window.__starts),startsBeforeStop,'No sample may start after cancellation');
   assert.equal(await button.locator('.play-fill').getAttribute('d'),'m10 8 6 4-6 4V8Z');await context.close();
+ }
+ for(const selector of ['#fretboard-play','#tab-play','#backing-play','#play']){
+  const context=await browser.newContext({...devices['iPhone 13']});const page=await context.newPage();
+  await page.goto(`${base}/tuner/#scales`);const button=page.locator(selector);await button.waitFor({state:'visible'});
+  await page.evaluate(async()=>{
+   const source=await (await fetch('/tuner/scales-lab/scales.js')).text();
+   const path=source.match(/from '([^']+)'/)[1];const {ChordPlayer}=await import(new URL(path,location.origin+'/tuner/scales-lab/scales.js').href);
+   const original=ChordPlayer.prototype.unlock;window.__restoreUnlock=()=>ChordPlayer.prototype.unlock=original;
+   ChordPlayer.prototype.unlock=async()=>{throw Error('Test audio initialization failure');};
+  });await button.click();
+  await page.locator('#audio-error').waitFor({state:'visible'});
+  assert.equal(await button.getAttribute('aria-pressed'),'false');assert.match(await button.innerText(),/^Play/);assert.match(await button.getAttribute('aria-label'),/^Play/);
+  assert.equal(await button.locator('.play-fill').getAttribute('d'),'m10 8 6 4-6 4V8Z');
+  await page.evaluate(()=>window.__restoreUnlock());await button.click();assert.match(await button.innerText(),/^Stop/);await button.click();assert.match(await button.innerText(),/^Play/);
+  await context.close();
  }
  console.log('PASS: phone/desktop defaults, retained settings, all four stop controls, repeated taps, delayed preload cancellation; screenshots '+artifacts);
 }finally{await browser.close();}

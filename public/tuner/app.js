@@ -6,8 +6,8 @@ import {PitchTrail} from './tuner/trail.js?v=71';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=chord-review-2';
-import {initChords} from './tuner/chords.js?v=chord-review-2';
+import {initMetronome} from './tuner/metronome.js?v=chord-review-3';
+import {initChords} from './tuner/chords.js?v=chord-review-3';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -227,16 +227,17 @@ async function restoreMicrophone(){
  }finally{resuming=false;}
 }
 async function playTargetReference(){
- const request=++referenceRequest;clearTimeout(referenceTimer);trail.clear();
+ const request=++referenceRequest;clearTimeout(referenceTimer);trail.clear();playUntil=0;$('error').hidden=true;message('Loading reference note','The selected note will play when it is ready.');
  try{
   const duration=await engine.play(frequency(target()),instrument.id);
-  if(request!==referenceRequest||duration===null)return;
-  playUntil=performance.now()+duration;clear();message(saxophone()?'Listen to the sax note':chromatic()?'Listen to the reference note':'Listen to your string',saxophone()?'Tap again to replay. Match this written note after it fades.':chromatic()?'Tap again to replay. Play the same concert-pitch note after it fades.':'Tap again to replay. Pluck your string when the sound fades.');
+  if(request!==referenceRequest)return;
+  if(duration===null){playUntil=0;clear();return;}
+  playUntil=performance.now()+duration;clear();$('live-caption').textContent='REFERENCE NOTE';message(saxophone()?'Listen to the sax note':chromatic()?'Listen to the reference note':'Listen to your string',saxophone()?'Tap again to replay. Match this written note after it fades.':chromatic()?'Tap again to replay. Play the same concert-pitch note after it fades.':'Tap again to replay. Pluck your string when the sound fades.');
   referenceTimer=setTimeout(()=>{if(request===referenceRequest){playUntil=0;clear();}},duration);
- }catch{if(request!==referenceRequest)return;$('error').hidden=false;$('error').textContent='The string recording could not load. Reload the page and try again.';}
+ }catch{if(request!==referenceRequest)return;playUntil=0;clear();message('Reference note unavailable','Tap the string again to retry.');$('error').hidden=false;$('error').textContent='The string recording could not load. Tap the string to try again.';}
  finally{if(request===referenceRequest)updateTarget();}
 }
-function suspendForBackground(){resumeWanted=resumeWanted||auto||listening||starting;if(listening||starting)stopListening();referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;}
+function suspendForBackground(){resumeWanted=resumeWanted||auto||listening||starting;if(listening||starting)stopListening();referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;clear();}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)suspendForBackground();else setTimeout(()=>void restoreMicrophone(),180);});
 window.addEventListener('pagehide',suspendForBackground);
 window.addEventListener('pageshow',()=>setTimeout(()=>void restoreMicrophone(),180));
@@ -257,7 +258,7 @@ moreSection('First-chord lessons','<p>First Chords follows a progressive lesson 
 moreSection('Scales','<p>Learn guitar note names, connect scale patterns, and practice with tablature and backing tracks. Scales is part of the web app.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.157 · Chord review 2';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.157 · Chord review 3';moreBody.append(copyright,feedback,version);
 const metronome=initMetronome(),chordsModule=initChords();
 // Keep Scales dependencies out of the core app startup path.
 const scalesView=document.createElement('section');scalesView.id='scales-view';scalesView.className='scales-view';scalesView.hidden=true;scalesView.setAttribute('aria-label','Guitar scales');document.querySelector('main').append(scalesView);
@@ -265,7 +266,7 @@ let scalesController=null,scalesLoading=null;
 function loadScalesView(){
  if(scalesController||scalesLoading)return;
  scalesView.innerHTML='<p role="status">Loading Scales.</p>';
- scalesLoading=import('./tuner/scales-view.js?v=chord-review-2').then(({initScalesView})=>{
+ scalesLoading=import('./tuner/scales-view.js?v=chord-review-3').then(({initScalesView})=>{
   scalesController=initScalesView(scalesView);scalesController.show(!scalesView.hidden);
  }).catch(()=>{
   scalesView.innerHTML='<p role="alert">Scales could not load. Your other tools are still available.</p><button type="button">Try again</button>';
@@ -288,7 +289,7 @@ function showView(view,{updateHash=true}={}){
  // Explicit hidden state remains correct even when a stylesheet fails to load.
  document.querySelector('.intro').hidden=!tuner;document.querySelector('#tuner').hidden=!tuner;document.querySelector('.metronome-view').hidden=!metro;document.querySelector('.chords-view').hidden=!chords;
  scalesModule.show(scales);
- if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
+ if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;clear();resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
  window.scrollTo(0,0);
 }
 tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');scalesNav.onclick=()=>showView('scales');moreNav.onclick=()=>showView('more');

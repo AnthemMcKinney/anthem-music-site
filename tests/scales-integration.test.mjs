@@ -12,19 +12,19 @@ function element(){
   addEventListener(k,fn){events.set(k,fn);},removeEventListener(k){events.delete(k);},
   querySelector(k){if(!children.has(k))children.set(k,element());return children.get(k);},closest(){return null;}};
 }
-function scalesHarness({delayExercise=false}={}){
- const elements=new Map(),events=new Map(),windowEvents=new Map(),calls=[];let resolveUnlock,resolveExercise,allowed=true;
+function scalesHarness({delayExercise=false,failPrepare=false,failExercise=false}={}){
+ const elements=new Map(),events=new Map(),windowEvents=new Map(),calls=[];let resolveUnlock,resolveExercise,allowed=true;const unlocks=[],exercises=[];
  const get=selector=>{if(!elements.has(selector))elements.set(selector,element());return elements.get(selector);};
  for(const id of ['backing-progression','backing-bars']){const options=file('scales-lab/index.html').match(new RegExp('<select id="'+id+'"[^>]*>(.*?)</select>'))[1];get('#'+id).value=options.match(/<option value="([^"]+)" selected>/)[1];}get('#tempo').value='75';get('#backing-volume').value='70';get('#demo-note-value').value='quarter';
  const collapse=get('[data-collapse-target]');collapse.dataset.collapseTarget='tab-content';collapse.setAttribute('aria-expanded','true');
  const scope={querySelector:get,querySelectorAll(selector){return selector==='.pattern-play'?[get('.pattern-play')]:selector==='[data-collapse-target]'?[collapse]:[];}};
  const document={hidden:false,querySelector(){throw Error('Unscoped document query');},querySelectorAll(){throw Error('Unscoped document query');},getElementById(){throw Error('Unscoped document query');},addEventListener(k,fn){events.set(k,fn);},removeEventListener(k){events.delete(k);}};
  const window={addEventListener(k,fn){windowEvents.set(k,fn);},removeEventListener(k){windowEvents.delete(k);}};
- class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>resolveUnlock=resolve);}async prepareScaleTone(){calls.push('prepare');}async playExercise(){calls.push('exercise');return delayExercise?new Promise(resolve=>resolveExercise=resolve):true;}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
+ class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>{resolveUnlock=resolve;unlocks.push(resolve);});}async prepareScaleTone(){calls.push('prepare');if(failPrepare)throw Error('Sample unavailable');}async playExercise(){calls.push('exercise');if(failExercise)throw Error('Backing unavailable');return delayExercise?new Promise(resolve=>{resolveExercise=resolve;exercises.push(resolve);}):true;}setExerciseTempo(){}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
  const sandbox={document,window,ChordPlayer:Player,setInterval(){calls.push('interval');return 1;},clearInterval(){},setTimeout(){}};
  vm.createContext(sandbox);vm.runInContext(scaleSource.replace(/^import .*\r?\n/,'').replace('export function initScales','function initScales'),sandbox);
  const api=sandbox.initScales(scope,{canPlay:()=>allowed});
- return {api,get,calls,events,windowEvents,document,setAllowed(value){allowed=value;},release(){resolveUnlock({currentTime:0});},releaseExercise(){resolveExercise(true);}};
+ return {api,get,calls,events,windowEvents,document,unlocks,exercises,setAllowed(value){allowed=value;},release(){resolveUnlock({currentTime:0});},releaseExercise(){resolveExercise(true);}};
 }
 test('initScales renders and collapses entirely within its supplied root',()=>{
  const h=scalesHarness();assert.match(h.get('#scale-title').textContent,/Musical Notes/);
@@ -44,7 +44,7 @@ test('inactive lesson refuses all playback gestures and destroy removes lifecycl
  assert.equal(h.calls.includes('unlock'),false);assert.equal(h.calls.includes('exercise'),false);h.api.destroy();assert.equal(h.events.size,0);assert.equal(h.windowEvents.size,0);
 });
 test('Scales navigation sets selection, cancels tuner references, and hash changes restore other views',()=>{
- const source=file('app.js'),events=new Map(),calls=[],nodes=new Map(),get=selector=>{if(!nodes.has(selector))nodes.set(selector,element());return nodes.get(selector);},edition=get('.edition'),sandbox={document:{body:{dataset:{}},documentElement:{dataset:{}},querySelector:get},window:{scrollTo(){},addEventListener(k,fn){events.set(k,fn);}},location:{hash:'#scales'},moreView:element(),scalesModule:{show(active){calls.push(['scales',active]);}},metronome:{stop(){},resumeVisual(){}},chordsModule:{section:get('.chords-view'),stopPlayback(){},syncSound(){}},engine:{stopReference(){calls.push('reference-stop');}},referenceRequest:0,referenceTimer:1,playUntil:100,resumeWanted:true,listening:false,starting:false,clearTimeout(){},stopListening(){},renderInstrument(){},$:id=>get('#'+id)};
+ const source=file('app.js'),events=new Map(),calls=[],nodes=new Map(),get=selector=>{if(!nodes.has(selector))nodes.set(selector,element());return nodes.get(selector);},edition=get('.edition'),sandbox={document:{body:{dataset:{}},documentElement:{dataset:{}},querySelector:get},window:{scrollTo(){},addEventListener(k,fn){events.set(k,fn);}},location:{hash:'#scales'},moreView:element(),scalesModule:{show(active){calls.push(['scales',active]);}},metronome:{stop(){},resumeVisual(){}},chordsModule:{section:get('.chords-view'),stopPlayback(){},syncSound(){}},engine:{stopReference(){calls.push('reference-stop');}},referenceRequest:0,referenceTimer:1,playUntil:100,resumeWanted:true,listening:false,starting:false,clearTimeout(){},clear(){},stopListening(){},renderInstrument(){},$:id=>get('#'+id)};
  for(const name of ['tuner','metronome','chords','scales','more'])sandbox[name+'Nav']=element();
  vm.createContext(sandbox);vm.runInContext(source.slice(source.indexOf('function showView('),source.indexOf("if('serviceWorker'")),sandbox);
  assert.equal(sandbox.document.body.dataset.view,'scales');assert.equal(sandbox.scalesNav.getAttribute('aria-current'),'page');assert.equal(edition.textContent,'SCALES');assert.equal(sandbox.playUntil,0);assert.equal(sandbox.resumeWanted,false);assert.ok(calls.includes('reference-stop'));
@@ -148,4 +148,29 @@ for(const selector of ['.pattern-play','#play','#backing-play'])for(const interr
  if(interrupt==='button')await button.events.get('click')();else if(interrupt==='navigation')h.api.stopPlayback();else h.windowEvents.get('pagehide')();
  assertState(button,false);if(selector==='#play')assertState(h.get('#backing-play'),false);
  if(selector==='#backing-play')h.releaseExercise();else h.release();await pending;await Promise.resolve();assertState(button,false);assert.equal(h.calls.includes('interval'),false);h.api.destroy();
+});
+
+
+test('initial backing summary matches selected defaults before initialization',()=>{
+ assert.match(file('scales-lab/index.html'),/id="backing-summary"[^>]*>Am · Am · F · F</);
+});
+test('backing pending and tempo changes announce Starting until audio is ready',async()=>{
+ const h=scalesHarness({delayExercise:true}),pending=h.get('#backing-play').events.get('click')();
+ assert.match(h.get('#play-status').textContent,/^Starting backing/);
+ h.get('#tempo').events.get('change')({target:{value:'80'}});assert.match(h.get('#play-status').textContent,/^Starting playback at 80 BPM/);
+ h.releaseExercise();await pending;assert.match(h.get('#play-status').textContent,/^Playing backing.*80 BPM/);h.api.destroy();
+});
+for(const selector of ['.pattern-play','#play','#backing-play'])test(`${selector} failure restores idle captions, accessibility and icon`,async()=>{
+ const h=scalesHarness({failPrepare:true,failExercise:true}),button=h.get(selector),pending=button.events.get('click')();
+ if(selector!=='#backing-play')h.release();await pending;await flush();
+ assert.equal(button.getAttribute('aria-pressed'),'false');assert.match(button.getAttribute('aria-label'),/^Play/);
+ const caption=selector==='.pattern-play'?button.querySelector('span'):h.get(selector+' span');assert.match(caption.textContent,/^Play/);
+ assert.equal(button.querySelector('.play-fill').getAttribute('d'),'m10 8 6 4-6 4V8Z');assert.equal(h.get('#audio-error').hidden,false);assert.match(h.get('#play-status').textContent,/unavailable/);h.api.destroy();
+});
+
+for(const selector of ['.pattern-play','#play','#backing-play'])test(`${selector} old pending completion cannot overwrite restarted Stop controls`,async()=>{
+ const h=scalesHarness({delayExercise:true}),button=h.get(selector);button.events.get('click')();await button.events.get('click')();button.events.get('click')();
+ if(selector==='#backing-play')h.exercises[0](true);else h.unlocks[0]({currentTime:0});await flush();
+ assert.equal(button.getAttribute('aria-pressed'),'true');assert.match(button.getAttribute('aria-label'),/^Stop/);assert.equal(button.querySelector('.play-fill').getAttribute('d'),'M8 8h8v8H8Z');
+ await button.events.get('click')();if(selector==='#backing-play')h.exercises[1](true);else h.unlocks[1]({currentTime:0});await flush();assert.equal(button.getAttribute('aria-pressed'),'false');h.api.destroy();
 });

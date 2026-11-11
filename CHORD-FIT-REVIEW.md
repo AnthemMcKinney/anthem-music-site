@@ -33,3 +33,16 @@ Dan approved the appearance and reported occasional chord delays, requested 4-ba
 - The optional short Sound Check remains a readiness check, and tuner string-selection controls retain their existing behavior. Review assets use `chord-review-2`, a separate cache, and the `Chord review 2` label.
 
 Additional checks: 88 Node tests pass. Phone and desktop WebKit checks cover all active icons, natural completion, repeated taps, settings changes while playing, user-choice preservation, and cancellation during delayed loading. Browser artifacts were visually inspected. New reusable scripts are `tests/browser-chord-preload.mjs`, `tests/browser-playback-controls.mjs`, and `tests/browser-scales-controls.mjs`. Physical device/audio-route verification remains outstanding.
+
+
+## Review 3: playback caption and state audit
+
+Dan requested an audit after spotting a Stop square with a separate Play caption above it. This update remains preview-only.
+
+- First Chords now renders the surrounding Play/Stop caption, icon, button text, tooltip, accessible label, pressed state, and selected starting measure together. This covers the unified exercise toolbar, custom progression builder, and other course layouts. Chord speakers start with matching tooltips and pressed states.
+- Scales labels and all four transports were audited. Backing now says Starting while audio is loading, including tempo changes, and Playing only after startup. The initial hidden progression summary matches the Am–F four-bar default. Existing user selections remain respected.
+- Metronome status distinguishes Starting, Playing, and Ready. Its tooltip follows Start/Stop, and the optional Sound Check no longer instructs Tap Start while playback is running.
+- Tuner references now distinguish loading, playing, failure/retry, and completion. Leaving the tool or hiding the app clears stale playback guidance. String selection is deliberately still a one-shot/replay action, not a transport toggle.
+- Review assets/cache use `chord-review-3` and the More screen displays `Chord review 3`. No styling changes, Android changes, or production publication.
+
+Validation includes 103 passing Node tests, a 33-page Astro build, and WebKit phone/desktop checks of rendered captions, accessibility, tooltips and CSS-generated text. The exercise audit checks all 219 exercise/custom controls across five course variants, selected-measure labels, and pending cancellation/failure. Lifecycle checks cover repeated taps, natural chord/reference completion, errors/retry, settings changes, background/navigation and stale asynchronous results. Real audio-start and articulation regressions run separately from injected UI failure fixtures. Physical phones, speakers, mute switches, Bluetooth and installed PWA behavior remain untested.

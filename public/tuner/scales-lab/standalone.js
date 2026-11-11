@@ -1,2 +1,2 @@
-import {initScales} from './scales.js?v=chord-review-2';
+import {initScales} from './scales.js?v=chord-review-3';
 initScales(document);

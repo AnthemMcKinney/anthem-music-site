@@ -22,3 +22,19 @@ test('single-chord failure restores controls and reports error',async()=>{
 test('metronome Stop cancels every scheduled sample and oscillator voice',()=>{
  const clock=new Clock(()=>{});let stops=0;clock.track({stop(){stops++;},disconnect(){}});clock.track({stop(){stops++;},disconnect(){}});clock.running=true;clock.stop(false);assert.equal(stops,2);assert.equal(clock.voices.size,0);assert.equal(clock.running,false);
 });
+function exerciseControlHarness(){
+ const start=source.indexOf('const renderExerciseControl='),code=source.slice(start,source.indexOf('\n',start)),classes=new Set(),attrs={},caption={textContent:'Play'},span={},svg={},card={dataset:{startMeasure:'0'}},builderClasses=new Set();let custom=false;
+ const button={classList:{contains:name=>classes.has(name),toggle(name,on){if(on)classes.add(name);else classes.delete(name);}},closest(selector){return selector==='.custom-dynamic-progression'?custom?{classList:{toggle(name,on){if(on)builderClasses.add(name);else builderClasses.delete(name);}}}:null:selector==='[data-audio-progression]'?card:selector==='.exercise-tool-play'&&!custom?{querySelector:()=>caption}:null;},setAttribute:(k,v)=>attrs[k]=v,querySelector:selector=>selector==='svg'?svg:span};
+ const sandbox={button,playIcon:()=>'<play/>',stopIcon:()=>'<stop/>'};vm.createContext(sandbox);vm.runInContext(code+';globalThis.render=renderExerciseControl;',sandbox);
+ return{render:active=>sandbox.render(button,active),button,attrs,caption,span,svg,card,custom:()=>custom=true};
+}
+test('exercise caption, tooltip, accessible label and icon change together for pending/active and reset',()=>{
+ const h=exerciseControlHarness();h.render(true);assert.equal(h.caption.textContent,'Stop');assert.equal(h.span.textContent,'Stop');assert.equal(h.svg.outerHTML,'<stop/>');assert.equal(h.attrs['aria-pressed'],'true');assert.equal(h.button.title,h.attrs['aria-label']);assert.match(h.button.title,/^Stop/);
+ h.render(false);assert.equal(h.caption.textContent,'Play');assert.equal(h.span.textContent,'Play');assert.equal(h.svg.outerHTML,'<play/>');assert.equal(h.attrs['aria-pressed'],'false');assert.equal(h.button.title,'Play exercise from measure 1');
+});
+test('nonfirst-measure label refresh preserves Stop when active and restores selected idle measure',()=>{
+ const h=exerciseControlHarness();h.render(true);h.card.dataset.startMeasure='2';h.render();assert.equal(h.button.title,'Stop progression');assert.equal(h.caption.textContent,'Stop');h.render(false);assert.equal(h.button.title,'Play exercise from measure 3');assert.equal(h.attrs['aria-label'],h.button.title);
+});
+test('custom progression shares the same state renderer without an external caption',()=>{
+ const h=exerciseControlHarness();h.custom();h.card.dataset.startMeasure='1';h.render(true);assert.equal(h.span.textContent,'Stop');assert.equal(h.button.title,'Stop progression');h.render(false);assert.equal(h.span.textContent,'Play');assert.equal(h.button.title,'Play progression from measure 2');
+});
