@@ -8,7 +8,7 @@
  <meta name="robots" content="noindex,nofollow">
  <title>Anthem • Scales Lab</title>
  <link rel="icon" href="../icon.svg">
- <link rel="stylesheet" href="./scales.css?v=chord-review-3">
+ <link rel="stylesheet" href="./scales.css?v=web-playback-158">
 </head>
 <body>
  <header class="site-header">
@@ -54,7 +54,7 @@
    <div class="scale-heading">
    <div><p id="scale-kicker">FIRST NOTES · FIRST THREE FRETS</p><h2 id="scale-title">Musical Notes ABCDEFG · A</h2><p id="scale-copy">Identify where the notes in music are on your guitar.</p></div>
    </div>
-   <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div><button id="fretboard-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button></div>
+   <div class="layer-control"><div id="layer-buttons" role="group" aria-label="Choose a note pattern"></div><div class="tab-playback-controls notes-playback-controls" aria-label="Notes playback controls"><div class="exercise-tempo" data-tempo-mode="notes" aria-label="Notes tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease notes tempo">−</button><label><input id="fretboard-tempo" data-tempo-input="notes" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Notes tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase notes tempo">+</button></div><button id="fretboard-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button></div></div>
    <div class="diagram-tools">
     <div class="legend" aria-label="Diagram legend"><span id="natural-legend"><i class="note-dot"></i>Natural note</span><span id="foundation-legend" hidden><i class="note-dot foundation-dot"></i>Pentatonic foundation</span><span id="added-legend" hidden><i class="note-dot added-dot"></i>Diatonic additions</span><span id="root-legend" hidden><i class="note-dot root-dot"></i>Selected root</span><span id="active-legend"><i class="note-dot active-dot"></i>Now playing</span></div>
     <div id="root-control" class="root-control" role="radiogroup" aria-labelledby="root-label" hidden><span id="root-label">Root</span><label><input type="radio" name="root-choice" data-root="C" value="C" checked> C Major</label><label><input type="radio" name="root-choice" data-root="A" value="A"> A minor</label></div>
@@ -68,7 +68,7 @@
    </button>
    <div id="tab-card-content">
     <div class="tab-playback-controls" aria-label="Scale playback controls">
-     <div class="exercise-tempo" aria-label="Scale tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease tempo">−</button><label><input id="tempo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Scale tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase tempo">+</button></div>
+     <div class="exercise-tempo" data-tempo-mode="notes" aria-label="Notes tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease notes tempo">−</button><label><input id="notes-tempo" data-tempo-input="notes" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Notes tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase notes tempo">+</button></div>
      <button id="tab-play" type="button" class="play-exercise pattern-play" aria-label="Play notes in the selected pattern" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Notes</span></button>
     </div>
     <aside class="rhythm-callout"><span aria-hidden="true">♪</span><div><strong id="rhythm-heading">TURN THE MAP INTO MUSIC</strong><p id="rhythm-copy">First identify the notes. Then play them to a steady beat. Rhythm trains your hands to connect separate positions into a phrase you can actually use.</p></div></aside>
@@ -90,7 +90,8 @@
     <label>Strum pattern<select id="backing-strum" aria-label="Strumming pattern"><option value="d.d.d.d.">Steady · down on each beat</option><option value="d.d.d.du">Light up-strum at the end</option><option value="d.d.dudu">Down-up on beats 3 and 4</option><option value="d...dudu">Leave space, then down-up</option></select></label>
    </div>
    <div class="backing-action-row">
-    <button id="backing-play" type="button" class="play-exercise" aria-label="Play backing progression" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Backing</span></button>
+    <div class="tab-playback-controls" aria-label="Backing playback controls"><div class="exercise-tempo" data-tempo-mode="backing" aria-label="Backing tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease backing tempo">−</button><label><input id="backing-tempo" data-tempo-input="backing" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Backing tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase backing tempo">+</button></div>
+    <button id="backing-play" type="button" class="play-exercise" aria-label="Play backing progression" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Backing</span></button></div>
     <label class="backing-volume"><span>Backing volume</span><input id="backing-volume" type="range" min="0" max="100" value="80" aria-label="Backing volume"><output id="backing-volume-value" for="backing-volume">80%</output></label>
    </div>
    <div class="backing-mix" role="group" aria-label="Backing instruments">
@@ -98,15 +99,15 @@
    </div>
    <p class="backing-help" id="backing-help">Two-chord loops play one or two bars per chord. The groove follows the BPM above.</p>
    <div class="scale-demo">
-    <div><strong>Scale demo</strong><p>Hear the scale loop with the backing while each note lights up on the fretboard and tablature.</p></div>
+    <div><strong>Scale demo</strong><p>Hear the scale and backing together at the demo tempo. Each mode remembers its own tempo.</p></div>
     <label>Note value<select id="demo-note-value" aria-label="Scale demo note value"><option value="quarter">Quarter notes · one note per beat</option><option value="eighth">Eighth notes · two notes per beat</option></select></label>
-    <button id="play" type="button" class="play-exercise" aria-label="Play scale demo with backing" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Scale + Backing</span></button>
+    <div class="tab-playback-controls demo-playback-controls" aria-label="Demo playback controls"><div class="exercise-tempo" data-tempo-mode="demo" aria-label="Demo tempo"><button type="button" data-tempo-step="-5" aria-label="Decrease demo tempo">−</button><label><input id="demo-tempo" data-tempo-input="demo" class="exercise-tempo-value" type="number" inputmode="numeric" min="50" max="160" step="1" value="75" aria-label="Demo tempo"><span>BPM</span></label><button type="button" data-tempo-step="5" aria-label="Increase demo tempo">+</button></div><button id="play" type="button" class="play-exercise" aria-label="Play scale demo with backing" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg><span>Play Scale + Backing</span></button></div>
    </div>
    </div>
   </section>
   </section>
  </main>
  <footer><span>ANTHEM MUSIC</span><span>Scales Lab · Prototype 56</span></footer>
- <script type="module" src="./standalone.js?v=chord-review-3"></script>
+ <script type="module" src="./standalone.js?v=web-playback-158"></script>
 </body>
 </html>

@@ -17,8 +17,12 @@ function notesHarness({waitForSamples=false}={}){
  // One pending sample is enough to exercise cancellation at the preload boundary.
  if(waitForSamples)sandbox.tabSteps=()=>[steps[0]];
  vm.createContext(sandbox);
- vm.runInContext('let tabPlaying=false,backingPlaying=false,playing=false,tabToken=0,tabTimer=0,tabIndex=0,tabNextAt=0;'+source.slice(source.indexOf('function stopTabPlayback(){'),source.indexOf('async function play(noteValue=')),sandbox);
- return {calls,timers,ctx,start:()=>sandbox.playTabPattern(),stop:()=>sandbox.stopTabPlayback(),release:()=>release()};
+ vm.runInContext(`let activeMode='',starting=false,playToken=0,notesTimer=0,refreshNotesTempo=null;const tempos={notes:75};
+ function stopPlayback(){playToken++;activeMode='';clearInterval(notesTimer);chordPlayer.stop();}
+ function beginPlayback(mode){stopPlayback();activeMode=mode;return playToken;}
+ function playbackStatus(){}
+ function playbackFailed(token,error){throw error;}`+source.slice(source.indexOf('async function playTabPattern(){'),source.indexOf('function backingMix(){')),sandbox);
+ return {calls,timers,ctx,start:()=>sandbox.playTabPattern(),stop:()=>sandbox.stopPlayback(),release:()=>release()};
 }
 test('Play Notes schedules only pitched tones, with no hidden click or drum sample',async()=>{
  const h=notesHarness();await h.start();assert.equal(h.timers.size,1);

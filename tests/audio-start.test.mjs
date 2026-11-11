@@ -37,9 +37,14 @@ function scaleHarness(){
  const sandbox={$,canPlay:()=>true,stopTabPlayback(){},tabSteps:()=>[{midi:60}],backingPatterns:{demo:['c']},backingChords:{c:{id:'c'}},backingMix:()=>({drums:{enabled:false}}),setBackingButton(){},setDemoButton(){},showStep(){},calls,
  chordPlayer:{unlock(){calls.push('unlock');return new Promise(r=>release=r);},async prepareScaleTone(){calls.push('sample');},async playExercise(){calls.push('play');return true;},stop(){}}};
  vm.createContext(sandbox);
- const play=scaleSource.slice(scaleSource.indexOf('async function play('),scaleSource.indexOf('function setDemoButton'));
- const stopBacking=scaleSource.slice(scaleSource.indexOf('function stopBacking(){'),scaleSource.indexOf('\n',scaleSource.indexOf('function stopBacking(){')));
- vm.runInContext('let playing=false,tabPlaying=false,backingPlaying=false,demoWithBacking=false,playToken=0,activeId="";function stop(){playToken++;playing=false;}'+play+stopBacking,sandbox);
+ const play=scaleSource.slice(scaleSource.indexOf('async function play('),scaleSource.indexOf("$('.pattern-tabs').addEventListener"));
+ vm.runInContext(`let activeMode='',starting=false,playToken=0;const tempos={notes:75,backing:75,demo:75};
+ function stopPlayback(){playToken++;activeMode='';}
+ function beginPlayback(mode){stopPlayback();activeMode=mode;return playToken;}
+ function stopBacking(){stopPlayback();}
+ function playbackStatus(){}
+ function playbackFailed(token,error){if(token!==playToken)return;stopPlayback();$('#play-status').textContent=error.message;}
+ async function startBacking(){return chordPlayer.playExercise();}`+play,sandbox);
  return {sandbox,calls,release:()=>release(),status:()=>$('#play-status').textContent};
 }
 test('scale Play unlocks before any sample preparation, then starts',async()=>{
@@ -50,7 +55,7 @@ test('scale Stop while unlocking prevents delayed sample loading/playback',async
 });
 test('scale unlock failure gives error feedback and resets controls',async()=>{
  const h=scaleHarness();h.sandbox.chordPlayer.unlock=()=>Promise.reject(Error('Audio is paused. Tap Play again.'));
- await vm.runInContext('play("quarter")',h.sandbox);assert.match(h.status(),/Audio is paused/);assert.equal(vm.runInContext('playing||backingPlaying',h.sandbox),false);
+ await vm.runInContext('play("quarter")',h.sandbox);assert.match(h.status(),/Audio is paused/);assert.equal(vm.runInContext('Boolean(activeMode)',h.sandbox),false);
 });
 test('main chord Play has no separate iPhone enable gate and reports failures',()=>{
  const source=readFileSync(new URL('../public/tuner/tuner/chords.js',import.meta.url),'utf8');assert.doesNotMatch(source,/requireSound\(/);assert.match(source,/reportPlaybackError\(error\)/);assert.match(source,/await chordPlayer\.unlock\(\);if\(token!==chordPlayer\.loopToken\)return;chordPlayer\.stop\(\);iosPrimed=true/);
@@ -62,7 +67,7 @@ test('older cancelled scale startup cannot stop a newer demo',async()=>{
  const first=vm.runInContext('play("quarter")',h.sandbox);await new Promise(setImmediate);
  vm.runInContext('stopBacking()',h.sandbox);
  const second=vm.runInContext('play("quarter")',h.sandbox);await new Promise(setImmediate);
- pending[0](false);await first;assert.equal(vm.runInContext('playing&&backingPlaying',h.sandbox),true);
+ pending[0](false);await first;assert.equal(vm.runInContext('activeMode',h.sandbox),'demo');
  pending[1](true);await second;
 });
 

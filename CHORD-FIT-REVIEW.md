@@ -1,6 +1,6 @@
 # Chord diagram and strum review
 
-Review only. Based on production commit `424c8a4` (web 3.7.157). Do not merge or publish to the main web app until Dan has reviewed the sound. No Android project, packaged assets, or Google Play release is changed.
+Based on production commit `424c8a4` (web 3.7.157). Dan reviewed the chord and playback-control changes, then authorized publishing them together after fixing Scales live tempo. The earlier review rounds are retained below. No Android project, packaged assets, or Google Play release is changed.
 
 ## Findings and changes
 
@@ -46,3 +46,16 @@ Dan requested an audit after spotting a Stop square with a separate Play caption
 - Review assets/cache use `chord-review-3` and the More screen displays `Chord review 3`. No styling changes, Android changes, or production publication.
 
 Validation includes 103 passing Node tests, a 33-page Astro build, and WebKit phone/desktop checks of rendered captions, accessibility, tooltips and CSS-generated text. The exercise audit checks all 219 exercise/custom controls across five course variants, selected-measure labels, and pending cancellation/failure. Lifecycle checks cover repeated taps, natural chord/reference completion, errors/retry, settings changes, background/navigation and stale asynchronous results. Real audio-start and articulation regressions run separately from injected UI failure fixtures. Physical phones, speakers, mute switches, Bluetooth and installed PWA behavior remain untested.
+
+
+## Web release 3.7.158: local live tempos and one playback clock
+
+Dan authorized publishing the reviewed changes together after correcting Scales tempo behavior.
+
+- Root cause: the engine queued an entire guitar progression and its cues at the old BPM, while drums and other accompaniment advanced at the updated BPM. Demo notes were additionally triggered by visual animation callbacks.
+- Guitar, percussion, backing instruments, and demo notes now use one musical clock with a 25ms scheduling pump and 120ms horizon. Tempo changes preserve musical phase, cancel and replace future onsets/cues, and retain already-started string sweeps and natural tails. Demo audio schedules against audio time; visual cues do not drive its sound. Startup uses the latest tempo, and stopping invalidates pending work.
+- Notes, Backing, and Demo each have a local tempo beside Play and remember independent settings. Fretboard and tablature Notes controls mirror one setting. Only one mode plays at a time, so editing an inactive mode cannot change the current sound. Demo melody and accompaniment always share Demo tempo.
+- Tempo changes respond immediately on pointer press, repeat while held, and accept live valid typed values. Release, blur, navigation, backgrounding, and cancellation end held repeats. The existing shared tempo-pill styling is reused.
+- Includes all three previous review rounds: mobile chord fit, slightly wider guitar strum, prepared chord samples, four-bar Am–F defaults, Stop squares, matching captions/accessibility, and lifecycle fixes. Web-only release; no Android package or Google Play changes.
+
+Verification: 121 Node tests, Astro 33-page build, syntax/diff checks, WebKit phone/desktop UI and audio regressions. New browser controls checks cover 320/390/1280px; source-clock tests cover rapid 50→160→75 changes, count-in, started strums, pending/failed startup, delayed demo samples, missed ticks, start measures, sixteenths, odd custom cycles, and guitar/ukulele/baritone paths. Real WebKit audio-timeline checks confirm aligned demo notes/guitar/drums at 150 and 60 BPM after rapid changes, isolated inactive settings, live Notes changes, and exclusive transitions. Physical device speakers, silent switches, Bluetooth and microphone behavior are not emulated by these checks.
