@@ -2,7 +2,7 @@ import {ChordPlayer} from './chord-audio.js?v=web-playback-158';
 
 const chords=[
  {id:'g',name:'G',subtitle:'G Major',frets:[3,2,0,0,3,3],fingers:[2,1,0,0,3,4],anchors:[4],variants:['g7'],tip:'Finger 3 is the anchor. It stays planted for G, Cadd9, and D.'},
- {id:'g7',name:'G7',variantOf:'g',relation:'chord-variation',frets:[3,2,0,0,0,1],fingers:[2,1,0,0,0,3],anchors:[],tip:'G7 is a chord variation that adds tension before resolving to C. Use the recommended G first; reach for G7 when the song or progression calls for it.'},
+ {id:'g7',name:'G7',variantOf:'g',relation:'chord-variation',frets:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1],anchors:[],tip:'G7 is a chord variation that adds tension before resolving to C. Use the recommended G first; reach for G7 when the song or progression calls for it.'},
  {id:'cadd9',name:'Cadd9',subtitle:'C add 9',frets:['x',3,2,0,3,3],fingers:[0,2,1,0,3,4],anchors:[4],tip:'Leave finger 3 exactly where it was in G. Move the other fingers around it.'},
  {id:'d',name:'D',subtitle:'D Major',frets:['x','x',0,2,3,2],fingers:[0,0,0,1,3,2],anchors:[4],variants:['d7'],tip:'Finger 3 still does not move. Build the D triangle around it.'},
  {id:'d7',name:'D7',variantOf:'d',relation:'chord-variation',frets:['x','x',0,2,1,2],fingers:[0,0,0,2,1,3],anchors:[],tip:'D7 is a chord variation that naturally leads back to G. Learn the recommended D triangle first, then reverse its center shape for D7.'},
