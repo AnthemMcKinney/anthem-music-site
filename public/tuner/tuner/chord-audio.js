@@ -38,16 +38,18 @@ export function strumStringIndexes(pitches,direction,range,stringCount){
 }
 
 export class ChordPlayer{
- constructor(){this.ctx=null;this.bytes=new Map();this.buffers=new Map();this.sampleLevels=new WeakMap();this.sampleOffsets=new WeakMap();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.activeBackingMix=null;this.activeBackingSolo=null;this.backingBuses=null;this.exerciseGuitar=null;this.exerciseBacking=null;this.backingMasterVolume=1;this.exerciseTempoUpdater=null;}
+ constructor({outputLevel=1}={}){this.outputLevel=Number.isFinite(outputLevel)?Math.max(0,Math.min(1,outputLevel)):1;this.ctx=null;this.bytes=new Map();this.buffers=new Map();this.sampleLevels=new WeakMap();this.sampleOffsets=new WeakMap();this.voices=[];this.loopTimer=0;this.loopToken=0;this.cueFrame=0;this.cueQueue=[];this.onCue=null;this.exerciseGroove='click';this.activeBackingMix=null;this.activeBackingSolo=null;this.backingBuses=null;this.exerciseGuitar=null;this.exerciseBacking=null;this.backingMasterVolume=1;this.exerciseTempoUpdater=null;}
  context(){
   if(this.ctx&&this.ctx.state!=='closed')return this.ctx;
 
   const AudioContext=window.AudioContext||window.webkitAudioContext;
   this.ctx=new AudioContext({latencyHint:'interactive'});
+  // Optional whole-mix trim keeps separate instrument and drum buses in balance.
+  this.output=this.ctx.createGain();this.output.gain.value=this.outputLevel;this.output.connect(this.ctx.destination);
   this.master=this.ctx.createGain();this.master.gain.value=.78;
   this.compressor=this.ctx.createDynamicsCompressor();
   this.compressor.threshold.value=-12;this.compressor.knee.value=7;this.compressor.ratio.value=5;this.compressor.attack.value=.004;this.compressor.release.value=.2;
-  this.master.connect(this.compressor).connect(this.ctx.destination);
+  this.master.connect(this.compressor).connect(this.output);
   this.backingBuses={bass:this.ctx.createGain(),piano:this.ctx.createGain(),strings:this.ctx.createGain()};
   Object.values(this.backingBuses).forEach(bus=>bus.connect(this.master));
   this.exerciseGuitar=this.ctx.createGain();this.exerciseGuitar.connect(this.master);
@@ -57,7 +59,7 @@ export class ChordPlayer{
   this.rhythm=this.ctx.createGain();this.rhythm.gain.value=.95;
   this.rhythmLimiter=this.ctx.createDynamicsCompressor();
   this.rhythmLimiter.threshold.value=-4;this.rhythmLimiter.knee.value=3;this.rhythmLimiter.ratio.value=10;this.rhythmLimiter.attack.value=.001;this.rhythmLimiter.release.value=.09;
-  this.rhythm.connect(this.rhythmLimiter).connect(this.ctx.destination);
+  this.rhythm.connect(this.rhythmLimiter).connect(this.output);
   return this.ctx;
  }
  fetchBytes(file){
@@ -160,7 +162,7 @@ export class ChordPlayer{
    const mix={drums:{enabled:groove==='rock',volume:.72},bass:{enabled:false,style:'roots',volume:.46},piano:{enabled:false,style:'simple',volume:.3},strings:{enabled:false,style:'low',volume:.2},...(backing||{})};
    this.activeBackingMix=mix;this.activeBackingSolo=null;this.applyBackingGains();
    const targetNotes=[];
-   if(backing)for(const chord of unique){const tones=chordToneData(chord),bassRoot=midiFor(tones.root,36),pianoRoot=midiFor(tones.root,48),lowRoot=midiFor(tones.root,43),highRoot=midiFor(tones.root,60);targetNotes.push(['bass',midiHz(bassRoot)],['bass',midiHz(bassRoot+7)]);for(const interval of [0,3,4,7,12,16,19,24])for(const layer of ['piano-soft','piano-loud'])targetNotes.push([layer,midiHz(pianoRoot+interval)]);for(const interval of tones.intervals.slice(0,3)){targetNotes.push(['strings-low',midiHz(lowRoot+interval)]);targetNotes.push(['strings-high',midiHz(highRoot+interval)]);}}
+   if(backing)for(const chord of unique){const tones=chordToneData(chord),bassRoot=midiFor(tones.root,36),pianoRoot=midiFor(tones.root,48),lowRoot=midiFor(tones.root,43),highRoot=midiFor(tones.root,60);targetNotes.push(['bass',midiHz(bassRoot)],['bass',midiHz(bassRoot+7)]);for(const interval of [0,3,4,7,12,15,16,19,24])for(const layer of ['piano-soft','piano-loud'])targetNotes.push([layer,midiHz(pianoRoot+interval)]);for(const interval of tones.intervals.slice(0,3)){targetNotes.push(['strings-low',midiHz(lowRoot+interval)]);targetNotes.push(['strings-high',midiHz(highRoot+interval)]);}}
    const backingSamples=new Map();
    await Promise.all(targetNotes.map(async([instrument,hz])=>{const sample=referenceSample(instrument,hz),key=`${instrument}:${hz}`;if(!backingSamples.has(key))backingSamples.set(key,{...sample,buffer:await this.load(ctx,sample.file)});}));
    if(token!==this.loopToken)return false;

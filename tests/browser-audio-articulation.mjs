@@ -11,7 +11,8 @@ try{
  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto(`${base}/tuner/#scales`);await page.locator('.pattern-play').first().waitFor();
  await page.evaluate(async()=>{
-  const {ChordPlayer}=await import('/tuner/tuner/chord-audio.js?v=web-playback-158');
+  const url=performance.getEntriesByType('resource').map(entry=>entry.name).find(url=>url.includes('/tuner/chord-audio.js'));
+  const {ChordPlayer}=await import(url);
   window.__articulation={note:0,click:0,drum:0};
   for(const [name,label] of [['playScaleTone','note'],['click','click'],['drum','drum']]){
    const original=ChordPlayer.prototype[name];ChordPlayer.prototype[name]=function(...args){window.__articulation[label]++;return original.apply(this,args);};
@@ -35,7 +36,8 @@ try{
   report.rendered=await page.evaluate(async({baseline})=>{
    const absolute=baseline.replaceAll("'./playback-session.js?v=1'",JSON.stringify(new URL('/tuner/tuner/playback-session.js?v=1',location.href).href)).replaceAll("'./reference.js'",JSON.stringify(new URL('/tuner/tuner/reference.js',location.href).href));
    const blob=URL.createObjectURL(new Blob([absolute],{type:'text/javascript'}));
-   const Before=(await import(blob)).ChordPlayer,After=(await import('/tuner/tuner/chord-audio.js?v=web-playback-158')).ChordPlayer;
+   const currentUrl=performance.getEntriesByType('resource').map(entry=>entry.name).find(url=>url.includes('/tuner/chord-audio.js'));
+   const Before=(await import(blob)).ChordPlayer,After=(await import(currentUrl)).ChordPlayer;
    const decoded=new Map();
    async function render(Player,chord,mode){
     const ctx=new OfflineAudioContext(1,48000*3,48000),p=new Player();
