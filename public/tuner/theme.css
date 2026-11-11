@@ -1365,8 +1365,8 @@ body[data-view=chords] .objective-chords-card .chord-card-heading .chord-title-s
  grid-column:1/-1;
  grid-row:2;
  margin:0;
- color:var(--theme-text);
- font:400 12px/1.4 var(--app-font);
+ color:var(--theme-ink);
+ font:750 13px/1.4 var(--app-font);
  letter-spacing:0;
  opacity:1;
 }
@@ -1404,9 +1404,11 @@ body[data-view=chords] .objective-chords-card .chord-diagram-slot{width:100%;min
 body[data-view=chords] .objective-chords-card .chord-orientation{display:block;margin-left:14.14%;text-transform:uppercase}
 body[data-view=chords] .objective-chords-card .chord-orientation-top{margin-bottom:4px}
 body[data-view=chords] .objective-chords-card .chord-orientation-bottom{margin-top:4px}
-body[data-view=chords] .objective-chords-card .chord-guide-notes{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 10px;min-width:0;font:700 12px/1.4 var(--app-font);letter-spacing:0}
+/* All cards share a legend edge and a row decision, including open + muted keys. */
+body[data-view=chords] .objective-chords-card{container:chord-section / inline-size}
+body[data-view=chords] .objective-chords-card .chord-guide-notes{display:grid;grid-template-columns:minmax(0,1fr);justify-content:start;justify-items:start;align-items:start;gap:6px 10px;min-width:0;margin-left:clamp(0px,calc(100% - 224px),14.14%);font:700 12px/1.4 var(--app-font);letter-spacing:0}
 body[data-view=chords] .objective-chords-card .finger-list,
-body[data-view=chords] .objective-chords-card .chord-mark-key{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px;min-width:0;max-width:100%;padding:3px 6px;border:1px solid var(--theme-border);border-radius:4px;background:var(--theme-surface)}
+body[data-view=chords] .objective-chords-card .chord-mark-key{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:4px 8px;box-sizing:border-box;width:max-content;min-width:0;max-width:100%;padding:3px 6px;border:1px solid var(--theme-border);border-radius:4px;background:var(--theme-surface)}
 body[data-view=chords] .objective-chords-card .finger-list>span{white-space:nowrap}
 body[data-view=chords] .objective-chords-card .chord-mark-key>span{gap:4px;font-size:inherit;line-height:1.4}
 body[data-view=chords] .objective-chords-card .open-string-symbol{width:11px;height:11px;flex-basis:11px}
@@ -1439,4 +1441,17 @@ body[data-view=chords] .objective-chords-card .chord-selector button{min-height:
  body[data-view=chords] .objective-chords-card .chord-grid .chord-card[data-variant-card],
  body[data-view=chords] .objective-chords-card .chord-grid .chord-card.desktop-variant-hidden{display:none!important}
  body[data-view=chords] .objective-chords-card .chord-grid .chord-card.desktop-variant-active{display:block!important}
+}
+
+/* Base the row switch on the shared section, not different key lengths or 1px dividers.
+   Each card needs 450px of usable width for both keys after the nut-aligned inset. */
+@media(max-width:740px), (max-width:960px) and (orientation:portrait){
+ @container chord-section (min-width:474px){
+  body[data-view=chords] .objective-chords-card .chord-guide-notes{grid-template-columns:max-content minmax(0,1fr)}
+ }
+}
+@media(min-width:961px), (min-width:741px) and (orientation:landscape){
+ @container chord-section (min-width:950px){
+  body[data-view=chords] .objective-chords-card .chord-guide-notes{grid-template-columns:max-content minmax(0,1fr)}
+ }
 }

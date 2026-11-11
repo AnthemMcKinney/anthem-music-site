@@ -12,7 +12,7 @@ async function inspect(page,label){
  const measurements=await page.locator('.objective-panel:visible .chord-card:visible').evaluateAll(cards=>cards.map(card=>{
   const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
   const heading=card.querySelector('.chord-card-heading'),title=heading.querySelector('h2'),audio=heading.querySelector('.play-chord'),arrow=heading.querySelector('.chord-variant-nav button'),svg=card.querySelector('.chord-diagram'),scale=svg.getScreenCTM().a;
-  return {id:card.dataset.chordCard,card:rect(card),diagram:rect(svg),heading:rect(heading),title:rect(title),audio:rect(audio),arrow:arrow&&rect(arrow),titleSize:parseFloat(getComputedStyle(title).fontSize),labels:[...svg.querySelectorAll('.string-name,.finger-number')].map(e=>parseFloat(getComputedStyle(e).fontSize)*scale),sub:heading.querySelector('.chord-title-subheader')&&parseFloat(getComputedStyle(heading.querySelector('.chord-title-subheader')).fontSize),legend:[...card.querySelectorAll('.finger-list>span,.chord-mark-key>span')].map(rect),borderTop:parseFloat(getComputedStyle(card).borderTopWidth),borderLeft:parseFloat(getComputedStyle(card).borderLeftWidth),slot:+card.dataset.chordSlot};
+  return {id:card.dataset.chordCard,card:rect(card),diagram:rect(svg),heading:rect(heading),title:rect(title),audio:rect(audio),arrow:arrow&&rect(arrow),titleSize:parseFloat(getComputedStyle(title).fontSize),labels:[...svg.querySelectorAll('.string-name,.finger-number')].map(e=>parseFloat(getComputedStyle(e).fontSize)*scale),sub:heading.querySelector('.chord-title-subheader')&&parseFloat(getComputedStyle(heading.querySelector('.chord-title-subheader')).fontSize),subWeight:heading.querySelector('.chord-title-subheader')&&parseFloat(getComputedStyle(heading.querySelector('.chord-title-subheader')).fontWeight),keyGroups:[...card.querySelectorAll('.finger-list,.chord-mark-key')].map(rect),legendFrame:card.querySelector('.chord-guide-notes')&&rect(card.querySelector('.chord-guide-notes')),legend:[...card.querySelectorAll('.finger-list>span,.chord-mark-key>span')].map(rect),borderTop:parseFloat(getComputedStyle(card).borderTopWidth),borderLeft:parseFloat(getComputedStyle(card).borderLeftWidth),slot:+card.dataset.chordSlot};
  }));
  assert.ok(measurements.length,`${label}: visible card`);
  for(const m of measurements){
@@ -21,14 +21,23 @@ async function inspect(page,label){
   assert.ok(m.diagram.width>=m.card.width-26,`${tag}: diagram uses available card width`);
   assert.ok(m.audio.width>=44&&m.audio.height>=44,`${tag}: speaker touch target`);
   assert.ok(m.titleSize>=29,`${tag}: readable title`);
-  assert.ok(m.sub===null||m.sub>=12,`${tag}: readable subtitle`);
+  assert.ok(m.sub===null||(m.sub>=13&&m.subWeight>=700),`${tag}: readable subtitle`);
   assert.ok(Math.min(...m.labels)>=11.9,`${tag}: readable diagram labels ${Math.min(...m.labels)}`);
   assert.ok(m.title.right<=m.audio.x,`${tag}: title/audio separation`);
   if(m.arrow){assert.ok(m.arrow.width>=44&&m.arrow.height>=44,`${tag}: variation touch target`);assert.ok(m.arrow.x-m.title.right>=11,`${tag}: title/arrow gap`);assert.ok(Math.abs((m.arrow.y+m.arrow.height/2)-(m.audio.y+m.audio.height/2))<1,`${tag}: aligned controls`);}
+  if(m.keyGroups.length===2){
+   const [fingers,marks]=m.keyGroups;
+   assert.ok(Math.abs(fingers.x-m.legendFrame.x)<1,`${tag}: finger key uses shared left anchor`);
+   if(Math.abs(fingers.y-marks.y)<1)assert.ok(Math.abs(marks.x-fingers.right-10)<1,`${tag}: single-row key gap`);
+   else assert.ok(Math.abs(marks.x-fingers.x)<1,`${tag}: wrapped key aligns left, not independently centered`);
+   const fingerRows=new Set(m.legend.slice(0,4).map(l=>Math.round(l.y)));
+   assert.equal(fingerRows.size,1,`${tag}: all four finger labels stay together`);
+  }
   for(const l of m.legend)assert.ok(l.x>=m.card.x&&l.right<=m.card.right+1&&l.bottom<=m.card.bottom+1,`${tag}: legend fits`);
   if(await page.evaluate(()=>innerWidth>960||(innerWidth>=741&&innerWidth>innerHeight))){assert.equal(m.borderTop,m.slot>=2?1:0,`${tag}: row divider`);assert.equal(m.borderLeft,m.slot%2?1:0,`${tag}: column divider`);}
   cardChecks++;
  }
+ const keyRows=measurements.filter(m=>m.keyGroups.length===2).map(m=>Math.abs(m.keyGroups[0].y-m.keyGroups[1].y)<1?1:2);assert.ok(new Set(keyRows).size<=1,`${label}: every visible card uses the same legend row count`);
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${label}: page fits`);
  const shadows=await page.locator('.objective-panel:visible .chord-card:visible .chord-diagram').evaluateAll(diagrams=>diagrams.map(svg=>{
   const strings=[...svg.querySelectorAll('.string-line')],nut=svg.querySelector('.nut');
