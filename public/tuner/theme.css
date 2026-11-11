@@ -1422,10 +1422,10 @@ body[data-view=chords] .objective-chords-card .muted-string-symbol{width:11px;he
 /* Maintain readable numbers when the SVG fits the narrowest supported card. */
 body[data-view=chords] .objective-chords-card .chord-diagram .barre-number{font-size:11px}
 @container (max-width:280px){
- body[data-view=chords] .objective-chords-card .chord-diagram .string-name{font-size:15px}
- body[data-view=chords] .objective-chords-card .chord-diagram .finger-number{font-size:15px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .string-name{font-size:16px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .finger-number{font-size:16px}
  body[data-view=chords] .objective-chords-card .chord-diagram .finger{r:9.5px}
- body[data-view=chords] .objective-chords-card .chord-diagram .barre-number{font-size:15px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .barre-number{font-size:16px}
 }
 @container (min-width:280px) and (max-width:330px){
  body[data-view=chords] .objective-chords-card .chord-diagram .finger-number{font-size:12.5px}

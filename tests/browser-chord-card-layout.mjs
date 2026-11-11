@@ -90,6 +90,10 @@ try{
  await page.setViewportSize({width:390,height:844});await page.getByRole('tab',{name:'Cadd9',exact:true}).click();await inspect(page,'open and muted phone legend');
  await page.evaluate(()=>document.documentElement.dataset.theme='dark');await inspect(page,'dark theme');
  for(let width=320;width<=1440;width+=16){await page.setViewportSize({width,height:900});await inspect(page,`continuous resize ${width}`);}
+ await page.setViewportSize({width:320,height:900});await page.getByRole('tab',{name:'G',exact:true}).click();await variant().click();
+ // Classic desktop scrollbars consume 15px of BODY width in Chromium. Preserve
+ // readable SVG labels even when that gutter leaves a narrower card than touch mode.
+ await page.evaluate(()=>document.body.style.width='calc(100% - 15px)');await inspect(page,'320px desktop body gutter');
  await page.close();
  console.log(JSON.stringify({engine:await browser.version(),cardChecks,report,resizes:'passed',keyboard:'passed',darkTheme:'passed'},null,2));
 }finally{await browser.close();}
