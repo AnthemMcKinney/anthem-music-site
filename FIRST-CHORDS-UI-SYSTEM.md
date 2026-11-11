@@ -52,7 +52,7 @@ Each section card contains:
 - Fully Customizable progressions let each chord last 1–6 beats while the selected strumming pattern continues across chord changes.
 - Guitar Objective 3 orders A, Dm, F-Alternative, and B7 by frequency, musical importance, and playability. It introduces the manageable F alternative before the full barre lesson.
 - Guitar Objective 4 mirrors the existing objective hierarchy and focuses only on the two movable shape families at fret 2: B/Bm from A/Am and F♯/F♯m from E/Em. Higher positions and additional chord names are reserved for a future chord library.
-- Chord diagrams stay anchored to the real white nut and use a faint fret-3 position marker. Strings receive only a tight black depth shadow beginning at the fretboard edge, so the shadow does not pass over the nut.
+- Chord diagrams stay anchored to the real white nut and use a faint fret-3 position marker. Strings receive a tight black depth shadow that runs continuously across the white nut and fretboard, from the same start to the same end as each string. Do not mask or trim the shadow at the nut.
 - Chord-card titles contain only the chord name. Full names, shape families, and starting-fret guidance use the smaller subheader row directly below the title.
 - Requested songs use a numbered song row followed by indented, numbered part rows. Every part retains its badge, disclosure control, and active-panel treatment, including long chorus progressions.
 - Fully Customizable defaults to four short, equal-width ruler-style chord tiles that fill one horizontal row, with a slim add tile at the end. Narrow screens scroll this row instead of wrapping it. Dark gray beat ticks divide the full width of each tile evenly and connect to its equally dark gray outline; there is no horizontal line above the ruler ticks.
@@ -62,3 +62,13 @@ Each section card contains:
 - The detailed rhythm grid stays hidden until the user chooses to show it. Opting into strumming may use additional rows because the user has requested the extra detail. Follow Along actions and active cues use green throughout the app.
 - Objective 4 is guitar-specific. Baritone and standard ukulele keep the existing Objective 1–3, Strumming, and Practice navigation.
 
+
+## Chord-card layout
+
+- Chord cards reuse the existing cream surface, thin dividers, orange chord names, forward variation control, speaker/Stop control, and theme colors. They are content-sized rather than height-capped.
+- Use one shared header across objectives and instruments. Chord names scale from 29 to 36px with the card's width. Spoken chord-name supporting text is 13px/1.4, bold navy, and normal case. It stays subordinate to the chord name and diagram. The variation control stays 12px after the title, centered with the speaker on the title row. Both controls and chord tabs have a 44px minimum target.
+- Let the diagram fill the card's usable width without side columns or arbitrary height limits. Trim only unused SVG margins. At the narrowest card widths, enlarge SVG labels enough to remain readable. Preserve string order, fingering, nut, and frets.
+- Objective 1 places TOP/HIGH and BOTTOM/LOW in the existing orange eyebrow treatment (shared `chords-kicker` weight, tracking and color, with its 11px objective-heading size) immediately above and below the nut. Show these on the first row in the two-column view and on the selected card in the single-card view. Later objectives omit this introductory guidance. Standard ukulele labels the A and high-G strings instead of calling its re-entrant G string low.
+- The finger key and open/muted key use small, separate theme-colored boxes with one shared left anchor under the nut. On very narrow cards the inset reduces to preserve room for all four finger labels. The section, rather than each key’s content, determines one-row or two-row layout: allow one row only when every card has at least 450px of content width. Stacked rows align left. Never shrink the 12px legend or break the four finger labels apart to force a single line.
+- The fret-3 position dot sits halfway between its two fret wires and halfway across the strings. Its diameter is approximately one quarter of the fret's length; it stays subordinate to fingering circles.
+- Divider placement follows a chord family's visual slot, including alternate shapes, rather than hidden DOM siblings. Selected variations persist when resizing. Portrait phones/tablets use the existing tabbed card view; landscape widths of at least 741px and wider desktops reuse the two-column view.

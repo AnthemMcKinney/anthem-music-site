@@ -447,7 +447,8 @@ body[data-view=chords] .chords-frame>.chords-content{border:0;border-radius:0 0 
 html[data-theme=classic] body[data-view=chords] .chords-content:has(.objective-panel[data-objective=practice]:not([hidden])){background:var(--theme-surface)}
 body[data-view=chords] .objective-heading-area{margin:0 1px 9px;background:var(--theme-surface)}
 body[data-view=chords] .objective-heading-area .chords-intro{margin-bottom:0}
-body[data-view=chords] .objective-heading-area .chords-kicker{font-size:11px;line-height:1.25;letter-spacing:1px}
+body[data-view=chords] .objective-heading-area .chords-kicker,
+body[data-view=chords] .objective-chords-card .chord-orientation{font-size:11px;line-height:1.25;letter-spacing:1px}
 body[data-view=chords] .objective-why{max-width:720px;margin:5px 0 0;color:var(--theme-text-muted);font-size:12px;line-height:1.4}
 body[data-view=chords] .objective-heading-area .lesson-details{margin:7px 0 0;padding:8px 0;border:0;border-top:1px solid var(--theme-border);border-radius:0;background:transparent}
 .lesson-expanded>h3{margin:0;padding:0 0 8px;border-bottom:1px solid var(--theme-border);color:var(--theme-ink)}
@@ -980,82 +981,6 @@ body[data-view=chords] .objective-strum-control select{width:100%}
 @container (min-width:620px){body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab{grid-template-columns:42px minmax(0,1fr) 28px;min-height:70px;padding:10px 4px;column-gap:14px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .exercise-tab-number{width:34px;height:34px;font-size:15px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab small{font-size:10px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab strong{font-size:20px}}
 @media(max-width:520px){body[data-view=chords] .objective-practice-disclosure.library-section{padding-inline:9px}body[data-view=chords] .objective-practice-disclosure.library-section>summary{min-height:62px;padding-block:9px}body[data-view=chords] .objective-practice-card .practice-exercise-tabs .practice-exercise-tab{min-height:54px}}
 
-/* Chord variations stay anchored to the chord name and use one forward control. */
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav){
-  display:flex;
-  align-items:center;
-  gap:8px;
-  min-height:36px;
-  padding-right:38px;
-}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{
-  display:grid;
-  grid-template-columns:minmax(0,max-content) 28px;
-  align-items:center;
-  gap:1px 7px;
-  min-width:0;
-  padding-right:0;
-}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div>span{grid-column:1/-1}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) h2{grid-column:1;grid-row:2}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-title-subheader{grid-column:1/-1;grid-row:3}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{
-  position:static;
-  grid-column:2;
-  grid-row:2;
-  margin:0;
-}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav button{
-  width:27px;
-  height:27px;
-}
-body[data-view=chords] .chord-card-heading:has(.chord-variant-nav) .play-chord{
-  position:absolute;
-  top:0;
-  right:0;
-  margin:0;
-}
-@media(max-width:740px){
-  body[data-view=chords] .chord-card-heading,
-  body[data-view=chords] .chord-card-heading:has(.chord-variant-nav){min-height:36px}
-  body[data-view=chords] .chord-card-heading:has(.chord-variant-nav)>div{padding-right:0}
-}
-/* Keep chord names anchored identically whether a shape has an alternate or not. */
-body[data-view=chords] .chord-card-heading{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 38px;
-  align-items:start;
-  gap:0 6px;
-  min-height:56px;
-  padding-right:0;
-}
-body[data-view=chords] .chord-card-heading>div{
-  display:grid;
-  grid-template-columns:minmax(0,max-content) 28px;
-  grid-template-rows:11px 28px 13px;
-  align-items:center;
-  align-content:start;
-  gap:1px 7px;
-  min-width:0;
-  padding-right:0;
-}
-body[data-view=chords] .chord-card-heading>div>span{grid-column:1/-1;grid-row:1}
-body[data-view=chords] .chord-card-heading h2{grid-column:1;grid-row:2;margin:0}
-body[data-view=chords] .chord-card-heading .chord-title-subheader{grid-column:1/-1;grid-row:3;margin:0}
-body[data-view=chords] .chord-card-heading .chord-variant-nav{
-  position:static;
-  grid-column:2;
-  grid-row:2;
-  margin:0;
-}
-body[data-view=chords] .chord-card-heading .chord-variant-nav button{width:27px;height:27px}
-body[data-view=chords] .chord-card-heading .play-chord{
-  position:absolute;
-  top:0;
-  right:0;
-  margin:0;
-}
-@media(max-width:740px){body[data-view=chords] .chord-card-heading{min-height:56px}}
 /* Expanded numbered exercises receive a quiet location cue; section-card headers do not. */
 body[data-view=chords] .practice-exercise-tab[aria-pressed=true],
 body[data-view=chords] .progression-details[open]>summary,
@@ -1386,10 +1311,147 @@ body[data-view=tuner] aside .string-heading{
 body[data-view=tuner] aside .string-heading h2{min-width:0;margin:0;text-align:left}
 body[data-view=tuner] aside .string-heading .instrument-info-open{position:static!important;justify-self:end;margin:0}
 
-/* Every instrument and objective uses the same locked chord-name size. */
-body[data-view=chords] .chord-card-heading h2{font-size:25px;line-height:1;overflow:visible;text-overflow:clip}
 @media(max-width:740px){
  body[data-view=tuner] .tuner-guidance-slot{min-height:30px;margin-block:1px 3px}
  body[data-view=tuner] aside .string-heading{gap:8px;min-height:28px}
- body[data-view=chords] .chord-card-heading h2{font-size:25px}
+}
+
+/* Chord cards: one content-sized layout, independent of viewport or variation state.
+   Reuse the lesson card, title/variation control, audio control and symbol key. */
+body[data-view=chords] .objective-panel .objective-chords-card .chord-grid .chord-card{
+ container-type:inline-size;
+ box-sizing:border-box;
+ height:auto;
+ min-height:0;
+ min-width:0;
+ padding:10px 12px 12px;
+ border:0;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading,
+body[data-view=chords] .objective-chords-card .chord-card-heading:has(.chord-variant-nav){
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 44px;
+ align-items:start;
+ gap:0 12px;
+ min-height:0;
+ padding:0;
+ margin:0 0 8px;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading>div,
+body[data-view=chords] .objective-chords-card .chord-card-heading:has(.chord-variant-nav)>div{
+ display:grid;
+ grid-template-columns:minmax(0,max-content) 44px;
+ grid-template-rows:minmax(44px,auto) minmax(17px,auto);
+ align-items:center;
+ align-content:start;
+ gap:0 12px;
+ min-width:0;
+ padding:0;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading>div>span{display:none}
+body[data-view=chords] .objective-panel .objective-chords-card .chord-card-heading h2{
+ grid-column:1;
+ grid-row:1;
+ margin:0;
+ font-size:clamp(29px,6cqi,36px);
+ line-height:1.08;
+ white-space:normal;
+ overflow-wrap:anywhere;
+ overflow:visible;
+ text-overflow:clip;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading .chord-title-subheader{
+ display:block;
+ grid-column:1/-1;
+ grid-row:2;
+ margin:0;
+ color:var(--theme-ink);
+ font:750 13px/1.4 var(--app-font);
+ letter-spacing:0;
+ opacity:1;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading .chord-variant-nav,
+body[data-view=chords] .objective-chords-card .chord-card-heading:has(.chord-variant-nav) .chord-variant-nav{
+ position:static;
+ display:flex;
+ grid-column:2;
+ grid-row:1;
+ margin:0;
+ padding:0;
+}
+body[data-view=chords] .objective-chords-card .chord-variant-nav button,
+body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord{
+ position:static;
+ display:grid;
+ place-items:center;
+ box-sizing:border-box;
+ width:44px;
+ height:44px;
+ min-width:44px;
+ min-height:44px;
+ margin:0;
+ padding:10px;
+ line-height:1;
+}
+body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord,
+body[data-view=chords] .objective-chords-card .chord-card-heading:has(.chord-variant-nav) .play-chord{grid-column:2;grid-row:1;position:static}
+body[data-view=chords] .objective-chords-card .chord-variant-nav button svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+body[data-view=chords] .objective-chords-card :is(.chord-variant-nav button,.play-chord):focus-visible{outline:2px solid var(--theme-accent);outline-offset:2px}
+body[data-view=chords] .objective-chords-card .chord-diagram{display:block;width:100%;height:auto;max-height:none;margin:0}
+body[data-view=chords] .objective-chords-card .chord-diagram-with-key{display:grid;grid-template-rows:auto auto;gap:8px}
+body[data-view=chords] .objective-chords-card .chord-diagram-row{display:block;min-width:0}
+body[data-view=chords] .objective-chords-card .chord-diagram-slot{width:100%;min-width:0}
+body[data-view=chords] .objective-chords-card .chord-orientation{display:block;margin-left:14.14%;text-transform:uppercase}
+body[data-view=chords] .objective-chords-card .chord-orientation-top{margin-bottom:4px}
+body[data-view=chords] .objective-chords-card .chord-orientation-bottom{margin-top:4px}
+/* All cards share a legend edge and a row decision, including open + muted keys. */
+body[data-view=chords] .objective-chords-card{container:chord-section / inline-size}
+body[data-view=chords] .objective-chords-card .chord-guide-notes{display:grid;grid-template-columns:minmax(0,1fr);justify-content:start;justify-items:start;align-items:start;gap:6px 10px;min-width:0;margin-left:clamp(0px,calc(100% - 224px),14.14%);font:700 12px/1.4 var(--app-font);letter-spacing:0}
+body[data-view=chords] .objective-chords-card .finger-list,
+body[data-view=chords] .objective-chords-card .chord-mark-key{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:4px 8px;box-sizing:border-box;width:max-content;min-width:0;max-width:100%;padding:3px 6px;border:1px solid var(--theme-border);border-radius:4px;background:var(--theme-surface)}
+body[data-view=chords] .objective-chords-card .finger-list>span{white-space:nowrap}
+body[data-view=chords] .objective-chords-card .chord-mark-key>span{gap:4px;font-size:inherit;line-height:1.4}
+body[data-view=chords] .objective-chords-card .open-string-symbol{width:11px;height:11px;flex-basis:11px}
+body[data-view=chords] .objective-chords-card .muted-string-symbol{width:11px;height:11px;flex-basis:11px;font-size:16px}
+@media(min-width:961px), (min-width:741px) and (orientation:landscape){
+ body[data-view=chords] .objective-panel .objective-chords-card .chord-grid .chord-card[data-chord-column="1"]{border-left:1px solid var(--theme-border)}
+ body[data-view=chords] .objective-panel .objective-chords-card .chord-grid .chord-card[data-chord-row]:not([data-chord-row="0"]){border-top:1px solid var(--theme-border)}
+ body[data-view=chords] .objective-chords-card .chord-card[data-chord-row]:not([data-chord-row="0"]) .chord-orientation{display:none}
+}
+
+/* Maintain readable numbers when the SVG fits the narrowest supported card. */
+body[data-view=chords] .objective-chords-card .chord-diagram .barre-number{font-size:11px}
+@container (max-width:280px){
+ body[data-view=chords] .objective-chords-card .chord-diagram .string-name{font-size:15px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .finger-number{font-size:15px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .finger{r:9.5px}
+ body[data-view=chords] .objective-chords-card .chord-diagram .barre-number{font-size:15px}
+}
+@container (min-width:280px) and (max-width:330px){
+ body[data-view=chords] .objective-chords-card .chord-diagram .finger-number{font-size:12.5px}
+}
+body[data-view=chords] .objective-chords-card .chord-selector button{min-height:44px;font-size:12px}
+
+/* Reuse the two-column view on wide, short screens instead of oversizing one card. */
+@media(min-width:741px) and (max-width:960px) and (orientation:landscape){
+ body[data-view=chords] .objective-chords-card .chord-selector{display:none}
+ body[data-view=chords] .objective-chords-card .chord-grid,
+ body[data-view=chords] .objective-chords-card .chord-grid.three-up{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card{display:block!important}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card[data-variant-card],
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card.desktop-variant-hidden{display:none!important}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card.desktop-variant-active{display:block!important}
+}
+
+/* Base the row switch on the shared section, not different key lengths or 1px dividers.
+   Each card needs 450px of usable width for both keys after the nut-aligned inset. */
+@media(max-width:740px), (max-width:960px) and (orientation:portrait){
+ @container chord-section (min-width:474px){
+  body[data-view=chords] .objective-chords-card .chord-guide-notes{grid-template-columns:max-content minmax(0,1fr)}
+ }
+}
+@media(min-width:961px), (min-width:741px) and (orientation:landscape){
+ @container chord-section (min-width:950px){
+  body[data-view=chords] .objective-chords-card .chord-guide-notes{grid-template-columns:max-content minmax(0,1fr)}
+ }
 }
