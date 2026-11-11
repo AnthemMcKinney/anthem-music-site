@@ -1,4 +1,4 @@
-import {ChordPlayer} from '../tuner/chord-audio.js?v=web-audio-1';
+import {ChordPlayer} from '../tuner/chord-audio.js?v=web-audio-2';
 
 export function initScales(scope=document,{canPlay=()=>true}={}){
 const strings=[{label:'e',open:64},{label:'B',open:59},{label:'G',open:55},{label:'D',open:50},{label:'A',open:45},{label:'E',open:40}];
@@ -104,14 +104,13 @@ async function playTabPattern(){
  try{
   const ctx=await chordPlayer.unlock();if(token!==tabToken)return;
   await Promise.all([...new Set(steps.map(note=>note.midi))].map(midi=>chordPlayer.prepareScaleTone(midi)));
-  const tick=await chordPlayer.load(ctx,'drums/closed-hat.wav');if(token!==tabToken)return;
+  if(token!==tabToken)return;
   tabNextAt=ctx.currentTime+.08;
   tabTimer=setInterval(()=>{
    if(!tabPlaying||token!==tabToken){clearInterval(tabTimer);return;}
    const bpm=Number($('#tempo').value)||75,beat=60/bpm,horizon=ctx.currentTime+.11;
    while(tabNextAt<horizon){
     const index=tabIndex%steps.length,note=steps[index],at=tabNextAt,duration=beat*.96;
-    chordPlayer.click(ctx,tick,at,index%4===0,.24);
     chordPlayer.playScaleTone(note.midi,duration,at);
     const delay=Math.max(0,(at-ctx.currentTime)*1000);setTimeout(()=>{if(tabPlaying&&token===tabToken)showStep(note,index);},delay);
     tabIndex++;tabNextAt+=beat;

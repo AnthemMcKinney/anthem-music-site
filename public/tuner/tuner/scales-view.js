@@ -12,7 +12,7 @@ export function initScalesView(view){
   loading=(async()=>{
    if(!shadow){view.replaceChildren();shadow=view.attachShadow({mode:'open'});}
    shadow.innerHTML='<p role="status">Loading Scales.</p>';
-   const [module,response]=await Promise.all([import('../scales-lab/scales.js?v=web-audio-1'),fetch(new URL('../scales-lab/index.html',import.meta.url))]);
+   const [module,response]=await Promise.all([import('../scales-lab/scales.js?v=web-audio-2'),fetch(new URL('../scales-lab/index.html',import.meta.url))]);
    if(!response.ok)throw Error('Scales could not load.');
    const source=new DOMParser().parseFromString(await response.text(),'text/html'),main=source.querySelector('main');if(!main)throw Error('Scales could not load.');
    const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('../scales-lab/scales.css?v=web-audio-1',import.meta.url).href;

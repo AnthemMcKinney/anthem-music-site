@@ -71,3 +71,16 @@ Validation: 55 Node tests pass, build creates 33 pages, and syntax/diff checks p
 Run the browser check with Playwright/WebKit installed, a local server for `public/`, and `BASE_URL=http://127.0.0.1:4330 node tests/browser-audio-start.mjs`. `PLAYWRIGHT_MODULE` can point to an existing Playwright `index.mjs`; `ARTIFACT_DIR` chooses the screenshot folder.
 
 Remaining limit: Linux WebKit rendering is not an iPhone speaker, ringer-switch, Bluetooth, or installed-PWA test. Physical iPhone speaker, mute-switch, Bluetooth, and installed-PWA verification remains separate from automated checks. Dan explicitly approved publishing this reviewed web change; Android is untouched.
+
+
+## 3.7.157 audio articulation update
+
+Dan requested note-only Scales samples and a slightly softer multi-string chord attack, followed by web publication.
+
+- Removed the explicit closed-hi-hat click from both Play Notes controls. The guitar tone and timing are unchanged. Selected Scale + Backing and backing-only tracks retain their rhythm parts.
+- Lengthened guitar chord gain attacks from 12 to 22 ms for single chord previews and 3 to 12 ms for exercise strokes. Ukulele/baritone attacks change from 20 to 30 ms and 6 to 15 ms respectively. String spacing, voicing, peak/sustain levels, and playback-session handling are unchanged.
+- Advanced web module versions and the offline cache identity to 3.7.157. No Android or Google Play files changed.
+
+Validation: all 66 Node tests pass, including new note-only scheduling, preload cancellation, attack-envelope, and string-timing checks. Astro build produces 33 pages; syntax and whitespace checks pass. Linux WebKit 27.2 with an iPhone 13 profile verifies first-play audio, Stop/restart/navigation, both Play Notes controls before and after backing, and explicitly selected drums. OfflineAudioContext A/B renders of G, E, and D in preview/downstroke/upstroke modes confirm a softer initial onset, no clipping, and sustained RMS within 0.1% of the previous version. These are rendered-signal checks, not a physical iPhone speaker or subjective listening test.
+
+The additional browser check is `tests/browser-audio-articulation.mjs`, with the same `BASE_URL` and `PLAYWRIGHT_MODULE` options as the first-play check. Optionally set `BASELINE_AUDIO_FILE` to the prior `chord-audio.js` to repeat rendered A/B analysis.

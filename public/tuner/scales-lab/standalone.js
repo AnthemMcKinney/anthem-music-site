@@ -1,2 +1,2 @@
-import {initScales} from './scales.js?v=web-scales-1';
+import {initScales} from './scales.js?v=web-audio-2';
 initScales(document);
