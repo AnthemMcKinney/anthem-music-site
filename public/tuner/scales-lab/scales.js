@@ -132,7 +132,9 @@ async function playTabPattern(){
   starting=false;playbackStatus();schedule();notesTimer=setInterval(schedule,25);
  }catch(error){playbackFailed(token,error,'The scale pattern could not start. Tap Play Notes to try again.');}
 }
-function backingMix(){chordPlayer.setBackingMasterVolume(Number($('#backing-volume').value)/100);return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'roots',volume:.42},piano:{enabled:$('#mix-piano').checked,style:'simple',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
+// Reuse the Chords mix presets: syncopated root/fifth bass and two-octave piano.
+// Backing and Demo intentionally share these instrument controls.
+function backingMix(){chordPlayer.setBackingMasterVolume(Number($('#backing-volume').value)/100);return {drums:{enabled:$('#mix-drums').checked,style:'rock',volume:.62},bass:{enabled:$('#mix-bass').checked,style:'sync-fifths',volume:.72},piano:{enabled:$('#mix-piano').checked,style:'wide',volume:.28},strings:{enabled:$('#mix-strings').checked,style:'low',volume:.22}};}
 async function startBacking(mode,onCue=null,onSchedule=null){const ids=backingPatterns[$('#backing-progression').value],bars=Number($('#backing-bars').value),repeats=bars/ids.length,progression=ids.flatMap(id=>Array(repeats).fill(backingChords[id])),timeline=progression.flatMap(chord=>Array(4).fill(chord)),mix=backingMix();return chordPlayer.playExercise(progression,$('#backing-strum').value,tempos[mode],onCue,mix.drums.enabled?'rock':'click',0,'eighth',false,4,0,timeline,mix,{onSchedule});}
 async function play(noteValue=$('#demo-note-value').value){
  if(!canPlay())return;

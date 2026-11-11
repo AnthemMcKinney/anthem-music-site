@@ -21,7 +21,7 @@ function harness(){
  const record=(kind,at,extra={})=>{const event=player.exerciseEvent,voice={kind,at,event,...extra,stop(){this.cancelled=true;}};audio.push(voice);player.trackVoice(voice,at);};
  player.stroke=(chord,kit,at,direction,duration,range,strength,count)=>record('guitar',at,{chord:chord.id,direction,duration,range,strength,count});
  player.click=(ctx,buffer,at,accent,level)=>record('click',at,{accent,level});player.drum=(ctx,buffer,at,level,drum)=>record('drum',at,{level,drum});
- player.sampledTone=(instrument,hz,buffer,sourceHz,at,duration,level)=>record(instrument,at,{duration,level});
+ player.sampledTone=(instrument,hz,buffer,sourceHz,at,duration,level)=>record(instrument,at,{hz,duration,level});
  const onSchedule=(cue,at,duration)=>scheduled.push({cue,at,duration,event:player.exerciseEvent});
  const onCue=(cue,at)=>visual.push({cue,at});
  const flush=async()=>{await Promise.resolve();await Promise.resolve();};
@@ -128,4 +128,57 @@ test('custom beat timelines retain chord changes, pattern bars and stable slots 
 test('Stop from an audio callback cancels the whole tick without installing more voices or timers',async()=>{
  const h=harness();assert.equal(await h.start({onSchedule(){h.player.stop();}}),false);
  assert.equal(h.timers.size,0);assert.equal(h.frames.size,0);assert.ok(h.audio.every(x=>x.cancelled));assert.equal(h.audio.some(x=>x.kind==='drum'),false);
+});
+
+const scalesSource=readFileSync(new URL('../public/tuner/scales-lab/scales.js',import.meta.url),'utf8');
+const scalesHtml=readFileSync(new URL('../public/tuner/scales-lab/index.html',import.meta.url),'utf8');
+function scalesMix(){
+ let master;
+ const context={chordPlayer:{setBackingMasterVolume(value){master=value;}},$:(selector)=>({checked:selector!=='#mix-strings',value:'80'})};
+ vm.createContext(context);
+ vm.runInContext(scalesSource.match(/function backingMix\(\)\{[^\n]+/)[0]+';result=backingMix();',context);
+ return {mix:JSON.parse(JSON.stringify(context.result)),master};
+}
+
+test('Scales reuses existing sync-fifths and wide piano presets with a clearer bass level',()=>{
+ const {mix,master}=scalesMix();
+ assert.deepEqual(mix,{drums:{enabled:true,style:'rock',volume:.62},bass:{enabled:true,style:'sync-fifths',volume:.72},piano:{enabled:true,style:'wide',volume:.28},strings:{enabled:false,style:'low',volume:.22}});
+ assert.equal(master,.8);
+ for(const track of ['drums','bass','piano'])assert.match(scalesHtml,new RegExp('id="mix-'+track+'" checked'));
+ assert.doesNotMatch(scalesHtml,/id="mix-strings" checked/);
+ assert.match(scalesSource,/mix=backingMix\(\)/,'Backing and Demo continue to use the same mix controls');
+});
+
+for(const [name,pitchClass,third] of [['C',0,4],['Am',9,3],['F',5,4]])test(`Scales ${name}: reused bass groove and complete two-octave piano retain their pitches and timing`,async()=>{
+ const h=harness(),value={...chord(name.toLowerCase()),name};
+ await h.start({bpm:75,progression:[value],backing:scalesMix().mix});await h.advance(3.19);
+ const bass=h.audio.filter(voice=>voice.kind==='bass'&&voice.event.tick<16),piano=h.audio.filter(voice=>voice.kind.startsWith('piano-')&&voice.event.tick<16);
+ assert.equal(bass.length,4);assert.equal(piano.length,8,'all eight notes must preload, including a minor third in the upper octave');
+ const midi=hz=>Math.round(69+12*Math.log2(hz/440)),bassRoot=36+pitchClass,pianoRoot=48+pitchClass;
+ assert.deepEqual(bass.map(voice=>midi(voice.hz)-bassRoot),[0,0,7,7]);
+ for(const [index,beat] of [0,1.5,2,3.5].entries())near(bass[index].at,.065+beat*.8,'syncopated bass');
+ assert.deepEqual(piano.map(voice=>midi(voice.hz)-pianoRoot),[0,7,third+12,19,24,19,third+12,7]);
+ for(let step=0;step<8;step++){const beat=Math.floor(step/2),nudge=((beat*7)%5-2)*.003;near(piano[step].at,.065+step*.4+nudge,'existing piano timing');}
+ h.player.stop();assert.ok([...bass,...piano].every(voice=>voice.cancelled));
+});
+
+test('Scales sync-fifths and wide piano stay on the shared clock through rapid tempo edits',async()=>{
+ const h=harness(),am={...chord('am'),name:'Am'};
+ await h.start({bpm:50,progression:[am],backing:scalesMix().mix});await h.advance(.35);
+ for(const bpm of [160,60,145,75])h.player.setExerciseTempo(bpm);await h.advance(5);
+ const voices=h.audio.filter(voice=>!voice.cancelled);
+ for(const voice of voices.filter(voice=>voice.kind==='bass')){
+  const localTick=voice.event.tick%16;
+  assert.ok([0,6,8,14].includes(localTick),'same root/fifth syncopated positions after retiming');
+  near(voice.at,voice.event.at);
+ }
+ for(const voice of voices.filter(voice=>voice.kind.startsWith('piano-'))){
+  assert.equal(voice.event.tick%2,0,'piano remains on eighths');
+  const beat=Math.floor(voice.event.tick%16/4),nudge=((beat*7)%5-2)*.003;near(voice.at,voice.event.at+nudge);
+ }
+ const ticks=voices.filter(voice=>voice.kind.startsWith('piano-')).map(voice=>voice.event.tick);
+ assert.equal(new Set(ticks).size,ticks.length,'one audible piano per slot, without duplicates');
+ const settled=voices.filter(voice=>voice.kind.startsWith('piano-')&&voice.event.at>1);
+ for(let index=1;index<settled.length;index++)near(settled[index].event.at-settled[index-1].event.at,.4);
+ assert.equal(h.timers.size,1);h.player.stop();assert.equal(h.timers.size,0);
 });
