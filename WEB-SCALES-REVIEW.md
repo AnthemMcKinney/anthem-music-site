@@ -1,6 +1,6 @@
-# Web Scales review
+# Web Scales integration and release
 
-This is an isolated web-only review branch based on main b0f8d636e94f6061710b474f4837c53f68a0be53. The web-scales-review branch is published through the existing Cloudflare Pages branch-preview workflow. No production deployment, Android build, or Google Play upload was performed.
+The web-only integration was reviewed on web-scales-review, based on main b0f8d636e94f6061710b474f4837c53f68a0be53, through the existing Cloudflare Pages preview workflow. Dan subsequently approved publishing the integration and audio fix to the regular web app. The 3.7.156 release removes preview wording and advances the web cache identity. Android packages and Google Play remain separate and were not changed.
 
 ## Review on any device
 
@@ -8,7 +8,7 @@ Open https://web-scales-review.anthem-music-site.pages.dev/tuner/#scales . This 
 
 ## Review locally
 
-The built preview is running on AnthemDesktop at http://127.0.0.1:4323/tuner/#scales . This loopback address works only on that computer.
+The original desktop preview used http://127.0.0.1:4323/tuner/#scales . This loopback address works only on that computer.
 
 To restart from this worktree:
 
@@ -41,7 +41,7 @@ Open Scales in the bottom navigation. Try First Notes, Box 1, pentatonic/diatoni
 
 ## Android boundary
 
-The original checkout remains on main. No native Android project or packaged assets were touched. Do not copy this review branch into the Android build; continue that release from its separate no-Scales baseline. Review and approval are still needed before any production publication.
+No native Android project or packaged assets were touched. Do not copy the Scales-enabled web release into the Android build; continue that release from its separate no-Scales baseline. Publishing the web app does not rebuild the APK or upload to Google Play.
 
 ## iPhone review correction
 
@@ -70,4 +70,4 @@ Validation: 55 Node tests pass, build creates 33 pages, and syntax/diff checks p
 
 Run the browser check with Playwright/WebKit installed, a local server for `public/`, and `BASE_URL=http://127.0.0.1:4330 node tests/browser-audio-start.mjs`. `PLAYWRIGHT_MODULE` can point to an existing Playwright `index.mjs`; `ARTIFACT_DIR` chooses the screenshot folder.
 
-Remaining limit: Linux WebKit rendering is not an iPhone speaker, ringer-switch, Bluetooth, or installed-PWA test. A physical iPhone check is still needed before production approval. This change is only on the web review branch; production and Android are untouched.
+Remaining limit: Linux WebKit rendering is not an iPhone speaker, ringer-switch, Bluetooth, or installed-PWA test. Physical iPhone speaker, mute-switch, Bluetooth, and installed-PWA verification remains separate from automated checks. Dan explicitly approved publishing this reviewed web change; Android is untouched.
