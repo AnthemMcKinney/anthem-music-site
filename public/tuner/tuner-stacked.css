@@ -50,3 +50,12 @@ body[data-view=tuner] .app-shell{padding-bottom:16px}
  body[data-view=tuner] .tuner-compact-summary{grid-template-columns:110px minmax(0,1fr)}
  body[data-view=tuner] .target-frequency{white-space:nowrap}
 }
+/* Remove inherited column coordinates/percentage sizing on touch tablets.
+   A percentage-height canvas inside the new auto-height stack must not feed
+   its own ResizeObserver. Retain the original 250px touch-landscape minimum. */
+@media(min-width:741px){
+ body[data-view=tuner] #pitch-trail{width:100%!important;height:220px!important;min-height:0;margin:0!important}
+}
+@media(min-width:741px) and (max-width:1400px) and (pointer:coarse) and (orientation:landscape){
+ body[data-view=tuner] #pitch-trail{height:250px!important}
+}
