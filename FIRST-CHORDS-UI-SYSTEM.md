@@ -43,7 +43,7 @@ Each section card contains:
 
 - Core 4/4 strumming, 3/4 strumming, and sixteenth-note strumming are separate section cards because they teach different counting systems. Numbering restarts in each card.
 - Practice uses separate section cards for Common Progression Patterns, Custom Patterns, and Requested Patterns.
-- Objective practice uses separate section cards for Chord Pairs, 4-Chord Progressions, and First Songs. Do not place these distinct activities beneath divider headings inside one card.
+- Objective practice uses separate section cards for Chord Pairs and 4-Chord Progressions. Do not place these distinct activities beneath divider headings inside one card.
 - Supporting note disclosures use one orange uppercase label only, such as Objective Notes, Practice Notes, Strumming Notes, or How These Patterns Work. Do not add a second title to the collapsed row.
 - Objective chord cards retain the same page-level title and notes hierarchy, while their chord diagrams remain the primary card content.
 - When a chord has other shapes or variations, place one forward arrow directly beside the chord name. The arrow cycles through the available options; the first chord shown remains the primary chord to learn.
@@ -72,3 +72,5 @@ Each section card contains:
 - The finger key and open/muted key use small, separate theme-colored boxes with one shared left anchor under the nut. On very narrow cards the inset reduces to preserve room for all four finger labels. The section, rather than each key’s content, determines one-row or two-row layout: allow one row only when every card has at least 450px of content width. Stacked rows align left. Never shrink the 12px legend or break the four finger labels apart to force a single line.
 - The fret-3 position dot sits halfway between its two fret wires and halfway across the strings. Its diameter is approximately one quarter of the fret's length; it stays subordinate to fingering circles.
 - Divider placement follows a chord family's visual slot, including alternate shapes, rather than hidden DOM siblings. Selected variations persist when resizing. Portrait phones/tablets use the existing tabbed card view; landscape widths of at least 741px and wider desktops reuse the two-column view.
+
+- Named First Songs live only in the instrument Practice tab, grouped by objective and closed by default. Objectives retain skill and chord-change drills. Active song/exercise sections remain open until Stop so their only transport cannot disappear.

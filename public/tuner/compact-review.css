@@ -1,0 +1,68 @@
+/* Compact working view: normal document flow remains available at every size. */
+html[data-view=tuner],body[data-view=tuner]{height:auto;overflow:auto}
+body[data-view=tuner] .app-shell,body[data-view=tuner] main{height:auto;overflow:visible}
+body[data-view=tuner] #tuner{height:auto;display:block}
+body[data-view=tuner] .workspace{display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.15fr);grid-template-rows:auto;align-items:start;gap:16px;padding:16px}
+body[data-view=tuner] .workspace>aside{grid-column:1;grid-row:1;padding:0;overflow:visible}
+body[data-view=tuner] .tuning-panel{display:flex;flex-direction:column;grid-column:2;grid-row:1;padding:0;min-width:0}
+body[data-view=tuner] .tuning-panel>*{grid-column:auto;grid-row:auto}
+body[data-view=tuner] .panel-top{padding:0;min-height:20px}
+body[data-view=tuner] .live-caption{margin:4px 0}
+body[data-view=tuner] .note-display{margin:0;line-height:1}
+body[data-view=tuner] .note-display #target-note{font-size:64px}
+body[data-view=tuner] .tuner-guidance-slot{display:block;min-height:0}
+body[data-view=tuner] .guidance{min-height:0;margin:4px 0;font-size:22px}
+body[data-view=tuner] .hint{min-height:0;margin:4px 0;font-size:12px}
+body[data-view=tuner] .motion{min-height:0;padding:0}
+body[data-view=tuner] .meter{margin:12px 0 0}
+body[data-view=tuner] .meter-labels{margin:4px 0;font-size:11px}
+body[data-view=tuner] .status-strip{display:block;margin:0;padding:8px 0}
+body[data-view=tuner] .readings{display:flex;justify-content:center;gap:28px;margin:0;padding:0}
+body[data-view=tuner] .tuner-mic-group{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;align-items:center;padding:12px 0}
+body[data-view=tuner] .mic-toggle{min-height:44px}
+body[data-view=tuner] .input-level{margin:0;justify-content:center;flex-wrap:wrap;font-size:11px}
+body[data-view=tuner] .privacy{grid-column:1/-1;margin:0;font-size:11px}
+body[data-view=tuner] .tuner-details{margin:0;border:1px solid var(--theme-border);border-radius:10px;background:var(--theme-surface);overflow:hidden}
+body[data-view=tuner] .tuner-details>summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:8px 12px;list-style:none;font-weight:800;color:var(--theme-ink);cursor:pointer;box-sizing:border-box}
+body[data-view=tuner] .tuner-details>summary::-webkit-details-marker{display:none}
+body[data-view=tuner] .tuner-details>summary:after{content:'+';border:1px solid var(--theme-accent);border-radius:50%;width:20px;height:20px;display:grid;place-items:center;color:var(--theme-accent)}
+body[data-view=tuner] .tuner-details[open]>summary:after{content:'−'}
+body[data-view=tuner] .tuner-details>div{padding:12px}
+body[data-view=tuner] .target-frequency,body[data-view=tuner] .exact-frequency{margin:4px 0;text-align:center;font-size:12px}
+body[data-view=tuner] .trail-heading{margin:12px 0 6px}
+body[data-view=tuner] #pitch-trail{width:100%;height:180px!important;min-height:0;margin:0}
+body[data-view=tuner] .pitch-expectation{margin:8px 0}
+body[data-view=tuner] .instruments{padding:8px 12px}
+@media(max-width:740px){
+ body[data-view=tuner] .workspace{grid-template-columns:1fr;padding:12px;gap:10px}
+ body[data-view=tuner] .tuning-panel{grid-column:1;grid-row:1}
+ body[data-view=tuner] .workspace>aside{grid-column:1;grid-row:2}
+ body[data-view=tuner] .guitar-neck .string{min-height:32px;height:32px}
+ body[data-view=tuner] .tuner-mic-group{padding:8px 0}
+}
+@media(max-width:1099px){
+ .metronome-options{position:static;inset:auto;overflow:visible;margin-top:16px;border:1px solid var(--theme-border);border-top:4px solid var(--theme-accent);border-radius:10px;padding:16px;background:var(--theme-surface)}
+ .metronome-settings{min-height:44px}
+ .metronome-settings>span{display:none}
+ .metronome-settings:after{content:'+';display:inline-grid;place-items:center;width:20px;height:20px;margin-left:8px;border:1px solid currentColor;border-radius:50%}
+ .metronome-settings[aria-expanded=true]:after{content:'−'}
+}
+@media(min-width:741px) and (max-width:1099px){
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key{max-width:430px;margin-inline:auto;gap:5px}
+ body[data-view=chords] .objective-chords-card .chord-card-heading{margin-bottom:4px}
+ body[data-view=chords] .objective-chords-card .chord-grid .chord-card{padding-block:10px}
+}
+/* Supersede legacy tablet-only forced stacking and desktop grid coordinates. */
+body[data-view=tuner] .workspace{display:grid!important}
+body[data-view=tuner] .tuning-panel{display:flex!important;padding:0!important;width:auto;order:0}
+body[data-view=tuner] .workspace>aside{padding:0!important;width:auto;order:0;border:0;margin:0}
+body[data-view=tuner] .tuner-mic-group>*{grid-row:auto;grid-column:auto}
+body[data-view=tuner] .tuner-mic-group>.privacy{display:block;grid-column:1/-1}
+body[data-view=tuner] .tuner-details>summary{width:100%}
+body[data-view=tuner] .workspace #strings.guitar-neck{display:grid;grid-template-columns:1fr!important;grid-template-rows:repeat(var(--string-count,6),minmax(34px,1fr));height:auto}
+body[data-view=tuner] .workspace #strings.guitar-neck .string{height:34px;min-height:34px}
+@media(min-width:741px) and (max-width:1099px){
+ body[data-view=tuner] header{height:60px;min-height:60px}
+ body[data-view=tuner] .intro{display:none}
+ body[data-view=tuner] .neck-caption,body[data-view=tuner] .string-tip{display:none}
+}
