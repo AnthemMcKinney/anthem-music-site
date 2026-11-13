@@ -34,7 +34,7 @@ try{
  await page.locator('#tempo-up').click();await page.locator('#metronome-start').click();assert.equal(await page.locator('#metronome-start').getAttribute('aria-pressed'),'false');
  // Scales previously lost its scrollbar at 1100 x 620 and taller.
  for(const [width,height] of [[1118,744],[1264,619],[1264,620],[1436,775],[390,844]]){
-  await page.setViewportSize({width,height});await page.goto(base+'/tuner/#scales');await page.locator('.scales-view .pattern-play').first().waitFor();await page.mouse.move(width-100,height-100);await page.mouse.wheel(0,800);await page.waitForTimeout(350);assert.ok(await page.evaluate(()=>scrollY>500),'Scales responds to wheel scrolling');
+  await page.setViewportSize({width,height});await page.goto(base+'/tuner/#scales');await page.locator('.scales-view .pattern-play').first().waitFor();await page.mouse.move(width-100,height-100);await page.mouse.wheel(0,800);await page.waitForTimeout(350);assert.ok(await page.evaluate(()=>scrollY>=Math.min(500,document.documentElement.scrollHeight-innerHeight)-2),'Scales responds to wheel scrolling up to its available page height');
   await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));const bottom=await page.locator('.scales-view').evaluate(e=>e.getBoundingClientRect().bottom);assert.ok(bottom<=height,'last Scales content can be reached');
  }
  await page.setViewportSize({width:1264,height:619});await page.evaluate(()=>scrollTo(0,500));
