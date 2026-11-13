@@ -1492,3 +1492,7 @@ body[data-view=chords] .pattern-request a{color:var(--theme-ink);font-weight:700
  body[data-view=chords] .objective-chords-card .chord-diagram-with-key .chord-diagram :is(.string-name,.finger-number){font-size:21px}
  body[data-view=chords] .objective-chords-card .chord-diagram-with-key .chord-diagram .finger{r:9.5px}
 }
+/* Chord qualities use the custom-pattern notation everywhere a compact name appears. */
+body[data-view=chords] :is(h2,.chord-selector button,.preview-chord) .chord-name{display:inline;color:inherit;font:inherit;letter-spacing:inherit}
+body[data-view=chords] :is(h2,.chord-selector button,.preview-chord) .chord-name sup{position:relative;top:.12em;margin-left:1px;color:inherit;font-size:.58em;font-weight:800;line-height:1;letter-spacing:0;vertical-align:super}
+body[data-view=chords] :is(h2,.chord-selector button,.preview-chord) .chord-name .minor-quality{display:inline;margin-left:1px;color:inherit;font-size:.7em;font-weight:500;line-height:1;vertical-align:baseline;letter-spacing:0}

@@ -76,3 +76,4 @@ Each section card contains:
 - Named First Songs live only in the instrument Practice tab, grouped by objective and closed by default. Objectives retain skill and chord-change drills. Active song/exercise sections remain open until Stop so their only transport cannot disappear.
 
 - The open/muted key sits directly above the chord diagram; the finger key directly beneath it, sharing a left edge. Right-side orientation labels use compact orange eyebrow type.
+- Compact chord names share custom-pattern notation: major roots full size; minor `m` smaller on the baseline; extensions/qualities such as `7`, `maj7`, and `add9` smaller and raised. Apply to objective chord lists, diagram headings, selector tabs and preview labels. Spoken names remain normal text. Guitar Objective 1 explicitly names Cadd9 rather than C in its heading.

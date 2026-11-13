@@ -33,3 +33,12 @@ test('Chord preview uses shared Play icon and explicit Play action label',()=>{
 test('Requested Patterns includes the authorized email request destination',()=>{
  assert.match(source,/mailto:info@anthemmusic\.net\?subject=Practice%20pattern%20request/);
 });
+test('Chord quality formatting is shared while minor remains baseline',()=>{
+ const fn=source.slice(source.indexOf('function formatChordLabel('),source.indexOf('function chordCard('));
+ const format=vm.runInNewContext(`${fn};formatChordLabel`);
+ assert.match(format('Cadd9'),/C<sup>add9<\/sup>/);
+ assert.match(format('G7'),/G<sup>7<\/sup>/);
+ assert.match(format('Em'),/minor-quality/);
+ assert.equal(format('More essential shapes'),'More essential shapes');
+ assert.match(source,/>G, Cadd9, D, Em<\/h2>/);
+});
