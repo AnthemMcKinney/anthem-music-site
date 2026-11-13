@@ -39,13 +39,13 @@ try{
  }
  await page.setViewportSize({width:1264,height:619});await page.evaluate(()=>scrollTo(0,500));
  for(const [width,height] of [[1264,620],[1264,744],[1099,744],[1100,744]]){
-  await page.setViewportSize({width,height});const before=await page.evaluate(()=>scrollY);await page.mouse.move(width-100,height-100);await page.mouse.wheel(0,200);await page.waitForTimeout(350);assert.ok(await page.evaluate(()=>scrollY)>before+100,'resizing while reading preserves usable Scales scrolling');
+  await page.setViewportSize({width,height});const before=await page.evaluate(()=>scrollY);await page.mouse.move(width-100,height-100);await page.mouse.wheel(0,200);await page.waitForTimeout(350);assert.ok(await page.evaluate(before=>scrollY>=Math.min(before+100,document.documentElement.scrollHeight-innerHeight)-2,before),'resizing while reading preserves usable Scales scrolling up to page end');
  }
- // Repeated navigation must release and restore the tuner-only scroll lock.
+ // Repeated navigation keeps normal scrolling for the compact tuner and lessons.
  await page.setViewportSize({width:1280,height:900});
  for(const view of ['tuner','chords','more','scales','metronome','tuner','scales']){
   await page.getByRole('button',{name:view[0].toUpperCase()+view.slice(1),exact:true}).click();await page.waitForFunction(v=>document.body.dataset.view===v,view);
-  const overflow=await page.evaluate(()=>getComputedStyle(document.documentElement).overflowY);assert.equal(overflow==='hidden',view==='tuner',`${view}: correct root scrolling`);
+  const overflow=await page.evaluate(()=>getComputedStyle(document.documentElement).overflowY);assert.equal(overflow==='hidden',false,`${view}: correct root scrolling`);
  }
  assert.deepEqual(errors,[]);console.log(JSON.stringify({engine:await browser.version(),layouts:report,scrolling:'passed',options:'passed',playbackResize:'passed',navigation:'passed',errors},null,2));await context.close();
 }finally{await browser.close();}
