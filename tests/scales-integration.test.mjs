@@ -25,7 +25,8 @@ function scalesHarness({delayExercise=false,failPrepare=false,failExercise=false
  const window={matchMedia(){return media;},addEventListener(k,fn){windowEvents.set(k,fn);},removeEventListener(k){windowEvents.delete(k);}};
  class Player{stop(){calls.push('stop');}unlock(){calls.push('unlock');return new Promise(resolve=>{resolveUnlock=resolve;unlocks.push(resolve);});}async prepareScaleTone(){calls.push('prepare');if(failPrepare)throw Error('Sample unavailable');}async playExercise(...args){exerciseArgs.push(args);calls.push('exercise');if(failExercise)throw Error('Backing unavailable');return delayExercise?new Promise(resolve=>{resolveExercise=resolve;exercises.push(resolve);}):true;}setExerciseTempo(value){tempoChanges.push(value);}playScaleTone(...args){tones.push(args);}setBackingMasterVolume(){}async load(){calls.push('load');return {};}}
  const sandbox={document,window,ChordPlayer:Player,setInterval(fn){calls.push('interval');intervals.set(++timer,fn);return timer;},clearInterval(id){intervals.delete(id);},setTimeout(fn){timeouts.set(++timer,fn);return timer;},clearTimeout(id){timeouts.delete(id);}};
- vm.createContext(sandbox);vm.runInContext(scaleSource.replace(/^import .*\r?\n/,'').replace('export function initScales','function initScales'),sandbox);
+ vm.createContext(sandbox);sandbox.formatNoteText=()=>{};
+ vm.runInContext(scaleSource.replace(/^import .*\r?\n/gm,'').replace('export function initScales','function initScales'),sandbox);
  const api=sandbox.initScales(scope,{canPlay:()=>allowed});
  return {api,get,calls,media,events,windowEvents,document,unlocks,exercises,tempoControls,tempoInputs,intervals,timeouts,exerciseArgs,tones,tempoChanges,ctx,setAllowed(value){allowed=value;},release(){resolveUnlock(ctx);},releaseExercise(){resolveExercise(true);}};
 }

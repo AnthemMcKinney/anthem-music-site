@@ -1,3 +1,4 @@
+import {formatNoteText} from './tuner/note-name.js';
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
 import {TunerAudio} from './tuner/audio.js?v=web-audio-1';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
@@ -31,10 +32,10 @@ const saxTranspose=()=>instrument.tunings[tuningIndex][2]||0;
 const shownNote=note=>saxophone()?transposeNote(note,saxTranspose()):note;
 const pretty=note=>note.replace('b','♭').replace('#','♯');
 const trail=new PitchTrail($('pitch-trail'));const confirmation=new ThreePluckConfirmation(count=>trail.setConfirmation(count));let trailTarget='';const displayPitch=new DisplayPitch();const gauge=new GaugeState();let confirmedUntil=0;
-function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;}
+function message(title,hint,status=''){if($('guidance').textContent!==title)$('guidance').textContent=title;$('hint').textContent=hint;panel.dataset.status=status;formatNoteText($('guidance'));formatNoteText($('hint'));}
 function displayNote(note){note=shownNote(note);$('target-note').textContent=pretty(note.slice(0,-1));$('target-octave').textContent=note.at(-1);}
 function clear(){gauge.reset();confirmation.reset();displayPitch.reset();lastGood=0;inTuneSince=0;trend=null;panel.dataset.stale='false';$('motion').textContent='';$('cents').textContent=$('frequency').textContent=$('heard').textContent='—';$('needle').style.opacity=0;if(chromatic()){$('target-note').textContent='—';$('target-octave').textContent='';}else displayNote(target());$('live-caption').textContent=saxophone()?'WRITTEN SAX NOTE':'WAITING FOR YOUR NOTE';message(chromatic()?'Play a note':'Pluck a string',listening?(saxophone()?'Hold one note steadily.':chromatic()?'Let one clear note ring.':'Let the string ring while you adjust it.'):(chromatic()?'Turn on Auto Detect, then play one note.':'Turn on Auto Detect, then pluck one string.'));}
-function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='A'+referencePitch()+' reference · Play any note';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}}
+function updateTarget(){const note=target(),shown=shownNote(note);const key=instrument.id+':'+tuningIndex+':'+stringIndex;if(key!==trailTarget){gauge.reset();confirmation.reset();trail.clear();trailTarget=key;}if(saxophone()){$('target-label').textContent=(saxTranspose()===9?'E♭ ALTO / BARITONE':'B♭ TENOR / SOPRANO')+' · YOUR NOTE';$('target-frequency').textContent='Your note '+pretty(shown)+' · sounding pitch '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}else if(chromatic()){$('target-label').textContent='CHROMATIC · NEAREST NOTE';$('target-frequency').textContent='A'+referencePitch()+' reference · Play any note';}else{$('target-label').textContent='STRING '+(notes().length-stringIndex);$('target-frequency').textContent='Target '+pretty(note)+' · '+frequency(note).toFixed(2)+' Hz';}formatNoteText($('target-frequency'));}
 function renderMode(){const on=listening||starting,label=starting?'Auto Detect (Allow Mic)':listening?'Auto Detect (Mic On)':'Auto Detect (Mic Off)';$('auto-mode').setAttribute('aria-pressed',on);$('auto-mode').setAttribute('aria-label',label);$('auto-mode').innerHTML=`<span>${label}</span><i aria-hidden="true"></i>`;updateTarget();}
 function correctStringOctave(result,diagnostic){
  if(!result||chromatic())return result;
@@ -81,7 +82,7 @@ const engine=new TunerAudio((result,diagnostic)=>{
 
  displayNote(activeNote);$('live-caption').textContent=saxophone()?'WRITTEN NOTE YOU’RE PLAYING':chromatic()?'NEAREST NOTE':'TARGET NOTE';
  if(chromatic())$('target-frequency').textContent='Closest to '+pretty(activeNote)+' · '+activeFrequency.toFixed(2)+' Hz · A'+referencePitch();
- $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz,referencePitch())));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
+ $('cents').textContent=(reading.average>0?'+':'')+reading.average.toFixed(1);$('frequency').textContent=result.hz.toFixed(2);$('heard').textContent=pretty(shownNote(nearestNote(result.hz,referencePitch())));formatNoteText($('heard'));formatNoteText($('target-frequency'));$('needle').style.opacity=1;$('needle').style.left=(50+Math.max(-100,Math.min(100,reading.average))*.45)+'%';
  if(!trend||now-trend.time>=350)trend={cents,time:now};
  if(reading.inZone&&!chromatic())message(confirmation.count>=3?'✓ Tuned — 3 steady plucks':'✓ Close enough',confirmation.count?`${confirmation.count} of 3 good plucks. Keep going.`:'Pluck again to begin the three-pluck check.','tuned');
  else if(reading.zero)message(chromatic()?'✓ '+pretty(activeNote)+' — close enough':'✓ Close enough','Repeat a few steady long tones near the center line.','tuned');
@@ -92,13 +93,13 @@ const engine=new TunerAudio((result,diagnostic)=>{
  if(!chromatic())confirmation.level(rms,performance.now());
  $('mic-source').textContent=diagnostic.microphone||'Microphone not active';
  $('pitch-stage').textContent=diagnostic.state||(diagnostic.rawHz?diagnostic.rawHz.toFixed(2)+' Hz · '+Math.round(diagnostic.confidence*100)+'% '+(diagnostic.confidenceMetric==='spectral_peak_clarity'?'spectral clarity':'periodicity')+(diagnostic.trackedHz?' · tracking':' · confirming'):'Sound level only · no clear pitch');
-$('input-level').value=Math.max(0,Math.min(1,(20*Math.log10(Math.max(rms,1e-6))+70)/55));$('input-status').textContent=!listening?'Microphone off':rms<.0007?(chromatic()?'Quiet · play a long tone or move closer':'Quiet · pluck a string or move closer'):rms>.5?'Very loud · move a little farther away':'Sound reaching the microphone';});
+$('input-level').value=Math.max(0,Math.min(1,(20*Math.log10(Math.max(rms,1e-6))+70)/55));$('input-status').textContent=!listening?'Off':rms<.0007?'Quiet':rms>.5?'Too loud':'Receiving';});
 attachDiagnostic(engine,()=>({instrument:instrument.id,tuning:instrument.tunings[tuningIndex][0],mode:auto?'auto':'locked',
  targetString:chromatic()?null:notes().length-stringIndex,targetNote:target(),targetWrittenNote:shownNote(target()),targetHz:frequency(target()),
  visibleNote:$('target-note').textContent+$('target-octave').textContent,visibleHz:$('frequency').textContent,
  visibleCents:$('cents').textContent,guidance:$('guidance').textContent,stale:panel.dataset.stale==='true'}));
 function selectString(index,lock=false){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(lock){auto=false;if(listening||starting)stopListening();}stringIndex=index;selector.reset();engine.tracker.reset();clear();renderStrings();renderMode();}
-function renderInstrumentNotes(){
+function renderInstrumentNotes(){queueMicrotask(()=>formatNoteText($('instrument-notes-body')));
  const details=$('instrument-notes'),open=$('instrument-info-open'),title=$('instrument-notes-title'),body=$('instrument-notes-body');
  if(!details||!open||!body)return;
  const pitchNames=notes().map(note=>note.replace(/\d$/,'').replace('b','♭').replace('#','♯'));
@@ -169,7 +170,7 @@ function renderStrings(){
  button.setAttribute('aria-label',`String ${number}, ${note}${guitar?(number===1?', thinnest string':number===6?', thickest string':''):''}`);
  const pitchName=note.slice(0,-1).replace('b','♭').replace('#','♯');
  const label=guitar&&number===1&&pitchName==='E'?'e':pitchName;
- button.innerHTML=`<span class="string-name"><small>${number}</small><strong>${label}</strong><sub>${note.at(-1)}</sub></span><span class="string-wire" aria-hidden="true"></span><span class="string-pick" aria-hidden="true">${index===stringIndex?'◀':''}</span>`;
+ button.innerHTML=`<span class="string-name"><small>${number}</small><strong>${label}</strong><sub class="note-octave">${note.at(-1)}</sub></span><span class="string-wire" aria-hidden="true"></span><span class="string-pick" aria-hidden="true">${index===stringIndex?'◀':''}</span>`;
  button.onclick=()=>{selectString(index,true);container.querySelector(`[data-string-index="${index}"]`).focus();void playTargetReference();};return button;
  }));
  $('string-order').textContent='OPEN STRINGS';

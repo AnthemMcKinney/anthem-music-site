@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+const {webkit}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const browser=await webkit.launch();const page=await browser.newPage({serviceWorkers:'block'});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+try{await page.goto((process.env.BASE_URL||'http://127.0.0.1:4347')+'/tuner/');await page.waitForFunction(()=>!document.querySelector('#app-load-status'));
+for(const [width,height] of [[320,700],[390,650],[430,740],[844,390],[820,1024],[1366,900]]){
+ await page.setViewportSize({width,height});const r=await page.evaluate(()=>{const box=s=>document.querySelector(s).getBoundingClientRect();const graph=box('#pitch-trail'),note=box('.note-display'),mic=box('.tuner-compact-input');return{delta:Math.abs((note.x+note.width/2)-(graph.x+graph.width/2)),micBelow:mic.top>=graph.bottom,overflow:document.documentElement.scrollWidth>innerWidth,fonts:['cents','frequency','heard'].map(id=>getComputedStyle(document.getElementById(id)).fontSize),colors:['cents','frequency','heard'].map(id=>getComputedStyle(document.getElementById(id)).color)}});assert.ok(r.delta<1);assert.ok(r.micBelow);assert.equal(r.overflow,false);assert.equal(new Set(r.fonts).size,1);assert.equal(new Set(r.colors).size,1);console.log(width,r);
+}
+await page.locator('#instrument-info-open').click();assert.ok(await page.locator('#instrument-notes').isVisible());assert.ok(await page.locator('#instrument-notes .note-name sub').count()>0);await page.locator('.instrument-info-close').click();assert.equal(await page.locator('#instrument-notes').isVisible(),false);
+await page.getByRole('button',{name:'Scales',exact:true}).click();await page.locator('#tab-copy').waitFor({state:'attached'});assert.ok(await page.locator('#tab-copy .note-name sub').count()>0);await page.locator('[data-layer="expanded"]').click();assert.ok(await page.locator('#scale-copy .note-name sub').count()>0);await page.getByRole('button',{name:'Tuner',exact:true}).click();assert.deepEqual(errors,[]);
+}finally{await browser.close();}

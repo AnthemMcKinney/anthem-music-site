@@ -1,3 +1,4 @@
+@import url("../note-name.css?v=1");
 @import url("../lesson-controls.css?v=web-playback-158");
 :root{--theme-border:#d8cdb9;--theme-surface:#fff;--theme-ink:#0d1f3c;--theme-accent:#ef5b12;--theme-on-accent:#fff;--app-font:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-family:var(--app-font);color:#0d1f3c;background:#e9e1d4;--navy:#0d1f3c;--orange:#ef5b12;--cream:#f7f1e5;--paper:#fff;--line:#d8cdb9;--muted:#5d6670;--yellow:#ffd363;--green:#319a61}
 *{box-sizing:border-box}body{margin:0;background:#e9e1d4;color:var(--navy)}button,select{font:inherit}button{cursor:pointer}

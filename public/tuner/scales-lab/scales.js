@@ -1,3 +1,4 @@
+import {formatNoteText} from '../tuner/note-name.js';
 import {ChordPlayer} from '../tuner/chord-audio.js?v=web-playback-159';
 
 export function initScales(scope=document,{canPlay=()=>true}={}){
@@ -55,9 +56,10 @@ function updateBackingSummary(){
 function renderCopy(){
  const item=current();
  $('#scale-kicker').textContent=patterns[pattern].kicker;$('#scale-title').textContent=pattern==='box1'?`Box 1 ${layer==='diatonic'?'Diatonic':'Pentatonic'}`:item.title;
- $('#scale-copy').textContent=item.copy;
+ $('#scale-copy').textContent=item.copy;formatNoteText($('#scale-copy'));
  $('#tab-title').textContent=pattern==='box1'?'Pattern tablature':'Scale tablature';
  $('#tab-copy').textContent=pattern==='natural'?(layer==='aa'?'A2–A3: Use this standard graphical interface (Tab) to show which frets to play on each string as we work from A2 up to A3.':'Use the corresponding tab to learn the entire natural note pattern starting with the bottom E2 string up to G4 on the high E string.'):(layer==='diatonic'?'The diatonic is the full scale. Most of the strings now have 3 notes per string. Be sure to match the correct finger to the corresponding fret.':'Tabs show which frets to play, in order. Continue from Obj 1: start on low E (bottom), move up, and follow each note’s finger number.');
+ formatNoteText($('#tab-copy'));
  $('#rhythm-heading').textContent=pattern==='box1'?'PRACTICE THE SHAPE':layer==='expanded'?'EXPAND THE PATTERN':'USE THE PATTERN IN A MUSICAL FRAMEWORK';
  $('#rhythm-copy').textContent=pattern==='box1'?'Focus on how the pattern flows. Practice it up and back down in rhythm.':layer==='expanded'?'Say the notes out loud as you play them in order from lowest to highest. Once you get the pattern down, practice to any one of the progressions using the card below. Adjust the progression, tempo, and bars as you become more familiar with the pattern to hear how melodies and solos naturally sound in music.':'Remember which notes these are — say them out loud as you play through the pattern. Once you get a feel for the pattern, play the notes in a steady rhythm using the backing track card below.';
  $('#objective-kicker').textContent=pattern==='box1'?'OBJECTIVE 2 · CAGED':'OBJECTIVE 1 · FIRST NOTES';
@@ -94,7 +96,7 @@ const system=(label,steps,offset)=>`<section class="tab-system"><strong>${label}
 }
 function render(){renderControls();renderCopy();renderFretboard();renderTab();}
 
-function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#play-status').textContent=`Now playing ${note.note} on string ${note.string+1}, fret ${note.fret}.`;}
+function showStep(note,index){activeId=note?.id||'';activeStep=Number.isInteger(index)?index:-1;renderFretboard();renderTab();if(note)$('#play-status').textContent=`Now playing ${note.note} on string ${note.string+1}, fret ${note.fret}.`;formatNoteText($('#play-status'));}
 function setPlaybackIcon(button,active){button.querySelector('.play-fill').setAttribute('d',active?'M8 8h8v8H8Z':'m10 8 6 4-6 4V8Z');}
 function setTabPlayButton(active){$$('.pattern-play').forEach(button=>{setPlaybackIcon(button,active);button.classList.toggle('playing',active);button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-label',active?'Stop selected scale pattern':'Play notes in the selected pattern');button.querySelector('span').textContent=active?'Stop Notes':'Play Notes';});}
 function setDemoButton(active){setPlaybackIcon($('#play'),active);$('#play').classList.toggle('playing',active);$('#play').setAttribute('aria-pressed',String(active));$('#play').setAttribute('aria-label',active?'Stop scale demo and backing':'Play scale demo with backing');$('#play span').textContent=active?'Stop Demo':'Play Scale + Backing';}
