@@ -13,7 +13,7 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 
 ## Disclosures
 
-- Objective Notes is one expandable notes section per objective. Use the existing gray notes bar and filled orange plus/minus circle at the left. Put new terms, definitions, and instructional context in its expanded white body. Do not create duplicate notes disclosures for every card within the objective.
+- Objective Notes is one expandable notes section per objective. Use the shared warm-white notes bar and filled orange plus/minus circle at the left. Put new terms, definitions, and instructional context in its expanded white body. Do not create duplicate notes disclosures for every card within the objective.
 - A collapsible section card uses the standard small orange outlined circle with a plus or minus at the far right of its header. The full title/header area is the disclosure target, not just the icon. Do not substitute a text pill, caret, filled yellow/orange badge, or a control beside the title.
 - Keep disclosure state and accessible labels synchronized. Collapsing a content panel does not stop its audio unless that behavior is explicitly requested.
 
@@ -53,3 +53,7 @@ Before changing UI, identify the closest existing example and state which classe
 ## Note names and octaves
 - Written pitch names use the note letter/accidental followed by a small subscript octave (E₂, F♯₃), never a full-size octave number. Use shared `note-name.css` and display-only `formatNoteText`; retain plain pitch IDs for audio and accessible text. Do not treat chord suffixes (G7, Cadd9) as octaves.
 - In the tuner, the large note is centered over the graph's zero line. Flat/sharp use prominent musical symbols with smaller words in the bottom corners. Cents/Hz/hearing are compact secondary text directly below the target note/frequency, matching its typography. The pitch plot retains its original full-width horizontal mapping; no control panel occupies the grid. A single mic row follows the graph. The short input-meter label is “Mic level”; privacy explanation remains in More.
+
+## Chord-card review standard
+- Playback uses the shared green Play triangle and red Stop square, with matching action labels. Chord previews use Play rather than a speaker symbol; speaker icons are reserved for volume/mute. Keep existing loading/cancellation behavior.
+- Expandable headers use a warm-white mix (70% surface / 30% secondary cream) with white expanded reading areas. Open subrows use the secondary cream. Theme tokens preserve dark/alternate palettes. Avoid blue-gray fills.

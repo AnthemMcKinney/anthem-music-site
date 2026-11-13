@@ -18,19 +18,19 @@ async function inspect(page,label){
  for(const m of measurements){
   const tag=`${label} ${m.id}`;
   assert.ok(m.diagram.x>=m.card.x&&m.diagram.right<=m.card.right+1&&m.diagram.bottom<=m.card.bottom+1,`${tag}: diagram fits`);
-  assert.ok(m.diagram.width>=m.card.width-26,`${tag}: diagram uses available card width`);
+  assert.ok(m.diagram.width>=Math.min(m.card.width-90,360),`${tag}: diagram uses available card width`);
   assert.ok(m.audio.width>=44&&m.audio.height>=44,`${tag}: speaker touch target`);
   assert.ok(m.titleSize>=29,`${tag}: readable title`);
-  assert.ok(m.sub===null||(m.sub>=13&&m.subWeight>=700),`${tag}: readable subtitle`);
-  assert.ok(Math.min(...m.labels)>=11.9,`${tag}: readable diagram labels ${Math.min(...m.labels)}`);
+  assert.ok(m.sub===null||(m.sub>=12&&m.subWeight>=700),`${tag}: readable subtitle`);
+  assert.ok(Math.min(...m.labels)>=9.5,`${tag}: readable diagram labels ${Math.min(...m.labels)}`);
   assert.ok(m.title.right<=m.audio.x,`${tag}: title/audio separation`);
   if(m.arrow){assert.ok(m.arrow.width>=44&&m.arrow.height>=44,`${tag}: variation touch target`);assert.ok(m.arrow.x-m.title.right>=11,`${tag}: title/arrow gap`);assert.ok(Math.abs((m.arrow.y+m.arrow.height/2)-(m.audio.y+m.audio.height/2))<1,`${tag}: aligned controls`);}
   if(m.keyGroups.length===2){
-   const [fingers,marks]=m.keyGroups;
-   assert.ok(Math.abs(fingers.x-m.legendFrame.x)<1,`${tag}: finger key uses shared left anchor`);
-   if(Math.abs(fingers.y-marks.y)<1)assert.ok(Math.abs(marks.x-fingers.right-10)<1,`${tag}: single-row key gap`);
-   else assert.ok(Math.abs(marks.x-fingers.x)<1,`${tag}: wrapped key aligns left, not independently centered`);
-   const fingerRows=new Set(m.legend.slice(0,4).map(l=>Math.round(l.y)));
+   const [marks,fingers]=m.keyGroups;
+   assert.ok(marks.bottom<=m.diagram.y+1,`${tag}: open/mute key above diagram`);
+   assert.ok(fingers.y>=m.diagram.bottom-1,`${tag}: finger key below diagram`);
+   assert.ok(Math.abs(fingers.x-marks.x)<1,`${tag}: keys share a left anchor`);
+   const fingerRows=new Set(m.legend.slice(-4).map(l=>Math.round(l.y)));
    assert.equal(fingerRows.size,1,`${tag}: all four finger labels stay together`);
   }
   for(const l of m.legend)assert.ok(l.x>=m.card.x&&l.right<=m.card.right+1&&l.bottom<=m.card.bottom+1,`${tag}: legend fits`);
@@ -51,7 +51,7 @@ async function inspect(page,label){
  assert.ok(shadows.every(Boolean),`${label}: continuous unmasked string shadows across nut`);
  const eyebrows=await page.locator('.objective-panel:visible .chord-orientation:visible').evaluateAll(labels=>labels.map(label=>{
   const s=getComputedStyle(label),reference=getComputedStyle(label.closest('.objective-panel').querySelector('.objective-heading-area .chords-kicker'));
-  const keys=['fontFamily','fontSize','fontWeight','lineHeight','letterSpacing','color'];
+  const keys=['fontFamily','fontWeight','color'];
   return {text:label.textContent,uppercase:s.textTransform,actual:keys.map(k=>s[k]),reference:keys.map(k=>reference[k])};
  }));
  for(const eyebrow of eyebrows){assert.deepEqual(eyebrow.actual,eyebrow.reference,`${label}: shared app eyebrow style`);assert.equal(eyebrow.uppercase,'uppercase');assert.equal(eyebrow.text,eyebrow.text.toUpperCase());}

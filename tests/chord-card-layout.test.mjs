@@ -25,3 +25,11 @@ test('Shape descriptions remain below the chord name, including the full F barre
  const title=chordTitleParts(chords.find(c=>c.id==='f-full'));
  assert.equal(title.title,'F');assert.equal(title.subtitle,'full barre');
 });
+test('Chord preview uses shared Play icon and explicit Play action label',()=>{
+ assert.match(source,/const speakerIcon=playIcon/);
+ assert.match(source,/aria-label="Play \$\{c.name\} chord"/);
+ assert.doesNotMatch(source,/aria-label="Hear \$\{c.name\} chord"/);
+});
+test('Requested Patterns includes the authorized email request destination',()=>{
+ assert.match(source,/mailto:info@anthemmusic\.net\?subject=Practice%20pattern%20request/);
+});

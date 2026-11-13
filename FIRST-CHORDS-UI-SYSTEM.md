@@ -29,8 +29,8 @@ Each section card contains:
 - Make the entire row clickable.
 - Place the plus/minus indicator at the right.
 - Use a single horizontal divider between rows. Do not wrap each closed row in its own outlined card.
-- Give only the open numbered exercise row a muted navy/beige tint and soft drop shadow. Keep orange on the small category label and number badge; do not turn the item title orange. Keep section-card headers visually unchanged when their cards expand.
-- Place every open numbered exercise panel immediately beneath its row across Objectives, Strumming, Practice, Requested Songs, and Custom Patterns. Inset its left edge, align its right edge with the row, and use a slightly darker secondary soft surface to show that it is nested detail.
+- Give only the open numbered exercise row a secondary cream tint and soft drop shadow. Keep orange on the small category label and number badge; do not turn the item title orange. Keep section-card headers visually unchanged when their cards expand.
+- Place every open numbered exercise panel immediately beneath its row across Objectives, Strumming, Practice, Requested Songs, and Custom Patterns. Inset its left edge, align its right edge with the row, and use a white reading surface to show that it is nested detail.
 
 ## Responsive and theme rules
 
@@ -65,12 +65,14 @@ Each section card contains:
 
 ## Chord-card layout
 
-- Chord cards reuse the existing cream surface, thin dividers, orange chord names, forward variation control, speaker/Stop control, and theme colors. They are content-sized rather than height-capped.
+- Chord cards reuse the existing cream surface, thin dividers, orange chord names, forward variation control, Play/Stop control, and theme colors. They are content-sized rather than height-capped.
 - Use one shared header across objectives and instruments. Chord names scale from 29 to 36px with the card's width. Spoken chord-name supporting text is 13px/1.4, bold navy, and normal case. It stays subordinate to the chord name and diagram. The variation control stays 12px after the title, centered with the speaker on the title row. Both controls and chord tabs have a 44px minimum target.
 - Let the diagram fill the card's usable width without side columns or arbitrary height limits. Trim only unused SVG margins. At the narrowest card widths, enlarge SVG labels enough to remain readable. Preserve string order, fingering, nut, and frets.
-- Objective 1 places TOP/HIGH and BOTTOM/LOW in the existing orange eyebrow treatment (shared `chords-kicker` weight, tracking and color, with its 11px objective-heading size) immediately above and below the nut. Show these on the first row in the two-column view and on the selected card in the single-card view. Later objectives omit this introductory guidance. Standard ukulele labels the A and high-G strings instead of calling its re-entrant G string low.
-- The finger key and open/muted key use small, separate theme-colored boxes with one shared left anchor under the nut. On very narrow cards the inset reduces to preserve room for all four finger labels. The section, rather than each key’s content, determines one-row or two-row layout: allow one row only when every card has at least 450px of content width. Stacked rows align left. Never shrink the 12px legend or break the four finger labels apart to force a single line.
+- Objective 1 places TOP/HIGH and BOTTOM/LOW in the existing orange eyebrow treatment (shared `chords-kicker` weight, tracking and color, with its 11px objective-heading size) along the right side of the diagram. Show these on the first row in the two-column view and on the selected card in the single-card view. Later objectives omit this introductory guidance. Standard ukulele labels the A and high-G strings instead of calling its re-entrant G string low.
+- The finger key and open/muted key use small, separate theme-colored boxes with one shared left anchor under the nut. On very narrow cards the inset reduces to preserve room for all four finger labels. The section, rather than each key’s content, determines one-row or two-row layout: allow one row only when every card has at least 450px of content width. Stacked rows align left. Use 11px legends only on condensed phone views; otherwise keep 12px. Never break the four labels apart. Never shrink the legend further or break the four finger labels apart to force a single line.
 - The fret-3 position dot sits halfway between its two fret wires and halfway across the strings. Its diameter is approximately one quarter of the fret's length; it stays subordinate to fingering circles.
 - Divider placement follows a chord family's visual slot, including alternate shapes, rather than hidden DOM siblings. Selected variations persist when resizing. Portrait phones/tablets use the existing tabbed card view; landscape widths of at least 741px and wider desktops reuse the two-column view.
 
 - Named First Songs live only in the instrument Practice tab, grouped by objective and closed by default. Objectives retain skill and chord-change drills. Active song/exercise sections remain open until Stop so their only transport cannot disappear.
+
+- The open/muted key sits directly above the chord diagram; the finger key directly beneath it, sharing a left edge. Right-side orientation labels use compact orange eyebrow type.
