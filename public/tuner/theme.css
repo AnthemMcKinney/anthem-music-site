@@ -1487,3 +1487,8 @@ body[data-view=chords] .play-chord svg .play-fill{fill:currentColor;stroke:none}
 body[data-view=chords] .play-chord.playing{background:#c7443e;border-color:#a92f2a;color:#fff}
 body[data-view=chords] .pattern-request{margin:16px 0 0;padding:12px 4px 0;border-top:1px solid var(--theme-border);color:var(--theme-muted);font-size:12px}
 body[data-view=chords] .pattern-request a{color:var(--theme-ink);font-weight:700;text-underline-offset:3px}
+/* Compensate for the narrowest SVG scale without shrinking finger labels. */
+@media(max-width:480px){
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key .chord-diagram :is(.string-name,.finger-number){font-size:21px}
+ body[data-view=chords] .objective-chords-card .chord-diagram-with-key .chord-diagram .finger{r:9.5px}
+}

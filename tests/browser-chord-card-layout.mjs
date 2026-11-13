@@ -22,7 +22,7 @@ async function inspect(page,label){
   assert.ok(m.audio.width>=44&&m.audio.height>=44,`${tag}: speaker touch target`);
   assert.ok(m.titleSize>=29,`${tag}: readable title`);
   assert.ok(m.sub===null||(m.sub>=12&&m.subWeight>=700),`${tag}: readable subtitle`);
-  assert.ok(Math.min(...m.labels)>=9.5,`${tag}: readable diagram labels ${Math.min(...m.labels)}`);
+  assert.ok(Math.min(...m.labels)>=11.9,`${tag}: readable diagram labels ${Math.min(...m.labels)}`);
   assert.ok(m.title.right<=m.audio.x,`${tag}: title/audio separation`);
   if(m.arrow){assert.ok(m.arrow.width>=44&&m.arrow.height>=44,`${tag}: variation touch target`);assert.ok(m.arrow.x-m.title.right>=11,`${tag}: title/arrow gap`);assert.ok(Math.abs((m.arrow.y+m.arrow.height/2)-(m.audio.y+m.audio.height/2))<1,`${tag}: aligned controls`);}
   if(m.keyGroups.length===2){
