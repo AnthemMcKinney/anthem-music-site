@@ -46,6 +46,6 @@ Before changing UI, identify the closest existing example and state which classe
 
 ## Compact working screens
 
-- Tuner keeps selected note, tuning guidance, cents and detected note together; mic toggle, input activity and privacy form one compact group. Exact frequencies and pitch history use a closed-by-default Details disclosure with the established right-edge orange plus/minus. Strings stay beside the tuner at tablet/desktop widths and below on phones.
+- Tuner uses the original stacked order: note/readings, mic control/activity, pitch graph, then playable strings at every width. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph remains 140px and six-string surface 168px; wider stacked views retain a 220px graph and full six-string rows.
 - Metronome Options expands inline below the transport below 1100px; desktop retains its side panel. No overlay hides the Stop control.
 - Tablet chord diagrams cap their growth while preserving legible labels and touch targets. Expanded sections and short windows retain scrolling.
