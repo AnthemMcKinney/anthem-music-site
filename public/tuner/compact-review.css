@@ -66,3 +66,79 @@ body[data-view=tuner] .workspace #strings.guitar-neck .string{height:34px;min-he
  body[data-view=tuner] .intro{display:none}
  body[data-view=tuner] .neck-caption,body[data-view=tuner] .string-tip{display:none}
 }
+/* Tuner-only review: the pitch graph and playable strings are the working surface.
+   Supporting readings share their headers rather than creating new vertical rows. */
+body[data-view=tuner] .workspace.tuner-focused{min-height:0!important;height:auto!important;gap:12px;padding:12px;background:var(--theme-surface);grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+body[data-view=tuner] .tuner-focused .tuning-panel{display:flex!important;gap:6px;padding:0!important}
+body[data-view=tuner] .tuner-focused .tuner-summary{display:grid;grid-template-columns:68px minmax(0,1fr);gap:2px 12px;align-items:center}
+body[data-view=tuner] .tuner-focused .tuner-target{grid-row:1/3;text-align:center}
+body[data-view=tuner] .tuner-focused #target-label{display:block;font-size:9px;font-weight:800;letter-spacing:.7px;line-height:1.2}
+body[data-view=tuner] .tuner-focused .note-display{margin:0;line-height:1}
+body[data-view=tuner] .tuner-focused .note-display #target-note{font-size:46px}
+body[data-view=tuner] .tuner-focused .note-display #target-octave{font-size:16px}
+body[data-view=tuner] .tuner-focused .guidance{font-size:18px;margin:0;line-height:1.2}
+body[data-view=tuner] .tuner-focused .hint{margin:2px 0;font-size:11px;line-height:1.2}
+body[data-view=tuner] .tuner-focused .motion{font-size:10px;line-height:1.2}
+body[data-view=tuner] .tuner-focused .readings{grid-row:2;grid-column:2;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;padding:0;border:0;margin:0;font-size:10px;line-height:1.3}
+body[data-view=tuner] .tuner-focused .readings strong{font-size:13px}
+body[data-view=tuner] .tuner-focused .tuner-input{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 10px;align-items:center;border-top:1px solid var(--theme-border);padding-top:3px}
+body[data-view=tuner] .tuner-focused .mic-toggle{min-height:36px;font-size:11px;justify-content:flex-start}
+body[data-view=tuner] .tuner-focused .input-level{grid-row:auto;grid-column:2;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap;margin:0;font-size:10px}
+body[data-view=tuner] .tuner-focused .input-level meter{width:62px}
+body[data-view=tuner] .tuner-focused .privacy{display:block;grid-column:1/-1;margin:0;text-align:right;font-size:9px;line-height:1.2;color:var(--theme-muted)}
+body[data-view=tuner] .tuner-focused .tuner-graph{min-width:0}
+body[data-view=tuner] .tuner-focused .meter-labels{display:flex;justify-content:space-between;margin:0 0 3px;font-size:10px}
+body[data-view=tuner] .tuner-focused #pitch-trail{display:block;width:100%;height:clamp(140px,calc(100dvh - 460px),260px)!important;min-height:0;margin:0;border-radius:8px}
+body[data-view=tuner] .tuner-focused .meter{display:none}
+body[data-view=tuner] .tuner-focused .tuner-extras{margin:0;font-size:11px;line-height:1.3}
+body[data-view=tuner] .tuner-focused .tuner-extras>summary{min-height:28px;display:flex;align-items:center;justify-content:space-between;width:100%;font-weight:700;color:var(--theme-muted);list-style:none}
+body[data-view=tuner] .tuner-focused .tuner-extras>summary::-webkit-details-marker{display:none}
+body[data-view=tuner] .tuner-focused .tuner-extras>summary:after{content:'+';display:grid;place-items:center;border:1px solid var(--theme-accent);border-radius:50%;width:18px;height:18px;color:var(--theme-accent)}
+body[data-view=tuner] .tuner-focused .tuner-extras[open]>summary:after{content:'−'}
+body[data-view=tuner] .tuner-focused .tuner-extras p{grid-row:auto;grid-column:auto;margin:4px 0;font-size:11px}
+body[data-view=tuner] .tuner-focused .error{margin:0}
+body[data-view=tuner] .tuner-focused .error[hidden]{display:none}
+body[data-view=tuner] .tuner-focused aside .string-heading{margin:0 0 6px;min-height:28px;height:auto}
+body[data-view=tuner] .tuner-focused aside .string-heading h2{font-size:13px}
+body[data-view=tuner] .tuner-focused #strings.guitar-neck{height:clamp(180px,calc(100dvh - 360px),310px);grid-template-rows:repeat(var(--string-count,6),minmax(28px,1fr))}
+body[data-view=tuner] .tuner-focused #strings.guitar-neck .string{height:100%!important;min-height:28px!important}
+body[data-view=tuner] .tuner-focused .neck-caption,body[data-view=tuner] .tuner-focused .string-tip{display:none}
+body[data-view=tuner] .app-shell{padding-bottom:18px}
+@media(max-width:740px){
+ body[data-view=tuner] .workspace.tuner-focused{grid-template-columns:1fr;gap:6px;padding:8px}
+ body[data-view=tuner] .tuner-focused .tuning-panel{grid-row:1;grid-column:1;gap:4px}
+ body[data-view=tuner] .tuner-focused>aside{grid-row:2;grid-column:1}
+ body[data-view=tuner] .tuner-focused #pitch-trail{height:clamp(105px,calc(100dvh - 510px),160px)!important}
+ body[data-view=tuner] .tuner-focused #strings.guitar-neck{height:168px;grid-template-rows:repeat(var(--string-count,6),28px)}
+ body[data-view=tuner] .tuner-focused .tuner-extras{position:relative}
+ body[data-view=tuner] .tuner-focused aside .string-heading{min-height:24px;margin-bottom:3px}
+}
+@media(min-width:600px) and (max-width:1099px) and (max-height:500px){
+ body[data-view=tuner] header{display:none}
+ body[data-view=tuner] .instruments{padding:3px 10px}
+ body[data-view=tuner] .instruments label>span{display:none}
+ body[data-view=tuner] .instruments select{height:32px}
+ body[data-view=tuner] .workspace.tuner-focused{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);padding:6px 10px;gap:8px}
+ body[data-view=tuner] .tuner-focused>aside{grid-row:1;grid-column:1}
+ body[data-view=tuner] .tuner-focused .tuning-panel{grid-row:1;grid-column:2;gap:2px}
+ body[data-view=tuner] .tuner-focused .tuner-summary{grid-template-columns:54px minmax(0,1fr);gap:0 6px}
+ body[data-view=tuner] .tuner-focused .note-display #target-note{font-size:34px}
+ body[data-view=tuner] .tuner-focused .guidance{font-size:15px}
+ body[data-view=tuner] .tuner-focused .tuner-input{grid-template-columns:auto minmax(0,1fr);padding:0}
+ body[data-view=tuner] .tuner-focused .privacy{display:none}
+ body[data-view=tuner] .tuner-focused .mic-toggle{min-height:32px;font-size:10px}
+ body[data-view=tuner] .tuner-focused #pitch-trail{height:clamp(76px,calc(100dvh - 230px),155px)!important}
+ body[data-view=tuner] .tuner-focused #strings.guitar-neck{height:168px;grid-template-rows:repeat(var(--string-count,6),28px)}
+ body[data-view=tuner] .tuner-focused .tuner-extras>summary{min-height:24px;font-size:10px}
+}
+body[data-view=tuner] .tuner-focused>.tuner-extras{grid-column:1/-1;grid-row:2}
+@media(max-width:740px){
+ body[data-view=tuner] .tuner-focused>.tuner-extras{grid-row:3}
+ body[data-view=tuner] .tuner-focused #pitch-trail{height:clamp(105px,calc(100dvh - 540px),160px)!important}
+}
+@media(min-width:600px) and (max-width:1099px) and (max-height:500px){
+ body[data-view=tuner] .tuner-focused>.tuner-extras{grid-row:2}
+ body[data-view=tuner] .workspace.tuner-focused{padding-top:3px}
+ body[data-view=tuner] .tuner-focused aside .string-heading{min-height:24px;margin-bottom:3px}
+ body[data-view=tuner] .tuner-focused #pitch-trail{height:clamp(72px,calc(100dvh - 232px),155px)!important}
+}

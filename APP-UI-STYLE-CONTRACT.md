@@ -46,6 +46,6 @@ Before changing UI, identify the closest existing example and state which classe
 
 ## Compact working screens
 
-- Tuner keeps selected note, tuning guidance, cents and detected note together; mic toggle, input activity and privacy form one compact group. Exact frequencies and pitch history use a closed-by-default Details disclosure with the established right-edge orange plus/minus. Strings stay beside the tuner at tablet/desktop widths and below on phones.
+- Tuner keeps selected note, tuning guidance, cents and detected note together; mic toggle, input activity and privacy form one compact group. The pitch graph and playable strings remain visible by default. Target note, guidance and detected readings share one header, mic activity sits with the toggle, and only longer supporting explanations use Tuning details. Strings sit beside the graph on wide or short-landscape screens and below it on portrait phones. Height scales the graph without disabling document scrolling.
 - Metronome Options expands inline below the transport below 1100px; desktop retains its side panel. No overlay hides the Stop control.
 - Tablet chord diagrams cap their growth while preserving legible labels and touch targets. Expanded sections and short windows retain scrolling.
