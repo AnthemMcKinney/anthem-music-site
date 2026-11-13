@@ -85,3 +85,18 @@ body[data-view=tuner] .tuner-compact-summary>.tuner-selected-note{grid-column:1;
 body[data-view=tuner] .tuner-compact-summary>.note-display{grid-column:2;grid-row:1}
 body[data-view=tuner] .tuner-compact-summary>.tuner-guidance-slot{grid-column:3;grid-row:1}
 body[data-view=tuner] .readings #cents,body[data-view=tuner] .readings #frequency,body[data-view=tuner] .readings #heard{font-size:inherit;line-height:inherit;color:inherit;font-weight:800}
+
+/* Review 4: give readouts their own side panel inside a taller graph. */
+body[data-view=tuner] #pitch-trail{height:180px!important}
+body[data-view=tuner] .guidance{font-size:20px;font-style:italic;line-height:1.15}
+body[data-view=tuner] .graph-directions{inset:auto 10px 8px;align-items:flex-end;font-weight:600;letter-spacing:0}
+body[data-view=tuner] .graph-directions>span{display:flex;align-items:center;gap:3px}
+body[data-view=tuner] .graph-directions .pitch-symbol{font-size:28px;line-height:1;font-weight:500;font-style:normal;font-family:Arial,Helvetica,sans-serif}
+body[data-view=tuner] .graph-directions small{font-size:10px}
+body[data-view=tuner] .readings{top:78px;right:7px;bottom:auto;left:auto;display:grid;width:80px;gap:4px;padding:7px 6px;border:1px solid var(--theme-border);border-radius:6px;background:var(--theme-surface);font-size:11px;line-height:1.2;font-weight:800;font-family:'Arial Narrow','Roboto Condensed',Arial,sans-serif;letter-spacing:-.3px}
+body[data-view=tuner] .readings>span{display:flex;align-items:baseline;justify-content:space-between;gap:3px}
+body[data-view=tuner] .readings small{font-size:9px;font-weight:800}
+body[data-view=tuner] aside .string-heading{margin:0 0 8px;min-height:24px}
+body[data-view=tuner] aside .string-heading h2{font-size:16px;font-weight:800;color:var(--theme-ink)}
+body[data-view=tuner] .instrument-info-open{display:block;margin:6px auto 0}
+@media(min-width:741px){body[data-view=tuner] #pitch-trail{height:250px!important}body[data-view=tuner] .guidance{font-size:24px}body[data-view=tuner] .readings{top:94px;right:12px;width:80px;font-size:12px;padding:8px}body[data-view=tuner] .readings small{font-size:10px}}

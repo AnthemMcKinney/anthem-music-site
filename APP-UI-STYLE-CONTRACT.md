@@ -46,10 +46,10 @@ Before changing UI, identify the closest existing example and state which classe
 
 ## Compact working screens
 
-- Tuner uses the original stacked order: centered note and guidance, pitch graph with readings, mic control/activity, then playable strings at every width. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph remains 140px and six-string surface 168px; wider stacked views retain a 220px graph and full six-string rows.
+- Tuner uses the original stacked order: centered note and guidance, pitch graph with readings, mic control/activity, then playable strings at every width. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph is 180px in the latest review and six-string surface 168px; wider stacked views use a 250px graph and full six-string rows.
 - Metronome Options expands inline below the transport below 1100px; desktop retains its side panel. No overlay hides the Stop control.
 - Tablet chord diagrams cap their growth while preserving legible labels and touch targets. Expanded sections and short windows retain scrolling.
 
 ## Note names and octaves
 - Written pitch names use the note letter/accidental followed by a small subscript octave (E₂, F♯₃), never a full-size octave number. Use shared `note-name.css` and display-only `formatNoteText`; retain plain pitch IDs for audio and accessible text. Do not treat chord suffixes (G7, Cadd9) as octaves.
-- In the tuner, the large note is centered over the graph's zero line. Flat/sharp sit inside its upper corners; uniformly sized cents/Hz/hearing readouts sit along its bottom. A single mic row follows the graph. The short input-meter label is “Mic level”; privacy explanation remains in More.
+- In the tuner, the large note is centered over the graph's zero line. Flat/sharp use prominent musical symbols with smaller words in the bottom corners. A compact stacked cents/Hz/hearing panel sits in reserved right-side graph space; the pitch plotting range leaves that space clear while retaining its centered zero axis. A single mic row follows the graph. The short input-meter label is “Mic level”; privacy explanation remains in More.
