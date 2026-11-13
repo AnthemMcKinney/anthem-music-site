@@ -23,7 +23,7 @@ export class PitchTrail{
    const width=Math.round(rect.width*ratio),height=Math.round(rect.height*ratio);
    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
    const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.globalAlpha=1;
-   const styles=getComputedStyle(document.documentElement),accent=rgb(styles.getPropertyValue('--theme-accent')),muted=rgb(styles.getPropertyValue('--theme-muted')),border=rgb(styles.getPropertyValue('--theme-border')),green=[18,109,80],w=rect.width,h=rect.height,head=Math.min(76,Math.max(58,h*.4)),range=Math.max(1,h-head),side=Math.min(105,Math.max(94,w*.14)),x=c=>w/2+Math.max(-100,Math.min(100,c))/100*(w/2-side),signal=t=>mix(accent,green,t);
+   const styles=getComputedStyle(document.documentElement),accent=rgb(styles.getPropertyValue('--theme-accent')),muted=rgb(styles.getPropertyValue('--theme-muted')),border=rgb(styles.getPropertyValue('--theme-border')),green=[18,109,80],w=rect.width,h=rect.height,head=Math.min(76,Math.max(58,h*.4)),range=Math.max(1,h-head),x=c=>w*(.5+Math.max(-100,Math.min(100,c))*.0043),signal=t=>mix(accent,green,t);
    ctx.clearRect(0,0,w,h);const live=this.last&&now-this.last.time<220;const completed=this.gauge?.zero&&this.last&&now-this.last.time<1200;
    // The grid fills the whole display. Its moving first and last rows fade at
    // the edges so time appears to flow into and out of the trail naturally.

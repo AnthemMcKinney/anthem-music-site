@@ -100,3 +100,10 @@ body[data-view=tuner] aside .string-heading{margin:0 0 8px;min-height:24px}
 body[data-view=tuner] aside .string-heading h2{font-size:16px;font-weight:800;color:var(--theme-ink)}
 body[data-view=tuner] .instrument-info-open{display:block;margin:6px auto 0}
 @media(min-width:741px){body[data-view=tuner] #pitch-trail{height:250px!important}body[data-view=tuner] .guidance{font-size:24px}body[data-view=tuner] .readings{top:94px;right:12px;width:80px;font-size:12px;padding:8px}body[data-view=tuner] .readings small{font-size:10px}}
+
+/* Review 5: measurement text belongs with the selected target, not in the plot. */
+body[data-view=tuner] .tuner-guidance-slot{padding-right:12px}
+body[data-view=tuner] .tuner-selected-note .readings{position:static;display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;width:auto;max-width:100%;gap:1px 8px;margin:2px 0 0;padding:0;border:0;border-radius:0;background:none;color:var(--theme-muted);font:inherit;font-size:9px;font-weight:400;line-height:1.4;letter-spacing:normal}
+body[data-view=tuner] .tuner-selected-note .readings>span{display:inline-flex;justify-content:flex-start;align-items:baseline;gap:3px}
+body[data-view=tuner] .tuner-selected-note .readings small,body[data-view=tuner] .tuner-selected-note .readings #cents,body[data-view=tuner] .tuner-selected-note .readings #frequency,body[data-view=tuner] .tuner-selected-note .readings #heard{font:inherit;color:inherit}
+body[data-view=tuner] .target-frequency{color:var(--theme-muted)}
