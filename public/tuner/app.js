@@ -8,7 +8,7 @@ import {PitchTrail} from './tuner/trail.js?v=71';
 import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
-import {initMetronome} from './tuner/metronome.js?v=web-playback-159';
+import {initMetronome} from './tuner/metronome.js?v=tablet-metronome-options-1';
 import {initChords} from './tuner/chords.js?v=web-chords-164';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();

@@ -6,7 +6,13 @@
  .metronome-settings[aria-expanded=true]:after{content:'−'}
 }
 @media(min-width:741px) and (max-width:1099px){
+ .metronome-options{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 20px}
+ .metronome-options .option-heading{grid-column:1/-1;padding-bottom:10px}
+ .metronome-options fieldset{min-width:0;margin:0}
+ .metronome-options .accent-option{margin:0;align-self:start;min-height:70px}
+ .metronome-options .meter-option,.metronome-options .subdivision-options button,.metronome-options .sound-options button{min-height:44px}
  body[data-view=chords] .objective-chords-card .chord-diagram-with-key{max-width:430px;margin-inline:auto;gap:5px}
  body[data-view=chords] .objective-chords-card .chord-card-heading{margin-bottom:4px}
  body[data-view=chords] .objective-chords-card .chord-grid .chord-card{padding-block:10px}
 }
+@media(min-width:741px){.metronome-settings,.metronome-options .option-heading button{display:none}}
