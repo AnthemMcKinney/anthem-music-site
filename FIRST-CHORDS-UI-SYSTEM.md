@@ -87,5 +87,6 @@ Each section card contains:
 - Reserve an 86px chord-title column before the variation arrow; changing names does not shift that arrow. Retain the separate right-aligned Play control.
 - Place both Objective 1 legend boxes along the bottom with their original inline numbers and names. Both have the same height. Prefer one row; wrap whole boxes when needed on narrow screens, never stack numbers over names. The open-string label is Open.
 - Center SVGs within their button bounds and center captions over their individual controls. Drum switch thumbs are vertically centered in both positions.
+- Chord-card Play and alternate-shape controls retain 44px hit areas and their fixed columns, with centered 36px rounded-square faces and unchanged centered icons.
 - Place exercise controls below their pattern. Keep Tempo, Drums, and Play together as an unbroken cluster. The strumming selector and count-in share the row on wider cards and wrap together above the cluster on narrow cards. Custom progression settings retain their existing builder workflow.
 - Chord Play and variation controls are softly rounded squares (10px radius), preserving their existing touch targets and centered glyphs. Card-bottom padding is 6px with no extra footnote-bottom padding.

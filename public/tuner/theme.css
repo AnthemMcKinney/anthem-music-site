@@ -1551,3 +1551,9 @@ body[data-view=chords] .play-chord,
 body[data-view=chords] .chord-variant-nav button{border-radius:10px;display:grid;place-items:center;padding:0}
 body[data-view=chords] .objective-panel .objective-chords-card .chord-grid .chord-card{padding-bottom:6px}
 body[data-view=chords] .objective-chords-card .chord-guide-notes{padding-bottom:0}
+/* Smaller chord action faces retain the established 44px hit areas and columns. */
+body[data-view=chords] .objective-chords-card .chord-card-heading :is(.play-chord,.chord-variant-nav button){position:relative!important;isolation:isolate;border:0!important;background:transparent!important}
+body[data-view=chords] .objective-chords-card :is(.play-chord,.chord-variant-nav button)::before{content:'';position:absolute;inset:4px;z-index:-1;pointer-events:none;box-sizing:border-box;border:1px solid var(--theme-border);border-radius:8px;background:var(--theme-surface)}
+body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord::before{background:#287a45;border-color:#22693c}
+body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord:hover::before{background:#22693c}
+body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord.playing::before{background:#ad5552;border-color:#964642}

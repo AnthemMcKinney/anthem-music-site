@@ -9,7 +9,7 @@ try{for(const width of [390,1280]){
  const result=await page.evaluate(()=>{
  const all=s=>[...document.querySelectorAll(s)],bg=e=>getComputedStyle(e).backgroundColor;
  const transports=all('.chords-view .play-chord,.chords-view .play-exercise');
- const transport=transports.map(e=>{const idle=bg(e);e.classList.add('playing');const active=bg(e);e.classList.remove('playing');return {idle,active};});
+ const transport=transports.map(e=>{const face=()=>e.matches('.objective-chords-card .chord-card-heading .play-chord')?getComputedStyle(e,'::before').backgroundColor:bg(e);const idle=face();e.classList.add('playing');const active=face();e.classList.remove('playing');return {idle,active};});
  const drums=all('.chords-view .groove-toggle').map(e=>{const sw=e.querySelector('.groove-switch');e.setAttribute('aria-pressed','false');const off=bg(sw);e.setAttribute('aria-pressed','true');const on=bg(sw);e.setAttribute('aria-pressed','false');return {off,on};});
  return {transport,drums,measures:all('.chords-view .music-measure').map(bg)};
  });
@@ -18,5 +18,5 @@ try{for(const width of [390,1280]){
  for(const d of result.drums){assert.equal(d.off,'rgb(235, 236, 232)');assert.equal(d.on,'rgb(40, 122, 69)');}
  for(const m of result.measures)assert.equal(m,'rgb(255, 255, 255)');
  console.log(`${width}: ${result.transport.length} transports, ${result.drums.length} drum toggles, ${result.measures.length} white measures passed`);
- await page.screenshot({path:`/tmp/chord4-controls-${width}.png`,fullPage:false});await page.close();
+ await page.screenshot({path:`${process.env.ARTIFACT_DIR||'/tmp'}/chord4-controls-${width}.png`,fullPage:false});await page.close();
 }}finally{await browser.close();}
