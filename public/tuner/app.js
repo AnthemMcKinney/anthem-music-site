@@ -92,12 +92,25 @@ attachDiagnostic(engine,()=>({instrument:instrument.id,tuning:instrument.tunings
  visibleNote:$('target-note').textContent+$('target-octave').textContent,visibleHz:$('frequency').textContent,
  visibleCents:$('cents').textContent,guidance:$('guidance').textContent,stale:panel.dataset.stale==='true'}));
 function selectString(index,lock=false){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(lock){auto=false;if(listening||starting)stopListening();}stringIndex=index;selector.reset();engine.tracker.reset();clear();renderStrings();renderMode();}
-function renderInstrumentNotes(){queueMicrotask(()=>formatNoteText($('instrument-notes-body')));
+function renderInstrumentNotes(){queueMicrotask(()=>{
+ const body=$('instrument-notes-body');
+ if(!body.querySelector(':scope > p')){formatNoteText(body);return;}
+ const definitions=document.createElement('ul');definitions.className='tuner-definitions';
+ for(const paragraph of [...body.querySelectorAll(':scope > p')]){const item=document.createElement('li');item.innerHTML=paragraph.innerHTML;definitions.append(item);paragraph.remove();}
+ body.prepend(definitions);
+ if(!chromatic()){
+ const tips=document.createElement('ul');tips.className='tuner-key-points';
+ tips.innerHTML=instrument.id==='saxophone'?'<li>Play a comfortable long tone with steady air and a relaxed embouchure.</li>':'<li>Play the string every couple of seconds while making small adjustments to the tuning peg. Watch the pitch move toward the green center.</li><li>There is no universal direction to turn a peg. If a small turn makes the pitch farther from the target, turn the other way.</li><li>Stop tightening if the string feels unusually tight. Check the instrument, tuning, and selected string.</li>';
+ tips.insertAdjacentHTML('beforeend','<li><strong>Flat / sharp:</strong> below / above the target pitch.</li><li><strong>Cents:</strong> pitch distance from the target; 100 cents is one semitone. <strong>Hz:</strong> sound vibrations per second. <strong>Hearing:</strong> the nearest detected note.</li><li><strong>Close enough:</strong> three steady green readings confirm the pitch. The message stays between notes until an accepted reading leaves the green.</li>');
+ body.append(tips);
+ }
+ formatNoteText(body);
+});
  const details=$('instrument-notes'),open=$('instrument-info-open'),title=$('instrument-notes-title'),body=$('instrument-notes-body');
  if(!details||!open||!body)return;
  const pitchNames=notes().map(note=>note.replace(/\d$/,'').replace('b','♭').replace('#','♯'));
  details.hidden=open.hidden=chromatic();
- if(details.hidden&&details.open)details.close();
+ if(details.hidden&&details.open)details.open=false;
  if(details.hidden)return;
  if(instrument.id==='guitar'){
   title.textContent='Know your guitar';
@@ -120,7 +133,7 @@ function renderStrings(){
  container.dataset.instrument=instrument.id;
  container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());container.classList.toggle('chromatic-guide',instrument.id==='chromatic');
  container.style.setProperty('--string-count',notes().length);
- document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap to hear the note';
+ document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap to play a string';
  if(chromatic()){
   if(instrument.id==='chromatic'){
    container.innerHTML='<div class="sax-mark" aria-hidden="true">♪</div><div class="sax-copy"><strong>Chromatic tuning</strong><span>Play any single note.</span><small>The tuner follows the nearest concert-pitch note automatically.</small></div><div class="sax-transpose"><span>PLAY</span><b>Any note</b><i>→</i><span>READ</span><b>Pitch</b></div>';
@@ -192,8 +205,8 @@ function renderInstrument(){
  selectString(chromatic()?notes().indexOf('A4'):0);
 }
 $('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument-choice').value)];tuningIndex=0;auto=false;renderInstrument();};
-$('instrument-info-open').onclick=()=>$('instrument-notes').showModal();
-$('instrument-notes').addEventListener('click',event=>{if(event.target===$('instrument-notes')||event.target.closest('.instrument-info-close'))$('instrument-notes').close();else if(event.target.closest('.tuner-note-image'))$('tuner-note-dialog').showModal();});
+
+$('instrument-notes').addEventListener('click',event=>{if(event.target.closest('.tuner-note-image'))$('tuner-note-dialog').showModal();});
 $('tuner-note-dialog').addEventListener('click',event=>{if(event.target===$('tuner-note-dialog')||event.target.closest('.tuner-note-dialog-close'))$('tuner-note-dialog').close();});
 $('auto-mode').onclick=()=>{if(listening||starting){auto=false;stopListening();renderMode();return;}auto=true;selector.reset();trend=null;renderMode();void startListening();};
 $('tuning').onchange=()=>{tuningIndex=Number($('tuning').value);selectString(chromatic()?notes().indexOf('A4'):0);};

@@ -133,3 +133,15 @@ body[data-view=tuner] .tuner-prompt{font-size:20px;font-style:italic;font-weight
 body[data-view=tuner] .tuner-guidance-slot .guidance{font-size:12px;font-style:normal;line-height:1.3;margin-top:4px;min-height:1.3em}
 body[data-view=tuner] .tuner-guidance-slot .hint{font-size:10px;line-height:1.35;white-space:normal}
 @media(min-width:741px){body[data-view=tuner] .tuner-prompt{font-size:24px}body[data-view=tuner] .tuner-guidance-slot .guidance{font-size:15px}body[data-view=tuner] .tuner-guidance-slot .hint{font-size:12px}}
+
+/* Notes use the same closed-by-default disclosure/list pattern as lessons. */
+body[data-view=tuner] .tuner-notes-disclosure{margin-top:12px;border:1px solid var(--theme-border);border-radius:10px;background:var(--theme-surface);overflow:hidden;text-align:left}
+body[data-view=tuner] .tuner-notes-disclosure>summary{cursor:pointer;padding:12px 16px;min-height:44px;color:var(--theme-ink)}
+body[data-view=tuner] .tuner-notes-disclosure>summary span{margin-right:8px}
+body[data-view=tuner] .tuner-notes-content{padding:4px 16px 16px;line-height:1.55;font-size:14px}
+body[data-view=tuner] .tuner-notes-content h3{font-size:16px;margin:10px 0}
+body[data-view=tuner] .tuner-notes-content ul{padding-left:20px;margin:10px 0}
+body[data-view=tuner] .tuner-notes-content li{margin:8px 0}
+body[data-view=tuner] .tuner-notes-content img{max-width:100%;height:auto}
+body[data-view=tuner] aside .string-heading{border-bottom:1px solid var(--theme-border);padding:10px 0 6px;margin-bottom:6px}
+@media(min-width:741px){body[data-view=tuner] .tuner-stacked>aside{padding-top:12px!important}body[data-view=tuner] aside .string-heading{padding:16px 0 8px;margin-bottom:8px}body[data-view=tuner] aside .string-heading h2{font-size:24px;line-height:1.25}}
