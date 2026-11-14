@@ -16,3 +16,7 @@
  body[data-view=chords] .objective-chords-card .chord-grid .chord-card{padding-block:10px}
 }
 @media(min-width:741px){.metronome-settings,.metronome-options .option-heading button{display:none}}
+
+/* Roomy shells retain the same inset on both sides; phone gutters stay compact. */
+@media(min-width:741px){.app-shell>header{padding-inline:16px}}
+@media(min-width:1100px){.metronome-options,.metronome-options[hidden]{padding-inline:22px}.metronome-options .accent-option{box-sizing:border-box;width:100%}}

@@ -13,6 +13,8 @@ This is the app-wide visual contract for the tuner and lesson modules. It extend
 
 ## Disclosures
 
+- Strumming and Practice disclosures start closed across all course paths. Practice orders existing First Songs by objective before Common Patterns, Custom Chord Progressions, and Requested Songs / Patterns; omit objectives without songs.
+
 - Objective Notes is one expandable notes section per objective. Use the shared warm-white notes bar and filled orange plus/minus circle at the left. Put new terms, definitions, and instructional context in its expanded white body. Do not create duplicate notes disclosures for every card within the objective.
 - A collapsible section card uses the standard small orange outlined circle with a plus or minus at the far right of its header. The full title/header area is the disclosure target, not just the icon. Do not substitute a text pill, caret, filled yellow/orange badge, or a control beside the title.
 - Keep disclosure state and accessible labels synchronized. Collapsing a content panel does not stop its audio unless that behavior is explicitly requested.
@@ -32,7 +34,7 @@ Before changing UI, identify the closest existing example and state which classe
 
 - Scales reuses the prototype's cream cards, navy header, notes disclosure, right-edge plus/minus buttons, and fretboard/tab layout. The app loads it inside a scoped component so generic lesson selectors cannot change the tuner or First Chords.
 - Base tempo and Play icon styles live in public/tuner/lesson-controls.css and are shared by First Chords and Scales. Their green action colors use shared light/dark tokens for readable contrast.
-- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows three ascending notes across horizontal fretboard/string lines.
+- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows an upright six-string, three-fret scale pattern with currentColor dots.
 - Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.
 
 - App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.

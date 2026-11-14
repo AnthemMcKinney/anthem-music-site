@@ -9,7 +9,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=web-chords-164';
+import {initChords} from './tuner/chords.js?v=spacing-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -292,7 +292,7 @@ bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools'
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon tuner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8"/><path d="M6.5 7a5 5 0 0 0 0 6M17.5 7a5 5 0 0 1 0 6"/><path d="M4 5a8 8 0 0 0 0 10M20 5a8 8 0 0 1 0 10"/></svg></span><span>Tuner</span>';
 metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon metronome-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l3 17H5L8 4Z"/><path d="M7 17h10M11 17 15.5 3"/><rect class="metronome-weight" x="11.75" y="7.9" width="3" height="4.2" rx=".6" transform="rotate(18 13.25 10)"/></svg></span><span>Metronome</span>';
 chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon chords-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="chord-nut" d="M5 2h14"/><path d="M5 2v20M7.8 2v20M10.6 2v20M13.4 2v20M16.2 2v20M19 2v20M5 8.67h14M5 15.33h14M5 22h14"/><circle cx="16.2" cy="5.34" r="1.65"/><circle cx="10.6" cy="12" r="1.65"/><circle cx="13.4" cy="12" r="1.65"/></svg></span><span>Chords</span>';
-scalesNav.className='nav-item';scalesNav.innerHTML='<span class="nav-icon scales-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="6" r="2"/></svg></span><span>Scales</span>';
+scalesNav.className='nav-item';scalesNav.innerHTML='<span class="nav-icon scales-nav-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"><path class="scales-nut" d="M3 2.5h18" stroke-width="2.2"/><path d="M3 2.5v19M6.6 2.5v19M10.2 2.5v19M13.8 2.5v19M17.4 2.5v19M21 2.5v19M3 8.8h18M3 15.2h18M3 21.5h18"/><g fill="currentColor" stroke="none"><circle cx="10.2" cy="5.65" r="1.5"/><circle cx="13.8" cy="5.65" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="6.6" cy="12" r="1.5"/><circle cx="17.4" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/><circle cx="3" cy="18.35" r="1.5"/><circle cx="6.6" cy="18.35" r="1.5"/><circle cx="10.2" cy="18.35" r="1.5"/><circle cx="13.8" cy="18.35" r="1.5"/><circle cx="17.4" cy="18.35" r="1.5"/><circle cx="21" cy="18.35" r="1.5"/></g></svg></span><span>Scales</span>';
 moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
 bottomNav.append(tunerNav,metronomeNav,chordsNav,scalesNav,moreNav);document.body.append(bottomNav);
 function showView(view,{updateHash=true}={}){

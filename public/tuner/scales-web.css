@@ -1,7 +1,8 @@
 /* Web-only navigation and shell. Android assets are not changed by this review branch. */
 .bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr))!important}
-.bottom-nav .scales-nav-icon circle{fill:currentColor;stroke:var(--theme-nav);stroke-width:1.2}
-.bottom-nav .nav-item.active .scales-nav-icon circle{stroke:var(--theme-nav-active)}
+.bottom-nav .scales-nav-icon svg{width:25px;height:25px;stroke-width:.9}
+.bottom-nav .scales-nav-icon .scales-nut{stroke-width:2.2}
+.bottom-nav .scales-nav-icon circle{fill:currentColor;stroke:none}
 body[data-view=scales] .intro,body[data-view=scales] #tuner,body[data-view=scales] .metronome-view,body[data-view=scales] .chords-view{display:none}
 .intro[hidden],#tuner[hidden],.metronome-view[hidden],.chords-view[hidden],.scales-view[hidden]{display:none!important}
 .scales-view{padding:10px 0 calc(max(58px,7dvh) + env(safe-area-inset-bottom) + 28px);min-width:0}
