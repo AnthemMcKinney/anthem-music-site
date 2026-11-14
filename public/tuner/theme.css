@@ -1484,3 +1484,19 @@ body[data-view=chords] .pattern-request a{color:var(--theme-ink);font-weight:700
 /* Chord qualities use the custom-pattern notation everywhere a compact name appears. */
 body[data-view=chords] :is(h2,.chord-selector button,.preview-chord) .chord-name{display:inline;color:inherit;font:inherit;letter-spacing:inherit}
 body[data-view=chords] :is(h2,.chord-selector button,.preview-chord) .chord-name sup{position:relative;top:.12em;margin-left:1px;color:inherit;font-size:.58em;font-weight:800;line-height:1;letter-spacing:0;vertical-align:super}
+
+/* Review: instruction keys finish the first-objective card, not the diagram header. */
+body[data-view=chords] .objective-chords-card .chord-guide-notes{display:grid;grid-template-columns:1fr;gap:5px;justify-items:start}
+/* Keep interactive surfaces distinct from warm disclosure panels. */
+body[data-view=chords] :is(.music-measure,.exercise-tempo,.exercise-count-in select,.exercise-tool-strumming select,.custom-settings-trigger,.custom-strum-trigger){background:#fff!important;color:#0d1f3c}
+body[data-view=chords] .groove-toggle .groove-switch{background:#ebece8!important;border:1px solid #949c96}
+body[data-view=chords] .groove-toggle .groove-switch:after{background:#fff!important;box-shadow:0 1px 3px #0003}
+body[data-view=chords] .groove-toggle[aria-pressed=true] .groove-switch{background:#287a45!important;border-color:#287a45}
+/* One transport color language across chord samples and repeating exercises. */
+body[data-view=chords] :is(.play-chord,.play-exercise),
+body[data-view=scales] .play-exercise{background:#287a45!important;border-color:#22693c!important;color:#fff!important}
+body[data-view=chords] :is(.play-chord,.play-exercise):hover,
+body[data-view=scales] .play-exercise:hover{background:#22693c!important}
+body[data-view=chords] :is(.play-chord,.play-exercise).playing,
+body[data-view=scales] .play-exercise.playing{background:#ad5552!important;border-color:#964642!important;color:#fff!important}
+body[data-view=chords] :is(.play-chord,.play-exercise):focus-visible{outline:2px solid var(--theme-ink);outline-offset:3px}

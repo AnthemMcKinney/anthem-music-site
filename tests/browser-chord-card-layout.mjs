@@ -9,6 +9,9 @@ const browser=await webkit.launch({headless:true});
 let cardChecks=0;
 const report=[];
 async function inspect(page,label){
+ const guideScope=await page.locator('.objective-panel:visible').evaluate(p=>({first:p.dataset.objective==='one',cards:p.querySelectorAll('.chord-card').length,guides:p.querySelectorAll('.chord-guide-notes').length}));
+ assert.equal(guideScope.guides,guideScope.first?guideScope.cards:0,`${label}: keys only in Objective 1`);
+
  const measurements=await page.locator('.objective-panel:visible .chord-card:visible').evaluateAll(cards=>cards.map(card=>{
   const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
   const heading=card.querySelector('.chord-card-heading'),title=heading.querySelector('h2'),audio=heading.querySelector('.play-chord'),arrow=heading.querySelector('.chord-variant-nav button'),svg=card.querySelector('.chord-diagram'),scale=svg.getScreenCTM().a;
@@ -26,11 +29,11 @@ async function inspect(page,label){
   assert.ok(m.title.right<=m.audio.x,`${tag}: title/audio separation`);
   if(m.arrow){assert.ok(m.arrow.width>=44&&m.arrow.height>=44,`${tag}: variation touch target`);assert.ok(m.arrow.x-m.title.right>=11,`${tag}: title/arrow gap`);assert.ok(Math.abs((m.arrow.y+m.arrow.height/2)-(m.audio.y+m.audio.height/2))<1,`${tag}: aligned controls`);}
   if(m.keyGroups.length===2){
-   const [marks,fingers]=m.keyGroups;
-   assert.ok(marks.bottom<=m.diagram.y+1,`${tag}: open/mute key above diagram`);
+   const [fingers,marks]=m.keyGroups;
+   assert.ok(marks.y>=fingers.bottom-1,`${tag}: open/mute key on its own bottom row`);
    assert.ok(fingers.y>=m.diagram.bottom-1,`${tag}: finger key below diagram`);
    assert.ok(Math.abs(fingers.x-marks.x)<1,`${tag}: keys share a left anchor`);
-   const fingerRows=new Set(m.legend.slice(-4).map(l=>Math.round(l.y)));
+   const fingerRows=new Set(m.legend.slice(0,4).map(l=>Math.round(l.y)));
    assert.equal(fingerRows.size,1,`${tag}: all four finger labels stay together`);
   }
   for(const l of m.legend)assert.ok(l.x>=m.card.x&&l.right<=m.card.right+1&&l.bottom<=m.card.bottom+1,`${tag}: legend fits`);
@@ -70,8 +73,8 @@ try{
    const families=await page.locator('.objective-panel:visible .chord-card:visible .chord-variant-nav button').evaluateAll(es=>es.map(e=>e.getAttribute('aria-label')));
    for(const family of families)for(let i=0;i<4;i++){await page.locator('.objective-panel:visible .chord-variant-nav button:visible').filter({has:page.locator('svg')}).evaluateAll((es,label)=>es.find(e=>e.getAttribute('aria-label')===label)?.click(),family);await inspect(page,`${width}/${objective}/variation-${i}`);}
   }
-  for(const course of ['bar-general','uke-general']){
-   await page.getByLabel('Select instrument',{exact:true}).click();await page.locator(`[data-course-tab="${course}"]`).click();
+  for(const course of ['bar-general','bar-young','uke-general','uke-young']){
+   await page.getByLabel('Select instrument',{exact:true}).click();await page.locator(`[data-course-tab="${course.replace("-young","-general")}"]`).click();if(course.endsWith("-young"))await page.locator(".objective-panel:visible [data-path-switch=young]").click();
    for(const objective of [1,2,3]){await page.getByRole('button',{name:`Objective ${objective}`,exact:true}).click();await inspect(page,`${width}/${course}/${objective}`);}
   }
   await page.getByLabel('Select instrument',{exact:true}).click();await page.locator('[data-course-tab="guitar"]').click();
