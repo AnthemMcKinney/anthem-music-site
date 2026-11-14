@@ -21,8 +21,8 @@ for(const name of (process.env.BROWSER_ENGINES||'chromium,webkit').split(',')){
   report.push({engine:name,width,height,...r});
  }
  const options=await page.locator('#instrument-choice option').evaluateAll(es=>es.map(e=>({value:e.value,name:e.textContent})));
- for(const width of [741,820,1280]){await page.setViewportSize({width,height:1024});for(const option of options){await page.selectOption('#instrument-choice',option.value);await page.evaluate(()=>{document.querySelector('#cents').textContent='−100.0';document.querySelector('#frequency').textContent='4186.01';document.querySelector('#heard').textContent='C8';});const r=await inspect();check(r,width);report.push({engine:name,width,instrument:option.name,...r});}}
- assert.deepEqual(errors,[]);console.log(`${name}: 9 viewport checks and ${options.length*3} alternate-instrument checks passed`);
+ for(const width of [741,820,1280,1440,1640,3440]){await page.setViewportSize({width,height:1024});for(const option of options){await page.selectOption('#instrument-choice',option.value);await page.evaluate(()=>{document.querySelector('#cents').textContent='−100.0';document.querySelector('#frequency').textContent='4186.01';document.querySelector('#heard').textContent='C8';});const r=await inspect();check(r,width);report.push({engine:name,width,instrument:option.name,...r});}}
+ assert.deepEqual(errors,[]);console.log(`${name}: 9 viewport checks and ${options.length*6} alternate-instrument checks passed`);
  }finally{await browser.close();}
 }
 await writeFile(`${output}/tablet-report.json`,JSON.stringify(report,null,2));

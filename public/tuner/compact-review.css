@@ -20,3 +20,18 @@
 /* Roomy shells retain the same inset on both sides; phone gutters stay compact. */
 @media(min-width:741px){.app-shell>header{padding-inline:16px}}
 @media(min-width:1100px){.metronome-options,.metronome-options[hidden]{padding-inline:22px}.metronome-options .accent-option{box-sizing:border-box;width:100%}}
+
+/* One Anthem header across modules; keep content panels free to size themselves. */
+html[data-view]{height:auto!important;overflow-y:scroll!important;overflow-x:hidden!important;scrollbar-gutter:stable!important}
+html[data-view] body[data-view]{height:auto!important;min-height:100dvh!important;overflow:visible!important;scrollbar-gutter:auto!important}
+body[data-view] .app-shell{box-sizing:border-box;width:100%!important;max-width:1480px!important;margin:0 auto!important;padding-inline:8px!important;height:auto!important;overflow:visible!important;scrollbar-gutter:auto!important}
+body[data-view] .app-shell>header{box-sizing:border-box;width:100%;height:64px;min-height:64px;padding:0 4px;gap:12px}
+body[data-view] .app-shell>header .brand{font-size:17px;gap:8px;flex-shrink:0}
+body[data-view] .app-shell>header .brand img{width:29px;height:32px}
+body[data-view] .app-shell>header .header-right{min-width:0}
+@media(min-width:741px){
+ body[data-view] .app-shell{padding-inline:24px!important}
+ body[data-view] .app-shell>header{height:72px;min-height:72px;padding-inline:16px}
+ body[data-view] .app-shell>header .brand{font-size:26px;gap:10px}
+ body[data-view] .app-shell>header .brand img{width:44px;height:48px}
+}

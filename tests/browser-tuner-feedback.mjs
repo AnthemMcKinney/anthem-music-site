@@ -13,7 +13,7 @@ for(const name of (process.env.BROWSER_ENGINES||'chromium,webkit').split(',')){
  for(const t of [2000,10000,30000]){r=await frame(null,t);assert.equal(r.guidance,'✓ Close enough');assert.equal(r.prompt,'Play a string');}report.push({engine:name,state:'held through 30 seconds silence',...r});
  r=await frame(hz*2**(12/1200),30100);assert.equal(r.guidance,'Pitch is high');assert.notEqual(r.status,'tuned');report.push({engine:name,state:'outside green clears',...r});
  for(const t of [32000,32070,32140,32210,32280])r=await frame(hz,t);assert.equal(r.guidance,'✓ Close enough');r=await frame(hz*2**(-12/1200),34000);assert.equal(r.guidance,'Pitch is low');
- for(const [width,height]of [[320,700],[390,844],[844,390],[741,1024],[820,1280],[1280,820]]){
+ for(const [width,height]of [[320,700],[390,844],[844,390],[741,1024],[820,1280],[1280,820],[1440,900],[1640,900],[3440,900]]){
   await page.setViewportSize({width,height});
   for(const [state,pitch]of [['low',hz*2**(-12/1200)],['high',hz*2**(12/1200)],['close',hz]]){
    const start=40000+report.length*2000;for(const dt of [0,70,140,210,280])await frame(pitch,start+dt);
@@ -24,7 +24,7 @@ for(const name of (process.env.BROWSER_ENGINES||'chromium,webkit').split(',')){
  }
  await page.selectOption('#tuning',{index:1});assert.ok(!(await page.locator('#guidance').textContent()).includes('Close enough'));report.push({engine:name,state:'target change resets'});
  const chromatic=await page.locator('#instrument-choice option').evaluateAll(es=>es.find(e=>/chromatic/i.test(e.textContent)).value);await page.selectOption('#instrument-choice',chromatic);assert.equal(await page.locator('#tuner-prompt').textContent(),'Play a note');
- assert.deepEqual(errors,[]);console.log(`${name}: green/silence/outside/reset transitions and six responsive feedback layouts passed`);
+ assert.deepEqual(errors,[]);console.log(`${name}: green/silence/outside/reset transitions and nine responsive feedback layouts passed`);
  }finally{await browser.close();}
 }
 await writeFile(`${dir}/feedback-report.json`,JSON.stringify(report,null,2));

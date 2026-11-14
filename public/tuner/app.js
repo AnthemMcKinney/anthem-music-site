@@ -9,7 +9,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=spacing-review-1';
+import {initChords} from './tuner/chords.js?v=wide-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -292,9 +292,17 @@ bottomNav.className='bottom-nav';bottomNav.setAttribute('aria-label','App tools'
 tunerNav.className='nav-item';tunerNav.innerHTML='<span class="nav-icon tuner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3v7a3 3 0 0 0 6 0V3M12 13v8"/><path d="M6.5 7a5 5 0 0 0 0 6M17.5 7a5 5 0 0 1 0 6"/><path d="M4 5a8 8 0 0 0 0 10M20 5a8 8 0 0 1 0 10"/></svg></span><span>Tuner</span>';
 metronomeNav.className='nav-item';metronomeNav.innerHTML='<span class="nav-icon metronome-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8l3 17H5L8 4Z"/><path d="M7 17h10M11 17 15.5 3"/><rect class="metronome-weight" x="11.75" y="7.9" width="3" height="4.2" rx=".6" transform="rotate(18 13.25 10)"/></svg></span><span>Metronome</span>';
 chordsNav.className='nav-item';chordsNav.innerHTML='<span class="nav-icon chords-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="chord-nut" d="M5 2h14"/><path d="M5 2v20M7.8 2v20M10.6 2v20M13.4 2v20M16.2 2v20M19 2v20M5 8.67h14M5 15.33h14M5 22h14"/><circle cx="16.2" cy="5.34" r="1.65"/><circle cx="10.6" cy="12" r="1.65"/><circle cx="13.4" cy="12" r="1.65"/></svg></span><span>Chords</span>';
-scalesNav.className='nav-item';scalesNav.innerHTML='<span class="nav-icon scales-nav-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"><path class="scales-nut" d="M3 2.5h18" stroke-width="2.2"/><path d="M3 2.5v19M6.6 2.5v19M10.2 2.5v19M13.8 2.5v19M17.4 2.5v19M21 2.5v19M3 8.8h18M3 15.2h18M3 21.5h18"/><g fill="currentColor" stroke="none"><circle cx="10.2" cy="5.65" r="1.5"/><circle cx="13.8" cy="5.65" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="6.6" cy="12" r="1.5"/><circle cx="17.4" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/><circle cx="3" cy="18.35" r="1.5"/><circle cx="6.6" cy="18.35" r="1.5"/><circle cx="10.2" cy="18.35" r="1.5"/><circle cx="13.8" cy="18.35" r="1.5"/><circle cx="17.4" cy="18.35" r="1.5"/><circle cx="21" cy="18.35" r="1.5"/></g></svg></span><span>Scales</span>';
+scalesNav.className='nav-item';scalesNav.innerHTML='<span class="nav-icon scales-nav-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(-90 12 12)"><path d="M3 2.5v19M6.6 2.5v19M10.2 2.5v19M13.8 2.5v19M17.4 2.5v19M21 2.5v19M3 8.8h18M3 15.2h18M3 21.5h18"/><g fill="currentColor" stroke="none"><circle cx="10.2" cy="5.65" r="1.5"/><circle cx="13.8" cy="5.65" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="6.6" cy="12" r="1.5"/><circle cx="17.4" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/><circle cx="3" cy="18.35" r="1.5"/><circle cx="6.6" cy="18.35" r="1.5"/><circle cx="10.2" cy="18.35" r="1.5"/><circle cx="13.8" cy="18.35" r="1.5"/><circle cx="17.4" cy="18.35" r="1.5"/><circle cx="21" cy="18.35" r="1.5"/></g></g></svg></span><span>Scales</span>';
 moreNav.className='nav-item';moreNav.innerHTML='<span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></span><span>More</span>';
 bottomNav.append(tunerNav,metronomeNav,chordsNav,scalesNav,moreNav);document.body.append(bottomNav);
+// Module fragments are routes, not anchors to sections below the Anthem header.
+history.scrollRestoration='manual';
+let moduleScrollFrame;
+function resetModuleScroll(){
+ cancelAnimationFrame(moduleScrollFrame);
+ window.scrollTo({top:0,left:0,behavior:'instant'});
+ moduleScrollFrame=requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:'instant'}));
+}
 function showView(view,{updateHash=true}={}){
  const metro=view==='metronome',chords=view==='chords',more=view==='more',scales=view==='scales',tuner=!metro&&!chords&&!more&&!scales;document.body.dataset.view=view;document.documentElement.dataset.view=view;moreView.hidden=!more;
  [[tunerNav,tuner],[metronomeNav,metro],[chordsNav,chords],[scalesNav,scales],[moreNav,more]].forEach(([item,active])=>{item.classList.toggle('active',active);item.setAttribute('aria-current',active?'page':'false');});
@@ -302,11 +310,13 @@ function showView(view,{updateHash=true}={}){
  // Explicit hidden state remains correct even when a stylesheet fails to load.
  document.querySelector('.intro').hidden=!tuner;document.querySelector('#tuner').hidden=!tuner;document.querySelector('.metronome-view').hidden=!metro;document.querySelector('.chords-view').hidden=!chords;
  scalesModule.show(scales);
- if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;clear();resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)location.hash=view;
- window.scrollTo(0,0);
+ if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;clear();resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)history.pushState(null,'',`#${view}`);
+ resetModuleScroll();
 }
 tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');scalesNav.onclick=()=>showView('scales');moreNav.onclick=()=>showView('more');
-window.addEventListener('hashchange',()=>{const view=['metronome','chords','scales','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});});
+function restoreModuleRoute(){const view=['metronome','chords','scales','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});else resetModuleScroll();}
+window.addEventListener('hashchange',restoreModuleRoute);
+window.addEventListener('popstate',restoreModuleRoute);
 renderInstrument();
 showView(location.hash==='#metronome'?'metronome':location.hash==='#chords'?'chords':location.hash==='#scales'?'scales':location.hash==='#more'?'more':'tuner',{updateHash:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});

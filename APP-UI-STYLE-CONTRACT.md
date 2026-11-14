@@ -34,7 +34,7 @@ Before changing UI, identify the closest existing example and state which classe
 
 - Scales reuses the prototype's cream cards, navy header, notes disclosure, right-edge plus/minus buttons, and fretboard/tab layout. The app loads it inside a scoped component so generic lesson selectors cannot change the tuner or First Chords.
 - Base tempo and Play icon styles live in public/tuner/lesson-controls.css and are shared by First Chords and Scales. Their green action colors use shared light/dark tokens for readable contrast.
-- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows an upright six-string, three-fret scale pattern with currentColor dots.
+- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows a six-string, three-fret scale pattern rotated -90 degrees, without a nut, with currentColor dots.
 - Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.
 
 - App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.
@@ -48,7 +48,9 @@ Before changing UI, identify the closest existing example and state which classe
 
 ## Compact working screens
 
-- Tuner uses the original stacked order: centered note and guidance, pitch graph with readings, mic control/activity, then playable strings at every width. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph is 180px in the latest review and six-string surface 168px; wider stacked views use a 250px graph and full six-string rows.
+- All modules share the Anthem header: 64px high on phones, 72px from 741px, inside the same centered shell capped at 1480px. Module routes use history state rather than native section-anchor jumps; switching or traversing module history starts at the true page top.
+
+- Tuner uses the original stacked order: centered note and guidance, pitch graph with readings, mic control/activity, then playable strings below 1440px. At 1440px and above, equal-width graph and playable fretboard sit side by side at 250px high; Notes sits left beneath the graph and expands across both columns. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph is 180px in the latest review and six-string surface 168px; wider stacked views use a 250px graph and full six-string rows.
 - Metronome Options expands inline below the transport on phones. At 741–1099px the existing panel stays visible below the transport, grouping its four controls in two columns; at 1100px it retains its side panel. Width changes synchronize visibility and accessible state, while restoring the phone disclosure preference. No overlay hides the Stop control; short windows retain document scrolling.
 - Tablet chord diagrams cap their growth while preserving legible labels and touch targets. Expanded sections and short windows retain scrolling.
 
