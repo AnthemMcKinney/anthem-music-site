@@ -18,7 +18,7 @@ async function inspect(page,label){
  for(const m of measurements){
   const tag=`${label} ${m.id}`;
   assert.ok(m.diagram.x>=m.card.x&&m.diagram.right<=m.card.right+1&&m.diagram.bottom<=m.card.bottom+1,`${tag}: diagram fits`);
-  assert.ok(m.diagram.width>=Math.min(m.card.width-90,360),`${tag}: diagram uses available card width`);
+  assert.ok(m.diagram.width>=Math.min(m.card.width-26,425),`${tag}: diagram uses available card width`);
   assert.ok(m.audio.width>=44&&m.audio.height>=44,`${tag}: speaker touch target`);
   assert.ok(m.titleSize>=29,`${tag}: readable title`);
   assert.ok(m.sub===null||(m.sub>=12&&m.subWeight>=700),`${tag}: readable subtitle`);
@@ -51,7 +51,7 @@ async function inspect(page,label){
  assert.ok(shadows.every(Boolean),`${label}: continuous unmasked string shadows across nut`);
  const eyebrows=await page.locator('.objective-panel:visible .chord-orientation:visible').evaluateAll(labels=>labels.map(label=>{
   const s=getComputedStyle(label),reference=getComputedStyle(label.closest('.objective-panel').querySelector('.objective-heading-area .chords-kicker'));
-  const keys=['fontFamily','fontWeight','color'];
+  const keys=['fontFamily','fontSize','fontWeight','lineHeight','letterSpacing','color'];
   return {text:label.textContent,uppercase:s.textTransform,actual:keys.map(k=>s[k]),reference:keys.map(k=>reference[k])};
  }));
  for(const eyebrow of eyebrows){assert.deepEqual(eyebrow.actual,eyebrow.reference,`${label}: shared app eyebrow style`);assert.equal(eyebrow.uppercase,'uppercase');assert.equal(eyebrow.text,eyebrow.text.toUpperCase());}

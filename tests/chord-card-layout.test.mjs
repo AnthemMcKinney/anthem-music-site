@@ -38,7 +38,7 @@ test('Chord quality formatting is shared while minor remains baseline',()=>{
  const format=vm.runInNewContext(`${fn};formatChordLabel`);
  assert.match(format('Cadd9'),/C<sup>add9<\/sup>/);
  assert.match(format('G7'),/G<sup>7<\/sup>/);
- assert.match(format('Em'),/minor-quality/);
+ assert.equal(format('Em'),'<span class="chord-name">Em</span>');
  assert.equal(format('More essential shapes'),'More essential shapes');
  assert.match(source,/>G, Cadd9, D, Em<\/h2>/);
 });
