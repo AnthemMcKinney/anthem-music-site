@@ -1546,3 +1546,8 @@ body[data-view=chords] .objective-chords-card .chord-selector button{font-size:1
  body[data-view=chords] .objective-chords-card :is(.finger-list,.chord-mark-key){font-size:11px}
 }
 @media(max-width:360px){body[data-view=chords] .objective-chords-card .chord-selector button{font-size:14px}}
+/* Shared chord actions: softly rounded squares with centered, unchanged hit targets. */
+body[data-view=chords] .play-chord,
+body[data-view=chords] .chord-variant-nav button{border-radius:10px;display:grid;place-items:center;padding:0}
+body[data-view=chords] .objective-panel .objective-chords-card .chord-grid .chord-card{padding-bottom:6px}
+body[data-view=chords] .objective-chords-card .chord-guide-notes{padding-bottom:0}
