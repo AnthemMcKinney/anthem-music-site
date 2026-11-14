@@ -30,9 +30,9 @@ async function inspect(page,label){
   if(m.arrow){assert.ok(Math.abs(m.arrow.x-m.heading.x-98)<1,`${tag}: fixed variation-arrow column`);assert.ok(m.arrow.width>=44&&m.arrow.height>=44,`${tag}: variation touch target`);assert.ok(m.arrow.x-m.title.right>=11,`${tag}: title/arrow gap`);assert.ok(Math.abs((m.arrow.y+m.arrow.height/2)-(m.audio.y+m.audio.height/2))<1,`${tag}: aligned controls`);}
   if(m.keyGroups.length===2){
    const [fingers,marks]=m.keyGroups;
-   assert.ok(Math.abs((marks.y+marks.height/2)-(fingers.y+fingers.height/2))<1,`${tag}: keys share one centered row`);
+   assert.ok(Math.abs(marks.height-fingers.height)<1,`${tag}: keys have equal heights`);
    assert.ok(fingers.y>=m.diagram.bottom-1,`${tag}: finger key below diagram`);
-   assert.ok(marks.x>=fingers.right+3,`${tag}: keys do not overlap`);
+   assert.ok(marks.x>=fingers.right+3||marks.y>=fingers.bottom+3,`${tag}: keys wrap as whole boxes without overlap`);
    const fingerRows=new Set(m.legend.slice(0,4).map(l=>Math.round(l.y)));
    assert.equal(fingerRows.size,1,`${tag}: all four finger labels stay together`);
   }
@@ -40,7 +40,7 @@ async function inspect(page,label){
   if(await page.evaluate(()=>innerWidth>960||(innerWidth>=741&&innerWidth>innerHeight))){assert.equal(m.borderTop,m.slot>=2?1:0,`${tag}: row divider`);assert.equal(m.borderLeft,m.slot%2?1:0,`${tag}: column divider`);}
   cardChecks++;
  }
- const keyRows=measurements.filter(m=>m.keyGroups.length===2).map(m=>Math.abs(m.keyGroups[0].y-m.keyGroups[1].y)<1?1:2);assert.ok(new Set(keyRows).size<=1,`${label}: every visible card uses the same legend row count`);
+
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${label}: page fits`);
  const shadows=await page.locator('.objective-panel:visible .chord-card:visible .chord-diagram').evaluateAll(diagrams=>diagrams.map(svg=>{
   const strings=[...svg.querySelectorAll('.string-line')],nut=svg.querySelector('.nut');

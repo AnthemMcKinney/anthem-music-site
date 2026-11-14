@@ -1508,11 +1508,6 @@ body[data-view=chords] .objective-chords-card :is(.play-chord,.chord-variant-nav
 body[data-view=chords] :is(.play-chord,.play-exercise) svg{display:block;flex:none;margin:0}
 body[data-view=chords] .objective-chords-card .chord-guide-notes{display:flex;flex-wrap:nowrap;align-items:center;gap:6px;margin-left:0;justify-content:center}
 body[data-view=chords] .objective-chords-card .chord-mark-key{flex-wrap:nowrap;gap:5px}
-@container chord (max-width:380px){
- body[data-view=chords] .objective-chords-card .finger-list{gap:3px;padding:3px 4px;font-size:11px}
- body[data-view=chords] .objective-chords-card .finger-list>span{display:flex;flex-direction:column;align-items:center;line-height:1.2}
- body[data-view=chords] .objective-chords-card .chord-mark-key{padding:3px 4px;font-size:11px}
-}
 /* Keep the transport cluster together below its pattern. Selector/count-in stay adjacent when room permits. */
 body[data-view=chords] .exercise-toolbar.unified-exercise-toolbar{display:flex!important;flex-wrap:wrap;align-items:end;justify-content:center;gap:10px 16px;margin:12px 0 8px}
 body[data-view=chords] .unified-exercise-toolbar .exercise-tool{flex:none;justify-items:center;grid-template-rows:auto 40px}
@@ -1525,9 +1520,9 @@ body[data-view=chords] .unified-exercise-toolbar .exercise-tool-drums{order:3;wi
 body[data-view=chords] .unified-exercise-toolbar .exercise-tool-play{order:4;width:44px}
 body[data-view=chords] .unified-exercise-toolbar .exercise-tool-play .play-exercise{display:grid;place-items:center;width:40px;height:40px;padding:0;gap:0}
 body[data-view=chords] .unified-exercise-toolbar .exercise-tool-play .play-exercise>span{position:absolute}
-body[data-view=chords] .unified-exercise-toolbar .groove-switch{box-sizing:border-box;width:36px;height:22px;flex:none}
-body[data-view=chords] .unified-exercise-toolbar .groove-switch:after{box-sizing:border-box;top:50%;left:3px;width:14px;height:14px;transform:translateY(-50%)}
-body[data-view=chords] .unified-exercise-toolbar .groove-toggle[aria-pressed=true] .groove-switch:after{transform:translate(14px,-50%)}
+body[data-view=chords] .unified-exercise-toolbar .exercise-tool-drums .groove-switch{box-sizing:border-box;width:36px;height:22px;flex:none}
+body[data-view=chords] .unified-exercise-toolbar .exercise-tool-drums .groove-switch:after{box-sizing:border-box;top:50%;left:3px;width:14px;height:14px;transform:translateY(-50%)}
+body[data-view=chords] .unified-exercise-toolbar .exercise-tool-drums .groove-toggle[aria-pressed=true] .groove-switch:after{transform:translate(14px,-50%)}
 
 body[data-view=chords] .objective-chords-card .chord-card{container-name:chord}
 body[data-view=chords] .unified-exercise-toolbar .exercise-transport-group{display:flex;align-items:end;justify-content:center;gap:12px;order:2;flex:0 0 auto}
@@ -1541,3 +1536,13 @@ body[data-view=chords] .unified-exercise-toolbar .exercise-tool-drums{width:36px
 
 body[data-view=chords] .unified-exercise-toolbar .exercise-pattern-options{display:flex;align-items:end;justify-content:center;gap:12px;order:0;flex:1 1 200px;max-width:294px;min-width:0}
 body[data-view=chords] .unified-exercise-toolbar .exercise-pattern-options .exercise-tool-strumming{flex:1 1 100px;min-width:0}
+
+/* Objective 1 keys retain their original inline typography as an even, padded footnote. */
+body[data-view=chords] .objective-chords-card .chord-guide-notes{box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;justify-content:space-evenly;align-items:center;gap:8px;padding:6px 2px 2px;margin:0}
+body[data-view=chords] .objective-chords-card :is(.finger-list,.chord-mark-key){display:flex;flex:0 0 auto;align-items:center;justify-content:center;flex-wrap:nowrap;min-height:26px;padding:3px 6px;font-size:12px;line-height:1.4}
+body[data-view=chords] .objective-chords-card .finger-list>span{display:inline;line-height:1.4}
+body[data-view=chords] .objective-chords-card .chord-selector button{font-size:16px}
+@container chord (max-width:380px){
+ body[data-view=chords] .objective-chords-card :is(.finger-list,.chord-mark-key){font-size:11px}
+}
+@media(max-width:360px){body[data-view=chords] .objective-chords-card .chord-selector button{font-size:14px}}
