@@ -94,16 +94,22 @@ attachDiagnostic(engine,()=>({instrument:instrument.id,tuning:instrument.tunings
 function selectString(index,lock=false){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;if(lock){auto=false;if(listening||starting)stopListening();}stringIndex=index;selector.reset();engine.tracker.reset();clear();renderStrings();renderMode();}
 function renderInstrumentNotes(){queueMicrotask(()=>{
  const body=$('instrument-notes-body');
- if(!body.querySelector(':scope > p')){formatNoteText(body);return;}
- const definitions=document.createElement('ul');definitions.className='tuner-definitions';
- for(const paragraph of [...body.querySelectorAll(':scope > p')]){const item=document.createElement('li');item.innerHTML=paragraph.innerHTML;definitions.append(item);paragraph.remove();}
- body.prepend(definitions);
- if(!chromatic()){
+ if(body.querySelector(':scope > .tuner-key-points')||!body.querySelector(':scope > p')){formatNoteText(body);return;}
  const tips=document.createElement('ul');tips.className='tuner-key-points';
- tips.innerHTML=instrument.id==='saxophone'?'<li>Play a comfortable long tone with steady air and a relaxed embouchure.</li>':'<li>Play the string every couple of seconds while making small adjustments to the tuning peg. Watch the pitch move toward the green center.</li><li>There is no universal direction to turn a peg. If a small turn makes the pitch farther from the target, turn the other way.</li><li>Stop tightening if the string feels unusually tight. Check the instrument, tuning, and selected string.</li>';
- tips.insertAdjacentHTML('beforeend','<li><strong>Flat / sharp:</strong> below / above the target pitch.</li><li><strong>Cents:</strong> pitch distance from the target; 100 cents is one semitone. <strong>Hz:</strong> sound vibrations per second. <strong>Hearing:</strong> the nearest detected note.</li><li><strong>Close enough:</strong> three steady green readings confirm the pitch. The message stays between notes until an accepted reading leaves the green.</li>');
- body.append(tips);
+ const definitions=document.createElement('section');definitions.className='objective-definitions tuner-definitions';definitions.innerHTML='<strong>Quick definitions</strong>';
+ for(const paragraph of [...body.querySelectorAll(':scope > p')]){
+  const isDefinition=/What the small number means|Read the frets/.test(paragraph.querySelector('strong')?.textContent||'');
+  const item=document.createElement(isDefinition?'span':'li');item.innerHTML=paragraph.innerHTML;
+  if(isDefinition){item.className='objective-definition';definitions.append(item);}else tips.append(item);
+  paragraph.remove();
  }
+ if(!chromatic()){
+ tips.insertAdjacentHTML('beforeend',instrument.id==='saxophone'?'<li>Play a comfortable long tone with steady air and a relaxed embouchure.</li>':'<li>Play the string every couple of seconds while making small adjustments to the tuning peg. Watch the pitch move toward the green center.</li><li>There is no universal direction to turn a peg. If a small turn makes the pitch farther from the target, turn the other way.</li><li>Stop tightening if the string feels unusually tight. Check the instrument, tuning, and selected string.</li>');
+ definitions.insertAdjacentHTML('beforeend','<span class="objective-definition"><b>Flat / sharp:</b> below / above the target pitch.</span><span class="objective-definition"><b>Cents:</b> pitch distance from the target; 100 cents is one semitone.</span><span class="objective-definition"><b>Hz:</b> sound vibrations per second. <b>Hearing:</b> the nearest detected note.</span><span class="objective-definition"><b>Close enough:</b> three steady green readings confirm the pitch. The message stays between notes until an accepted reading leaves the green.</span>');
+ }
+ const label=document.createElement('p');label.className='objective-note-section-label';label.textContent='QUICK NOTES';
+ body.prepend(label,tips,definitions);
+ const image=body.querySelector('.tuner-note-image');if(image){const visuals=document.createElement('div');visuals.className='objective-one-visuals';visuals.innerHTML='<p>STRING &amp; FRET MAP · TAP TO ENLARGE</p>';image.replaceWith(visuals);visuals.append(image);}
  formatNoteText(body);
 });
  const details=$('instrument-notes'),open=$('instrument-info-open'),title=$('instrument-notes-title'),body=$('instrument-notes-body');

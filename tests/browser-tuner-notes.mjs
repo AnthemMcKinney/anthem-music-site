@@ -8,7 +8,7 @@ for(const name of (process.env.BROWSER_ENGINES||'chromium,webkit').split(',')){
  const notes=page.locator('#instrument-notes'),summary=page.locator('#instrument-info-open');assert.equal(await notes.evaluate(e=>e.open),false);
  for(const [width,height]of [[390,844],[844,390],[820,1280],[1280,820]]){
   await page.setViewportSize({width,height});await summary.click();assert.equal(await notes.evaluate(e=>e.open),true);
-  assert.ok(await page.locator('.tuner-definitions li').count()>0);assert.ok(await page.locator('.tuner-key-points li').count()>0);
+  assert.ok(await page.locator('.tuner-definitions .objective-definition').count()>0);assert.ok(await page.locator('.tuner-key-points li').count()>0);
   const g=await page.evaluate(()=>{const h=document.querySelector('.string-heading'),s=getComputedStyle(h);return{overflow:document.documentElement.scrollWidth>innerWidth,font:getComputedStyle(h.querySelector('h2')).fontSize,top:parseFloat(s.paddingTop),bottom:parseFloat(s.paddingBottom),rule:s.borderBottomWidth};});
   assert.equal(g.overflow,false);assert.ok(g.top>g.bottom);assert.equal(g.rule,'1px');if(width>=741)assert.equal(g.font,'24px');report.push({engine:name,width,height,...g});
   await page.locator('.tuner-note-image').click();assert.equal(await page.locator('#tuner-note-dialog').evaluate(e=>e.open),true);await page.locator('.tuner-note-dialog-close').click();assert.equal(await page.locator('#tuner-note-dialog').evaluate(e=>e.open),false);

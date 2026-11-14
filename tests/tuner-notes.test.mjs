@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const html=readFileSync('public/tuner/index.html','utf8'),app=readFileSync('public/tuner/app.js','utf8'),css=readFileSync('public/tuner/tuner-stacked.css','utf8');
 test('tuner notes are a closed native disclosure, not a modal',()=>{
- assert.match(html,/<details id="instrument-notes" class="tuner-notes-disclosure">/);
- assert.match(html,/<summary id="instrument-info-open">/);
+ assert.match(html,/<details id="instrument-notes" class="tuner-notes-disclosure lesson-details">/);
+ assert.match(html,/<summary id="instrument-info-open" class="lesson-summary">/);
  assert.doesNotMatch(app,/instrument-notes'\)\.showModal/);
  assert.match(app,/tuner-definitions/);assert.match(app,/tuner-key-points/);
 });
