@@ -57,3 +57,8 @@ Before changing UI, identify the closest existing example and state which classe
 ## Chord-card review standard
 - Playback uses the shared green Play triangle and red Stop square, with matching action labels. Chord previews use Play rather than a speaker symbol; speaker icons are reserved for volume/mute. Keep existing loading/cancellation behavior.
 - Expandable headers use a warm-white mix (70% surface / 30% secondary cream) with white expanded reading areas. Open subrows use the secondary cream. Theme tokens preserve dark/alternate palettes. Avoid blue-gray fills.
+
+## Readability and negative-space review
+- Flag roomy panels with tiny text in tablet, portrait/landscape, and resized desktop checks. Extra room is a reason to improve reading scale, not automatically stretch graphs, fretboards, or add filler.
+- The tuner retains its working-surface heights and centered pitch axis. At 741px and above, target/frequency/readouts use a shared 13–15px reading scale rather than the 9px phone treatment; related mic and graph captions scale with it. Phone layout stays compact.
+- Test live/long values and alternate instruments, not only empty-state dashes. Verify labels remain readable and do not collide at breakpoint edges. Deliberate breathing room below a completed tool is preferable to arbitrarily oversized controls.
