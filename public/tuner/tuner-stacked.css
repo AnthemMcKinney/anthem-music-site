@@ -181,3 +181,13 @@ body[data-view=tuner] .tuner-stacked>.tuner-notes-disclosure{order:3;width:100%;
  body[data-view=tuner] .tuner-stacked>.tuner-notes-disclosure{grid-column:1/-1;grid-row:7;margin-top:0;width:100%}
  body[data-view=tuner] .tuner-notes-disclosure>.lesson-summary{box-sizing:border-box;width:100%;text-align:left}
 }
+
+/* Match the centered stacked working surfaces; retain a readable phone plot. */
+@media(max-width:1099px){
+ body[data-view=tuner] .pitch-graph{box-sizing:border-box;width:100%;max-width:480px;margin-inline:auto;aspect-ratio:2;min-height:180px}
+ body[data-view=tuner] .workspace:has(#strings.guitar-neck) .pitch-graph{min-height:max(180px,calc(var(--string-count,6)*28px + 6px))}
+ body[data-view=tuner] .pitch-graph #pitch-trail{position:absolute;inset:0;box-sizing:border-box;width:100%!important;height:100%!important;margin:0!important}
+}
+@media(min-width:741px) and (max-width:1099px){
+ body[data-view=tuner] .pitch-graph,body[data-view=tuner] .workspace:has(#strings.guitar-neck) .pitch-graph{max-width:600px;min-height:250px}
+}

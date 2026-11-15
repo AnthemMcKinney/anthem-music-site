@@ -9,7 +9,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=proportions-review-1';
+import {initChords} from './tuner/chords.js?v=matched-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -139,6 +139,7 @@ function renderStrings(){
  container.dataset.instrument=instrument.id;
  container.classList.toggle('guitar-neck',!chromatic());container.classList.toggle('sax-guide',chromatic());container.classList.toggle('chromatic-guide',instrument.id==='chromatic');
  container.style.setProperty('--string-count',notes().length);
+ container.closest('.workspace').style.setProperty('--string-count',notes().length);
  document.querySelector('.string-heading h2').textContent=chromatic()?'Tap Auto, then play any note':'Tap to play a string';
  if(chromatic()){
   if(instrument.id==='chromatic'){
