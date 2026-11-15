@@ -1,7 +1,7 @@
-import {installModuleSwipe} from './tuner/module-swipe.js?v=web-166-final';
+import {installModuleSwipe} from './tuner/module-swipe.js?v=ukulele-review-1';
 import {GreenReadingConfirmation} from './tuner/confirmation.js';
 import {formatNoteText} from './tuner/note-name.js';
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=ukulele-review-1';
 import {TunerAudio} from './tuner/audio.js?v=web-audio-1';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
@@ -10,7 +10,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=web-166-final';
+import {initChords} from './tuner/chords.js?v=ukulele-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -125,9 +125,9 @@ function renderInstrumentNotes(){queueMicrotask(()=>{
   return;
  }
  if(instrument.id==='ukulele'){
-  const baritone=instrument.tunings[tuningIndex][0]==='Baritone',phrase=baritone?'<b>D</b>onkeys <b>G</b>row <b>B</b>ig <b>E</b>ars':'<b>G</b>ood <b>C</b>hildren <b>E</b>at <b>A</b>pples';
+  const baritone=instrument.tunings[tuningIndex][0].startsWith('Baritone'),phrase=baritone?'<b>D</b>onkeys <b>G</b>row <b>B</b>ig <b>E</b>ars':'<b>G</b>ood <b>C</b>hildren <b>E</b>at <b>A</b>pples';
   title.textContent=baritone?'Know your baritone ukulele':'Know your ukulele';
-  body.innerHTML=`<p><strong>Remember the open strings:</strong> Say “${phrase}.” Your selected tuning is ${pitchNames.join(' · ')}.</p><p><strong>What the small number means:</strong> It is the note’s octave—the same note name in a higher or lower pitch range. High-G ukulele uses G4; low-G uses the deeper G3.</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary, but commonly appear on odd-numbered frets with a special marker at fret 12.</p>`;
+  body.innerHTML=`<p><strong>Remember the open strings:</strong> Say “${phrase}.” Your selected tuning is ${pitchNames.join(' · ')}.</p><p><strong>What the small number means:</strong> It is the note’s octave—the same note name in a higher or lower pitch range. ${baritone?'Standard baritone uses low D3. High-D baritone uses D4, above G3 and B3; the other three strings stay G3, B3 and E4.':'High-G ukulele uses G4; low-G uses the deeper G3.'}</p><p><strong>Read the frets:</strong> A fret is the playing space between two metal strips. Count those spaces from the headstock: fret 1, fret 2, fret 3, and so on. Position markers vary, but commonly appear on odd-numbered frets with a special marker at fret 12.</p>`;
   return;
  }
  title.textContent=`Know your ${instrument.name.toLowerCase()}`;
@@ -212,7 +212,7 @@ function renderInstrument(){
  $('tuning').disabled=instrument.tunings.length===1;
  selectString(chromatic()?notes().indexOf('A4'):0);
 }
-$('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument-choice').value)];tuningIndex=0;auto=false;renderInstrument();};
+$('instrument-choice').onchange=()=>{instrument=instruments[Number($('instrument-choice').value)];tuningIndex=0;auto=listening||starting;renderInstrument();};
 
 $('instrument-notes').addEventListener('click',event=>{if(event.target.closest('.tuner-note-image'))$('tuner-note-dialog').showModal();});
 $('tuner-note-dialog').addEventListener('click',event=>{if(event.target===$('tuner-note-dialog')||event.target.closest('.tuner-note-dialog-close'))$('tuner-note-dialog').close();});
@@ -227,7 +227,7 @@ async function startListening(){
  message('Allow the microphone','Use your browser’s permission prompt, or cancel below.');
  try{await engine.start();}
  catch(error){if(request!==requestId)return;engine.stop();$('error').hidden=false;$('error').textContent=error.name==='NotAllowedError'?'Microphone access was blocked. Allow it in your browser’s site settings, then try again.':error.name==='NotFoundError'?'No microphone found. Connect one and try again.':error.name==='NotReadableError'?'The microphone is busy or unavailable. Close other audio apps and try again.':error.message;}
- finally{if(request===requestId)starting=false;}
+ finally{if(request===requestId){starting=false;renderMode();}}
 }
 async function restoreMicrophone(){
  if(resuming||document.hidden)return;
