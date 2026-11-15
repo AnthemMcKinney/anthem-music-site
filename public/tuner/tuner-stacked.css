@@ -191,3 +191,6 @@ body[data-view=tuner] .tuner-stacked>.tuner-notes-disclosure{order:3;width:100%;
 @media(min-width:741px) and (max-width:1099px){
  body[data-view=tuner] .pitch-graph,body[data-view=tuner] .workspace:has(#strings.guitar-neck) .pitch-graph{max-width:600px;min-height:250px}
 }
+
+/* Quiet measurement surface; the canvas retains its narrow green accuracy lane. */
+body[data-view=tuner] #pitch-trail{background:color-mix(in srgb,var(--theme-surface) 70%,var(--theme-soft))}

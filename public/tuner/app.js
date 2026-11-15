@@ -1,3 +1,4 @@
+import {installModuleSwipe} from './tuner/module-swipe.js?v=swipe-review-1';
 import {GreenReadingConfirmation} from './tuner/confirmation.js';
 import {formatNoteText} from './tuner/note-name.js';
 import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=55';
@@ -9,7 +10,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=headers-review-1';
+import {initChords} from './tuner/chords.js?v=swipe-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -314,6 +315,7 @@ function showView(view,{updateHash=true}={}){
  if(!tuner){referenceRequest++;clearTimeout(referenceTimer);engine.stopReference();playUntil=0;clear();resumeWanted=false;if(listening||starting)stopListening();}if(!metro)metronome.stop();else metronome.resumeVisual();if(!chords)chordsModule.stopPlayback();else chordsModule.syncSound();if(updateHash&&location.hash!==`#${view}`)history.pushState(null,'',`#${view}`);
  resetModuleScroll();
 }
+installModuleSwipe({current:()=>document.body.dataset.view,navigate:showView});
 tunerNav.onclick=()=>showView('tuner');metronomeNav.onclick=()=>showView('metronome');chordsNav.onclick=()=>showView('chords');scalesNav.onclick=()=>showView('scales');moreNav.onclick=()=>showView('more');
 function restoreModuleRoute(){const view=['metronome','chords','scales','more'].includes(location.hash.slice(1))?location.hash.slice(1):'tuner';if(document.body.dataset.view!==view)showView(view,{updateHash:false});else resetModuleScroll();}
 window.addEventListener('hashchange',restoreModuleRoute);
