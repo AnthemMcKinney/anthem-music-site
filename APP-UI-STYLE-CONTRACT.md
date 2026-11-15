@@ -34,7 +34,7 @@ Before changing UI, identify the closest existing example and state which classe
 
 - Scales reuses the prototype's cream cards, navy header, notes disclosure, right-edge plus/minus buttons, and fretboard/tab layout. The app loads it inside a scoped component so generic lesson selectors cannot change the tuner or First Chords.
 - Base tempo and Play icon styles live in public/tuner/lesson-controls.css and are shared by First Chords and Scales. Their green action colors use shared light/dark tokens for readable contrast.
-- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows a six-string, three-fret scale pattern rotated -90 degrees, without a nut, with currentColor dots.
+- The five-button web navigation uses the existing 24px rounded-line icon language. The Scales icon shows a horizontal six-string, three-full-fret-space scale pattern: four equally thin fret boundaries, strings continuing beyond both end boundaries, no nut/end cap, and currentColor dots.
 - Leaving Scales or hiding the page stops current and pending playback. Collapsing a card does not stop its audio.
 
 - App startup must show only one tool before JavaScript finishes. Optional lessons load separately and cannot block navigation. Keep lesson content hidden until its stylesheet is ready; use a contained retry state on load failure.
@@ -48,7 +48,7 @@ Before changing UI, identify the closest existing example and state which classe
 
 ## Compact working screens
 
-- All modules share the Anthem header: 64px high on phones, 72px from 741px, inside the same centered shell capped at 1480px. Module routes use history state rather than native section-anchor jumps; switching or traversing module history starts at the true page top.
+- All modules and the direct Scales page use shared-header.css for the Anthem bar, crest flex/max constraints, brand typography, module-label slot and portal metrics. Verify child geometry and rendered crops after module styles/fonts load, not just outer bounds. All modules share the Anthem header: 64px high on phones, 72px from 741px, inside the same centered shell capped at 1480px. Module routes use history state rather than native section-anchor jumps; switching or traversing module history starts at the true page top.
 
 - Tuner uses the original stacked order: centered note and guidance, pitch graph with readings, mic control/activity, then playable strings below 1100px. Stacked graph and fretboard share centered width bounds (480px phone / 600px tablet) and scale near 2:1. The graph matches the fretboard height except for a 180px phone readability floor; string minimum heights remain unchanged. At 1100px and above, equal-width graph and playable fretboard sit side by side; their matching height grows with column width (minimum 250px). The action prompt and separate feedback center above both columns. Notes spans both columns, with its control left aligned beneath the graph. Consolidate secondary information into shared rows; do not shorten the graph or string surface to force a one-screen layout. Keep scrolling on short windows. The phone graph retains a minimum 180px height and strings retain their existing minimum heights; tablet surfaces share proportional dimensions with a 250px minimum.
 - Metronome Options expands inline below the transport on phones. At 741–1099px the existing panel stays visible below the transport, grouping its four controls in two columns; at 1100px it retains its side panel. Width changes synchronize visibility and accessible state, while restoring the phone disclosure preference. No overlay hides the Stop control; short windows retain document scrolling.
@@ -59,7 +59,7 @@ Before changing UI, identify the closest existing example and state which classe
 - In the tuner, the large note is centered over the graph's zero line. Flat/sharp use prominent musical symbols with smaller words in the bottom corners. Cents/Hz/hearing are compact secondary text directly below the target note/frequency, matching its typography. The pitch plot retains its original full-width horizontal mapping; no control panel occupies the grid. A single mic row follows the graph. The short input-meter label is “Mic level”; privacy explanation remains in More.
 
 ## Chord-card review standard
-- Playback uses the shared green Play triangle and red Stop square, with matching action labels. Chord previews use Play rather than a speaker symbol; speaker icons are reserved for volume/mute. Keep existing loading/cancellation behavior.
+- Playback uses the shared green Play triangle and red Stop square, with matching action labels. Single-chord previews use the original speaker SVG and neutral circular control from b497518, with explicit accessible Play/Stop labels and orange active state. Progression and strumming transports retain their green Play/red Stop treatment. Keep existing loading/cancellation behavior.
 - Expandable headers use a warm-white mix (70% surface / 30% secondary cream) with white expanded reading areas. Open subrows use the secondary cream. Theme tokens preserve dark/alternate palettes. Avoid blue-gray fills.
 
 ## Readability and negative-space review

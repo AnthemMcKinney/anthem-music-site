@@ -25,8 +25,8 @@ test('Shape descriptions remain below the chord name, including the full F barre
  const title=chordTitleParts(chords.find(c=>c.id==='f-full'));
  assert.equal(title.title,'F');assert.equal(title.subtitle,'full barre');
 });
-test('Chord preview uses shared Play icon and explicit Play action label',()=>{
- assert.match(source,/const speakerIcon=playIcon/);
+test('Chord preview restores original speaker artwork with explicit Play action label',()=>{
+ assert.ok(source.includes("const speakerIcon=()=>'<svg viewBox=\"0 0 75 75\" aria-hidden=\"true\"><path d=\"M39.389 13.769 22.235 28.606H6v19.093h15.989L39.389 62.75V13.769Z\"/><path d=\"M48 27.6a19.5 19.5 0 0 1 0 21.4M55.1 20.5a30 30 0 0 1 0 35.6M61.6 14a38.8 38.8 0 0 1 0 48.6\"/></svg>';"));
  assert.match(source,/aria-label="Play \$\{c.name\} chord"/);
  assert.doesNotMatch(source,/aria-label="Hear \$\{c.name\} chord"/);
 });

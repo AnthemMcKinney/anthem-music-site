@@ -1557,3 +1557,9 @@ body[data-view=chords] .objective-chords-card :is(.play-chord,.chord-variant-nav
 body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord::before{background:#287a45;border-color:#22693c}
 body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord:hover::before{background:#22693c}
 body[data-view=chords] .objective-chords-card .chord-card-heading .play-chord.playing::before{background:#ad5552;border-color:#964642}
+
+/* Restore the original b497518 chord speaker control; exercise transports stay unchanged. */
+body[data-view=chords] #chords-view .play-chord{border:1px solid var(--theme-border)!important;border-radius:50%;background:var(--theme-surface)!important;color:var(--theme-ink)!important;transform:none}
+body[data-view=chords] #chords-view .play-chord::before{content:none}
+body[data-view=chords] #chords-view .play-chord svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body[data-view=chords] #chords-view .play-chord.playing{border-color:var(--theme-accent)!important;background:var(--theme-accent)!important;color:var(--theme-on-accent)!important;transform:scale(.96)}

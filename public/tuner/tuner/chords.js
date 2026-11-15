@@ -107,7 +107,7 @@ function diagram(chord){
 function variationLinks(c){return c.variants?.length?`<div class="variation-links"><span>ALTERNATES & VARIATIONS</span>${c.variants.map(id=>`<button data-preview-chord="${id}">${byId[id].name}</button>`).join('')}</div>`:'';}
 const playIcon=()=>'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path class="play-fill" d="m10 8 6 4-6 4V8Z"/></svg>';
 const stopIcon=()=>'<svg class="lesson-stop-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor" stroke="none"/></svg>';
-const speakerIcon=playIcon;
+const speakerIcon=()=>'<svg viewBox="0 0 75 75" aria-hidden="true"><path d="M39.389 13.769 22.235 28.606H6v19.093h15.989L39.389 62.75V13.769Z"/><path d="M48 27.6a19.5 19.5 0 0 1 0 21.4M55.1 20.5a30 30 0 0 1 0 35.6M61.6 14a38.8 38.8 0 0 1 0 48.6"/></svg>';
 function chordTitleParts(c){const title=c.measureName||c.name.split(' · ')[0],derived=c.name!==title?c.name.replace(title,'').replace(/^[\s·–—-]+/,'').trim():'';return {title,subtitle:c.subtitle||derived};}
 function formatChordLabel(label){
  const match=label.match(/^([A-G](?:♯|♭|#|b)?)(m|7|maj7|m7|add9|sus2|sus4|dim|aug|9)?$/);

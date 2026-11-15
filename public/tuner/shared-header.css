@@ -1,0 +1,20 @@
+/* One header component, including image flex/max constraints and all text metrics. */
+body .anthem-header.anthem-header{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;width:100%;max-width:none;height:64px;min-height:64px;margin:0;padding:0 4px;gap:12px;border:0;border-bottom:1px solid var(--theme-border,#e2ddd0);background:var(--theme-surface,#fff);color:var(--theme-ink,#0d1f3c);font:400 16px/1.25 var(--app-font);letter-spacing:normal}
+body .anthem-header.anthem-header .brand{display:flex;align-items:center;flex:0 0 auto;gap:8px;margin:0;padding:0;color:var(--theme-ink,#0d1f3c);font:600 17px/1.25 var(--app-font);letter-spacing:-.5px;text-decoration:none;white-space:nowrap}
+body .anthem-header.anthem-header .brand img{display:block;flex:0 0 auto;width:29px;height:32px;min-width:0;max-width:none;max-height:none;object-fit:contain;margin:0;padding:0}
+body .anthem-header.anthem-header .brand span{font:inherit;letter-spacing:inherit}
+body .anthem-header.anthem-header .brand .brand-sub{color:var(--theme-accent,#ef5b12)}
+body .anthem-header.anthem-header .header-right{display:flex;flex-direction:row;align-items:center;flex:0 0 auto;gap:18px;min-width:0;margin:0;padding:0}
+body .anthem-header.anthem-header .edition{display:none;width:132px;flex:0 0 132px;text-align:right;white-space:nowrap;color:var(--theme-muted,#5c6470);font:800 12px/16px var(--app-font);letter-spacing:1.7px}
+body .anthem-header.anthem-header #portal{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;margin:0;border:0;border-radius:8px;padding:7px 8px;color:var(--theme-on-accent,#fff);background:var(--theme-accent,#ef5b12);font:700 11px/16px var(--app-font);letter-spacing:normal;text-decoration:none;white-space:nowrap}
+body .anthem-header.anthem-header #portal[hidden]{display:none}
+html:has(.standalone-header-shell){overflow-y:scroll;scrollbar-gutter:stable}
+.standalone-header-shell{--theme-accent:#e85d1a;--theme-border:#d8d0c1;box-sizing:border-box;width:100%;max-width:1480px;margin:0 auto;padding:0 8px}
+@media(min-width:741px){
+ body .anthem-header.anthem-header{height:72px;min-height:72px;padding-inline:16px}
+ body .anthem-header.anthem-header .brand{font-size:26px;gap:10px}
+ body .anthem-header.anthem-header .brand img{width:44px;height:48px}
+ body .anthem-header.anthem-header .edition{display:block}
+ body .anthem-header.anthem-header #portal{font-size:13px;line-height:17px;padding:9px 12px}
+ .standalone-header-shell{padding-inline:24px}
+}

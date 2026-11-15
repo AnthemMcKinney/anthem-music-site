@@ -3,7 +3,7 @@ const engines=await import(process.env.PLAYWRIGHT_MODULE||'playwright'),dir=proc
 for(const name of ['chromium','webkit']){
  const browser=await engines[name].launch({headless:true,...(name==='chromium'&&process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
  try{const page=await browser.newPage({serviceWorkers:'block',hasTouch:true}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto((process.env.BASE_URL||'http://127.0.0.1:4360')+'/tuner/#tuner');await page.waitForFunction(()=>!document.querySelector('#app-load-status'));
- assert.equal(await page.locator('.scales-nav-icon svg>g').getAttribute('transform'),'rotate(-90 12 12)');assert.equal(await page.locator('.scales-nav-icon .scales-nut').count(),0);
+ assert.equal(await page.locator('.scales-nav-icon .scales-frets').getAttribute('d'),'M3 3v18M9 3v18M15 3v18M21 3v18');assert.equal(await page.locator('.scales-nav-icon .scales-nut').count(),0);
  await page.evaluate(()=>{const p=document.querySelector('#portal');p.hidden=false;p.textContent='Student Portal ↗';});
  for(const width of [320,390,740,741,825,907,1099,1100,1101,1280,1435,1439,1440,1441,1640,2560,3440]){
   await page.setViewportSize({width,height:900});const headers=[];
