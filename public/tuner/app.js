@@ -1,7 +1,7 @@
-import {installModuleSwipe} from './tuner/module-swipe.js?v=ukulele-review-1';
+import {installModuleSwipe} from './tuner/module-swipe.js?v=web-167-final';
 import {GreenReadingConfirmation} from './tuner/confirmation.js';
 import {formatNoteText} from './tuner/note-name.js';
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=ukulele-review-1';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=web-167-final';
 import {TunerAudio} from './tuner/audio.js?v=web-audio-1';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
@@ -10,7 +10,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=ukulele-review-1';
+import {initChords} from './tuner/chords.js?v=web-167-final';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
@@ -273,7 +273,7 @@ moreSection('First-chord lessons','<p>First Chords follows a progressive lesson 
 moreSection('Scales','<p>Learn guitar note names, connect scale patterns, and practice with tablature and backing tracks. Scales is part of the web app.</p>');
 moreSection('Strumming','<p>Strumming is part of First Chords because the rhythm and the chord shape need to work together. Choose your instrument and learning path in First Chords, then open the Strumming tab.</p><p>Start with the practice patterns and build toward the common, two-bar, and sixteenth-note patterns. Choose a chord in an exercise to hear that pattern with the shape you are learning; tap the chord name to see its diagram.</p>');
 moreSection('Privacy and credits','<p>Microphone audio stays on this device and is used only for live tuning. Recording credits and license details are included in the Tuner and sound help section.</p>');
-const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.166';moreBody.append(copyright,feedback,version);
+const copyright=document.createElement('p');copyright.className='more-copyright';copyright.textContent='© 2026 Anthem Music. All rights reserved.';const feedback=document.createElement('p');feedback.className='more-feedback';feedback.innerHTML='Please provide feedback to <a href="mailto:info@anthemmusic.net">info@anthemmusic.net</a>.';const version=document.createElement('p');version.className='app-version';version.textContent='Beta 3.7.167';moreBody.append(copyright,feedback,version);
 const metronome=initMetronome(),chordsModule=initChords();
 // Keep Scales dependencies out of the core app startup path.
 const scalesView=document.createElement('section');scalesView.id='scales-view';scalesView.className='scales-view';scalesView.hidden=true;scalesView.setAttribute('aria-label','Guitar scales');document.querySelector('main').append(scalesView);
