@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>Anthem Music — McKinney, Texas</title>
+  <desc>Centered Anthem Music crest and wordmark, designed for wide and square link previews.</desc>
+  <rect width="1200" height="630" fill="#FBF7EC"/>
+  <rect y="0" width="1200" height="12" fill="#E85D1A"/>
+  <rect y="618" width="1200" height="12" fill="#E85D1A"/>
+  <g transform="translate(525 49) scale(1.5)">
+  <path d="M50 4 L92 17 L92 62 Q92 92 50 106 Q8 92 8 62 L8 17 Z" fill="#0D1F3C" stroke="#F5ECD7" stroke-width="3"/>
+  <path d="M50 12 L84 22 L84 60 Q84 84 50 96 Q16 84 16 60 L16 22 Z" fill="none" stroke="#E85D1A" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="50" cy="34" r="9" fill="#E85D1A" opacity="0.85"/>
+  <path d="M28 62 L42 40 L49 49 L58 34 L72 62 Z" fill="#F5ECD7"/>
+  <path d="M42 40 L46 46 L49 49 L45 43 Z" fill="#0D1F3C"/>
+  <path d="M58 34 L62 42 L65 47 L60 40 Z" fill="#0D1F3C"/>
+</g>
+  <text x="600" y="337" text-anchor="middle" fill="#0D1F3C" font-family="Georgia, 'DejaVu Serif', serif" font-size="104" font-weight="bold">Anthem</text>
+  <text x="600" y="421" text-anchor="middle" fill="#0D1F3C" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="56" font-weight="bold" letter-spacing="14">MUSIC</text>
+  <path d="M540 461 H660" stroke="#E85D1A" stroke-width="5"/>
+  <text x="600" y="521" text-anchor="middle" fill="#0D1F3C" font-family="Arial, 'DejaVu Sans', sans-serif" font-size="27" font-weight="bold" letter-spacing="3">McKINNEY, TEXAS</text>
+</svg>
