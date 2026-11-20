@@ -35,3 +35,7 @@ body[data-view] .app-shell>header .header-right{min-width:0}
  body[data-view] .app-shell>header .brand{font-size:26px;gap:10px}
  body[data-view] .app-shell>header .brand img{width:44px;height:48px}
 }
+
+/* Chords must scroll on the document, not a locked root or incidental inner scroller. */
+html:root[data-view=chords][data-view=chords]{height:auto!important;min-height:100%!important;overflow-x:clip!important;overflow-y:auto!important}
+body[data-view=chords] :is(.chords-view,.chords-content,.objective-panel,.chord-grid){overflow:visible!important}
