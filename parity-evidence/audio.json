@@ -1,0 +1,22 @@
+[
+  {
+    "platform": "web",
+    "MarySplitMeasures": true,
+    "keySwitchWhilePlaying": true,
+    "tempoAndPattern": true,
+    "chordPreview": true,
+    "routeCleanup": true,
+    "creditsPresent": true,
+    "hasScales": 1
+  },
+  {
+    "platform": "android",
+    "MarySplitMeasures": true,
+    "keySwitchWhilePlaying": true,
+    "tempoAndPattern": true,
+    "chordPreview": true,
+    "routeCleanup": true,
+    "creditsPresent": true,
+    "hasScales": 0
+  }
+]

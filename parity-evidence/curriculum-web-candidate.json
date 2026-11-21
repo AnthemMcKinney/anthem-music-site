@@ -1,0 +1,3281 @@
+[
+  {
+    "course": "bar-general",
+    "objective": "one",
+    "chords": [
+      {
+        "id": "bar-g",
+        "variant": false,
+        "name": "G"
+      },
+      {
+        "id": "bar-g7-option",
+        "variant": true,
+        "name": "G7"
+      },
+      {
+        "id": "bar-c",
+        "variant": false,
+        "name": "C"
+      },
+      {
+        "id": "bar-d",
+        "variant": false,
+        "name": "D"
+      },
+      {
+        "id": "bar-em",
+        "variant": false,
+        "name": "Em"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-em"
+        ],
+        "options": [],
+        "copy": "Move from one-finger G to one-finger Em.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Move from one-finger G into C, placing finger 1 first.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-em",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Keep the Em finger down and add finger 1 to form C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Build the D triangle without stopping the count.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-em",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Move from one-finger Em to the D triangle while keeping four steady down-strums.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-g",
+          "bar-em",
+          "bar-c",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "A complete four-measure progression using the first chord family.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "bar-general",
+    "objective": "two",
+    "chords": [
+      {
+        "id": "bar-f",
+        "variant": false,
+        "name": "F"
+      },
+      {
+        "id": "bar-f-alt",
+        "variant": true,
+        "name": "F"
+      },
+      {
+        "id": "bar-fmaj7",
+        "variant": true,
+        "name": "Fmaj7"
+      },
+      {
+        "id": "bar-am",
+        "variant": false,
+        "name": "Am"
+      },
+      {
+        "id": "bar-b7",
+        "variant": false,
+        "name": "B7"
+      },
+      {
+        "id": "bar-b7-short",
+        "variant": true,
+        "name": "B7"
+      },
+      {
+        "id": "bar-g7",
+        "variant": false,
+        "name": "G7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-am",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Keep fingers 1 and 2 in place. Lift finger 3 from the G string to turn Am into C.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-f",
+          "bar-am"
+        ],
+        "options": [],
+        "copy": "Keep finger 1 close while the upper fingers move.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-em",
+          "bar-b7"
+        ],
+        "options": [],
+        "copy": "Move from Em into B7, placing finger 1 first.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-c",
+          "bar-g7"
+        ],
+        "options": [],
+        "copy": "Move from the two-finger C shape into one-finger G7.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-c",
+          "bar-f",
+          "bar-am",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "A familiar four-measure pattern built from this growing chord family.",
+        "pattern": "d.dud.du"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "bar-general",
+    "objective": "three",
+    "chords": [
+      {
+        "id": "bar-e",
+        "variant": false,
+        "name": "E"
+      },
+      {
+        "id": "bar-e7",
+        "variant": false,
+        "name": "E7"
+      },
+      {
+        "id": "bar-d7",
+        "variant": false,
+        "name": "D7"
+      },
+      {
+        "id": "bar-a",
+        "variant": false,
+        "name": "A"
+      },
+      {
+        "id": "bar-a7",
+        "variant": false,
+        "name": "A7"
+      },
+      {
+        "id": "bar-bm",
+        "variant": false,
+        "name": "Bm"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-a",
+          "bar-d7"
+        ],
+        "options": [],
+        "copy": "Move from A into the compact D7 triangle.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-e",
+          "bar-a7"
+        ],
+        "options": [],
+        "copy": "Build E first, then move into the open-center A7 shape.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-bm",
+          "bar-a7"
+        ],
+        "options": [],
+        "copy": "Let D ring open in Bm, then move into the open-center A7.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-f",
+          "bar-c",
+          "bar-e7",
+          "bar-am"
+        ],
+        "options": [],
+        "copy": "Use F → C and E7 → Am inside one complete progression.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-c",
+          "bar-f",
+          "bar-g",
+          "bar-am"
+        ],
+        "options": [],
+        "copy": "I–IV–V–vi in C: C, F, G, Am.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-g",
+          "bar-c",
+          "bar-d",
+          "bar-em"
+        ],
+        "options": [],
+        "copy": "I–IV–V–vi in G: G, C, D, Em.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "bar-d",
+          "bar-g",
+          "bar-a",
+          "bar-bm"
+        ],
+        "options": [],
+        "copy": "I–IV–V–vi in D: D, G, A, Bm.",
+        "pattern": "d.d.d.d."
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "bar-general",
+    "objective": "practice",
+    "chords": [],
+    "cards": [
+      {
+        "title": "Jingle Bells",
+        "group": "First Songs · Objective 1",
+        "progression": [
+          "bar-g",
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-d",
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "A simplified first-song path in G. Give each box four steady beats and keep moving through G, C, and D.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Twinkle, Twinkle, Little Star",
+        "group": "First Songs · Objective 1",
+        "progression": [
+          "bar-g",
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "A simplified opening phrase in G using only the Objective 1 shapes. Each box lasts four steady beats.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Mary Had a Little Lamb",
+        "group": "First Songs · Objective 2",
+        "progression": [
+          [
+            "bar-c",
+            "bar-c",
+            "bar-c",
+            "bar-c"
+          ],
+          [
+            "bar-g7",
+            "bar-g7",
+            "bar-c",
+            "bar-c"
+          ]
+        ],
+        "options": [
+          {
+            "label": "Key of C · C → G7",
+            "copy": "Strum C on beats 1–4. In measure 2, strum G7 on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "bar-c",
+                "bar-c",
+                "bar-c",
+                "bar-c"
+              ],
+              [
+                "bar-g7",
+                "bar-g7",
+                "bar-c",
+                "bar-c"
+              ]
+            ]
+          },
+          {
+            "label": "Key of G · G → D",
+            "copy": "Strum G on beats 1–4. In measure 2, strum D on beats 1–2, then return to G on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "bar-g",
+                "bar-g",
+                "bar-g",
+                "bar-g"
+              ],
+              [
+                "bar-d",
+                "bar-d",
+                "bar-g",
+                "bar-g"
+              ]
+            ]
+          }
+        ],
+        "copy": "Strum C on beats 1–4. In measure 2, strum G7 on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "D · C · G · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-d",
+          "bar-c",
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Use ordinary C for the easy ukulele transition.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "G · D · Em · C",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-g",
+          "bar-d",
+          "bar-em",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Keep four steady beats in every measure.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Em · Em · C · D",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-em",
+          "bar-em",
+          "bar-c",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Keep moving through the repeated Em.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "C · G · Am · F",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-c",
+          "bar-g",
+          "bar-am",
+          "bar-f"
+        ],
+        "options": [],
+        "copy": "Read across, then continue on the second row.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "Bm · A · D · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-bm",
+          "bar-a",
+          "bar-d",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Place the lead finger first in each new shape.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "G · Bm · C · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-g",
+          "bar-bm",
+          "bar-c",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Repeat until the four-chord movement feels familiar.",
+        "pattern": "d.d..udu"
+      },
+      {
+        "title": "",
+        "group": "Custom Chord Progressions",
+        "progression": [
+          [
+            "bar-g",
+            "bar-g",
+            "bar-g",
+            "bar-g"
+          ],
+          [
+            "bar-c",
+            "bar-c",
+            "bar-c",
+            "bar-c"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-em",
+            "bar-em"
+          ],
+          [
+            "bar-d",
+            "bar-d",
+            "bar-d",
+            "bar-d"
+          ]
+        ],
+        "options": [],
+        "copy": "Build a progression of any length. Each chord can last from 1 to 6 beats.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Verse",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-em",
+          "bar-d",
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ]
+        ],
+        "options": [],
+        "copy": "G, Em, and D each last four beats. In the last measure, play C on beats 1–2 and G on beats 3–4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Chorus",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-d",
+          "bar-em",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-c",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Eight bars: G | D | Em | C, then G | D | C | G. Give every chord a full four-beat measure.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-em",
+            "bar-em",
+            "bar-d",
+            "bar-d"
+          ],
+          "bar-g",
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ],
+          "bar-d",
+          [
+            "bar-em",
+            "bar-em",
+            "bar-f",
+            "bar-f"
+          ],
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ],
+          "bar-d",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Eight measures: Em/D | G | C/G | D | Em/F | C/G | D | D. Each split chord lasts two beats; every unsplit chord lasts four.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 1",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-fm-short"
+        ],
+        "options": [],
+        "copy": "C for four beats, then Fm for four beats. Keep the D D D-up D-up pattern moving.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 2",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          [
+            "bar-bb-short",
+            "bar-bb-short",
+            "bar-e7",
+            "bar-e7"
+          ]
+        ],
+        "options": [],
+        "copy": "C for four beats, then A♯ on beats 1–2 and E7 on beats 3–4. Keep the same D D D-up D-up strum.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 3",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-am",
+          "bar-c7"
+        ],
+        "options": [],
+        "copy": "Am for four beats, then C7 for four beats. Keep the D D D-up D-up pattern moving.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 4",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-f",
+          [
+            "bar-fm-short",
+            "bar-fm-short",
+            "bar-g7",
+            "bar-g7"
+          ]
+        ],
+        "options": [],
+        "copy": "F for four beats, then Fm on beats 1–2 and G7 on beats 3–4. Keep the D D D-up D-up strum and return to C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Full progression",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-fm-short",
+          "bar-c",
+          [
+            "bar-bb-short",
+            "bar-bb-short",
+            "bar-e7",
+            "bar-e7"
+          ],
+          "bar-am",
+          "bar-c7",
+          "bar-f",
+          [
+            "bar-fm-short",
+            "bar-fm-short",
+            "bar-g7",
+            "bar-g7"
+          ]
+        ],
+        "options": [],
+        "copy": "Play phrases 1–4 together: C · Fm | C · A♯/E7 | Am · C7 | F · Fm/G7. Keep the D D D-up D-up strum moving through every change, then return to C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Verse 1",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          "bar-a",
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ]
+        ],
+        "options": [],
+        "copy": "First verse. Change on beats 1 and 3 in each split bar. The opening run is D → Dmaj7 → D6 → Dmaj7. Strum down-up-down, down-up-down.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Verses 2 and 4",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-d",
+            "bar-d",
+            "bar-d7",
+            "bar-d7"
+          ]
+        ],
+        "options": [],
+        "copy": "Use this section for both verses 2 and 4. The final two bars move Em → A → D → D7. Keep the same down-up-down, down-up-down groove.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Chorus",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-gm",
+          "bar-d",
+          "bar-d7",
+          "bar-e",
+          "bar-e7",
+          [
+            "bar-a",
+            "bar-a",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-a",
+            "bar-a",
+            "bar-a7",
+            "bar-a7"
+          ]
+        ],
+        "options": [],
+        "copy": "The chorus moves G → Gm, D → D7, and E → E7 before two A/A7 split bars. Return to the next verse after this section.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Verse 3",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          "bar-b7",
+          [
+            "bar-g",
+            "bar-g",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-e7",
+            "bar-e7",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a7"
+          ],
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Hold the D-family sound into B7, then move through G → Gm → E7 → Gm. In measure 7, play Em on beats 1–2, A on 3, and A7 on 4; play D for all of measure 8.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Outro",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          "bar-b7",
+          [
+            "bar-g",
+            "bar-g",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-e7",
+            "bar-e7",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a7"
+          ],
+          "bar-d",
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ]
+        ],
+        "options": [],
+        "copy": "The last six bars are Em/A twice (two beats each), then Em on beats 1–2, A on 3, A7 on 4, and one full bar of D. Close with D/Dmaj7 and D6/D; let the final D ring when performing.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Progression",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-c",
+          "bar-g7",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Play C for two measures, G7 for one measure, then return to C. Keep the D D D-up D-up pattern moving at a comfortable tempo.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Verses 1 and 2",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g",
+          "bar-g",
+          "bar-d",
+          "bar-d",
+          "bar-d",
+          "bar-d",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Use this same eight-measure progression for verses 1 and 2. Give every chord one full measure and return to G at the end.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-d",
+          "bar-a7",
+          "bar-a7"
+        ],
+        "options": [],
+        "copy": "Play C and G for the first four measures, then D, D, A7, A7 before returning to the verse.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Verse",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-c",
+          "bar-f",
+          "bar-c",
+          "bar-f",
+          "bar-c",
+          "bar-g",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous verse, then return to C.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-f",
+          "bar-em",
+          "bar-dm",
+          "bar-c",
+          "bar-g",
+          "bar-g",
+          "bar-am",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous bridge, then return to the verse.",
+        "pattern": "d.d.d.d."
+      }
+    ],
+    "groups": [
+      "First Songs · Objective 1",
+      "First Songs · Objective 2",
+      "Common Progression Patterns",
+      "Custom Chord Progressions",
+      "Requested Patterns"
+    ]
+  },
+  {
+    "course": "uke-general",
+    "objective": "one",
+    "chords": [
+      {
+        "id": "uke-c",
+        "variant": false,
+        "name": "C"
+      },
+      {
+        "id": "uke-c7-option",
+        "variant": true,
+        "name": "C7"
+      },
+      {
+        "id": "uke-f",
+        "variant": false,
+        "name": "F"
+      },
+      {
+        "id": "uke-g",
+        "variant": false,
+        "name": "G"
+      },
+      {
+        "id": "uke-am",
+        "variant": false,
+        "name": "Am"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-c",
+          "uke-am"
+        ],
+        "options": [],
+        "copy": "Move from one-finger C to one-finger Am.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-am",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Lift the Am finger, then place finger 3 on fret 3 of the A string for C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "Keep the Am finger down and add finger 1 to form F.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-c",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "Place finger 3 first when the G triangle arrives.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "uke-c",
+          "uke-am",
+          "uke-f",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "A complete four-measure progression using the first chord family.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "uke-general",
+    "objective": "two",
+    "chords": [
+      {
+        "id": "uke-bb",
+        "variant": false,
+        "name": "B♭"
+      },
+      {
+        "id": "uke-bb-separate",
+        "variant": true,
+        "name": "B♭"
+      },
+      {
+        "id": "uke-bb-alt",
+        "variant": true,
+        "name": "B♭"
+      },
+      {
+        "id": "uke-bbmaj7",
+        "variant": true,
+        "name": "B♭maj7"
+      },
+      {
+        "id": "uke-dm",
+        "variant": false,
+        "name": "Dm"
+      },
+      {
+        "id": "uke-e7",
+        "variant": false,
+        "name": "E7"
+      },
+      {
+        "id": "uke-e7-short",
+        "variant": true,
+        "name": "E7"
+      },
+      {
+        "id": "uke-c7",
+        "variant": false,
+        "name": "C7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-bb",
+          "uke-dm"
+        ],
+        "options": [],
+        "copy": "Keep finger 1 close while the upper fingers move.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-am",
+          "uke-e7"
+        ],
+        "options": [],
+        "copy": "Move from Am into E7, placing finger 1 first.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-f",
+          "uke-c7"
+        ],
+        "options": [],
+        "copy": "Move from the two-finger F shape into one-finger C7.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "uke-f",
+          "uke-bb",
+          "uke-dm",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "A familiar four-measure pattern built from this growing chord family.",
+        "pattern": "d...dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "uke-general",
+    "objective": "three",
+    "chords": [
+      {
+        "id": "uke-a",
+        "variant": false,
+        "name": "A"
+      },
+      {
+        "id": "uke-a7",
+        "variant": false,
+        "name": "A7"
+      },
+      {
+        "id": "uke-g7",
+        "variant": false,
+        "name": "G7"
+      },
+      {
+        "id": "uke-d",
+        "variant": false,
+        "name": "D"
+      },
+      {
+        "id": "uke-d7",
+        "variant": false,
+        "name": "D7"
+      },
+      {
+        "id": "uke-em",
+        "variant": false,
+        "name": "Em"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-a7",
+          "uke-d"
+        ],
+        "options": [],
+        "copy": "Move from the one-finger A7 into the three-finger D shape.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-a",
+          "uke-d7"
+        ],
+        "options": [],
+        "copy": "Build A first, then move into the open-center D7 shape.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-em",
+          "uke-d"
+        ],
+        "options": [],
+        "copy": "Keep the hand close through the three-finger change.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "uke-bb",
+          "uke-f",
+          "uke-a7",
+          "uke-dm"
+        ],
+        "options": [],
+        "copy": "Use all four changes inside one complete progression.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "uke-c",
+          "uke-f",
+          "uke-g",
+          "uke-am"
+        ],
+        "options": [],
+        "copy": "I–IV–V–vi in C: C, F, G, Am.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "",
+        "group": "4-Chord Progressions",
+        "progression": [
+          "uke-g",
+          "uke-c",
+          "uke-d",
+          "uke-em"
+        ],
+        "options": [],
+        "copy": "I–IV–V–vi in G: G, C, D, Em.",
+        "pattern": "d.du.udu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs",
+      "4-Chord Progressions"
+    ]
+  },
+  {
+    "course": "uke-general",
+    "objective": "practice",
+    "chords": [],
+    "cards": [
+      {
+        "title": "Jingle Bells",
+        "group": "First Songs · Objective 1",
+        "progression": [
+          "uke-c",
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-g",
+          "uke-g",
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "A simplified first-song path in C. Give each box four steady beats and keep moving through C, F, and G.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Twinkle, Twinkle, Little Star",
+        "group": "First Songs · Objective 1",
+        "progression": [
+          "uke-c",
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-g",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "A simplified opening phrase in C using only the Objective 1 shapes. Each box lasts four steady beats.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Mary Had a Little Lamb",
+        "group": "First Songs · Objective 2",
+        "progression": [
+          [
+            "uke-f",
+            "uke-f",
+            "uke-f",
+            "uke-f"
+          ],
+          [
+            "uke-c7",
+            "uke-c7",
+            "uke-f",
+            "uke-f"
+          ]
+        ],
+        "options": [
+          {
+            "label": "Key of F · F → C7",
+            "copy": "Strum F on beats 1–4. In measure 2, strum C7 on beats 1–2, then return to F on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "uke-f",
+                "uke-f",
+                "uke-f",
+                "uke-f"
+              ],
+              [
+                "uke-c7",
+                "uke-c7",
+                "uke-f",
+                "uke-f"
+              ]
+            ]
+          },
+          {
+            "label": "Key of C · C → G",
+            "copy": "Strum C on beats 1–4. In measure 2, strum G on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "uke-c",
+                "uke-c",
+                "uke-c",
+                "uke-c"
+              ],
+              [
+                "uke-g",
+                "uke-g",
+                "uke-c",
+                "uke-c"
+              ]
+            ]
+          }
+        ],
+        "copy": "Strum F on beats 1–4. In measure 2, strum C7 on beats 1–2, then return to F on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "G · F · C · C",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-g",
+          "uke-f",
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Use ordinary F for the easy ukulele transition.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "C · G · Am · F",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-c",
+          "uke-g",
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "Keep four steady beats in every measure.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Am · Am · F · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-am",
+          "uke-am",
+          "uke-f",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "Keep moving through the repeated Am.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "F · C · Dm · B♭",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-f",
+          "uke-c",
+          "uke-dm",
+          "uke-bb"
+        ],
+        "options": [],
+        "copy": "Read across, then continue on the second row.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "Em · D · G · C",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-em",
+          "uke-d",
+          "uke-g",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Place the lead finger first in each new shape.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "",
+        "group": "Custom Chord Progressions",
+        "progression": [
+          [
+            "uke-c",
+            "uke-c",
+            "uke-c",
+            "uke-c"
+          ],
+          [
+            "uke-f",
+            "uke-f",
+            "uke-f",
+            "uke-f"
+          ],
+          [
+            "uke-am",
+            "uke-am",
+            "uke-am",
+            "uke-am"
+          ],
+          [
+            "uke-g",
+            "uke-g",
+            "uke-g",
+            "uke-g"
+          ]
+        ],
+        "options": [],
+        "copy": "Build a progression of any length. Each chord can last from 1 to 6 beats.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "C · C · F · C · F · C · G · C",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-g",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous verse, then return to C.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "F · Em · Dm · C · G · G · Am · G",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-f",
+          "uke-em",
+          "uke-dm",
+          "uke-c",
+          "uke-g",
+          "uke-g",
+          "uke-am",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous bridge, then return to the verse.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "C · Em · F · C",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-c",
+          "uke-em",
+          "uke-f",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Play one full measure on each chord, then continue directly into Phrase 2.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "F · C · G · Am · F",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-f",
+          "uke-c",
+          "uke-g",
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "This beginner drill gives every chord one full measure. The final F closes the phrase before you return to Phrase 1.",
+        "pattern": "d.du.udu"
+      }
+    ],
+    "groups": [
+      "First Songs · Objective 1",
+      "First Songs · Objective 2",
+      "Common Progression Patterns",
+      "Custom Chord Progressions",
+      "Requested Patterns"
+    ]
+  },
+  {
+    "course": "uke-young",
+    "objective": "one",
+    "chords": [
+      {
+        "id": "uke-c",
+        "variant": false,
+        "name": "C"
+      },
+      {
+        "id": "uke-c7-option",
+        "variant": true,
+        "name": "C7"
+      },
+      {
+        "id": "uke-am",
+        "variant": false,
+        "name": "Am"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-c",
+          "uke-am"
+        ],
+        "options": [],
+        "copy": "Move between the two one-finger chords. Repeating the exercise also practices Am → C.",
+        "pattern": "d.d.d.d."
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "uke-young",
+    "objective": "two",
+    "chords": [
+      {
+        "id": "uke-f",
+        "variant": false,
+        "name": "F"
+      },
+      {
+        "id": "uke-c7",
+        "variant": false,
+        "name": "C7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "Keep the Am finger down and add finger 1 to make F.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-f",
+          "uke-c7"
+        ],
+        "options": [],
+        "copy": "Move from the two-finger F shape into one-finger C7 without stopping the count.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "uke-young",
+    "objective": "three",
+    "chords": [
+      {
+        "id": "uke-g",
+        "variant": false,
+        "name": "G"
+      },
+      {
+        "id": "uke-g7",
+        "variant": false,
+        "name": "G7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-c",
+          "uke-g7"
+        ],
+        "options": [],
+        "copy": "Place finger 1 first when moving from C into G7.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "uke-c",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "Place finger 3 first when the G triangle arrives.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "uke-young",
+    "objective": "practice",
+    "chords": [],
+    "cards": [
+      {
+        "title": "Mary Had a Little Lamb",
+        "group": "First Songs · Objective 2",
+        "progression": [
+          [
+            "uke-f",
+            "uke-f",
+            "uke-f",
+            "uke-f"
+          ],
+          [
+            "uke-c7",
+            "uke-c7",
+            "uke-f",
+            "uke-f"
+          ]
+        ],
+        "options": [
+          {
+            "label": "Key of F · F → C7",
+            "copy": "Strum F on beats 1–4. In measure 2, strum C7 on beats 1–2, then return to F on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "uke-f",
+                "uke-f",
+                "uke-f",
+                "uke-f"
+              ],
+              [
+                "uke-c7",
+                "uke-c7",
+                "uke-f",
+                "uke-f"
+              ]
+            ]
+          },
+          {
+            "label": "Key of C · C → G",
+            "copy": "Strum C on beats 1–4. In measure 2, strum G on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "uke-c",
+                "uke-c",
+                "uke-c",
+                "uke-c"
+              ],
+              [
+                "uke-g",
+                "uke-g",
+                "uke-c",
+                "uke-c"
+              ]
+            ]
+          }
+        ],
+        "copy": "Strum F on beats 1–4. In measure 2, strum C7 on beats 1–2, then return to F on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "C · F · C · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-c",
+          "uke-f",
+          "uke-c",
+          "uke-g"
+        ],
+        "options": [],
+        "copy": "Four easy boxes—read across, then continue below.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "C · G · Am · F",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-c",
+          "uke-g",
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "Keep the strum steady through all four shapes.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Am · G · C · C",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "uke-am",
+          "uke-g",
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Finish with two full measures of C.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "",
+        "group": "Custom Chord Progressions",
+        "progression": [
+          [
+            "uke-c",
+            "uke-c",
+            "uke-c",
+            "uke-c"
+          ],
+          [
+            "uke-f",
+            "uke-f",
+            "uke-f",
+            "uke-f"
+          ],
+          [
+            "uke-am",
+            "uke-am",
+            "uke-am",
+            "uke-am"
+          ],
+          [
+            "uke-g",
+            "uke-g",
+            "uke-g",
+            "uke-g"
+          ]
+        ],
+        "options": [],
+        "copy": "Build a progression of any length. Each chord can last from 1 to 6 beats.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "C · Em · F · C",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-c",
+          "uke-em",
+          "uke-f",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Play one full measure on each chord, then continue directly into Phrase 2.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "F · C · G · Am · F",
+        "group": "Requested Patterns",
+        "progression": [
+          "uke-f",
+          "uke-c",
+          "uke-g",
+          "uke-am",
+          "uke-f"
+        ],
+        "options": [],
+        "copy": "This beginner drill gives every chord one full measure. The final F closes the phrase before you return to Phrase 1.",
+        "pattern": "d.du.udu"
+      }
+    ],
+    "groups": [
+      "First Songs · Objective 2",
+      "Common Progression Patterns",
+      "Custom Chord Progressions",
+      "Requested Patterns"
+    ]
+  },
+  {
+    "course": "bar-young",
+    "objective": "one",
+    "chords": [
+      {
+        "id": "bar-g",
+        "variant": false,
+        "name": "G"
+      },
+      {
+        "id": "bar-g7-option",
+        "variant": true,
+        "name": "G7"
+      },
+      {
+        "id": "bar-em",
+        "variant": false,
+        "name": "Em"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-em"
+        ],
+        "options": [],
+        "copy": "Move between the two one-finger chords. Repeating the exercise also practices Em → G.",
+        "pattern": "d.d.d.d."
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "bar-young",
+    "objective": "two",
+    "chords": [
+      {
+        "id": "bar-c",
+        "variant": false,
+        "name": "C"
+      },
+      {
+        "id": "bar-g7",
+        "variant": false,
+        "name": "G7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-em",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Keep the Em finger down and add finger 1 to make C.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-c",
+          "bar-g7"
+        ],
+        "options": [],
+        "copy": "Move from the two-finger C shape into one-finger G7 without stopping the count.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "bar-young",
+    "objective": "three",
+    "chords": [
+      {
+        "id": "bar-d",
+        "variant": false,
+        "name": "D"
+      },
+      {
+        "id": "bar-d7",
+        "variant": false,
+        "name": "D7"
+      }
+    ],
+    "cards": [
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-d7"
+        ],
+        "options": [],
+        "copy": "Place finger 1 first when moving from G into D7.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "",
+        "group": "Practice these Chord Pairs",
+        "progression": [
+          "bar-g",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Place finger 3 first when the D triangle arrives.",
+        "pattern": "d.d.dudu"
+      }
+    ],
+    "groups": [
+      "Practice these Chord Pairs"
+    ]
+  },
+  {
+    "course": "bar-young",
+    "objective": "practice",
+    "chords": [],
+    "cards": [
+      {
+        "title": "Mary Had a Little Lamb",
+        "group": "First Songs · Objective 2",
+        "progression": [
+          [
+            "bar-c",
+            "bar-c",
+            "bar-c",
+            "bar-c"
+          ],
+          [
+            "bar-g7",
+            "bar-g7",
+            "bar-c",
+            "bar-c"
+          ]
+        ],
+        "options": [
+          {
+            "label": "Key of C · C → G7",
+            "copy": "Strum C on beats 1–4. In measure 2, strum G7 on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "bar-c",
+                "bar-c",
+                "bar-c",
+                "bar-c"
+              ],
+              [
+                "bar-g7",
+                "bar-g7",
+                "bar-c",
+                "bar-c"
+              ]
+            ]
+          },
+          {
+            "label": "Key of G · G → D",
+            "copy": "Strum G on beats 1–4. In measure 2, strum D on beats 1–2, then return to G on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+            "progression": [
+              [
+                "bar-g",
+                "bar-g",
+                "bar-g",
+                "bar-g"
+              ],
+              [
+                "bar-d",
+                "bar-d",
+                "bar-g",
+                "bar-g"
+              ]
+            ]
+          }
+        ],
+        "copy": "Strum C on beats 1–4. In measure 2, strum G7 on beats 1–2, then return to C on beats 3–4. This same two-chord pattern also works for versions of Wheels on the Bus and London Bridge. Itsy Bitsy Spider uses a loose variation of it.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "G · C · G · D",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Four easy boxes—read across, then continue below.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "G · D · Em · C",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-g",
+          "bar-d",
+          "bar-em",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Keep the strum steady through all four shapes.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Em · D · G · G",
+        "group": "Common Progression Patterns",
+        "progression": [
+          "bar-em",
+          "bar-d",
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Finish with two full measures of G.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "",
+        "group": "Custom Chord Progressions",
+        "progression": [
+          [
+            "bar-g",
+            "bar-g",
+            "bar-g",
+            "bar-g"
+          ],
+          [
+            "bar-c",
+            "bar-c",
+            "bar-c",
+            "bar-c"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-em",
+            "bar-em"
+          ],
+          [
+            "bar-d",
+            "bar-d",
+            "bar-d",
+            "bar-d"
+          ]
+        ],
+        "options": [],
+        "copy": "Build a progression of any length. Each chord can last from 1 to 6 beats.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Verse",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-em",
+          "bar-d",
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ]
+        ],
+        "options": [],
+        "copy": "G, Em, and D each last four beats. In the last measure, play C on beats 1–2 and G on beats 3–4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Chorus",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-d",
+          "bar-em",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-c",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Eight bars: G | D | Em | C, then G | D | C | G. Give every chord a full four-beat measure.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-em",
+            "bar-em",
+            "bar-d",
+            "bar-d"
+          ],
+          "bar-g",
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ],
+          "bar-d",
+          [
+            "bar-em",
+            "bar-em",
+            "bar-f",
+            "bar-f"
+          ],
+          [
+            "bar-c",
+            "bar-c",
+            "bar-g",
+            "bar-g"
+          ],
+          "bar-d",
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Eight measures: Em/D | G | C/G | D | Em/F | C/G | D | D. Each split chord lasts two beats; every unsplit chord lasts four.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 1",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-fm-short"
+        ],
+        "options": [],
+        "copy": "C for four beats, then Fm for four beats. Keep the D D D-up D-up pattern moving.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 2",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          [
+            "bar-bb-short",
+            "bar-bb-short",
+            "bar-e7",
+            "bar-e7"
+          ]
+        ],
+        "options": [],
+        "copy": "C for four beats, then A♯ on beats 1–2 and E7 on beats 3–4. Keep the same D D D-up D-up strum.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 3",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-am",
+          "bar-c7"
+        ],
+        "options": [],
+        "copy": "Am for four beats, then C7 for four beats. Keep the D D D-up D-up pattern moving.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Phrase 4",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-f",
+          [
+            "bar-fm-short",
+            "bar-fm-short",
+            "bar-g7",
+            "bar-g7"
+          ]
+        ],
+        "options": [],
+        "copy": "F for four beats, then Fm on beats 1–2 and G7 on beats 3–4. Keep the D D D-up D-up strum and return to C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Full progression",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-fm-short",
+          "bar-c",
+          [
+            "bar-bb-short",
+            "bar-bb-short",
+            "bar-e7",
+            "bar-e7"
+          ],
+          "bar-am",
+          "bar-c7",
+          "bar-f",
+          [
+            "bar-fm-short",
+            "bar-fm-short",
+            "bar-g7",
+            "bar-g7"
+          ]
+        ],
+        "options": [],
+        "copy": "Play phrases 1–4 together: C · Fm | C · A♯/E7 | Am · C7 | F · Fm/G7. Keep the D D D-up D-up strum moving through every change, then return to C.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Verse 1",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          "bar-a",
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ]
+        ],
+        "options": [],
+        "copy": "First verse. Change on beats 1 and 3 in each split bar. The opening run is D → Dmaj7 → D6 → Dmaj7. Strum down-up-down, down-up-down.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Verses 2 and 4",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-d",
+            "bar-d",
+            "bar-d7",
+            "bar-d7"
+          ]
+        ],
+        "options": [],
+        "copy": "Use this section for both verses 2 and 4. The final two bars move Em → A → D → D7. Keep the same down-up-down, down-up-down groove.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Chorus",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-gm",
+          "bar-d",
+          "bar-d7",
+          "bar-e",
+          "bar-e7",
+          [
+            "bar-a",
+            "bar-a",
+            "bar-a7",
+            "bar-a7"
+          ],
+          [
+            "bar-a",
+            "bar-a",
+            "bar-a7",
+            "bar-a7"
+          ]
+        ],
+        "options": [],
+        "copy": "The chorus moves G → Gm, D → D7, and E → E7 before two A/A7 split bars. Return to the next verse after this section.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Verse 3",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          "bar-b7",
+          [
+            "bar-g",
+            "bar-g",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-e7",
+            "bar-e7",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a7"
+          ],
+          "bar-d"
+        ],
+        "options": [],
+        "copy": "Hold the D-family sound into B7, then move through G → Gm → E7 → Gm. In measure 7, play Em on beats 1–2, A on 3, and A7 on 4; play D for all of measure 8.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Outro",
+        "group": "Requested Patterns",
+        "progression": [
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          "bar-b7",
+          [
+            "bar-g",
+            "bar-g",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-e7",
+            "bar-e7",
+            "bar-gm",
+            "bar-gm"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a"
+          ],
+          [
+            "bar-em",
+            "bar-em",
+            "bar-a",
+            "bar-a7"
+          ],
+          "bar-d",
+          [
+            "bar-d",
+            "bar-d",
+            "bar-dmaj7",
+            "bar-dmaj7"
+          ],
+          [
+            "bar-d6",
+            "bar-d6",
+            "bar-d",
+            "bar-d"
+          ]
+        ],
+        "options": [],
+        "copy": "The last six bars are Em/A twice (two beats each), then Em on beats 1–2, A on 3, A7 on 4, and one full bar of D. Close with D/Dmaj7 and D6/D; let the final D ring when performing.",
+        "pattern": "dud.dud."
+      },
+      {
+        "title": "Progression",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-c",
+          "bar-g7",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Play C for two measures, G7 for one measure, then return to C. Keep the D D D-up D-up pattern moving at a comfortable tempo.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "Verses 1 and 2",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g",
+          "bar-g",
+          "bar-d",
+          "bar-d",
+          "bar-d",
+          "bar-d",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Use this same eight-measure progression for verses 1 and 2. Give every chord one full measure and return to G at the end.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-g",
+          "bar-c",
+          "bar-g",
+          "bar-d",
+          "bar-d",
+          "bar-a7",
+          "bar-a7"
+        ],
+        "options": [],
+        "copy": "Play C and G for the first four measures, then D, D, A7, A7 before returning to the verse.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Verse",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-c",
+          "bar-c",
+          "bar-f",
+          "bar-c",
+          "bar-f",
+          "bar-c",
+          "bar-g",
+          "bar-c"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous verse, then return to C.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "Bridge",
+        "group": "Requested Patterns",
+        "progression": [
+          "bar-f",
+          "bar-em",
+          "bar-dm",
+          "bar-c",
+          "bar-g",
+          "bar-g",
+          "bar-am",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Play both lines as one continuous bridge, then return to the verse.",
+        "pattern": "d.d.d.d."
+      }
+    ],
+    "groups": [
+      "First Songs · Objective 2",
+      "Common Progression Patterns",
+      "Custom Chord Progressions",
+      "Requested Patterns"
+    ]
+  },
+  {
+    "course": "bar-general",
+    "objective": "strumming",
+    "chords": [],
+    "cards": [
+      {
+        "title": "D D D D",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Start with four even down-strums. Count every numbered beat.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "D D D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Four downbeats, then a light up-strum on the last and.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "D D D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Add up-strums after beats 3 and 4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "D — D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Skip beat 2 without stopping your hand; play down-up on beats 3 and 4.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "D — D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Leave beat 2 open, then play down on beats 3 and 4 and up on the last and.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "D D-u D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Add the up-strum after beat 2, then finish with down-up on beat 4.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "D D-u — u-D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "The silent beat 3 still counts. Strum up on its and, then down-up on beat 4.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Two bars · simpler",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 4: leave beat 2 open in bar 1; in bar 2, enter on the and after 1 and finish on beat 3.",
+        "pattern": "d...d.du.ud.d..."
+      },
+      {
+        "title": "Two bars · fuller",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 2: keep all four downbeats in bar 1; in bar 2, enter on the and after 1 and finish down-up on beat 4.",
+        "pattern": "d.d.d.du.ud.d.du"
+      },
+      {
+        "title": "D D D",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Count ONE-two-three in each measure. Use one even down-strum on every beat and flow directly into the next measure.",
+        "pattern": "d.d.d."
+      },
+      {
+        "title": "D D-u D-u",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Keep the strong down-strum on beat 1, then add a light up-strum after beats 2 and 3. Loop both measures without a gap.",
+        "pattern": "d.dudu"
+      },
+      {
+        "title": "D U D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Tap your foot once on each large number. Fit down-up-down-up inside that one tap; the lighter ticks mark e, &, and a.",
+        "pattern": "dudududududududu"
+      },
+      {
+        "title": "D · D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Keep your hand moving through the dot without touching the strings. Tap your foot on each large number, then play down on & and up on a.",
+        "pattern": "d.dud.dud.dud.du"
+      }
+    ],
+    "groups": [
+      "Core Strumming Patterns",
+      "3/4 Strumming Patterns",
+      "Sixteenth-Note Patterns"
+    ]
+  },
+  {
+    "course": "bar-young",
+    "objective": "strumming",
+    "chords": [],
+    "cards": [
+      {
+        "title": "D D D D",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Start with four even down-strums. Count every numbered beat.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "D D D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Four downbeats, then a light up-strum on the last and.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "D D D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Add up-strums after beats 3 and 4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "D — D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Skip beat 2 without stopping your hand; play down-up on beats 3 and 4.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "D — D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Leave beat 2 open, then play down on beats 3 and 4 and up on the last and.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "D D-u D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Add the up-strum after beat 2, then finish with down-up on beat 4.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "D D-u — u-D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "The silent beat 3 still counts. Strum up on its and, then down-up on beat 4.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Two bars · simpler",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 4: leave beat 2 open in bar 1; in bar 2, enter on the and after 1 and finish on beat 3.",
+        "pattern": "d...d.du.ud.d..."
+      },
+      {
+        "title": "Two bars · fuller",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 2: keep all four downbeats in bar 1; in bar 2, enter on the and after 1 and finish down-up on beat 4.",
+        "pattern": "d.d.d.du.ud.d.du"
+      },
+      {
+        "title": "D D D",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Count ONE-two-three in each measure. Use one even down-strum on every beat and flow directly into the next measure.",
+        "pattern": "d.d.d."
+      },
+      {
+        "title": "D D-u D-u",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Keep the strong down-strum on beat 1, then add a light up-strum after beats 2 and 3. Loop both measures without a gap.",
+        "pattern": "d.dudu"
+      },
+      {
+        "title": "D U D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Tap your foot once on each large number. Fit down-up-down-up inside that one tap; the lighter ticks mark e, &, and a.",
+        "pattern": "dudududududududu"
+      },
+      {
+        "title": "D · D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "bar-g",
+          "bar-g"
+        ],
+        "options": [],
+        "copy": "Keep your hand moving through the dot without touching the strings. Tap your foot on each large number, then play down on & and up on a.",
+        "pattern": "d.dud.dud.dud.du"
+      }
+    ],
+    "groups": [
+      "Core Strumming Patterns",
+      "3/4 Strumming Patterns",
+      "Sixteenth-Note Patterns"
+    ]
+  },
+  {
+    "course": "uke-general",
+    "objective": "strumming",
+    "chords": [],
+    "cards": [
+      {
+        "title": "D D D D",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Start with four even down-strums. Count every numbered beat.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "D D D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Four downbeats, then a light up-strum on the last and.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "D D D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Add up-strums after beats 3 and 4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "D — D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Skip beat 2 without stopping your hand; play down-up on beats 3 and 4.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "D — D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Leave beat 2 open, then play down on beats 3 and 4 and up on the last and.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "D D-u D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Add the up-strum after beat 2, then finish with down-up on beat 4.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "D D-u — u-D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "The silent beat 3 still counts. Strum up on its and, then down-up on beat 4.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Two bars · simpler",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 4: leave beat 2 open in bar 1; in bar 2, enter on the and after 1 and finish on beat 3.",
+        "pattern": "d...d.du.ud.d..."
+      },
+      {
+        "title": "Two bars · fuller",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 2: keep all four downbeats in bar 1; in bar 2, enter on the and after 1 and finish down-up on beat 4.",
+        "pattern": "d.d.d.du.ud.d.du"
+      },
+      {
+        "title": "D D D",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Count ONE-two-three in each measure. Use one even down-strum on every beat and flow directly into the next measure.",
+        "pattern": "d.d.d."
+      },
+      {
+        "title": "D D-u D-u",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Keep the strong down-strum on beat 1, then add a light up-strum after beats 2 and 3. Loop both measures without a gap.",
+        "pattern": "d.dudu"
+      },
+      {
+        "title": "D U D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Tap your foot once on each large number. Fit down-up-down-up inside that one tap; the lighter ticks mark e, &, and a.",
+        "pattern": "dudududududududu"
+      },
+      {
+        "title": "D · D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Keep your hand moving through the dot without touching the strings. Tap your foot on each large number, then play down on & and up on a.",
+        "pattern": "d.dud.dud.dud.du"
+      }
+    ],
+    "groups": [
+      "Core Strumming Patterns",
+      "3/4 Strumming Patterns",
+      "Sixteenth-Note Patterns"
+    ]
+  },
+  {
+    "course": "uke-young",
+    "objective": "strumming",
+    "chords": [],
+    "cards": [
+      {
+        "title": "D D D D",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Start with four even down-strums. Count every numbered beat.",
+        "pattern": "d.d.d.d."
+      },
+      {
+        "title": "D D D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Four downbeats, then a light up-strum on the last and.",
+        "pattern": "d.d.d.du"
+      },
+      {
+        "title": "D D D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Add up-strums after beats 3 and 4.",
+        "pattern": "d.d.dudu"
+      },
+      {
+        "title": "D — D-u D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Skip beat 2 without stopping your hand; play down-up on beats 3 and 4.",
+        "pattern": "d...dudu"
+      },
+      {
+        "title": "D — D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Leave beat 2 open, then play down on beats 3 and 4 and up on the last and.",
+        "pattern": "d...d.du"
+      },
+      {
+        "title": "D D-u D D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Add the up-strum after beat 2, then finish with down-up on beat 4.",
+        "pattern": "d.dud.du"
+      },
+      {
+        "title": "D D-u — u-D-u",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "The silent beat 3 still counts. Strum up on its and, then down-up on beat 4.",
+        "pattern": "d.du.udu"
+      },
+      {
+        "title": "Two bars · simpler",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 4: leave beat 2 open in bar 1; in bar 2, enter on the and after 1 and finish on beat 3.",
+        "pattern": "d...d.du.ud.d..."
+      },
+      {
+        "title": "Two bars · fuller",
+        "group": "Core Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Worksheet two-measure pattern 2: keep all four downbeats in bar 1; in bar 2, enter on the and after 1 and finish down-up on beat 4.",
+        "pattern": "d.d.d.du.ud.d.du"
+      },
+      {
+        "title": "D D D",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Count ONE-two-three in each measure. Use one even down-strum on every beat and flow directly into the next measure.",
+        "pattern": "d.d.d."
+      },
+      {
+        "title": "D D-u D-u",
+        "group": "3/4 Strumming Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Keep the strong down-strum on beat 1, then add a light up-strum after beats 2 and 3. Loop both measures without a gap.",
+        "pattern": "d.dudu"
+      },
+      {
+        "title": "D U D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Tap your foot once on each large number. Fit down-up-down-up inside that one tap; the lighter ticks mark e, &, and a.",
+        "pattern": "dudududududududu"
+      },
+      {
+        "title": "D · D U",
+        "group": "Sixteenth-Note Patterns",
+        "progression": [
+          "uke-c",
+          "uke-c"
+        ],
+        "options": [],
+        "copy": "Keep your hand moving through the dot without touching the strings. Tap your foot on each large number, then play down on & and up on a.",
+        "pattern": "d.dud.dud.dud.du"
+      }
+    ],
+    "groups": [
+      "Core Strumming Patterns",
+      "3/4 Strumming Patterns",
+      "Sixteenth-Note Patterns"
+    ]
+  }
+]

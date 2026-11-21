@@ -1,0 +1,34 @@
+[
+  {
+    "platform": "web",
+    "vertical": {
+      "view": "chords",
+      "scroll": 165
+    },
+    "module": {
+      "view": "scales",
+      "scroll": 0
+    },
+    "guard": {
+      "view": "chords",
+      "scroll": 0
+    },
+    "trustedCDP": true
+  },
+  {
+    "platform": "android",
+    "vertical": {
+      "view": "chords",
+      "scroll": 163
+    },
+    "module": {
+      "view": "more",
+      "scroll": 0
+    },
+    "guard": {
+      "view": "chords",
+      "scroll": 0
+    },
+    "trustedCDP": true
+  }
+]

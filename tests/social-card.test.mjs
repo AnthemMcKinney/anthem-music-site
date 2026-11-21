@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -9,7 +10,7 @@ test('default social card is versioned and raster dimensions match metadata', as
   assert.match(layout, /property="og:image:width" content="1200"/);
   assert.match(layout, /property="og:image:height" content="630"/);
   assert.match(layout, /property="og:image:alt"/);
-  const metadata = await sharp(new URL('../public/images/og-card-v3.png', import.meta.url).pathname).metadata();
+  const metadata = await sharp(fileURLToPath(new URL('../public/images/og-card-v3.png', import.meta.url))).metadata();
   assert.equal(metadata.width, 1200);
   assert.equal(metadata.height, 630);
   assert.equal(metadata.format, 'png');

@@ -1,0 +1,226 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 820,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 820,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 1100,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice & Songs",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "chromium",
+    "width": 1100,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice & Songs",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 820,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 820,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 1100,
+    "theme": "classic",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice & Songs",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  },
+  {
+    "engine": "webkit",
+    "width": 1100,
+    "theme": "dark",
+    "label": "G7",
+    "background": "rgba(0, 0, 0, 0)",
+    "tabFits": true,
+    "tab": "Practice & Songs",
+    "caps": [
+      26,
+      26
+    ],
+    "overflow": false
+  }
+]

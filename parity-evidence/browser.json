@@ -1,0 +1,418 @@
+[
+  {
+    "platform": "web",
+    "engine": "chromium",
+    "course": "bar-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 1 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "After Objective 2 — G, Em, D, C, F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, C7"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, Gm"
+      },
+      {
+        "title": "Go Tell It on the Mountain",
+        "prerequisite": "After Objective 2 — C, G7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "After Objective 3 — G, D, C, A7"
+      },
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "Bonus / challenge — additional shapes: Dm"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "chromium",
+    "course": "uke-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 1 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "After Objective 3 — C, F, G, Em, Dm, Am"
+      },
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "After Objective 3 — C, Em, F, G, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "chromium",
+    "course": "bar-young",
+    "count": 1,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 3 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "Bonus / challenge — additional shapes: F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, E7, Am, C7, F"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, A7, A, Gm, E, E7, B7"
+      },
+      {
+        "title": "Go Tell It on the Mountain",
+        "prerequisite": "After Objective 2 — C, G7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "Bonus / challenge — additional shapes: A7"
+      },
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "Bonus / challenge — additional shapes: F, Dm, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "chromium",
+    "course": "uke-young",
+    "count": 1,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 3 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "Bonus / challenge — additional shapes: Em"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "chromium",
+    "course": "bar-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 1 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "After Objective 2 — G, Em, D, C, F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, C7"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, Gm"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "After Objective 3 — G, D, C, A7"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "chromium",
+    "course": "uke-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 1 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "After Objective 3 — C, F, G, Em, Dm, Am"
+      },
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "After Objective 3 — C, Em, F, G, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "chromium",
+    "course": "bar-young",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 3 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "Bonus / challenge — additional shapes: F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, E7, Am, C7, F"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, A7, A, Gm, E, E7, B7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "Bonus / challenge — additional shapes: A7"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "chromium",
+    "course": "uke-young",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 3 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "Bonus / challenge — additional shapes: Em"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "webkit",
+    "course": "bar-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 1 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "After Objective 2 — G, Em, D, C, F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, C7"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, Gm"
+      },
+      {
+        "title": "Go Tell It on the Mountain",
+        "prerequisite": "After Objective 2 — C, G7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "After Objective 3 — G, D, C, A7"
+      },
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "Bonus / challenge — additional shapes: Dm"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "webkit",
+    "course": "uke-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 1 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "After Objective 3 — C, F, G, Em, Dm, Am"
+      },
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "After Objective 3 — C, Em, F, G, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "webkit",
+    "course": "bar-young",
+    "count": 1,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 3 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "Bonus / challenge — additional shapes: F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, E7, Am, C7, F"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, A7, A, Gm, E, E7, B7"
+      },
+      {
+        "title": "Go Tell It on the Mountain",
+        "prerequisite": "After Objective 2 — C, G7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "Bonus / challenge — additional shapes: A7"
+      },
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "Bonus / challenge — additional shapes: F, Dm, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "web",
+    "engine": "webkit",
+    "course": "uke-young",
+    "count": 1,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 3 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "Bonus / challenge — additional shapes: Em"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "webkit",
+    "course": "bar-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 1 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "After Objective 2 — G, Em, D, C, F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, C7"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, Gm"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "After Objective 3 — G, D, C, A7"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "webkit",
+    "course": "uke-general",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 1 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Frosty the Snowman",
+        "prerequisite": "After Objective 3 — C, F, G, Em, Dm, Am"
+      },
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "After Objective 3 — C, Em, F, G, Am"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "webkit",
+    "course": "bar-young",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — C, G7 · Key of C · C → G7",
+      "After Objective 3 — G, D · Key of G · G → D"
+    ],
+    "requests": [
+      {
+        "title": "Country Roads",
+        "prerequisite": "Bonus / challenge — additional shapes: F"
+      },
+      {
+        "title": "Remember Me",
+        "prerequisite": "Bonus / challenge — additional shapes: Fm · 3-string, A♯ · 3-string, E7, Am, C7, F"
+      },
+      {
+        "title": "Jingle Bell Rock",
+        "prerequisite": "Bonus / challenge — additional shapes: Dmaj7, D6, A7, A, Gm, E, E7, B7"
+      },
+      {
+        "title": "Rudolph the Red-Nosed Reindeer",
+        "prerequisite": "Bonus / challenge — additional shapes: A7"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "engine": "webkit",
+    "course": "uke-young",
+    "count": 3,
+    "labels": [
+      "After Objective 2 — F, C7 · Key of F · F → C7",
+      "After Objective 3 — C, G · Key of C · C → G"
+    ],
+    "requests": [
+      {
+        "title": "Somewhere Over the Rainbow",
+        "prerequisite": "Bonus / challenge — additional shapes: Em"
+      }
+    ],
+    "errors": []
+  }
+]

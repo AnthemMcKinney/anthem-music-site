@@ -1,0 +1,23 @@
+[
+  {
+    "phase": "baseline",
+    "cache": "anthem-music-3.7.168",
+    "title": "Start making music.",
+    "coldPageOffline": true,
+    "nav": []
+  },
+  {
+    "phase": "candidate",
+    "cache": "anthem-music-3.7.168-parity-review-1",
+    "title": "Play your favorite songs.",
+    "coldPageOffline": true,
+    "nav": []
+  },
+  {
+    "phase": "rollback",
+    "cache": "anthem-music-3.7.168",
+    "title": "Start making music.",
+    "coldPageOffline": true,
+    "nav": []
+  }
+]

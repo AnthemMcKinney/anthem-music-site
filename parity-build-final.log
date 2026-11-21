@@ -1,0 +1,57 @@
+
+> anthem-music-site@0.0.1 build
+> astro build
+
+22:41:45 [content] Syncing content
+22:41:45 [content] Synced content
+22:41:45 [types] Generated 557ms
+22:41:45 [build] output: "static"
+22:41:45 [build] mode: "static"
+22:41:45 [build] directory: C:\Users\Dan\Documents\Codex\2026-11-13\task\web-parity-review\dist\
+22:41:45 [build] Collecting build info...
+22:41:45 [build] Γ£ô Completed in 592ms.
+22:41:45 [build] Building static entrypoints...
+22:41:46 [vite] Γ£ô built in 264ms
+22:41:46 [vite] Γ£ô built in 125ms
+22:41:46 [build] Rearranging server assets...
+
+ generating static routes 
+22:41:46   Γö£ΓöÇ /about/index.html (+12ms) 
+22:41:46   Γö£ΓöÇ /adaptive-music-lessons/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /blog/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /blog/free-tuner-metronome-strumming-trainer/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /blog/how-to-handle-music-in-your-homeschool/index.html (+2ms) 
+22:41:46   Γö£ΓöÇ /blog/is-four-too-young-for-music-lessons/index.html (+2ms) 
+22:41:46   Γö£ΓöÇ /blog/is-my-child-ready-for-music-lessons/index.html (+2ms) 
+22:41:46   Γö£ΓöÇ /blog/what-a-4-year-old-can-actually-learn-in-music-class/index.html (+11ms) 
+22:41:46   Γö£ΓöÇ /blog/why-we-referred-a-student-to-another-teacher/index.html (+2ms) 
+22:41:46   Γö£ΓöÇ /book-a-class/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /book-a-performer/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /brass-lessons/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /careers/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /contact/index.html (+5ms) 
+22:41:46   Γö£ΓöÇ /drum-lessons/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /faq/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /free-tuner/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /get-started/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /guitar-lessons/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /homeschool-music-lessons/index.html (+4ms) 
+22:41:46   Γö£ΓöÇ /instructors/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /kinder-music/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /piano-lessons/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /programs/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /schedule/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /student-login/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /violin-lessons/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /youth-group/index.html (+3ms) 
+22:41:46   Γö£ΓöÇ /music-lessons-frisco/index.html (+2ms) 
+22:41:46   Γö£ΓöÇ /music-lessons-prosper/index.html (+1ms) 
+22:41:46   Γö£ΓöÇ /music-lessons-plano/index.html (+1ms) 
+22:41:46   Γö£ΓöÇ /music-lessons-allen/index.html (+1ms) 
+22:41:46   Γö£ΓöÇ /index.html (+4ms) 
+22:41:46 Γ£ô Completed in 152ms.
+
+22:41:46 [build] Γ£ô Completed in 639ms.
+22:41:46 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+22:41:46 [build] 33 page(s) built in 1.29s
+22:41:46 [build] Complete!

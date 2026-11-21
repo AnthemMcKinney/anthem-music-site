@@ -1,7 +1,7 @@
-import {installModuleSwipe} from './tuner/module-swipe.js?v=web-168-final';
+import {installModuleSwipe} from './tuner/module-swipe.js?v=web-168-parity-review-1';
 import {GreenReadingConfirmation} from './tuner/confirmation.js';
 import {formatNoteText} from './tuner/note-name.js';
-import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=web-168-final';
+import {instruments,frequency,centsBetween,nearestNote,transposeNote,tuningLabel} from './tuner/tunings.js?v=web-168-parity-review-1';
 import {TunerAudio} from './tuner/audio.js?v=web-audio-1';
 import {GaugeState} from './tuner/gauge.js?v=3.7fh';
 import {DisplayPitch} from './tuner/display.js';
@@ -10,7 +10,7 @@ import {StringSelector} from './tuner/selection.js';
 import {branding} from './branding.js';
 import {attachDiagnostic} from './tuner/diagnostic.js';
 import {initMetronome} from './tuner/metronome.js?v=web-165-final';
-import {initChords} from './tuner/chords.js?v=web-168-final';
+import {initChords} from './tuner/chords.js?v=web-168-parity-review-1';
 const THEME_KEY='anthem-color-theme';
 const savedTheme=(()=>{try{return localStorage.getItem(THEME_KEY)||'classic';}catch{return 'classic';}})();
 document.documentElement.dataset.theme=['classic','soft','dark','dark-rose','dark-sage'].includes(savedTheme)?savedTheme:'classic';
